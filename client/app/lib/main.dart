@@ -17,8 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hack U team 1',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          fontFamily: 'Noto Sans JP',
       ),
       home: Container(),
     );
