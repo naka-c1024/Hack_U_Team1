@@ -4,7 +4,7 @@ info:
   description: 画像によるレコメンド機能を添えて
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8000
 tags:
   - name: OK
     description: Check API status
@@ -79,6 +79,12 @@ paths:
       tags:
         - Furniture
       summary: Register new furniture
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -96,6 +102,11 @@ paths:
       tags:
         - Furniture
       summary: Get list of furniture
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: Furniture list retrieved successfully
@@ -123,6 +134,42 @@ paths:
                 $ref: '#/components/schemas/FurnitureResponse'
         '400':
           description: バリデーションエラー
+    put:
+      tags:
+        - Furniture
+      summary: Update trade status
+      parameters:
+        - name: trade_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTradeRequest'
+      responses:
+        '200':
+          description: Trade status updated successfully
+        '400':
+          description: バリデーションエラー
+    delete:
+      tags:
+        - Furniture
+      summary: Delete furniture
+      parameters:
+        - name: furniture_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Furniture deleted successfully
+        '400':
+          description: バリデーションエラー
   /trades:
     post:
       tags:
@@ -143,6 +190,12 @@ paths:
       tags:
         - Trade
       summary: Get list of trades history
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: Trade list retrieved successfully
@@ -154,7 +207,7 @@ paths:
     put:
       tags:
         - Trade
-      summary: Update trade status
+      summary: Update isChecked status
       parameters:
         - name: trade_id
           in: path
@@ -166,7 +219,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTradeRequest'
+              $ref: '#/components/schemas/UpdateIsCheckedRequest'
       responses:
         '200':
           description: Trade status updated successfully
@@ -233,9 +286,15 @@ components:
         - product_name
         - image
         - description
-        - size
+        - height
+        - width
+        - depth
         - category
         - color
+        - start_date
+        - end_date
+        - trade_place
+        - condition
       properties:
         userId:
           type: integer
@@ -246,12 +305,26 @@ components:
           format: binary
         description:
           type: string
-        size:
-          type: string
+        height:
+          type: number
+        width:
+          type: number
+        depth:
+          type: number
         category:
           type: string
         color:
           type: string
+        start_date:
+          type: string
+          format: date
+        end_date: 
+          type: string
+          format: date
+        trade_place:
+          type: string
+        condition:
+          type: integer
     FurnitureListResponse:
       type: object
       properties:
@@ -279,16 +352,22 @@ components:
           type: string
         username:
           type: string
+        tradeStatus:
+          type: integer
     RequestTradeRequest:
       type: object
       required:
         - furnitureId
         - userId
+        - trade_date
       properties:
         furnitureId:
           type: integer
         userId:
           type: integer
+        trade_date:
+          type: string
+          format: date
     TradeResponse:
       type: object
       properties:
@@ -303,8 +382,8 @@ components:
           type: integer
         receiverId:
           type: integer
-        status:
-          type: string
+        is_checked:
+          type: boolean
     TradeListResponse:
       type: object
       properties:
@@ -318,7 +397,14 @@ components:
         - status
       properties:
         status:
-          type: string
+          type: integer
+    UpdateIsCheckedRequest:
+      type: object
+      required:
+        - is_checked
+      properties:
+        is_checked:
+          type: boolean
     RecommendRequest:
       type: object
       required:
