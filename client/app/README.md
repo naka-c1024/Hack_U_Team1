@@ -1,16 +1,16 @@
 # app
 
-A new Flutter project.
+Hack U Team 1 Project !!
 
-## Getting Started
+## フォルダ構成 (仮)
+- app/lib/
+    - main.dart
+    - Domain : データモデルを管理
+    - Usecases : API関連の処理を管理
+    - Views : 画面の情報を管理
 
-This project is a starting point for a Flutter application.
+## 使用したパッケージ
+- google fonts : https://fonts.google.com/?subset=japanese&noto.script=Hira
+- hooks_riverpod : https://pub.dev/packages/hooks_riverpod
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
