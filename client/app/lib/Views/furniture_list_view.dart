@@ -1,85 +1,149 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/Views/components/furniture_cell.dart';
+
 class FurnitureListView extends HookConsumerWidget {
   const FurnitureListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-
-    // 家具の写真
-    final furnitureCell = ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.transparent,
-        padding: EdgeInsets.zero,
-        minimumSize: Size.zero,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-      ),
-      child: Container(
-        height: (screenSize.width - 40) / 3,
-        width: (screenSize.width - 40) / 3,
-        margin: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: const Color(0xffd9d9d9),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Stack(
-          children: [
-            //TODO: ここに写真が入る
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 24,
-                  width: 72,
-                  padding: const EdgeInsets.only(left: 8, top: 2),
-                  decoration: BoxDecoration(
-                    color: const Color(0x2b666666),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: const Text(
-                    '東京都',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xffffffff),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+    const prefecturesIndex = 12;
+    final prefectures = [
+      '北海道',
+      '青森県',
+      '岩手県',
+      '宮城県',
+      '秋田県',
+      '山形県',
+      '福島県',
+      '茨城県',
+      '栃木県',
+      '群馬県',
+      '埼玉県',
+      '千葉県',
+      '東京都',
+      '神奈川県',
+      '新潟県',
+      '富山県',
+      '石川県',
+      '福井県',
+      '山梨県',
+      '長野県',
+      '岐阜県',
+      '静岡県',
+      '愛知県',
+      '三重県',
+      '滋賀県',
+      '京都府',
+      '大阪府',
+      '兵庫県',
+      '奈良県',
+      '和歌山県',
+      '鳥取県',
+      '島根県',
+      '岡山県',
+      '広島県',
+      '山口県',
+      '徳島県',
+      '香川県',
+      '愛媛県',
+      '高知県',
+      '福岡県',
+      '佐賀県',
+      '長崎県',
+      '熊本県',
+      '大分県',
+      '宮崎県',
+      '鹿児島県',
+      '沖縄県'
+    ];
 
     // いいねした商品を表示するためのリスト
     final favoriteList = [
-      furnitureCell,
-      furnitureCell,
+      Row(
+        children: [
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+        ],
+      ),
+      Row(
+        children: [
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+        ],
+      ),
     ];
 
     // 最新の商品を表示するためのリスト
     final latestList = [
       Row(
         children: [
-          furnitureCell,
-          furnitureCell,
-          furnitureCell,
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: true),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
         ],
       ),
       Row(
         children: [
-          furnitureCell,
-          furnitureCell,
-          furnitureCell,
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: true),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+        ],
+      ),
+      Row(
+        children: [
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: true),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: true),
+        ],
+      ),
+      Row(
+        children: [
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: true),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: true),
+        ],
+      ),
+      Row(
+        children: [
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: true),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+        ],
+      ),
+      Row(
+        children: [
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: true),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
+          FurnitureCell(
+              prefecture: prefectures[prefecturesIndex], isSaled: false),
         ],
       ),
     ];
@@ -89,8 +153,8 @@ class FurnitureListView extends HookConsumerWidget {
         elevation: 8,
         backgroundColor: const Color(0xffffffff),
         title: Container(
-          height: 60,
-          padding: const EdgeInsets.only(top: 4, bottom: 16),
+          height: 56,
+          padding: const EdgeInsets.only(top: 4, bottom: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -134,8 +198,9 @@ class FurnitureListView extends HookConsumerWidget {
               const SizedBox(height: 8),
               // いいねした商品
               Container(
-                height: 196,
-                padding: const EdgeInsets.only(left: 8, top: 4, right: 8),
+                height: 52 +
+                    ((screenSize.width - 40) / 3 + 8) * favoriteList.length,
+                padding: const EdgeInsets.only(left: 8, right: 8),
                 color: const Color(0xffffffff),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -147,6 +212,7 @@ class FurnitureListView extends HookConsumerWidget {
                         const Text(
                           ' いいねした商品',
                           style: TextStyle(
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -165,43 +231,31 @@ class FurnitureListView extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    Row(children: favoriteList),
+                    Column(children: favoriteList),
                   ],
                 ),
               ),
               const SizedBox(height: 8),
               // 最新の商品
               Container(
-                height: 800,
-                padding: const EdgeInsets.only(left: 8, top: 4, right: 8),
+                height:
+                    52 + ((screenSize.width - 40) / 3 + 8) * latestList.length,
+                padding: const EdgeInsets.only(left: 8, right: 8),
                 color: const Color(0xffffffff),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // ヘッダー
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          ' 東京都の最新の商品',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 12, bottom: 12),
+                      child: Text(
+                        ' ${prefectures[prefecturesIndex]}の最新の商品',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Row(
-                            children: [
-                              Text('すべて見る'),
-                              SizedBox(width: 8),
-                              Icon(
-                                size: 16,
-                                Icons.arrow_forward_ios,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                     Column(children: latestList),
                   ],
