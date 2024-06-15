@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   hooks_riverpod: ^2.5.1
+  flutter_hooks: ^0.20.5
 
 dev_dependencies:
   flutter_test:
@@ -61,7 +62,12 @@ flutter:
   fonts:
     - family: Noto Sans JP
       fonts:
-      - asset: assets/fonts/NotoSansJP-VariableFont_wght.ttf
+      - asset: assets/fonts/NotoSansJP-Thin.ttf
+        weight: 100
+      - asset: assets/fonts/NotoSansJP-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/NotoSansJP-Bold.ttf
+        weight: 700
 
   # To add assets to your application, add an assets section, like this:
   # assets:
