@@ -1,3 +1,4 @@
+import 'package:app/Views/furniture_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: 'Noto Sans JP',
       ),
-      home: Container(),
+      home: const FurnitureListView(),
     );
   }
 }
