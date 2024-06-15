@@ -1,0 +1,12 @@
+# このファイルで、openapi-generatorによってファイルが初期化されないようにする
+
+.gitignore
+docker-compose.yaml
+Dockerfile
+README.md
+requirements.txt
+pyproject.toml
+
+src/openapi_server/impl/**
+src/openapi_server/db_model/**
+src/openapi_server/cruds/**
