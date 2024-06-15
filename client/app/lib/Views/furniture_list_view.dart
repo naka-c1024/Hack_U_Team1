@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/Views/favorite_list_view.dart';
 import 'package:app/Views/components/furniture_cell.dart';
 
 class FurnitureListView extends HookConsumerWidget {
@@ -217,7 +218,16 @@ class FurnitureListView extends HookConsumerWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FavoriteListView(
+                                  favoriteAllList: latestList,
+                                ),
+                              ),
+                            );
+                          },
                           child: const Row(
                             children: [
                               Text('すべて見る'),
