@@ -22,11 +22,21 @@ class HomeView extends HookConsumerWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: 'ホーム'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'ホーム'),
+            icon: Icon(Icons.home_outlined),
+            label: 'ホーム',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.photo_camera_outlined), label: '検索'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'マイページ'),
+            icon: Icon(Icons.search),
+            label: '検索',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.photo_camera_outlined),
+            label: '出品',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'マイページ',
+          ),
         ],
         iconSize: 20,
         elevation: 8,
