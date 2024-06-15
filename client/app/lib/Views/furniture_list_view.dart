@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/Views/todo_list_view.dart';
 import 'package:app/Views/favorite_list_view.dart';
 import 'package:app/Views/components/furniture_cell.dart';
 
@@ -181,7 +182,15 @@ class FurnitureListView extends HookConsumerWidget {
               ),
               const SizedBox(width: 8),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  // やることリストをすべて見るページへ
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TodoListView(),
+                    ),
+                  );
+                },
                 icon: const Icon(
                   size: 24,
                   Icons.done_outline,
@@ -219,6 +228,7 @@ class FurnitureListView extends HookConsumerWidget {
                         ),
                         TextButton(
                           onPressed: () {
+                            // いいねした商品をすべて見るページへ
                             Navigator.push(
                               context,
                               MaterialPageRoute(
