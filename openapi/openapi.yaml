@@ -134,27 +134,6 @@ paths:
                 $ref: '#/components/schemas/FurnitureResponse'
         '400':
           description: バリデーションエラー
-    put:
-      tags:
-        - Furniture
-      summary: Update trade status
-      parameters:
-        - name: trade_id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateTradeRequest'
-      responses:
-        '200':
-          description: Trade status updated successfully
-        '400':
-          description: バリデーションエラー
     delete:
       tags:
         - Furniture
@@ -203,7 +182,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradeListResponse'
-  /trades/{id}:
+  /trades/{trade_id}:
+    put:
+      tags:
+        - Trade
+      summary: Update trade status
+      parameters:
+        - name: trade_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTradeRequest'
+      responses:
+        '200':
+          description: Trade status updated successfully
+        '400':
+          description: バリデーションエラー
+  /trades/{trade_id}/isChecked:
     put:
       tags:
         - Trade
