@@ -1,0 +1,31 @@
+- **Users**:
+    - `user_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
+    - `username` (VARCHAR(255), NOT NULL, UNIQUE)
+    - `password_hash` (VARCHAR(255), NOT NULL)
+    - `area` (INT, NOT NULL) # 都道府県レベル (47個) # client側で変換
+- **Furniture**:
+    - `furniture_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
+    - `user_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
+    - `product_name` (VARCHAR(255), NOT NULL)
+    - `image` (BLOB, NOT NULL)
+    - `description` (TEXT)
+    - `height` (FLOAT, NOT NULL, CHECK (`height` > 0))
+    - `width` (FLOAT, NOT NULL, CHECK (`width` > 0))
+    - `depth` (FLOAT, NOT NULL, CHECK (`depth` > 0))
+    - `category` (INT, NOT NULL) # 12個
+    - `color` (INT, NOT NULL) # あとで
+    - `trade_status` (INT, NOT NULL, DEFAULT 0) # 3種類
+    - `start_date` (DATE, NOT NULL)
+    - `end_date` (DATE, NOT NULL)
+    - `trade_place` (VARCHAR(255), NOT NULL) # 具体的な引き渡し場所
+    - `condition` (INT, NOT NULL) # 使用感, 6段階
+- **Trades**:
+    - `trade_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
+    - `furniture_id` (INT, FOREIGN KEY REFERENCES Furniture(furniture_id), NOT NULL)
+    - `receiver_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
+    - `is_checked` (BOOLEAN, NOT NULL, DEFAULT 0) # 見たかどうか
+    - `trade_date` (DATE)
+- **favorites**:
+    - `favorite_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
+    - `user_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
+    - `furniture_id` (INT, FOREIGN KEY REFERENCES Furniture(furniture_id), NOT NULL)
