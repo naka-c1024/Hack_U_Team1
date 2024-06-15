@@ -86,6 +86,7 @@ class FurnitureListView extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 8,
         backgroundColor: const Color(0xffffffff),
         title: Container(
           height: 60,
