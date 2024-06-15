@@ -1,11 +1,20 @@
-# バックエンドAPI
+# OpenAPI generated FastAPI server
 
-### 起動
+## Requirements.
 
+Python >= 3.7
+
+## Running with Docker
+
+サーバーを起動するには以下を実行:
+
+```bash
+docker-compose up --build
 ```
-docker-compose up
+
+## Tests
+
+```bash
+pip3 install pytest
+PYTHONPATH=src pytest tests
 ```
-
-### API ドキュメント
-
-http://localhost:8000/docs

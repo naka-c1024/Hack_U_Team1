@@ -4,7 +4,8 @@ info:
   description: 画像によるレコメンド機能を添えて
   version: 1.0.0
 servers:
-  - url: http://localhost:8000
+  - url: http://localhost:8080
+    description: Local server
 tags:
   - name: OK
     description: Check API status

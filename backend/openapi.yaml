@@ -1,0 +1,617 @@
+openapi: 3.0.3
+info:
+  description: 画像によるレコメンド機能を添えて
+  title: 家具マッチングサービス
+  version: 1.0.0
+servers:
+- url: http://localhost:8000
+tags:
+- description: Check API status
+  name: OK
+- description: ユーザーアカウント管理
+  name: User
+- description: 家具管理
+  name: Furniture
+- description: 取引機能
+  name: Trade
+- description: レコメンド機能
+  name: Recommendation
+paths:
+  /ok:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OKResponse'
+          description: API is running
+      summary: Check API status
+      tags:
+      - OK
+  /sign_up:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+        required: true
+      responses:
+        "200":
+          description: User registered successfully
+        "400":
+          description: バリデーションエラー
+      summary: sign up
+      tags:
+      - User
+  /login:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+          description: User logged in successfully
+        "400":
+          description: バリデーションエラー
+      summary: User login
+      tags:
+      - User
+  /logout:
+    post:
+      responses:
+        "200":
+          description: User logged out successfully
+      summary: User logout
+      tags:
+      - User
+  /furniture:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: user_id
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureListResponse'
+          description: Furniture list retrieved successfully
+      summary: Get list of furniture
+      tags:
+      - Furniture
+    post:
+      parameters:
+      - explode: true
+        in: query
+        name: userId
+        required: true
+        schema:
+          type: integer
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterFurnitureRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureResponse'
+          description: Furniture registered successfully
+      summary: Register new furniture
+      tags:
+      - Furniture
+  /furniture/{furniture_id}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: furniture_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Furniture deleted successfully
+        "400":
+          description: バリデーションエラー
+      summary: Delete furniture
+      tags:
+      - Furniture
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: furniture_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureResponse'
+          description: Furniture details retrieved successfully
+        "400":
+          description: バリデーションエラー
+      summary: Get furniture details
+      tags:
+      - Furniture
+  /trades:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeListResponse'
+          description: Trade list retrieved successfully
+      summary: Get list of trades history
+      tags:
+      - Trade
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestTradeRequest'
+        required: true
+      responses:
+        "200":
+          description: Trade requested successfully
+        "400":
+          description: バリデーションエラー
+      summary: Request a trade
+      tags:
+      - Trade
+  /trades/{trade_id}:
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: trade_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTradeRequest'
+        required: true
+      responses:
+        "200":
+          description: Trade status updated successfully
+        "400":
+          description: バリデーションエラー
+      summary: Update trade status
+      tags:
+      - Trade
+  /trades/{trade_id}/isChecked:
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: trade_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIsCheckedRequest'
+        required: true
+      responses:
+        "200":
+          description: Trade status updated successfully
+        "400":
+          description: バリデーションエラー
+      summary: Update isChecked status
+      tags:
+      - Trade
+  /recommend:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecommendResponse'
+          description: Furniture recommendations retrieved successfully
+      summary: Get furniture recommendations based on room photo
+      tags:
+      - Recommendation
+components:
+  schemas:
+    OKResponse:
+      example:
+        msg: msg
+      properties:
+        msg:
+          title: msg
+          type: string
+      title: OKResponse
+      type: object
+    SignUpRequest:
+      example:
+        password: password
+        address: address
+        username: username
+      properties:
+        username:
+          title: username
+          type: string
+        password:
+          title: password
+          type: string
+        address:
+          title: address
+          type: string
+      required:
+      - address
+      - password
+      - username
+      title: SignUpRequest
+      type: object
+    LoginRequest:
+      example:
+        password: password
+        username: username
+      properties:
+        username:
+          title: username
+          type: string
+        password:
+          title: password
+          type: string
+      required:
+      - password
+      - username
+      title: LoginRequest
+      type: object
+    LoginResponse:
+      example:
+        userId: 0
+      properties:
+        userId:
+          title: userId
+          type: integer
+      title: LoginResponse
+      type: object
+    RegisterFurnitureRequest:
+      example:
+        end_date: 2000-01-23
+        image: ""
+        color: color
+        description: description
+        trade_place: trade_place
+        userId: 0
+        product_name: product_name
+        condition: 5
+        depth: 5.962133916683182
+        width: 1.4658129805029452
+        category: category
+        height: 6.027456183070403
+        start_date: 2000-01-23
+      properties:
+        userId:
+          title: userId
+          type: integer
+        product_name:
+          title: product_name
+          type: string
+        image:
+          format: binary
+          title: image
+          type: string
+        description:
+          title: description
+          type: string
+        height:
+          title: height
+          type: number
+        width:
+          title: width
+          type: number
+        depth:
+          title: depth
+          type: number
+        category:
+          title: category
+          type: string
+        color:
+          title: color
+          type: string
+        start_date:
+          format: date
+          title: start_date
+          type: string
+        end_date:
+          format: date
+          title: end_date
+          type: string
+        trade_place:
+          title: trade_place
+          type: string
+        condition:
+          title: condition
+          type: integer
+      required:
+      - category
+      - color
+      - condition
+      - depth
+      - description
+      - end_date
+      - height
+      - image
+      - product_name
+      - start_date
+      - trade_place
+      - userId
+      - width
+      title: RegisterFurnitureRequest
+      type: object
+    FurnitureListResponse:
+      example:
+        furniture:
+        - image: ""
+          size: size
+          color: color
+          tradeStatus: 6
+          description: description
+          furniture_id: 0
+          category: category
+          product_name: product_name
+          username: username
+        - image: ""
+          size: size
+          color: color
+          tradeStatus: 6
+          description: description
+          furniture_id: 0
+          category: category
+          product_name: product_name
+          username: username
+      properties:
+        furniture:
+          items:
+            $ref: '#/components/schemas/FurnitureResponse'
+          title: furniture
+          type: array
+      title: FurnitureListResponse
+      type: object
+    FurnitureResponse:
+      example:
+        image: ""
+        size: size
+        color: color
+        tradeStatus: 6
+        description: description
+        furniture_id: 0
+        category: category
+        product_name: product_name
+        username: username
+      properties:
+        furniture_id:
+          title: furniture_id
+          type: integer
+        product_name:
+          title: product_name
+          type: string
+        image:
+          format: binary
+          title: image
+          type: string
+        description:
+          title: description
+          type: string
+        size:
+          title: size
+          type: string
+        category:
+          title: category
+          type: string
+        color:
+          title: color
+          type: string
+        username:
+          title: username
+          type: string
+        tradeStatus:
+          title: tradeStatus
+          type: integer
+      title: FurnitureResponse
+      type: object
+    RequestTradeRequest:
+      example:
+        furnitureId: 0
+        userId: 6
+        trade_date: 2000-01-23
+      properties:
+        furnitureId:
+          title: furnitureId
+          type: integer
+        userId:
+          title: userId
+          type: integer
+        trade_date:
+          format: date
+          title: trade_date
+          type: string
+      required:
+      - furnitureId
+      - trade_date
+      - userId
+      title: RequestTradeRequest
+      type: object
+    TradeResponse:
+      example:
+        image: ""
+        giverId: 1
+        receiverId: 5
+        is_checked: true
+        furnitureId: 6
+        tradeId: 0
+      properties:
+        tradeId:
+          title: tradeId
+          type: integer
+        image:
+          format: binary
+          title: image
+          type: string
+        furnitureId:
+          title: furnitureId
+          type: integer
+        giverId:
+          title: giverId
+          type: integer
+        receiverId:
+          title: receiverId
+          type: integer
+        is_checked:
+          title: is_checked
+          type: boolean
+      title: TradeResponse
+      type: object
+    TradeListResponse:
+      example:
+        trades:
+        - image: ""
+          giverId: 1
+          receiverId: 5
+          is_checked: true
+          furnitureId: 6
+          tradeId: 0
+        - image: ""
+          giverId: 1
+          receiverId: 5
+          is_checked: true
+          furnitureId: 6
+          tradeId: 0
+      properties:
+        trades:
+          items:
+            $ref: '#/components/schemas/TradeResponse'
+          title: trades
+          type: array
+      title: TradeListResponse
+      type: object
+    UpdateTradeRequest:
+      example:
+        status: 0
+      properties:
+        status:
+          title: status
+          type: integer
+      required:
+      - status
+      title: UpdateTradeRequest
+      type: object
+    UpdateIsCheckedRequest:
+      example:
+        is_checked: true
+      properties:
+        is_checked:
+          title: is_checked
+          type: boolean
+      required:
+      - is_checked
+      title: UpdateIsCheckedRequest
+      type: object
+    RecommendRequest:
+      example:
+        roomPhoto: roomPhoto
+      properties:
+        roomPhoto:
+          title: roomPhoto
+          type: string
+      required:
+      - roomPhoto
+      title: RecommendRequest
+      type: object
+    RecommendResponse:
+      example:
+        recommendations:
+        - image: ""
+          size: size
+          description: description
+          furnitureId: 0
+          category: category
+        - image: ""
+          size: size
+          description: description
+          furnitureId: 0
+          category: category
+      properties:
+        recommendations:
+          items:
+            $ref: '#/components/schemas/RecommendResponse_recommendations_inner'
+          title: recommendations
+          type: array
+      title: RecommendResponse
+      type: object
+    RecommendResponse_recommendations_inner:
+      example:
+        image: ""
+        size: size
+        description: description
+        furnitureId: 0
+        category: category
+      properties:
+        furnitureId:
+          title: furnitureId
+          type: integer
+        image:
+          format: binary
+          title: image
+          type: string
+        description:
+          title: description
+          type: string
+        size:
+          title: size
+          type: string
+        category:
+          title: category
+          type: string
+      title: RecommendResponse_recommendations_inner
+      type: object
