@@ -23,6 +23,9 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.ok_response import OKResponse
+from openapi_server.impl.ok_api_impl import OKApiImpl
+
+impl = OKApiImpl()
 
 
 router = APIRouter()
@@ -43,4 +46,4 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 )
 async def ok_get(
 ) -> OKResponse:
-    ...
+    return impl.ok_get()
