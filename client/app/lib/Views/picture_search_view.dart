@@ -32,9 +32,111 @@ class PictureSearchView extends HookConsumerWidget {
     ];
 
     return Stack(
+      alignment: Alignment.topCenter,
       children: [
         // TODO: ここにカメラの映像が入る
         Container(color: const Color(0xff9f9f9f)),
+        Column(
+          children: [
+            Container(
+              height: 24,
+              width: 168,
+              margin: const EdgeInsets.only(top: 280),
+              color: const Color(0x23000000),
+              alignment: Alignment.center,
+              child: const Text(
+                '家具を設置したいエリア',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xffffffff),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Container(
+              height: 24,
+              width: 248,
+              margin: const EdgeInsets.only(top: 200),
+              color: const Color(0x23000000),
+              alignment: Alignment.center,
+              child: const Text(
+                'シャッターボタンをタップして検索',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xffffffff),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // アルバムから持ってくるボタン
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    padding: const EdgeInsets.all(4),
+                    minimumSize: Size.zero,
+                    elevation: 0,
+                  ),
+                  child: Container(
+                    height: 48,
+                    width: 48,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      shape: BoxShape.circle,
+                      border:
+                          Border.all(color: const Color(0xffd9d9d9), width: 1),
+                    ),
+                    child: const Icon(
+                      Icons.image_outlined,
+                      size: 28,
+                      color: Color(0xffd9d9d9),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 32),
+                // シャッターボタン
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      height: 64,
+                      width: 64,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: const Color(0xffd9d9d9), width: 2),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        padding: const EdgeInsets.all(4),
+                        elevation: 0,
+                      ),
+                      child: Container(
+                        height: 56,
+                        width: 56,
+                        decoration: const BoxDecoration(
+                          color: Color(0xffd9d9d9),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.search, size: 32),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 32),
+                const SizedBox(height: 48, width: 48),
+              ],
+            ),
+          ],
+        ),
         Container(
           padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
           child: Column(
