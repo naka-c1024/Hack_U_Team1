@@ -1,17 +1,9 @@
 .flake8
-.gitignore
-.openapi-generator-ignore
-Dockerfile
-README.md
-docker-compose.yaml
 openapi.yaml
-pyproject.toml
-requirements.txt
 setup.cfg
 src/openapi_server/apis/__init__.py
 src/openapi_server/apis/furniture_api.py
 src/openapi_server/apis/furniture_api_base.py
-src/openapi_server/apis/ok_api.py
 src/openapi_server/apis/ok_api_base.py
 src/openapi_server/apis/recommendation_api.py
 src/openapi_server/apis/recommendation_api_base.py
@@ -19,7 +11,6 @@ src/openapi_server/apis/trade_api.py
 src/openapi_server/apis/trade_api_base.py
 src/openapi_server/apis/user_api.py
 src/openapi_server/apis/user_api_base.py
-src/openapi_server/impl/__init__.py
 src/openapi_server/main.py
 src/openapi_server/models/__init__.py
 src/openapi_server/models/extra_models.py
@@ -40,8 +31,3 @@ src/openapi_server/models/update_is_checked_request.py
 src/openapi_server/models/update_trade_request.py
 src/openapi_server/security_api.py
 tests/conftest.py
-tests/test_furniture_api.py
-tests/test_ok_api.py
-tests/test_recommendation_api.py
-tests/test_trade_api.py
-tests/test_user_api.py

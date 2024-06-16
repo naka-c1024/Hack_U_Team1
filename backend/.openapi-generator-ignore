@@ -10,3 +10,7 @@ pyproject.toml
 src/openapi_server/impl/**
 src/openapi_server/db_model/**
 src/openapi_server/cruds/**
+src/openapi_server/file_storage/**
+
+# routerの実装を行った場合はここに追加
+src/openapi_server/apis/ok_api.py

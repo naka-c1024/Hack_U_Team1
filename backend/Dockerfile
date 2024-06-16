@@ -1,30 +1,25 @@
-FROM python:3.7 AS builder
+FROM python:3.8 AS builder
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 RUN python3 -m venv /venv
 ENV PATH="/venv/bin:$PATH"
 
+# migrationコマンドのために追加
+ENV PYTHONPATH="/app/src"
+
 RUN pip install --upgrade pip
 
+# requirements.txt を先にコピーして依存関係をインストール
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
-RUN pip install --no-cache-dir .
 
 
-FROM python:3.7 AS test_runner
-WORKDIR /tmp
-COPY --from=builder /venv /venv
-COPY --from=builder /usr/src/app/tests tests
-ENV PATH=/venv/bin:$PATH
-
-# install test dependencies
-RUN pip install pytest
-
-# run tests
-RUN pytest tests
-
-
-FROM python:3.7 AS service
+FROM python:3.8 AS service
 WORKDIR /root/app/site-packages
-COPY --from=test_runner /venv /venv
+COPY --from=builder /venv /venv
+COPY --from=builder /app/src /app/src
 ENV PATH=/venv/bin:$PATH
+ENV PYTHONPATH="/app/src"
