@@ -36,7 +36,7 @@ class CategoryCell extends HookConsumerWidget {
           ref.read(categoryProvider.notifier).state = categoryIndex;
         },
         child: Ink(
-          width: 96,
+          width: 88,
           child: Column(
             children: [
               Container(
@@ -53,7 +53,7 @@ class CategoryCell extends HookConsumerWidget {
               Text(
                 categorys[categoryIndex],
                 style: const TextStyle(
-                  fontSize: 11,
+                  fontSize: 10.5,
                   fontWeight: FontWeight.bold,
                 ),
               ),

@@ -42,7 +42,7 @@ class PictureSearchView extends HookConsumerWidget {
     // カテゴリを選んだらカテゴリメニューを閉じる
     useEffect((){
       if (selectedIndex != -1) {
-        toggleHeight();
+        menuHeight.value = 48;
       }
       return null;
     },[selectedIndex]);
