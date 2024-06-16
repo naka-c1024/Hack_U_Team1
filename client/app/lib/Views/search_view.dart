@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/Views/picture_search_view.dart';
+
+// 選択したカテゴリをインデックスで保持
+final categoryProvider = StateProvider((ref) => 0);
+
 class SearchView extends HookConsumerWidget {
   const SearchView({super.key});
 
@@ -37,7 +42,7 @@ class SearchView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            Container(),
+            const PictureSearchView(),
             Container(),
           ],
         ),
