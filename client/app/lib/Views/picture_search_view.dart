@@ -47,7 +47,7 @@ class PictureSearchView extends HookConsumerWidget {
       return null;
     },[selectedIndex]);
 
-    return Stack(
+    return SingleChildScrollView(child:Stack(
       alignment: Alignment.topCenter,
       children: [
         // TODO: ここにカメラの映像が入る
@@ -283,6 +283,6 @@ class PictureSearchView extends HookConsumerWidget {
           ),
         ),
       ],
-    );
+    ),);
   }
 }

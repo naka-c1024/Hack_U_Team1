@@ -9,6 +9,19 @@ class KeywordSearchView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenSize = MediaQuery.of(context).size;
+    final focus = FocusNode();
+    final isFocused = useState(false);
+
+    void onFocusChanged() {
+      isFocused.value = true;
+    }
+
+    useEffect(() {
+      focus.addListener(onFocusChanged);
+      return null;
+    }, []);
+
     final searchLogTextList = [
       'ローテーブル  ガラス',
       'ローテーブル  かっこいい',
@@ -49,64 +62,93 @@ class KeywordSearchView extends HookConsumerWidget {
           children: [
             const SizedBox(height: 16),
             // 検索バー
-            Container(
+            SizedBox(
               height: 40,
-              alignment: Alignment.center,
-              color: const Color(0xffd9d9d9),
-              child: const TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: 'キーワードで探す',
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 4, bottom: 4),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  isFocused.value
+                      ? IconButton(
+                          onPressed: () {
+                            isFocused.value = false;
+                            FocusScope.of(context).unfocus();
+                          },
+                          icon: const Icon(Icons.arrow_back_ios),
+                        )
+                      : const SizedBox(),
+                  Container(
+                    height: 40,
+                    width: isFocused.value
+                        ? screenSize.width - 80
+                        : screenSize.width - 32,
+                    alignment: Alignment.center,
+                    color: const Color(0xffd9d9d9),
+                    child: TextField(
+                      focusNode: focus,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.search),
+                        hintText: 'キーワードで探す',
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.only(top: 4, bottom: 4),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'カテゴリ',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            // カテゴリメニュー
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CategoryCell(categoryIndex: 0),
-                    CategoryCell(categoryIndex: 1),
-                    CategoryCell(categoryIndex: 2),
-                    CategoryCell(categoryIndex: 3),
-                  ],
-                ),
-                SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CategoryCell(categoryIndex: 4),
-                    CategoryCell(categoryIndex: 5),
-                    CategoryCell(categoryIndex: 6),
-                    CategoryCell(categoryIndex: 7),
-                  ],
-                ),
-                SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CategoryCell(categoryIndex: 8),
-                    CategoryCell(categoryIndex: 9),
-                    CategoryCell(categoryIndex: 10),
-                    CategoryCell(categoryIndex: 11),
-                  ],
-                ),
-                SizedBox(height: 24),
-              ],
-            ),
+            isFocused.value
+                ? const SizedBox()
+                // カテゴリメニュー
+                : const Column(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'カテゴリ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CategoryCell(categoryIndex: 0),
+                          CategoryCell(categoryIndex: 1),
+                          CategoryCell(categoryIndex: 2),
+                          CategoryCell(categoryIndex: 3),
+                        ],
+                      ),
+                      SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CategoryCell(categoryIndex: 4),
+                          CategoryCell(categoryIndex: 5),
+                          CategoryCell(categoryIndex: 6),
+                          CategoryCell(categoryIndex: 7),
+                        ],
+                      ),
+                      SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CategoryCell(categoryIndex: 8),
+                          CategoryCell(categoryIndex: 9),
+                          CategoryCell(categoryIndex: 10),
+                          CategoryCell(categoryIndex: 11),
+                        ],
+                      ),
+                      SizedBox(height: 24),
+                    ],
+                  ),
+
             const Text(
               '検索履歴',
               style: TextStyle(
