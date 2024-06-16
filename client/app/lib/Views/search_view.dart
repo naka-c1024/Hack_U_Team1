@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:app/Views/picture_search_view.dart';
 
 // 選択したカテゴリをインデックスで保持
-final categoryProvider = StateProvider((ref) => 0);
+final categoryProvider = StateProvider((ref) => -1);
 
 class SearchView extends HookConsumerWidget {
   const SearchView({super.key});

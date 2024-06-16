@@ -31,6 +31,22 @@ class PictureSearchView extends HookConsumerWidget {
       'その他'
     ];
 
+    // カテゴリ未選択時に最初からカテゴリ一メニューを表示
+    useEffect(() {
+      if (selectedIndex == -1) {
+        menuHeight.value = 560;
+      }
+      return null;
+    }, []);
+
+    // カテゴリを選んだらカテゴリメニューを閉じる
+    useEffect((){
+      if (selectedIndex != -1) {
+        toggleHeight();
+      }
+      return null;
+    },[selectedIndex]);
+
     return Stack(
       alignment: Alignment.topCenter,
       children: [
@@ -137,6 +153,11 @@ class PictureSearchView extends HookConsumerWidget {
             ),
           ],
         ),
+        menuHeight.value == 48.0
+            ? const SizedBox()
+            : Container(
+                color: const Color(0x53000000),
+              ),
         Container(
           padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
           child: Column(
@@ -158,7 +179,9 @@ class PictureSearchView extends HookConsumerWidget {
                       // 常に見えている部分がボタン
                       GestureDetector(
                         onTap: () {
-                          toggleHeight();
+                          if (selectedIndex != -1) {
+                            toggleHeight();
+                          }
                         },
                         child: Container(
                           color: Colors.transparent,
