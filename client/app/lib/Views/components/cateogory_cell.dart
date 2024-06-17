@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/constants.dart';
 import 'package:app/Views/search_view.dart';
 
 class CategoryCell extends HookConsumerWidget {
@@ -14,20 +15,6 @@ class CategoryCell extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(categoryProvider);
-    final categorys = [
-      'ソファ',
-      'チェア・椅子',
-      'テーブル',
-      'デスク・机',
-      '寝具・寝具用品',
-      '収納家具',
-      '照明器具',
-      'カーテン',
-      'ラグ・カーペット',
-      'テレビ台',
-      'インテリア家具',
-      'その他'
-    ];
 
     return Material(
       color: Colors.transparent,

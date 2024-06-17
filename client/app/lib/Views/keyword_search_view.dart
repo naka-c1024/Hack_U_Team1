@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:app/Views/search_result_view.dart';
-import 'package:app/Views/components/cateogry_cell.dart';
+import 'package:app/Views/components/cateogory_cell.dart';
 
 class KeywordSearchView extends HookConsumerWidget {
   const KeywordSearchView({super.key});

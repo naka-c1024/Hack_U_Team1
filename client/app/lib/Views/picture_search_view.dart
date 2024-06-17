@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/constants.dart';
 import 'package:app/Views/search_view.dart';
-import 'package:app/Views/components/cateogry_cell.dart';
+import 'package:app/Views/components/cateogory_cell.dart';
 
 class PictureSearchView extends HookConsumerWidget {
   final CameraDescription? camera;
@@ -37,20 +38,6 @@ class PictureSearchView extends HookConsumerWidget {
     }
 
     final selectedIndex = ref.watch(categoryProvider);
-    final categorys = [
-      'ソファ',
-      'チェア・椅子',
-      'テーブル',
-      'デスク・机',
-      '寝具・寝具用品',
-      '収納家具',
-      '照明器具',
-      'カーテン',
-      'ラグ・カーペット',
-      'テレビ台',
-      'インテリア家具',
-      'その他'
-    ];
 
     // カテゴリ未選択時に最初からカテゴリ一メニューを表示
     useEffect(() {
