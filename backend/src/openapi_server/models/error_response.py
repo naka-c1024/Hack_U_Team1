@@ -20,31 +20,19 @@ import json
 
 
 
-from datetime import date
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictBytes, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-class TradeResponse(BaseModel):
+class ErrorResponse(BaseModel):
     """
-    TradeResponse
+    ErrorResponse
     """ # noqa: E501
-    trade_id: Optional[StrictInt] = Field(default=None, alias="tradeId")
-    image: Optional[Union[StrictBytes, StrictStr]] = None
-    receiver_name: Optional[StrictStr] = None
-    product_name: Optional[StrictStr] = None
-    trade_place: Optional[StrictStr] = Field(default=None, description="具体的な取引場所")
-    furniture_id: Optional[StrictInt] = Field(default=None, alias="furnitureId")
-    giver_id: Optional[StrictInt] = Field(default=None, alias="giverId")
-    receiver_id: Optional[StrictInt] = Field(default=None, alias="receiverId")
-    is_checked: Optional[StrictBool] = None
-    giver_approval: Optional[StrictBool] = None
-    receiver_approval: Optional[StrictBool] = None
-    trade_date: Optional[date] = None
-    __properties: ClassVar[List[str]] = ["tradeId", "image", "receiver_name", "product_name", "trade_place", "furnitureId", "giverId", "receiverId", "is_checked", "giver_approval", "receiver_approval", "trade_date"]
+    msg: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["msg"]
 
     model_config = {
         "populate_by_name": True,
@@ -64,7 +52,7 @@ class TradeResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of TradeResponse from a JSON string"""
+        """Create an instance of ErrorResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -87,7 +75,7 @@ class TradeResponse(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Dict) -> Self:
-        """Create an instance of TradeResponse from a dict"""
+        """Create an instance of ErrorResponse from a dict"""
         if obj is None:
             return None
 
@@ -95,18 +83,7 @@ class TradeResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "tradeId": obj.get("tradeId"),
-            "image": obj.get("image"),
-            "receiver_name": obj.get("receiver_name"),
-            "product_name": obj.get("product_name"),
-            "trade_place": obj.get("trade_place"),
-            "furnitureId": obj.get("furnitureId"),
-            "giverId": obj.get("giverId"),
-            "receiverId": obj.get("receiverId"),
-            "is_checked": obj.get("is_checked"),
-            "giver_approval": obj.get("giver_approval"),
-            "receiver_approval": obj.get("receiver_approval"),
-            "trade_date": obj.get("trade_date")
+            "msg": obj.get("msg")
         })
         return _obj
 

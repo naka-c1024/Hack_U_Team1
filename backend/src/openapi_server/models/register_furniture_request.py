@@ -40,7 +40,7 @@ class RegisterFurnitureRequest(BaseModel):
     width: Union[StrictFloat, StrictInt]
     depth: Union[StrictFloat, StrictInt]
     category: StrictStr
-    color: StrictStr
+    color: StrictStr = Field(description="TODO 個数はあとで決める")
     start_date: date
     end_date: date
     trade_place: StrictStr

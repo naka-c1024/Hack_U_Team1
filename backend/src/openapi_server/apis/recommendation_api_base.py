@@ -12,7 +12,7 @@ class BaseRecommendationApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseRecommendationApi.subclasses = BaseRecommendationApi.subclasses + (cls,)
-    def recommend_post(
+    def recommend_get(
         self,
         recommend_request: RecommendRequest,
     ) -> RecommendResponse:

@@ -22,6 +22,8 @@ from fastapi import (  # noqa: F401
 )
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
+from openapi_server.models.error_response import ErrorResponse
+from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_list_response import FurnitureListResponse
 from openapi_server.models.furniture_response import FurnitureResponse
 from openapi_server.models.register_furniture_request import RegisterFurnitureRequest
@@ -38,7 +40,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     "/furniture/{furniture_id}",
     responses={
         200: {"description": "Furniture deleted successfully"},
-        400: {"description": "バリデーションエラー"},
+        400: {"model": ErrorResponse, "description": "validation error"},
     },
     tags=["Furniture"],
     summary="Delete furniture",
@@ -54,7 +56,7 @@ async def furniture_furniture_id_delete(
     "/furniture/{furniture_id}",
     responses={
         200: {"model": FurnitureResponse, "description": "Furniture details retrieved successfully"},
-        400: {"description": "バリデーションエラー"},
+        400: {"model": ErrorResponse, "description": "validation error"},
     },
     tags=["Furniture"],
     summary="Get furniture details",
@@ -76,7 +78,7 @@ async def furniture_furniture_id_get(
     response_model_by_alias=True,
 )
 async def furniture_get(
-    user_id: int = Query(None, description="", alias="user_id"),
+    furniture_list_request: FurnitureListRequest = Body(None, description=""),
 ) -> FurnitureListResponse:
     ...
 

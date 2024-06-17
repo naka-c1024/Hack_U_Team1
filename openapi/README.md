@@ -33,8 +33,6 @@ https://qiita.com/A-Kira/items/3d17396c7cc98873e29d
 
 `backend/.openapi-generator-ignore`に入っていないものは 更新 or 初期化 されてしまうので注意する
 
-下記を行う前に
-
 ```
 docker run --rm -v ${PWD}:/local -v ${PWD}/../backend:/output openapitools/openapi-generator-cli generate -i /local/openapi.yaml -g python-fastapi -o /output
 ```

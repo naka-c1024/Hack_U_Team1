@@ -2,10 +2,12 @@
 
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
+from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.request_trade_request import RequestTradeRequest
 from openapi_server.models.trade_list_response import TradeListResponse
+from openapi_server.models.trade_response import TradeResponse
+from openapi_server.models.update_approval_request import UpdateApprovalRequest
 from openapi_server.models.update_is_checked_request import UpdateIsCheckedRequest
-from openapi_server.models.update_trade_request import UpdateTradeRequest
 
 
 class BaseTradeApi:
@@ -28,6 +30,13 @@ class BaseTradeApi:
         ...
 
 
+    def trades_trade_id_get(
+        self,
+        trade_id: int,
+    ) -> TradeResponse:
+        ...
+
+
     def trades_trade_id_is_checked_put(
         self,
         trade_id: int,
@@ -39,6 +48,6 @@ class BaseTradeApi:
     def trades_trade_id_put(
         self,
         trade_id: int,
-        update_trade_request: UpdateTradeRequest,
+        update_approval_request: UpdateApprovalRequest,
     ) -> None:
         ...

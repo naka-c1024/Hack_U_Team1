@@ -2,6 +2,8 @@
 
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
+from openapi_server.models.error_response import ErrorResponse
+from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_list_response import FurnitureListResponse
 from openapi_server.models.furniture_response import FurnitureResponse
 from openapi_server.models.register_furniture_request import RegisterFurnitureRequest
@@ -29,7 +31,7 @@ class BaseFurnitureApi:
 
     def furniture_get(
         self,
-        user_id: int,
+        furniture_list_request: FurnitureListRequest,
     ) -> FurnitureListResponse:
         ...
 

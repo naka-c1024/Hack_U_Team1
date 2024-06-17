@@ -20,7 +20,8 @@ import json
 
 
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBytes, StrictInt, StrictStr
+from datetime import date
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictBytes, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 try:
     from typing import Self
@@ -32,15 +33,21 @@ class FurnitureResponse(BaseModel):
     FurnitureResponse
     """ # noqa: E501
     furniture_id: Optional[StrictInt] = None
-    product_name: Optional[StrictStr] = None
     image: Optional[Union[StrictBytes, StrictStr]] = None
+    area: Optional[StrictInt] = Field(default=None, description="TODO 都道府県コード, URL()")
+    username: Optional[Union[StrictBytes, StrictStr]] = None
+    product_name: Optional[StrictStr] = None
     description: Optional[StrictStr] = None
-    size: Optional[StrictStr] = None
-    category: Optional[StrictStr] = None
-    color: Optional[StrictStr] = None
-    username: Optional[StrictStr] = None
-    trade_status: Optional[StrictInt] = Field(default=None, alias="tradeStatus")
-    __properties: ClassVar[List[str]] = ["furniture_id", "product_name", "image", "description", "size", "category", "color", "username", "tradeStatus"]
+    size: Optional[StrictStr] = Field(default=None, description="height width depth(スペース区切り)")
+    category: Optional[StrictInt] = Field(default=None, description="12個")
+    color: Optional[StrictInt] = Field(default=None, description="TODO 個数はあとで決める")
+    condition: Optional[StrictInt] = Field(default=None, description="6段階評価")
+    is_sold: Optional[StrictBool] = None
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
+    trade_place: Optional[StrictStr] = Field(default=None, description="具体的な取引場所")
+    is_favorite: Optional[StrictBool] = Field(default=None, description="「いいねした商品」用")
+    __properties: ClassVar[List[str]] = ["furniture_id", "image", "area", "username", "product_name", "description", "size", "category", "color", "condition", "is_sold", "start_date", "end_date", "trade_place", "is_favorite"]
 
     model_config = {
         "populate_by_name": True,
@@ -92,14 +99,20 @@ class FurnitureResponse(BaseModel):
 
         _obj = cls.model_validate({
             "furniture_id": obj.get("furniture_id"),
-            "product_name": obj.get("product_name"),
             "image": obj.get("image"),
+            "area": obj.get("area"),
+            "username": obj.get("username"),
+            "product_name": obj.get("product_name"),
             "description": obj.get("description"),
             "size": obj.get("size"),
             "category": obj.get("category"),
             "color": obj.get("color"),
-            "username": obj.get("username"),
-            "tradeStatus": obj.get("tradeStatus")
+            "condition": obj.get("condition"),
+            "is_sold": obj.get("is_sold"),
+            "start_date": obj.get("start_date"),
+            "end_date": obj.get("end_date"),
+            "trade_place": obj.get("trade_place"),
+            "is_favorite": obj.get("is_favorite")
         })
         return _obj
 
