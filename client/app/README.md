@@ -13,5 +13,5 @@ Hack U Team 1 Project !!
 - google fonts : https://fonts.google.com/?subset=japanese&noto.script=Hira
 - hooks_riverpod : https://pub.dev/packages/hooks_riverpod
 - flutter_hooks : https://pub.dev/packages/flutter_hooks
-
+- shared_preferences : https://pub.dev/packages/shared_preferences/install
 
