@@ -10,7 +10,7 @@ engine = create_engine(DB_URL, echo=True)
 def reset_database():
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-
+    # TODO: ダミーデータの投入
 
 if __name__ == "__main__":
     reset_database()

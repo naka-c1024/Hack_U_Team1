@@ -15,6 +15,8 @@ tags:
     description: 家具管理
   - name: Trade
     description: 取引機能
+  - name: Favorite
+    description: いいね機能
   - name: Recommendation
     description: レコメンド機能
 
@@ -46,7 +48,11 @@ paths:
         '200':
           description: User registered successfully
         '400':
-          description: バリデーションエラー
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /login:
     post:
       tags:
@@ -66,7 +72,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
         '400':
-          description: バリデーションエラー
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /logout:
     post:
       tags:
@@ -103,11 +113,11 @@ paths:
       tags:
         - Furniture
       summary: Get list of furniture
-      parameters:
-        - name: user_id
-          in: query
-          schema:
-            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FurnitureListRequest'
       responses:
         '200':
           description: Furniture list retrieved successfully
@@ -134,7 +144,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/FurnitureResponse'
         '400':
-          description: バリデーションエラー
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     delete:
       tags:
         - Furniture
@@ -149,7 +163,11 @@ paths:
         '200':
           description: Furniture deleted successfully
         '400':
-          description: バリデーションエラー
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /trades:
     post:
       tags:
@@ -165,7 +183,11 @@ paths:
         '200':
           description: Trade requested successfully
         '400':
-          description: バリデーションエラー
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     get:
       tags:
         - Trade
@@ -184,10 +206,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/TradeListResponse'
   /trades/{trade_id}:
+    get:
+      tags:
+        - Trade
+      summary: Get trade details
+      parameters:
+        - name: trade_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Trade details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     put:
       tags:
         - Trade
-      summary: Update trade status
+      summary: Update approval status
       parameters:
         - name: trade_id
           in: path
@@ -199,12 +244,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTradeRequest'
+              $ref: '#/components/schemas/UpdateApprovalRequest'
       responses:
         '200':
           description: Trade status updated successfully
         '400':
-          description: バリデーションエラー
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /trades/{trade_id}/isChecked:
     put:
       tags:
@@ -226,9 +275,88 @@ paths:
         '200':
           description: Trade status updated successfully
         '400':
-          description: バリデーションエラー
-  /recommend:
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /favorite:
     post:
+      tags:
+        - Favorite
+      summary: Add favorite
+      parameters:
+        - name: furniture_id
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Favorite added successfully
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Favorite
+      summary: Delete favorite
+      parameters:
+        - name: furniture_id
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Favorite deleted successfully
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /favorite/{furniture_id}/:
+    get:
+      tags:
+        - Favorite
+      summary: Get favorite status
+      parameters:
+        - name: furniture_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Favorite status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /recommend:
+    get:
       tags:
         - Recommendation
       summary: Get furniture recommendations based on room photo
@@ -249,6 +377,11 @@ paths:
 components:
   schemas:
     OKResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+    ErrorResponse:
       type: object
       properties:
         msg:
@@ -317,6 +450,7 @@ components:
           type: string
         color:
           type: string
+          description: TODO 個数はあとで決める
         start_date:
           type: string
           format: date
@@ -327,6 +461,16 @@ components:
           type: string
         condition:
           type: integer
+    FurnitureListRequest:
+      type: object
+      required:
+        - user_id
+      properties:
+        user_id:
+          type: integer
+        keyword:
+          type: string
+          description: 検索キーワード, スペース区切りで複数指定可
     FurnitureListResponse:
       type: object
       properties:
@@ -339,23 +483,46 @@ components:
       properties:
         furniture_id:
           type: integer
-        product_name:
-          type: string
         image:
           type: string
           format: binary
+        area:
+          type: integer
+          description: TODO 都道府県コード, URL()
+        username:
+          type: string
+          format: binary
+        product_name:
+          type: string
         description:
           type: string
         size:
           type: string
+          description: height width depth(スペース区切り)
+          example: 100 50 30
         category:
-          type: string
-        color:
-          type: string
-        username:
-          type: string
-        tradeStatus:
           type: integer
+          description: 12個
+        color:
+          type: integer
+          description: TODO 個数はあとで決める
+        condition:
+          type: integer
+          description: 6段階評価
+        is_sold:
+          type: boolean
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        trade_place:
+          type: string
+          description: 具体的な取引場所
+        is_favorite:
+          type: boolean
+          description: 「いいねした商品」用
     RequestTradeRequest:
       type: object
       required:
@@ -378,6 +545,13 @@ components:
         image:
           type: string
           format: binary
+        receiver_name:
+          type: string
+        product_name:
+          type: string
+        trade_place:
+          type: string
+          description: 具体的な取引場所
         furnitureId:
           type: integer
         giverId:
@@ -386,6 +560,13 @@ components:
           type: integer
         is_checked:
           type: boolean
+        giver_approval:
+          type: boolean
+        receiver_approval:
+          type: boolean
+        trade_date:
+          type: string
+          format: date
     TradeListResponse:
       type: object
       properties:
@@ -393,13 +574,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TradeResponse'
-    UpdateTradeRequest:
+    UpdateApprovalRequest:
       type: object
       required:
-        - status
+        - is_giver
       properties:
-        status:
-          type: integer
+        is_giver:
+          type: boolean
     UpdateIsCheckedRequest:
       type: object
       required:
@@ -407,6 +588,11 @@ components:
       properties:
         is_checked:
           type: boolean
+    FavoriteResponse:
+      type: object
+      properties:
+        count_favorites:
+          type: integer
     RecommendRequest:
       type: object
       required:

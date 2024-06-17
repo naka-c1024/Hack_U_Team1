@@ -7,7 +7,7 @@
     - `furniture_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
     - `user_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
     - `product_name` (VARCHAR(255), NOT NULL)
-    - `image` (VARCHAR(255), NOT NULL) # 画像ファイルのURL
+    - `image` (VARCHAR(255), NOT NULL) # 画像ファイルのURI
     - `description` (TEXT)
     - `height` (FLOAT, NOT NULL, CHECK (`height` >= 0))
     - `width` (FLOAT, NOT NULL, CHECK (`width` >= 0))
@@ -15,15 +15,17 @@
     - `category` (INT, NOT NULL) # 12個
     - `color` (INT, NOT NULL) # あとで個数を決める
     - `condition` (INT, NOT NULL) # 使用感, 6段階
-    - `trade_status` (INT, NOT NULL, DEFAULT 0) # 3種類
-    - `start_date` (DATE, NOT NULL)
-    - `end_date` (DATE, NOT NULL)
+    - `is_sold` (BOOLEAN, NOT NULL, DEFAULT 0)
+    - `start_date` (DATE)
+    - `end_date` (DATE)
     - `trade_place` (VARCHAR(255), NOT NULL) # 具体的な引き渡し場所
 - **Trades**:
     - `trade_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
     - `furniture_id` (INT, FOREIGN KEY REFERENCES Furniture(furniture_id), NOT NULL)
     - `receiver_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
     - `is_checked` (BOOLEAN, NOT NULL, DEFAULT 0) # 見たかどうか
+    - `giver_approval` (BOOLEAN, NOT NULL, DEFAULT 0) # giverが承認したかどうか
+    - `receiver_approval` (BOOLEAN, NOT NULL, DEFAULT 0) # receiverが承認したかどうか
     - `trade_date` (DATE)
 - **Favorites**:
     - `favorite_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
