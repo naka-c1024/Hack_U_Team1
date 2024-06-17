@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:app/Views/search_result_view.dart';
 import 'package:app/Views/components/cateogry_cell.dart';
 
 class KeywordSearchView extends HookConsumerWidget {
@@ -20,6 +21,7 @@ class KeywordSearchView extends HookConsumerWidget {
       void onFocusChanged() {
         isFocused.value = focus.hasFocus;
       }
+
       focus.addListener(onFocusChanged);
       return () => focus.removeListener(onFocusChanged);
     }, [focus]);
@@ -105,6 +107,18 @@ class KeywordSearchView extends HookConsumerWidget {
                       focusNode: focus,
                       onSubmitted: (String value) {
                         FocusScope.of(context).unfocus();
+                        Future.delayed(
+                          const Duration(milliseconds: 500),
+                          () {
+                            // 検索結果画面へ
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SearchResultView(),
+                              ),
+                            );
+                          },
+                        );
                         searchKeywordController.text = value;
                         if (value != '') {
                           saveSearchLog(value);
@@ -173,7 +187,6 @@ class KeywordSearchView extends HookConsumerWidget {
                       SizedBox(height: 24),
                     ],
                   ),
-
             const Text(
               '検索履歴',
               style: TextStyle(
