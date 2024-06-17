@@ -6,17 +6,18 @@ import 'package:app/Views/home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
+  // TODO: 実機用にカメラ機能をオンにする
+  // final cameras = await availableCameras();
+  const  firstCamera = null; //cameras.first;
   runApp(
-    ProviderScope(
+    const ProviderScope(
       child: MyApp(camera: firstCamera),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final CameraDescription camera;
+  final CameraDescription? camera;
   const MyApp({super.key, required this.camera});
 
   @override

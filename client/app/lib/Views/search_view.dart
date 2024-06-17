@@ -9,7 +9,7 @@ import 'package:app/Views/keyword_search_view.dart';
 final categoryProvider = StateProvider((ref) => -1);
 
 class SearchView extends HookConsumerWidget {
-  final CameraDescription camera;
+  final CameraDescription? camera;
   const SearchView({super.key,required this.camera});
 
   @override

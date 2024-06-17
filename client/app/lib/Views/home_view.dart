@@ -7,7 +7,7 @@ import 'package:app/Views/search_view.dart';
 import 'package:app/Views/furniture_list_view.dart';
 
 class HomeView extends HookConsumerWidget {
-  final CameraDescription camera;
+  final CameraDescription? camera;
   const HomeView({super.key, required this.camera});
 
   @override
