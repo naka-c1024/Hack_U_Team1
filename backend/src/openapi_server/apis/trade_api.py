@@ -22,10 +22,12 @@ from fastapi import (  # noqa: F401
 )
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
+from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.request_trade_request import RequestTradeRequest
 from openapi_server.models.trade_list_response import TradeListResponse
+from openapi_server.models.trade_response import TradeResponse
+from openapi_server.models.update_approval_request import UpdateApprovalRequest
 from openapi_server.models.update_is_checked_request import UpdateIsCheckedRequest
-from openapi_server.models.update_trade_request import UpdateTradeRequest
 
 
 router = APIRouter()
@@ -54,7 +56,7 @@ async def trades_get(
     "/trades",
     responses={
         200: {"description": "Trade requested successfully"},
-        400: {"description": "バリデーションエラー"},
+        400: {"model": ErrorResponse, "description": "validation error"},
     },
     tags=["Trade"],
     summary="Request a trade",
@@ -66,11 +68,27 @@ async def trades_post(
     ...
 
 
+@router.get(
+    "/trades/{trade_id}",
+    responses={
+        200: {"model": TradeResponse, "description": "Trade details retrieved successfully"},
+        400: {"model": ErrorResponse, "description": "validation error"},
+    },
+    tags=["Trade"],
+    summary="Get trade details",
+    response_model_by_alias=True,
+)
+async def trades_trade_id_get(
+    trade_id: int = Path(..., description=""),
+) -> TradeResponse:
+    ...
+
+
 @router.put(
     "/trades/{trade_id}/isChecked",
     responses={
         200: {"description": "Trade status updated successfully"},
-        400: {"description": "バリデーションエラー"},
+        400: {"model": ErrorResponse, "description": "validation error"},
     },
     tags=["Trade"],
     summary="Update isChecked status",
@@ -87,14 +105,14 @@ async def trades_trade_id_is_checked_put(
     "/trades/{trade_id}",
     responses={
         200: {"description": "Trade status updated successfully"},
-        400: {"description": "バリデーションエラー"},
+        400: {"model": ErrorResponse, "description": "validation error"},
     },
     tags=["Trade"],
-    summary="Update trade status",
+    summary="Update approval status",
     response_model_by_alias=True,
 )
 async def trades_trade_id_put(
     trade_id: int = Path(..., description=""),
-    update_trade_request: UpdateTradeRequest = Body(None, description=""),
+    update_approval_request: UpdateApprovalRequest = Body(None, description=""),
 ) -> None:
     ...

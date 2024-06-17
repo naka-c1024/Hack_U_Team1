@@ -29,6 +29,7 @@ docker-compose exec backend-app pip install <パッケージ名>
 
 ## migration
 
+tables.mdを変更した後に、tables.pyも変更  
 backend-appコンテナが起動した状態で以下のコマンドを打つ
 
 ```

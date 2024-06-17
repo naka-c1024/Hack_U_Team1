@@ -2,6 +2,7 @@
 
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
+from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.login_request import LoginRequest
 from openapi_server.models.login_response import LoginResponse
 from openapi_server.models.sign_up_request import SignUpRequest

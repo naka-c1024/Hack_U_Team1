@@ -15,6 +15,8 @@ tags:
   name: Furniture
 - description: 取引機能
   name: Trade
+- description: いいね機能
+  name: Favorite
 - description: レコメンド機能
   name: Recommendation
 paths:
@@ -42,7 +44,11 @@ paths:
         "200":
           description: User registered successfully
         "400":
-          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
       summary: sign up
       tags:
       - User
@@ -62,7 +68,11 @@ paths:
                 $ref: '#/components/schemas/LoginResponse'
           description: User logged in successfully
         "400":
-          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
       summary: User login
       tags:
       - User
@@ -76,14 +86,11 @@ paths:
       - User
   /furniture:
     get:
-      parameters:
-      - explode: true
-        in: query
-        name: user_id
-        required: false
-        schema:
-          type: integer
-        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FurnitureListRequest'
       responses:
         "200":
           content:
@@ -133,7 +140,11 @@ paths:
         "200":
           description: Furniture deleted successfully
         "400":
-          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
       summary: Delete furniture
       tags:
       - Furniture
@@ -154,7 +165,11 @@ paths:
                 $ref: '#/components/schemas/FurnitureResponse'
           description: Furniture details retrieved successfully
         "400":
-          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
       summary: Get furniture details
       tags:
       - Furniture
@@ -189,11 +204,40 @@ paths:
         "200":
           description: Trade requested successfully
         "400":
-          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
       summary: Request a trade
       tags:
       - Trade
   /trades/{trade_id}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: trade_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeResponse'
+          description: Trade details retrieved successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
+      summary: Get trade details
+      tags:
+      - Trade
     put:
       parameters:
       - explode: false
@@ -207,14 +251,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTradeRequest'
+              $ref: '#/components/schemas/UpdateApprovalRequest'
         required: true
       responses:
         "200":
           description: Trade status updated successfully
         "400":
-          description: バリデーションエラー
-      summary: Update trade status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
+      summary: Update approval status
       tags:
       - Trade
   /trades/{trade_id}/isChecked:
@@ -237,12 +285,99 @@ paths:
         "200":
           description: Trade status updated successfully
         "400":
-          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
       summary: Update isChecked status
       tags:
       - Trade
-  /recommend:
+  /favorite:
+    delete:
+      parameters:
+      - explode: true
+        in: query
+        name: furniture_id
+        required: true
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          description: Favorite deleted successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
+      summary: Delete favorite
+      tags:
+      - Favorite
     post:
+      parameters:
+      - explode: true
+        in: query
+        name: furniture_id
+        required: true
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          description: Favorite added successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
+      summary: Add favorite
+      tags:
+      - Favorite
+  /favorite/{furniture_id}/:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: furniture_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteResponse'
+          description: Favorite status retrieved successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
+      summary: Get favorite status
+      tags:
+      - Favorite
+  /recommend:
+    get:
       requestBody:
         content:
           application/json:
@@ -269,6 +404,15 @@ components:
           title: msg
           type: string
       title: OKResponse
+      type: object
+    ErrorResponse:
+      example:
+        msg: msg
+      properties:
+        msg:
+          title: msg
+          type: string
+      title: ErrorResponse
       type: object
     SignUpRequest:
       example:
@@ -358,6 +502,7 @@ components:
           title: category
           type: string
         color:
+          description: TODO 個数はあとで決める
           title: color
           type: string
         start_date:
@@ -390,27 +535,55 @@ components:
       - width
       title: RegisterFurnitureRequest
       type: object
+    FurnitureListRequest:
+      example:
+        user_id: 0
+        keyword: keyword
+      properties:
+        user_id:
+          title: user_id
+          type: integer
+        keyword:
+          description: "検索キーワード, スペース区切りで複数指定可"
+          title: keyword
+          type: string
+      required:
+      - user_id
+      title: FurnitureListRequest
+      type: object
     FurnitureListResponse:
       example:
         furniture:
-        - image: ""
-          size: size
-          color: color
-          tradeStatus: 6
+        - area: 6
+          end_date: 2000-01-23
+          image: ""
+          is_favorite: true
+          color: 5
           description: description
-          furniture_id: 0
-          category: category
+          trade_place: trade_place
           product_name: product_name
-          username: username
-        - image: ""
-          size: size
-          color: color
-          tradeStatus: 6
+          condition: 5
+          size: 100 50 30
+          is_sold: true
+          furniture_id: 0
+          category: 1
+          username: ""
+          start_date: 2000-01-23
+        - area: 6
+          end_date: 2000-01-23
+          image: ""
+          is_favorite: true
+          color: 5
           description: description
-          furniture_id: 0
-          category: category
+          trade_place: trade_place
           product_name: product_name
-          username: username
+          condition: 5
+          size: 100 50 30
+          is_sold: true
+          furniture_id: 0
+          category: 1
+          username: ""
+          start_date: 2000-01-23
       properties:
         furniture:
           items:
@@ -421,44 +594,79 @@ components:
       type: object
     FurnitureResponse:
       example:
+        area: 6
+        end_date: 2000-01-23
         image: ""
-        size: size
-        color: color
-        tradeStatus: 6
+        is_favorite: true
+        color: 5
         description: description
-        furniture_id: 0
-        category: category
+        trade_place: trade_place
         product_name: product_name
-        username: username
+        condition: 5
+        size: 100 50 30
+        is_sold: true
+        furniture_id: 0
+        category: 1
+        username: ""
+        start_date: 2000-01-23
       properties:
         furniture_id:
           title: furniture_id
           type: integer
-        product_name:
-          title: product_name
-          type: string
         image:
           format: binary
           title: image
+          type: string
+        area:
+          description: "TODO 都道府県コード, URL()"
+          title: area
+          type: integer
+        username:
+          format: binary
+          title: username
+          type: string
+        product_name:
+          title: product_name
           type: string
         description:
           title: description
           type: string
         size:
+          description: height width depth(スペース区切り)
+          example: 100 50 30
           title: size
           type: string
         category:
+          description: 12個
           title: category
-          type: string
-        color:
-          title: color
-          type: string
-        username:
-          title: username
-          type: string
-        tradeStatus:
-          title: tradeStatus
           type: integer
+        color:
+          description: TODO 個数はあとで決める
+          title: color
+          type: integer
+        condition:
+          description: 6段階評価
+          title: condition
+          type: integer
+        is_sold:
+          title: is_sold
+          type: boolean
+        start_date:
+          format: date
+          title: start_date
+          type: string
+        end_date:
+          format: date
+          title: end_date
+          type: string
+        trade_place:
+          description: 具体的な取引場所
+          title: trade_place
+          type: string
+        is_favorite:
+          description: 「いいねした商品」用
+          title: is_favorite
+          type: boolean
       title: FurnitureResponse
       type: object
     RequestTradeRequest:
@@ -488,8 +696,14 @@ components:
         image: ""
         giverId: 1
         receiverId: 5
+        giver_approval: true
+        receiver_approval: true
+        receiver_name: receiver_name
         is_checked: true
+        trade_place: trade_place
         furnitureId: 6
+        product_name: product_name
+        trade_date: 2000-01-23
         tradeId: 0
       properties:
         tradeId:
@@ -498,6 +712,16 @@ components:
         image:
           format: binary
           title: image
+          type: string
+        receiver_name:
+          title: receiver_name
+          type: string
+        product_name:
+          title: product_name
+          type: string
+        trade_place:
+          description: 具体的な取引場所
+          title: trade_place
           type: string
         furnitureId:
           title: furnitureId
@@ -511,6 +735,16 @@ components:
         is_checked:
           title: is_checked
           type: boolean
+        giver_approval:
+          title: giver_approval
+          type: boolean
+        receiver_approval:
+          title: receiver_approval
+          type: boolean
+        trade_date:
+          format: date
+          title: trade_date
+          type: string
       title: TradeResponse
       type: object
     TradeListResponse:
@@ -519,14 +753,26 @@ components:
         - image: ""
           giverId: 1
           receiverId: 5
+          giver_approval: true
+          receiver_approval: true
+          receiver_name: receiver_name
           is_checked: true
+          trade_place: trade_place
           furnitureId: 6
+          product_name: product_name
+          trade_date: 2000-01-23
           tradeId: 0
         - image: ""
           giverId: 1
           receiverId: 5
+          giver_approval: true
+          receiver_approval: true
+          receiver_name: receiver_name
           is_checked: true
+          trade_place: trade_place
           furnitureId: 6
+          product_name: product_name
+          trade_date: 2000-01-23
           tradeId: 0
       properties:
         trades:
@@ -536,16 +782,16 @@ components:
           type: array
       title: TradeListResponse
       type: object
-    UpdateTradeRequest:
+    UpdateApprovalRequest:
       example:
-        status: 0
+        is_giver: true
       properties:
-        status:
-          title: status
-          type: integer
+        is_giver:
+          title: is_giver
+          type: boolean
       required:
-      - status
-      title: UpdateTradeRequest
+      - is_giver
+      title: UpdateApprovalRequest
       type: object
     UpdateIsCheckedRequest:
       example:
@@ -557,6 +803,15 @@ components:
       required:
       - is_checked
       title: UpdateIsCheckedRequest
+      type: object
+    FavoriteResponse:
+      example:
+        count_favorites: 0
+      properties:
+        count_favorites:
+          title: count_favorites
+          type: integer
+      title: FavoriteResponse
       type: object
     RecommendRequest:
       example:

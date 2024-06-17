@@ -22,6 +22,7 @@ from fastapi import (  # noqa: F401
 )
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
+from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.login_request import LoginRequest
 from openapi_server.models.login_response import LoginResponse
 from openapi_server.models.sign_up_request import SignUpRequest
@@ -38,7 +39,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     "/login",
     responses={
         200: {"model": LoginResponse, "description": "User logged in successfully"},
-        400: {"description": "バリデーションエラー"},
+        400: {"model": ErrorResponse, "description": "validation error"},
     },
     tags=["User"],
     summary="User login",
@@ -68,7 +69,7 @@ async def logout_post(
     "/sign_up",
     responses={
         200: {"description": "User registered successfully"},
-        400: {"description": "バリデーションエラー"},
+        400: {"model": ErrorResponse, "description": "validation error"},
     },
     tags=["User"],
     summary="sign up",

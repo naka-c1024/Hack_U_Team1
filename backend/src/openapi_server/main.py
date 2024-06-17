@@ -14,6 +14,7 @@
 
 from fastapi import FastAPI
 
+from openapi_server.apis.favorite_api import router as FavoriteApiRouter
 from openapi_server.apis.furniture_api import router as FurnitureApiRouter
 from openapi_server.apis.ok_api import router as OKApiRouter
 from openapi_server.apis.recommendation_api import router as RecommendationApiRouter
@@ -26,6 +27,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
+app.include_router(FavoriteApiRouter)
 app.include_router(FurnitureApiRouter)
 app.include_router(OKApiRouter)
 app.include_router(RecommendationApiRouter)

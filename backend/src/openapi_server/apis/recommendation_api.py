@@ -33,7 +33,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
 
 
-@router.post(
+@router.get(
     "/recommend",
     responses={
         200: {"model": RecommendResponse, "description": "Furniture recommendations retrieved successfully"},
@@ -42,7 +42,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     summary="Get furniture recommendations based on room photo",
     response_model_by_alias=True,
 )
-async def recommend_post(
+async def recommend_get(
     recommend_request: RecommendRequest = Body(None, description=""),
 ) -> RecommendResponse:
     ...
