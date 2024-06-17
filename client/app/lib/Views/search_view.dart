@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -8,7 +9,8 @@ import 'package:app/Views/keyword_search_view.dart';
 final categoryProvider = StateProvider((ref) => -1);
 
 class SearchView extends HookConsumerWidget {
-  const SearchView({super.key});
+  final CameraDescription camera;
+  const SearchView({super.key,required this.camera});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,10 +43,10 @@ class SearchView extends HookConsumerWidget {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            PictureSearchView(),
-            KeywordSearchView(),
+            PictureSearchView(camera: camera),
+            const KeywordSearchView(),
           ],
         ),
       ),
