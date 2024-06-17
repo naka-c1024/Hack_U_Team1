@@ -40,11 +40,20 @@ class KeywordSearchView extends HookConsumerWidget {
           preferences.getStringList('searchLog') ?? [];
       for (int i = searchLogTextList.length - 1; i >= 0; i--) {
         searchLogList.value.add(
-          Container(
-            margin: const EdgeInsets.only(top: 4, left: 4, bottom: 4),
-            child: Text(
-              searchLogTextList[i],
-              style: const TextStyle(fontSize: 14),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                searchKeywordController.text = searchLogTextList[i];
+              },
+              child: Ink(
+                width: screenSize.width - 32,
+                padding: const EdgeInsets.only(top: 4, left: 4, bottom: 4),
+                child: Text(
+                  searchLogTextList[i],
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
             ),
           ),
         );
@@ -92,6 +101,7 @@ class KeywordSearchView extends HookConsumerWidget {
                           onPressed: () {
                             isFocused.value = false;
                             FocusScope.of(context).unfocus();
+                            searchKeywordController.text = '';
                           },
                           icon: const Icon(Icons.arrow_back_ios),
                         )
@@ -105,6 +115,7 @@ class KeywordSearchView extends HookConsumerWidget {
                     color: const Color(0xffd9d9d9),
                     child: TextField(
                       focusNode: focus,
+                      controller: searchKeywordController,
                       onSubmitted: (String value) {
                         FocusScope.of(context).unfocus();
                         Future.delayed(
@@ -114,7 +125,9 @@ class KeywordSearchView extends HookConsumerWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SearchResultView(),
+                                builder: (context) => SearchResultView(
+                                  searchKeyword: searchKeywordController.text,
+                                ),
                               ),
                             );
                           },

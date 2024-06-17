@@ -5,7 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:app/Views/components/furniture_cell.dart';
 
 class SearchResultView extends HookConsumerWidget {
-  const SearchResultView({super.key});
+  final String searchKeyword;
+  const SearchResultView({
+    super.key,
+    required this.searchKeyword,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -143,16 +147,16 @@ class SearchResultView extends HookConsumerWidget {
               width: screenSize.width - 80,
               padding: const EdgeInsets.only(left: 8),
               color: const Color(0xffd9d9d9),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.search,
                     size: 20,
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(
-                    'テーブル ガラス',
-                    style: TextStyle(
+                    searchKeyword,
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Color(0xff4b4b4b),
