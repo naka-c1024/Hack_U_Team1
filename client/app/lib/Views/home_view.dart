@@ -14,10 +14,25 @@ class HomeView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedView = useState(0);
+    final ValueNotifier<CameraController?> cameraController = useState(null);
+
+    // カメラ関連の初期化処理
+    useEffect(() {
+      if (camera == null) {
+        return null;
+      }
+      cameraController.value = CameraController(
+        camera!,
+        ResolutionPreset.max,
+        enableAudio: false,
+      );
+      return null;
+    }, [camera]);
+
     final viewWidgets = [
       const FurnitureListView(),
-      SearchView(camera: camera),
-      ProductListView(camera: camera),
+      SearchView(cameraController: cameraController),
+      ProductListView(cameraController: cameraController),
       Container(),
     ];
 

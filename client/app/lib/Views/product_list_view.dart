@@ -5,8 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:app/Views/components/register_product_sheet.dart';
 
 class ProductListView extends HookConsumerWidget {
-  final CameraDescription? camera;
-  const ProductListView({super.key, required this.camera});
+  final ValueNotifier<CameraController?> cameraController;
+  const ProductListView({
+    required this.cameraController,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +39,8 @@ class ProductListView extends HookConsumerWidget {
                           builder: (BuildContext context) {
                             return SizedBox(
                               height: screenSize.height - 64,
-                              child: const RegisterProductSheet(),
+                              child: RegisterProductSheet(
+                                  cameraController: cameraController),
                             );
                           },
                         );

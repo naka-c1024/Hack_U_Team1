@@ -9,10 +9,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting('ja');
   // TODO: 実機用にカメラ機能をオンにする
-  // final cameras = await availableCameras();
-  const  firstCamera = null; //cameras.first;
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
   runApp(
-    const ProviderScope(
+    ProviderScope(
       child: MyApp(camera: firstCamera),
     ),
   );

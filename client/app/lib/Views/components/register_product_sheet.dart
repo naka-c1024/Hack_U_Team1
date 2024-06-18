@@ -1,16 +1,26 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/constants.dart';
+import 'package:app/Views/components/register_picture_sheet.dart';
 
 class RegisterProductSheet extends HookConsumerWidget {
-  const RegisterProductSheet({super.key});
+  final ValueNotifier<CameraController?> cameraController;
+  const RegisterProductSheet({
+    required this.cameraController,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
+    final ValueNotifier<String?> imagePath = useState(null);
     final productName = useTextEditingController(text: '');
     final ValueNotifier<int?> categoryIndex = useState(null);
     final ValueNotifier<int?> conditionIndex = useState(null);
@@ -139,14 +149,34 @@ class RegisterProductSheet extends HookConsumerWidget {
                   children: [
                     Align(
                       alignment: Alignment.topCenter,
-                      child: Container(
-                        height: 96,
-                        width: 96,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffd9d9d9),
-                          borderRadius: BorderRadius.circular(5),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: screenSize.height - 64,
+                                  child: RegisterPictureSheet(
+                                    cameraController: cameraController,
+                                    imagePath: imagePath,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Ink(
+                            height: 96,
+                            width: 96,
+                            decoration: BoxDecoration(
+                              color: const Color(0xffd9d9d9),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: imagePath.value == null ? const Icon(Icons.photo_camera_outlined) : Image.file(File(imagePath.value!)),
+                          ),
                         ),
-                        child: const Icon(Icons.photo_camera_outlined),
                       ),
                     ),
                     const SizedBox(height: 48),

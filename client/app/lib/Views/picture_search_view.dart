@@ -8,29 +8,24 @@ import 'package:app/Views/search_view.dart';
 import 'package:app/Views/components/cateogory_cell.dart';
 
 class PictureSearchView extends HookConsumerWidget {
-  final CameraDescription? camera;
-  const PictureSearchView({super.key, required this.camera});
+  final ValueNotifier<CameraController?> cameraController;
+  const PictureSearchView({
+    required this.cameraController,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final screenSize = MediaQuery.of(context).size;
-    // final cameraController = useState<CameraController?>(null);
+    final screenSize = MediaQuery.of(context).size;
 
     // カメラ関連の初期化処理
-    // useEffect(() {
-    //   cameraController.value = CameraController(
-    //     camera,
-    //     ResolutionPreset.max,
-    //     enableAudio: false,
-    //   );
-
-    //   Future<void> initializeController() async {
-    //     await cameraController.value?.initialize();
-    //   }
-
-    //   initializeController();
-    //   return null;
-    // }, [camera]);
+    useEffect(() {
+      Future<void> initializeController() async {
+        await cameraController.value?.initialize();
+      }
+      initializeController();
+      return null;
+    }, []);
 
     final menuHeight = useState(48.0);
     void toggleHeight() {
@@ -60,14 +55,14 @@ class PictureSearchView extends HookConsumerWidget {
         alignment: Alignment.topCenter,
         children: [
           // カメラ
-          // SizedBox(
-          //   height: screenSize.height - 196,
-          //   child: cameraController.value?.value.isInitialized ?? true
-          //       ? CameraPreview(cameraController.value!)
-          //       : Container(
-          //           color: const Color(0x53000000),
-          //         ),
-          // ),
+          SizedBox(
+            height: screenSize.height - 196,
+            child: cameraController.value?.value.isInitialized ?? false
+                ? CameraPreview(cameraController.value!)
+                : Container(
+                    color: const Color(0x53000000),
+                  ),
+          ),
           // ボタンやテキスト
           Column(
             children: [

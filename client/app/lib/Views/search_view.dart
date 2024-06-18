@@ -9,8 +9,11 @@ import 'package:app/Views/keyword_search_view.dart';
 final categoryProvider = StateProvider((ref) => -1);
 
 class SearchView extends HookConsumerWidget {
-  final CameraDescription? camera;
-  const SearchView({super.key,required this.camera});
+  final ValueNotifier<CameraController?> cameraController;
+  const SearchView({
+    required this.cameraController,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,7 +48,7 @@ class SearchView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            PictureSearchView(camera: camera),
+            PictureSearchView(cameraController: cameraController),
             const KeywordSearchView(),
           ],
         ),
