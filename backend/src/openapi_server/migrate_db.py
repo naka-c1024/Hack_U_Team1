@@ -5,7 +5,7 @@ from openapi_server.db import Base
 from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites # 明示的にインポートしなければならない
 from openapi_server.insert_dummy_data import insert_dummy_data
 
-DB_URL = "mysql+pymysql://root@db:3306/backend?charset=utf8"
+DB_URL = "mysql+pymysql://root@db:3306/backend?charset=utf8mb4"
 engine = create_engine(DB_URL, echo=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
