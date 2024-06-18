@@ -1,11 +1,15 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:app/constants.dart';
+import 'package:app/Views/login_view.dart';
 
 class SignUpView extends HookConsumerWidget {
-  const SignUpView({super.key});
+  final CameraDescription? camera;
+  const SignUpView({super.key, required this.camera});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,7 +68,20 @@ class SignUpView extends HookConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () async {
+                if (userNameController.text=='') return;
+                // ログイン画面へ
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginView(camera: camera),
+                  ),
+                );
+                // ユーザーネームとアドレスをデバイスに保存
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString('userName',userNameController.text);
+                await prefs.setInt('address',selectedPrefecture.value);
+              },
             ),
           ],
         ),

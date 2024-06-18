@@ -18,7 +18,7 @@ class HomeView extends HookConsumerWidget {
       const FurnitureListView(),
       SearchView(camera: camera),
       Container(),
-      const MyPageView(),
+      MyPageView(camera: camera),
     ];
 
     return Scaffold(

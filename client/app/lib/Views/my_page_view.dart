@@ -1,10 +1,13 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/Views/login_view.dart';
 import 'package:app/Views/components/user_menu_cell.dart';
 
 class MyPageView extends HookConsumerWidget {
-  const MyPageView({super.key});
+  final CameraDescription? camera;
+  const MyPageView({super.key, required this.camera});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -102,7 +105,15 @@ class MyPageView extends HookConsumerWidget {
             Container(
               padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // ログイン画面へ
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginView(camera: camera),
+                  ),
+                );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffe3e3e3),
                   padding: EdgeInsets.zero,
