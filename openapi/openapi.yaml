@@ -450,7 +450,7 @@ components:
           type: string
         color:
           type: string
-          description: TODO 個数はあとで決める
+          description: 色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)
         start_date:
           type: string
           format: date
@@ -488,7 +488,7 @@ components:
           format: binary
         area:
           type: integer
-          description: TODO 都道府県コード, URL()
+          description: 都道府県コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)
         username:
           type: string
           format: binary
@@ -502,10 +502,10 @@ components:
           example: 100 50 30
         category:
           type: integer
-          description: 12個
+          description: カテゴリコード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)
         color:
           type: integer
-          description: TODO 個数はあとで決める
+          description:  色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)
         condition:
           type: integer
           description: 6段階評価
