@@ -37,6 +37,5 @@ websockets==10.0
 
 sqlalchemy
 aiomysql
-
 pymysql
 greenlet

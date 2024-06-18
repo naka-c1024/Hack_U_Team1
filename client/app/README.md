@@ -16,3 +16,7 @@ Hack U Team 1 Project !!
 - intl (datetimeのフォーマット変換に利用) : https://pub.dev/packages/intl
 - calendar_date_picker2 : https://pub.dev/packages/calendar_date_picker2
 - wheel_picker : https://pub.dev/packages/wheel_picker
+- shared_preferences : https://pub.dev/packages/shared_preferences/install
+- camera : https://pub.dev/packages/camera
+- path_provider : https://pub.dev/packages/path_provider
+- path_install : https://pub.dev/packages/path

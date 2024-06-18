@@ -7,6 +7,8 @@ services:
     ports:
       - "8080:8080"
     command: uvicorn openapi_server.main:app --host 0.0.0.0 --port 8080 --reload
+    volumes:
+      - ${PWD}/src/openapi_server/file_storage:/app/src/openapi_server/file_storage  # 画像ファイルの永続化
   db:
     image: mysql:8.0
     environment:
@@ -15,6 +17,7 @@ services:
       TZ: 'Asia/Tokyo'  # タイムゾーンを日本時間に設定
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf  # MySQLの日本語文字化け対策
     command: --default-authentication-plugin=mysql_native_password  # MySQL8.0ではデフォルトが"caching_sha2_password"で、ドライバが非対応のため変更
     ports:
       - 33306:3306
