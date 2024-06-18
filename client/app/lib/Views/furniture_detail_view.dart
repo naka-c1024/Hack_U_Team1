@@ -55,10 +55,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                       ),
                       IconButton(
                         padding: const EdgeInsets.only(left: 8),
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Color(0xffd9d9d9),
-                        ), // 戻るボタンの色を指定
+                        icon: const Icon(Icons.arrow_back_ios), // 戻るボタンの色を指定
                         onPressed: () {
                           Navigator.of(context).pop(0);
                         },

@@ -1,3 +1,4 @@
+import 'package:app/Views/components/trade_success_sheet.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_picker/wheel_picker.dart';
@@ -206,6 +207,7 @@ class TradeAdjustMenu extends HookConsumerWidget {
                       ElevatedButton(
                         onPressed: () {
                           isSelectingTime.value = !isSelectingTime.value;
+                          tradeTime.value ??= DateTime.now();
                           if (isSelectingDate.value) {
                             isSelectingDate.value = false;
                           }
@@ -233,8 +235,7 @@ class TradeAdjustMenu extends HookConsumerWidget {
                           child: Text(
                             tradeTime.value == null
                                 ? '時間'
-                                : DateFormat('hh:mm', 'ja')
-                                    .format(tradeTime.value!),
+                                : DateFormat('HH:mm').format(tradeTime.value!),
                             style: const TextStyle(
                               color: Color(0xff636363),
                               fontSize: 12,
@@ -358,9 +359,25 @@ class TradeAdjustMenu extends HookConsumerWidget {
           Container(
             padding: const EdgeInsets.all(16),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (tradeDate.value != null && tradeTime.value != null) {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: screenSize.height - 64,
+                        child: const TradeSuccessSheet(),
+                      );
+                    },
+                  );
+                }
+              },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xffffffff),
+                backgroundColor:
+                    (tradeDate.value == null || tradeTime.value == null)
+                        ? const Color(0xffffffff)
+                        : const Color(0xff424242),
                 padding: EdgeInsets.zero,
                 minimumSize: Size.zero,
                 elevation: 0,
@@ -374,11 +391,13 @@ class TradeAdjustMenu extends HookConsumerWidget {
                 width: screenSize.width - 48,
                 margin: const EdgeInsets.only(left: 8, right: 8),
                 alignment: Alignment.center,
-                child: const Text(
+                child: Text(
                   '取引をお願いする',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Color(0xff9e9e9e),
+                    color: (tradeDate.value == null || tradeTime.value == null)
+                        ? const Color(0xff9e9e9e)
+                        : const Color(0xffffffff),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
