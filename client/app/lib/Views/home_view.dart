@@ -1,18 +1,21 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/Views/search_view.dart';
 import 'package:app/Views/furniture_list_view.dart';
 
 class HomeView extends HookConsumerWidget {
-  const HomeView({super.key});
+  final CameraDescription? camera;
+  const HomeView({super.key, required this.camera});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedView = useState(0);
     final viewWidgets = [
       const FurnitureListView(),
-      Container(),
+      SearchView(camera: camera),
       Container(),
       Container(),
     ];

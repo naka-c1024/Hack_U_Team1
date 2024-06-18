@@ -1,28 +1,35 @@
-import 'package:app/Views/home_view.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void main() {
+import 'package:app/Views/home_view.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // TODO: 実機用にカメラ機能をオンにする
+  // final cameras = await availableCameras();
+  const  firstCamera = null; //cameras.first;
   runApp(
     const ProviderScope(
-      child: MyApp(),
+      child: MyApp(camera: firstCamera),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final CameraDescription? camera;
+  const MyApp({super.key, required this.camera});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hack U team 1',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          fontFamily: 'Noto Sans JP',
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+        fontFamily: 'Noto Sans JP',
       ),
-      home: const HomeView(),
+      home: HomeView(camera: camera),
     );
   }
 }

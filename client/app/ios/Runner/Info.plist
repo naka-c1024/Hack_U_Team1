@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>家具や部屋の情報を取得するためにカメラを使用します</string>
 </dict>
 </plist>
