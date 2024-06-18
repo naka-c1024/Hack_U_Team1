@@ -14,5 +14,5 @@ Hack U Team 1 Project !!
 - hooks_riverpod : https://pub.dev/packages/hooks_riverpod
 - flutter_hooks : https://pub.dev/packages/flutter_hooks
 - intl (datetimeのフォーマット変換に利用) : https://pub.dev/packages/intl
-
+- calendar_date_picker2 : https://pub.dev/packages/calendar_date_picker2
 
