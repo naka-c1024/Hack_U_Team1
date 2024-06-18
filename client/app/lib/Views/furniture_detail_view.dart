@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/constants.dart';
 import 'package:app/Domain/furniture.dart';
+import 'package:app/Views/components/trade_adjust_menu.dart';
 
 class FurnitureDetailView extends HookConsumerWidget {
   const FurnitureDetailView({super.key});
@@ -168,10 +169,10 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       furniture.endDate == null)
                                   ? '無期限'
                                   : furniture.startDate == null
-                                      ? ' 〜 ${DateFormat('yyyy年MM月dd日(E)', 'ja').format(furniture.endDate!)}'
+                                      ? ' 〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)}'
                                       : furniture.endDate == null
-                                          ? '${DateFormat('yyyy年MM月dd日(E)', 'ja').format(furniture.startDate!)} 〜 '
-                                          : '${DateFormat('yyyy年MM月dd日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年MM月dd日(E)', 'ja').format(furniture.endDate!)}',
+                                          ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 '
+                                          : '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年MM月dd日(E)', 'ja').format(furniture.endDate!)}',
                               style: const TextStyle(
                                 color: Color(0xff636363),
                                 fontSize: 12,
@@ -378,7 +379,18 @@ class FurnitureDetailView extends HookConsumerWidget {
                         const SizedBox(height: 24),
                         // 取引依頼ボタン
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: screenSize.height - 64,
+                                  child: TradeAdjustMenu(furniture: furniture),
+                                );
+                              },
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xff424242),
                             padding: EdgeInsets.zero,
