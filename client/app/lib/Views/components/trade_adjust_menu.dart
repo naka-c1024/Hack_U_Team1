@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:wheel_picker/wheel_picker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
@@ -24,6 +25,16 @@ class TradeAdjustMenu extends HookConsumerWidget {
         furniture.startDate ?? DateTime.now().add(const Duration(days: 1));
     final endDate =
         furniture.endDate ?? DateTime.now().add(const Duration(days: 365));
+
+    late final hoursWheel = WheelPickerController(
+      itemCount: 24,
+      initialIndex: DateTime.now().hour % 24,
+    );
+    late final minutesWheel = WheelPickerController(
+      itemCount: 60,
+      initialIndex: DateTime.now().minute,
+      mounts: [hoursWheel],
+    );
 
     return Container(
       decoration: const BoxDecoration(
@@ -234,6 +245,7 @@ class TradeAdjustMenu extends HookConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
+                  //　日付選択画面
                   isSelectingDate.value
                       ? Container(
                           decoration: BoxDecoration(
@@ -260,6 +272,79 @@ class TradeAdjustMenu extends HookConsumerWidget {
                             onValueChanged: (dates) => {
                               tradeDate.value = dates[0],
                             },
+                          ),
+                        )
+                      : const SizedBox(),
+                  // 時間選択画面
+                  isSelectingTime.value
+                      ? Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xffd9d9d9)),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              WheelPicker(
+                                builder: (BuildContext context, int index) {
+                                  return Text(
+                                    "$index".padLeft(2, '0'),
+                                    style: const TextStyle(fontSize: 16),
+                                  );
+                                },
+                                controller: hoursWheel,
+                                looping: false,
+                                selectedIndexColor: const Color(0xff4b4b4b),
+                                style: const WheelPickerStyle(
+                                  size: 160,
+                                  squeeze: 1.25,
+                                  diameterRatio: .8,
+                                  surroundingOpacity: .25,
+                                  magnification: 1.2,
+                                ),
+                                onIndexChanged: (index) {
+                                  final originalDateTime =
+                                      tradeTime.value ?? DateTime.now();
+                                  final selectedDataTime = DateTime(
+                                      originalDateTime.year,
+                                      originalDateTime.month,
+                                      originalDateTime.day,
+                                      index,
+                                      originalDateTime.minute);
+                                  tradeTime.value = selectedDataTime;
+                                },
+                              ),
+                              const Text(" : "),
+                              WheelPicker(
+                                builder: (BuildContext context, int index) {
+                                  return Text(
+                                    "$index".padLeft(2, '0'),
+                                    style: const TextStyle(fontSize: 16),
+                                  );
+                                },
+                                controller: minutesWheel,
+                                enableTap: true,
+                                selectedIndexColor: const Color(0xff4b4b4b),
+                                style: const WheelPickerStyle(
+                                  size: 160,
+                                  squeeze: 1.25,
+                                  diameterRatio: .8,
+                                  surroundingOpacity: .25,
+                                  magnification: 1.2,
+                                ),
+                                onIndexChanged: (index) {
+                                  final originalDateTime =
+                                      tradeTime.value ?? DateTime.now();
+                                  final selectedDataTime = DateTime(
+                                      originalDateTime.year,
+                                      originalDateTime.month,
+                                      originalDateTime.day,
+                                      originalDateTime.hour,
+                                      index);
+                                  tradeTime.value = selectedDataTime;
+                                },
+                              ),
+                            ],
                           ),
                         )
                       : const SizedBox(),

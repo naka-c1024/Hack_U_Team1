@@ -15,4 +15,4 @@ Hack U Team 1 Project !!
 - flutter_hooks : https://pub.dev/packages/flutter_hooks
 - intl (datetimeのフォーマット変換に利用) : https://pub.dev/packages/intl
 - calendar_date_picker2 : https://pub.dev/packages/calendar_date_picker2
-
+- wheel_picker : https://pub.dev/packages/wheel_picker
