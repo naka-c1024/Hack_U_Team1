@@ -6,6 +6,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/constants.dart';
+import 'package:app/Usecases/provider.dart';
+import 'package:app/Views/components/color_sheet.dart';
+import 'package:app/Views/components/category_sheet.dart';
+import 'package:app/Views/components/condition_sheet.dart';
 import 'package:app/Views/components/register_picture_sheet.dart';
 
 class RegisterProductSheet extends HookConsumerWidget {
@@ -22,26 +26,31 @@ class RegisterProductSheet extends HookConsumerWidget {
 
     final ValueNotifier<String?> imagePath = useState(null);
     final productName = useTextEditingController(text: '');
-    final ValueNotifier<int?> categoryIndex = useState(null);
-    final ValueNotifier<int?> conditionIndex = useState(null);
-    final ValueNotifier<int?> colorIndex = useState(null);
+    final categoryIndex = ref.watch(categoryProvider);
+    final colorIndex = ref.watch(colorProvider);
+    final conditionIndex = ref.watch(conditionProvider);
     final productWidth = useTextEditingController(text: '');
     final productDepth = useTextEditingController(text: '');
     final productHeight = useTextEditingController(text: '');
     final productDescription = useTextEditingController(text: '');
+    final isInputCompleted = useState(false);
 
     // 一つでも未入力だったら次へ進まない
-    bool isInputCompleted() {
+    bool checkInputCompleted() {
+      // TODO: 実機の時にチェック
+      // if (imagePath.value == null) {
+      //   return false;
+      // }
       if (productName.text == '') {
         return false;
       }
-      if (categoryIndex.value == null) {
+      if (categoryIndex == -1) {
         return false;
       }
-      if (conditionIndex.value == null) {
+      if (conditionIndex == -1) {
         return false;
       }
-      if (colorIndex.value == null) {
+      if (colorIndex == -1) {
         return false;
       }
       if (productWidth.text == '') {
@@ -58,6 +67,21 @@ class RegisterProductSheet extends HookConsumerWidget {
       }
       return true;
     }
+
+    useEffect(() {
+      isInputCompleted.value = checkInputCompleted();
+      return null;
+    }, [
+      imagePath.value,
+      productName.text,
+      categoryIndex,
+      colorIndex,
+      conditionIndex,
+      productWidth.text,
+      productDepth.text,
+      productHeight.text,
+      productDescription.text,
+    ]);
 
     final focus = useFocusNode();
     final isFocused = useState(false);
@@ -174,7 +198,9 @@ class RegisterProductSheet extends HookConsumerWidget {
                               color: const Color(0xffd9d9d9),
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child: imagePath.value == null ? const Icon(Icons.photo_camera_outlined) : Image.file(File(imagePath.value!)),
+                            child: imagePath.value == null
+                                ? const Icon(Icons.photo_camera_outlined)
+                                : Image.file(File(imagePath.value!)),
                           ),
                         ),
                       ),
@@ -228,12 +254,23 @@ class RegisterProductSheet extends HookConsumerWidget {
                         Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return SizedBox(
+                                    height: screenSize.height - 64,
+                                    child: const CategorySheet(),
+                                  );
+                                },
+                              );
+                            },
                             child: Ink(
                               padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                               child: Row(
                                 children: [
-                                  categoryIndex.value == null
+                                  categoryIndex == -1
                                       ? const Text(
                                           '選択してください',
                                           style: TextStyle(
@@ -242,7 +279,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           ),
                                         )
                                       : Text(
-                                          categorys[categoryIndex.value!],
+                                          categorys[categoryIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Color(0xff636363),
@@ -276,12 +313,23 @@ class RegisterProductSheet extends HookConsumerWidget {
                         Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return SizedBox(
+                                    height: screenSize.height - 64,
+                                    child: const ConditionSheet(),
+                                  );
+                                },
+                              );
+                            },
                             child: Ink(
                               padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                               child: Row(
                                 children: [
-                                  conditionIndex.value == null
+                                  conditionIndex == -1
                                       ? const Text(
                                           '選択してください',
                                           style: TextStyle(
@@ -290,7 +338,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           ),
                                         )
                                       : Text(
-                                          conditions[conditionIndex.value!],
+                                          conditions[conditionIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Color(0xff636363),
@@ -324,12 +372,23 @@ class RegisterProductSheet extends HookConsumerWidget {
                         Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return SizedBox(
+                                    height: screenSize.height - 64,
+                                    child: const ColorSheet(),
+                                  );
+                                },
+                              );
+                            },
                             child: Ink(
                               padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                               child: Row(
                                 children: [
-                                  conditionIndex.value == null
+                                  colorIndex == -1
                                       ? const Text(
                                           '選択してください',
                                           style: TextStyle(
@@ -338,7 +397,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           ),
                                         )
                                       : Text(
-                                          colors[colorIndex.value!],
+                                          colors[colorIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Color(0xff636363),
@@ -502,7 +561,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 child: ElevatedButton(
                   onPressed: () {
-                    if (isInputCompleted()) {
+                    if (isInputCompleted.value) {
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
@@ -522,7 +581,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
-                        color: isInputCompleted()
+                        color: isInputCompleted.value
                             ? const Color(0xff424242)
                             : const Color(0xffd9d9d9),
                       ),
@@ -538,7 +597,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                       '次へ',
                       style: TextStyle(
                         fontSize: 14,
-                        color: isInputCompleted()
+                        color: isInputCompleted.value
                             ? const Color(0xff424242)
                             : const Color(0xffd9d9d9),
                         fontWeight: FontWeight.bold,

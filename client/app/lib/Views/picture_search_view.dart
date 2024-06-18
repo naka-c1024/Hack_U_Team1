@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/constants.dart';
-import 'package:app/Views/search_view.dart';
+import 'package:app/Usecases/provider.dart';
 import 'package:app/Views/components/cateogory_cell.dart';
 
 class PictureSearchView extends HookConsumerWidget {

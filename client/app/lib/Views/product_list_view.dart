@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/Usecases/provider.dart';
 import 'package:app/Views/components/register_product_sheet.dart';
 
 class ProductListView extends HookConsumerWidget {
@@ -32,6 +33,10 @@ class ProductListView extends HookConsumerWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        // 出品用に初期化
+                        ref.read(categoryProvider.notifier).state = -1;
+                        ref.read(colorProvider.notifier).state = -1;
+                        ref.read(conditionProvider.notifier).state = -1;
                         // 出品画面へ
                         showModalBottomSheet(
                           context: context,
