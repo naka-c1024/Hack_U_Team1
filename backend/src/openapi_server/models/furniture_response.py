@@ -34,13 +34,13 @@ class FurnitureResponse(BaseModel):
     """ # noqa: E501
     furniture_id: Optional[StrictInt] = None
     image: Optional[Union[StrictBytes, StrictStr]] = None
-    area: Optional[StrictInt] = Field(default=None, description="TODO 都道府県コード, URL()")
+    area: Optional[StrictInt] = Field(default=None, description="都道府県コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)")
     username: Optional[Union[StrictBytes, StrictStr]] = None
     product_name: Optional[StrictStr] = None
     description: Optional[StrictStr] = None
     size: Optional[StrictStr] = Field(default=None, description="height width depth(スペース区切り)")
-    category: Optional[StrictInt] = Field(default=None, description="12個")
-    color: Optional[StrictInt] = Field(default=None, description="TODO 個数はあとで決める")
+    category: Optional[StrictInt] = Field(default=None, description="カテゴリコード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)")
+    color: Optional[StrictInt] = Field(default=None, description="色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)")
     condition: Optional[StrictInt] = Field(default=None, description="6段階評価")
     is_sold: Optional[StrictBool] = None
     start_date: Optional[date] = None

@@ -502,7 +502,7 @@ components:
           title: category
           type: string
         color:
-          description: TODO 個数はあとで決める
+          description: "色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: color
           type: string
         start_date:
@@ -618,7 +618,7 @@ components:
           title: image
           type: string
         area:
-          description: "TODO 都道府県コード, URL()"
+          description: "都道府県コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: area
           type: integer
         username:
@@ -637,11 +637,11 @@ components:
           title: size
           type: string
         category:
-          description: 12個
+          description: "カテゴリコード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: category
           type: integer
         color:
-          description: TODO 個数はあとで決める
+          description: "色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: color
           type: integer
         condition:

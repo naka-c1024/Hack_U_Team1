@@ -36,4 +36,3 @@ src/openapi_server/models/update_approval_request.py
 src/openapi_server/models/update_is_checked_request.py
 src/openapi_server/security_api.py
 tests/conftest.py
-tests/test_favorite_api.py
