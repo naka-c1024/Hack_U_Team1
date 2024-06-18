@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/Views/search_view.dart';
+import 'package:app/Views/product_list.dart';
 import 'package:app/Views/furniture_list_view.dart';
 
 class HomeView extends HookConsumerWidget {
@@ -16,7 +17,7 @@ class HomeView extends HookConsumerWidget {
     final viewWidgets = [
       const FurnitureListView(),
       SearchView(camera: camera),
-      Container(),
+      ProductListView(camera: camera),
       Container(),
     ];
 
