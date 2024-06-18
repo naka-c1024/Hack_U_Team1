@@ -2,6 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:app/Views/components/register_product_sheet.dart';
+
 class ProductListView extends HookConsumerWidget {
   final CameraDescription? camera;
   const ProductListView({super.key, required this.camera});
@@ -13,6 +15,7 @@ class ProductListView extends HookConsumerWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 8,
           backgroundColor: const Color(0xffffffff),
@@ -25,7 +28,19 @@ class ProductListView extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // 出品画面へ
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (BuildContext context) {
+                            return SizedBox(
+                              height: screenSize.height - 64,
+                              child: const RegisterProductSheet(),
+                            );
+                          },
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xffffffff),
                         shape: const RoundedRectangleBorder(

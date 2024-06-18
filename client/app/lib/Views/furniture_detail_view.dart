@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/constants.dart';
 import 'package:app/Domain/furniture.dart';
-import 'package:app/Views/components/trade_adjust_menu.dart';
+import 'package:app/Views/components/trade_adjust_sheet.dart';
 
 class FurnitureDetailView extends HookConsumerWidget {
   const FurnitureDetailView({super.key});
@@ -383,7 +383,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               builder: (BuildContext context) {
                                 return SizedBox(
                                   height: screenSize.height - 64,
-                                  child: TradeAdjustMenu(furniture: furniture),
+                                  child: TradeAdjustSheet(furniture: furniture),
                                 );
                               },
                             );

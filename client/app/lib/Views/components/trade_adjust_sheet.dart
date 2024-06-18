@@ -8,9 +8,9 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 import 'package:app/Domain/furniture.dart';
 
-class TradeAdjustMenu extends HookConsumerWidget {
+class TradeAdjustSheet extends HookConsumerWidget {
   final Furniture furniture;
-  const TradeAdjustMenu({super.key, required this.furniture});
+  const TradeAdjustSheet({super.key, required this.furniture});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
