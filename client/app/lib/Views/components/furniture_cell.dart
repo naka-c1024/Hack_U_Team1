@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:app/Views/furniture_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,7 +20,15 @@ class FurnitureCell extends HookConsumerWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        // 家具の詳細ページへ
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const FurnitureDetailView(),
+          ),
+        );
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.transparent,
         padding: EdgeInsets.zero,
