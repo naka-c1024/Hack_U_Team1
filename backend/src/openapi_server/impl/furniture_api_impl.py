@@ -59,9 +59,23 @@ class FurnitureApiImpl(BaseFurnitureApi):
         db: AsyncSession,
     ) -> FurnitureListResponse:
         ...
-        # user_id = furniture_list_request.user_id
-        # keyword: Optional[str] = furniture_list_request.keyword
-        # furniture_list: FurnitureListResponse = await furniture_crud.get_furniture_list(db, user_id, keyword)
+        user_id = furniture_list_request.user_id
+        keyword: Optional[str] = furniture_list_request.keyword
+        furniture_list: FurnitureListResponse = await furniture_crud.get_furniture_list(db, user_id, keyword)
+
+        if furniture_list is None:
+            raise HTTPException(status_code=404, detail="Furniture not found")
+        
+        # furniture.imageのURIから画像を取得し入れ替える
+        for furniture in furniture_list.furniture:
+            try:
+                image_bytes = await read_image_file(furniture.image)
+                image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+                furniture.image = image_base64
+            except FileNotFoundError:
+                raise HTTPException(status_code=404, detail="Image file not found")
+
+        return furniture_list
 
 
     async def furniture_post(

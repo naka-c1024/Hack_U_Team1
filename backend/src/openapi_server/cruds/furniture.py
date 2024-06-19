@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.engine import Result
+from sqlalchemy.sql import or_
 
 from typing import List, Tuple, Optional
 
@@ -59,8 +60,8 @@ async def get_furniture(db: AsyncSession, furniture_id: int, user_id: int) -> Op
     else:
         furniture = furniture[0]
     
-    # # TODO: furniture.user_idからusernameとareaを取得, これはshimadaさんの実装が必要そう
-    # user = await get_user(db, user_id)
+    # # TODO: furniture.user_idからusernameとareaを取得, これはshimadaさんの実装待ち
+    # user = await get_user(db, furniture.user_id)
     # if user is None:
     #     return None
     
@@ -85,32 +86,56 @@ async def get_furniture(db: AsyncSession, furniture_id: int, user_id: int) -> Op
         is_favorite=is_favorite,
     )
 
-async def get_furniture_list(db: AsyncSession, request: FurnitureListRequest) -> FurnitureListResponse:
-    query = select(db_model.Furniture).where(db_model.Furniture.user_id == request.user_id)
-    if request.keyword:
-        keyword = f"%{request.keyword}%"
-        query = query.where(db_model.Furniture.product_name.like(keyword) | db_model.Furniture.description.like(keyword))
-    result = await db.execute(query)
+async def get_furniture_list(db: AsyncSession, user_id: int, keyword: Optional[str]) -> FurnitureListResponse:
+    query = select(db_model.Furniture)
+
+    if keyword:
+        conditions = []
+        for word in keyword.split():
+            conditions.append(db_model.Furniture.product_name.like(f'%{word}%'))
+            conditions.append(db_model.Furniture.description.like(f'%{word}%'))
+
+        query = query.where(or_(*conditions))
+    
+    result: Result = await db.execute(query)
     furniture_list = result.scalars().all()
-    return FurnitureListResponse(
-        furniture=[FurnitureResponse(
-            furniture_id=furniture.furniture_id,
-            user_id=furniture.user_id,
-            product_name=furniture.product_name,
-            image=furniture.image,
-            description=furniture.description,
-            height=furniture.height,
-            width=furniture.width,
-            depth=furniture.depth,
-            category=furniture.category,
-            color=furniture.color,
-            start_date=furniture.start_date,
-            end_date=furniture.end_date,
-            trade_place=furniture.trade_place,
-            condition=furniture.condition,
-            is_sold=furniture.is_sold
-        ) for furniture in furniture_list]
-    )
+
+    if furniture_list is None:
+        return None
+    
+    furniture_list_res = []
+    for furniture in furniture_list:
+        
+        # # TODO: furniture.user_idからusernameとareaを取得, これはshimadaさんの実装待ち
+        # user = await get_user(db, furniture.user_id)
+        # if user is None:
+        #     return None
+        
+        # furniture.furniture_idとis_favoriteを取得
+        is_favorite = await get_is_favorite(db, furniture.furniture_id, user_id)
+        
+        furniture_list_res.append(
+            FurnitureResponse(
+                furniture_id=furniture.furniture_id,
+                image=furniture.image,  # 画像データではなくURIであることに注意
+                area=1,  # TODO: user.areaを取得
+                username="username",  # TODO: user.usernameを取得
+                product_name=furniture.product_name,
+                description=furniture.description,
+                size=f"{furniture.height} {furniture.width} {furniture.depth}",
+                category=furniture.category,
+                color=furniture.color,
+                condition=furniture.condition,
+                is_sold=furniture.is_sold,
+                start_date=furniture.start_date,
+                end_date=furniture.end_date,
+                trade_place=furniture.trade_place,
+                is_favorite=is_favorite,
+            )
+        )
+
+    return FurnitureListResponse(furniture=furniture_list_res)
+
 
 async def delete_furniture(db: AsyncSession, furniture_id: int) -> None:
     result = await db.execute(select(db_model.Furniture).where(db_model.Furniture.furniture_id == furniture_id))

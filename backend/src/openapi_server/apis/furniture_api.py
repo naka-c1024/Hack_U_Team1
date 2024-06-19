@@ -54,6 +54,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 )
 async def furniture_furniture_id_delete(
     furniture_id: int = Path(..., description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> None:
     return await impl.furniture_furniture_id_delete(furniture_id)
 
@@ -104,5 +105,6 @@ async def furniture_get(
 async def furniture_post(
     user_id: int = Query(None, description="", alias="userId"),
     register_furniture_request: RegisterFurnitureRequest = Body(None, description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> FurnitureResponse:
     ...
