@@ -28,6 +28,11 @@ from openapi_server.models.furniture_list_response import FurnitureListResponse
 from openapi_server.models.furniture_response import FurnitureResponse
 from openapi_server.models.register_furniture_request import RegisterFurnitureRequest
 
+from openapi_server.impl.furniture_api_impl import FurnitureApiImpl
+from sqlalchemy.ext.asyncio import AsyncSession
+from openapi_server.db import get_db
+
+impl = FurnitureApiImpl()
 
 router = APIRouter()
 
@@ -49,7 +54,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def furniture_furniture_id_delete(
     furniture_id: int = Path(..., description=""),
 ) -> None:
-    ...
+    return await impl.furniture_furniture_id_delete(furniture_id)
 
 
 @router.get(
@@ -64,8 +69,9 @@ async def furniture_furniture_id_delete(
 )
 async def furniture_furniture_id_get(
     furniture_id: int = Path(..., description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> FurnitureResponse:
-    ...
+    return await impl.furniture_furniture_id_get(furniture_id, db)
 
 
 @router.get(

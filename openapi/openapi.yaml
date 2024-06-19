@@ -136,6 +136,11 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FurnitureRequest'
       responses:
         '200':
           description: Furniture details retrieved successfully
@@ -460,6 +465,13 @@ components:
         trade_place:
           type: string
         condition:
+          type: integer
+    FurnitureRequest:
+      type: object
+      required:
+        - user_id
+      properties:
+        user_id:
           type: integer
     FurnitureListRequest:
       type: object
