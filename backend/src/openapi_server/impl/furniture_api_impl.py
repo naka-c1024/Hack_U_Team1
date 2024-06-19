@@ -10,9 +10,8 @@ from openapi_server.models.furniture_response import FurnitureResponse
 from openapi_server.models.register_furniture_request import RegisterFurnitureRequest
 
 import openapi_server.cruds.furniture as furniture_crud
-from openapi_server.db import get_db
 
-from fastapi import Depends, HTTPException
+from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional
 
@@ -23,12 +22,9 @@ class FurnitureApiImpl(BaseFurnitureApi):
         furniture_id: int,
         db: AsyncSession,
     ) -> None:
-        # furniture = await furniture_crud.get_furniture(db, furniture_id)
-        # if furniture is None:
-        #     raise HTTPException(status_code=404, detail="Furniture not found")
-        
-        # return await furniture_crud.delete_furniture(db, furniture_id=furniture_id)
-        ...
+        error_msg = await furniture_crud.delete_furniture(db, furniture_id)
+        if error_msg is not None:
+            raise HTTPException(status_code=400, detail=error_msg)
 
 
     async def furniture_furniture_id_get(

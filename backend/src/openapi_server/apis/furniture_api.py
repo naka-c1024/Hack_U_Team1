@@ -56,7 +56,7 @@ async def furniture_furniture_id_delete(
     furniture_id: int = Path(..., description=""),
     db: AsyncSession = Depends(get_db),
 ) -> None:
-    return await impl.furniture_furniture_id_delete(furniture_id)
+    return await impl.furniture_furniture_id_delete(furniture_id, db)
 
 
 @router.get(

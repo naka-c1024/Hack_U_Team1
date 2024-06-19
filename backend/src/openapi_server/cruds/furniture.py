@@ -137,11 +137,22 @@ async def get_furniture_list(db: AsyncSession, user_id: int, keyword: Optional[s
     return FurnitureListResponse(furniture=furniture_list_res)
 
 
-async def delete_furniture(db: AsyncSession, furniture_id: int) -> None:
-    result = await db.execute(select(db_model.Furniture).where(db_model.Furniture.furniture_id == furniture_id))
-    furniture = result.first()
+async def delete_furniture(db: AsyncSession, furniture_id: int) -> Optional[str]:
+    result: Result = await db.execute(
+        select(db_model.Furniture).where(db_model.Furniture.furniture_id == furniture_id)
+    )
+    furniture: Optional[db_model.Furniture] = result.scalar_one_or_none()
     if furniture is None:
-        return None
+        return "Furniture not found"
+    
+    # 取引履歴がある場合は削除しない
+    result: Result = await db.execute(
+        select(db_model.Trades).where(db_model.Trades.furniture_id == furniture_id)
+    )
+    if result.first():
+        return "Furniture has trade history and cannot be deleted"
+    
     await db.delete(furniture)
     await db.commit()
-    return
+
+    return None
