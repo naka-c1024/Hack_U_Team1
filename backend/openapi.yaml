@@ -421,8 +421,8 @@ components:
       type: object
     SignUpRequest:
       example:
+        area: 0
         password: password
-        address: address
         username: username
       properties:
         username:
@@ -431,11 +431,11 @@ components:
         password:
           title: password
           type: string
-        address:
-          title: address
-          type: string
+        area:
+          title: area
+          type: integer
       required:
-      - address
+      - area
       - password
       - username
       title: SignUpRequest
