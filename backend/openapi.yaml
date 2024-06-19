@@ -461,15 +461,15 @@ components:
       example:
         end_date: 2000-01-23
         image: ""
-        color: color
+        color: 2
         description: description
         trade_place: trade_place
         userId: 0
         product_name: product_name
-        condition: 5
+        condition: 7
         depth: 5.962133916683182
         width: 1.4658129805029452
-        category: category
+        category: 5
         height: 6.027456183070403
         start_date: 2000-01-23
       properties:
@@ -497,11 +497,11 @@ components:
           type: number
         category:
           title: category
-          type: string
+          type: integer
         color:
           description: "色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: color
-          type: string
+          type: integer
         start_date:
           format: date
           title: start_date

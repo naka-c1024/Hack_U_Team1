@@ -39,8 +39,8 @@ class RegisterFurnitureRequest(BaseModel):
     height: Union[StrictFloat, StrictInt]
     width: Union[StrictFloat, StrictInt]
     depth: Union[StrictFloat, StrictInt]
-    category: StrictStr
-    color: StrictStr = Field(description="色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)")
+    category: StrictInt
+    color: StrictInt = Field(description="色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)")
     start_date: date
     end_date: date
     trade_place: StrictStr
