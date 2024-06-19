@@ -27,6 +27,12 @@ from openapi_server.models.login_request import LoginRequest
 from openapi_server.models.login_response import LoginResponse
 from openapi_server.models.sign_up_request import SignUpRequest
 
+from openapi_server.impl.user_api_impl import UserApiImpl
+
+from openapi_server.db import get_db
+from sqlalchemy.ext.asyncio import AsyncSession
+
+impl = UserApiImpl()
 
 router = APIRouter()
 
@@ -46,9 +52,9 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     response_model_by_alias=True,
 )
 async def login_post(
-    login_request: LoginRequest = Body(None, description=""),
+    login_request: LoginRequest = Body(None, description=""), db: AsyncSession = Depends(get_db)
 ) -> LoginResponse:
-    ...
+    return await impl.login_post(login_request, db)
 
 
 @router.post(
@@ -62,7 +68,7 @@ async def login_post(
 )
 async def logout_post(
 ) -> None:
-    ...
+    return impl.logout_post()
 
 
 @router.post(
@@ -76,6 +82,6 @@ async def logout_post(
     response_model_by_alias=True,
 )
 async def sign_up_post(
-    sign_up_request: SignUpRequest = Body(None, description=""),
+    sign_up_request: SignUpRequest = Body(None, description=""), db: AsyncSession = Depends(get_db)
 ) -> None:
-    ...
+    return await impl.sign_up_post(sign_up_request, db)

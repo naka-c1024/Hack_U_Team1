@@ -106,6 +106,7 @@ class FurnitureListView extends HookConsumerWidget {
       appBar: AppBar(
         elevation: 8,
         backgroundColor: const Color(0xffffffff),
+        automaticallyImplyLeading: false,
         title: Container(
           height: 56,
           padding: const EdgeInsets.only(top: 4, bottom: 8),

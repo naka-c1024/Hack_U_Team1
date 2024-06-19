@@ -396,14 +396,14 @@ components:
       required:
         - username
         - password
-        - address
+        - area
       properties:
         username:
           type: string
         password:
           type: string
-        address:
-          type: string
+        area:
+          type: integer
     LoginRequest:
       type: object
       required:
