@@ -19,6 +19,7 @@ class SearchView extends HookConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           elevation: 8,
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffffffff),
           title: const TabBar(
             tabs: [

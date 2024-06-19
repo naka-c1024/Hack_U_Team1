@@ -24,6 +24,7 @@ class RegisterProductView extends HookConsumerWidget {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 8,
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffffffff),
           title: Column(
             children: [

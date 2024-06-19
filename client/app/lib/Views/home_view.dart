@@ -4,8 +4,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/Views/search_view.dart';
-import 'package:app/Views/register_product_view.dart';
+import 'package:app/Views/my_page_view.dart';
 import 'package:app/Views/furniture_list_view.dart';
+import 'package:app/Views/register_product_view.dart';
 
 class HomeView extends HookConsumerWidget {
   final CameraDescription? camera;
@@ -33,7 +34,7 @@ class HomeView extends HookConsumerWidget {
       const FurnitureListView(),
       SearchView(cameraController: cameraController),
       RegisterProductView(cameraController: cameraController),
-      Container(),
+      MyPageView(camera: camera),
     ];
 
     return Scaffold(
