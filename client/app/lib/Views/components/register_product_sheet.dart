@@ -10,6 +10,7 @@ import 'package:app/Usecases/provider.dart';
 import 'package:app/Views/components/color_sheet.dart';
 import 'package:app/Views/components/category_sheet.dart';
 import 'package:app/Views/components/condition_sheet.dart';
+import 'package:app/Views/components/register_trade_sheet.dart';
 import 'package:app/Views/components/register_picture_sheet.dart';
 
 class RegisterProductSheet extends HookConsumerWidget {
@@ -561,18 +562,18 @@ class RegisterProductSheet extends HookConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 child: ElevatedButton(
                   onPressed: () {
-                    if (isInputCompleted.value) {
+                    // if (isInputCompleted.value) {
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
                           return SizedBox(
                             height: screenSize.height - 64,
-                            //child: const TradeSuccessSheet(),
+                            child: const RegisterTradeSheet(),
                           );
                         },
                       );
-                    }
+                    // }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffffffff),
