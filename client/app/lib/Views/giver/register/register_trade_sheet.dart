@@ -149,31 +149,23 @@ class RegisterTradeSheet extends HookConsumerWidget {
                             fontSize: 14,
                           ),
                         ),
-                        Container(
-                          height: 32,
-                          padding:
-                              const EdgeInsets.only(left: 8, top: 4, right: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: const Color(0xffd9d9d9)),
-                          ),
-                          child: Text(
-                            tradeStartDate.value == null
-                                ? '未指定'
-                                : DateFormat('yyyy年M月d日（E）', 'ja')
-                                    .format(tradeStartDate.value!),
-                            style: const TextStyle(
-                              color: Color(0xff636363),
-                              fontSize: 14,
-                            ),
+                        const Spacer(),
+                        Text(
+                          tradeStartDate.value == null
+                              ? '未指定'
+                              : DateFormat('yyyy年M月d日（E）', 'ja')
+                                  .format(tradeStartDate.value!),
+                          style: const TextStyle(
+                            color: Color(0xff636363),
+                            fontSize: 14,
                           ),
                         ),
+                        const SizedBox(width: 16),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                     // 終了日指定
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
                           '終了',
@@ -182,32 +174,25 @@ class RegisterTradeSheet extends HookConsumerWidget {
                             fontSize: 14,
                           ),
                         ),
+                        const Spacer(),
                         // 日付選択ボタン
-                        Container(
-                          height: 32,
-                          padding:
-                              const EdgeInsets.only(left: 8, top: 4, right: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: const Color(0xffd9d9d9)),
-                          ),
-                          child: Text(
-                            tradeEndDate.value == null
-                                ? '未指定'
-                                : DateFormat('yyyy年M月d日（E）', 'ja')
-                                    .format(tradeEndDate.value!),
-                            style: const TextStyle(
-                              color: Color(0xff636363),
-                              fontSize: 14,
-                            ),
+                        Text(
+                          tradeEndDate.value == null
+                              ? '未指定'
+                              : DateFormat('yyyy年M月d日（E）', 'ja')
+                                  .format(tradeEndDate.value!),
+                          style: const TextStyle(
+                            color: Color(0xff636363),
+                            fontSize: 14,
                           ),
                         ),
+                        const SizedBox(width: 16),
                       ],
                     ),
                     const SizedBox(height: 16),
                     //　日付選択画面
                     Container(
-                      height: 288,
+                      height: 296,
                       padding: const EdgeInsets.only(bottom: 8),
                       decoration: BoxDecoration(
                         border: Border.all(color: const Color(0xffd9d9d9)),
