@@ -1,6 +1,8 @@
 // 定数をまとめたファイル
 // インデックスは全て0スタート
 
+import 'dart:ui';
+
 // 都道府県コード
 final prefectures = [
   '北海道',
@@ -82,6 +84,21 @@ final colors = [
   'イエロー系',
   'グリーン系',
   'ブルー系',
+];
+
+final colorCodes = [
+  const Color(0xffffffff),
+  const Color(0xff000000),
+  const Color(0xff898989),
+  const Color(0xffbb4efe),
+  const Color(0xffa57166),
+  const Color(0xfff4d9ba),
+  const Color(0xfffe4e52),
+  const Color(0xffffadaf),
+  const Color(0xfffe984e),
+  const Color(0xfffee24e),
+  const Color(0xff72e176),
+  const Color(0xff5f8ee9),
 ];
 
 // 商品の状態

@@ -1,4 +1,3 @@
-import 'package:app/Views/components/trade_success_sheet.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_picker/wheel_picker.dart';
@@ -7,10 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 import 'package:app/Domain/furniture.dart';
+import 'package:app/Views/components/trade_order_sheet.dart';
 
-class TradeAdjustMenu extends HookConsumerWidget {
+class TradeAdjustSheet extends HookConsumerWidget {
   final Furniture furniture;
-  const TradeAdjustMenu({super.key, required this.furniture});
+  const TradeAdjustSheet({super.key, required this.furniture});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -367,7 +367,7 @@ class TradeAdjustMenu extends HookConsumerWidget {
                     builder: (BuildContext context) {
                       return SizedBox(
                         height: screenSize.height - 64,
-                        child: const TradeSuccessSheet(),
+                        child: const TradeOrderSheet(),
                       );
                     },
                   );

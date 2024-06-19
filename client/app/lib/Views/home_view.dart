@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:app/Views/search_view.dart';
 import 'package:app/Views/my_page_view.dart';
 import 'package:app/Views/furniture_list_view.dart';
+import 'package:app/Views/register_product_view.dart';
 
 class HomeView extends HookConsumerWidget {
   final CameraDescription? camera;
@@ -14,10 +15,25 @@ class HomeView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedView = useState(0);
+    final ValueNotifier<CameraController?> cameraController = useState(null);
+
+    // カメラ関連の初期化処理
+    useEffect(() {
+      if (camera == null) {
+        return null;
+      }
+      cameraController.value = CameraController(
+        camera!,
+        ResolutionPreset.max,
+        enableAudio: false,
+      );
+      return null;
+    }, [camera]);
+
     final viewWidgets = [
       const FurnitureListView(),
-      SearchView(camera: camera),
-      Container(),
+      SearchView(cameraController: cameraController),
+      RegisterProductView(cameraController: cameraController),
       MyPageView(camera: camera),
     ];
 

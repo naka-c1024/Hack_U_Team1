@@ -5,12 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:app/Views/picture_search_view.dart';
 import 'package:app/Views/keyword_search_view.dart';
 
-// 選択したカテゴリをインデックスで保持
-final categoryProvider = StateProvider((ref) => -1);
-
 class SearchView extends HookConsumerWidget {
-  final CameraDescription? camera;
-  const SearchView({super.key,required this.camera});
+  final ValueNotifier<CameraController?> cameraController;
+  const SearchView({
+    required this.cameraController,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,6 +19,7 @@ class SearchView extends HookConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           elevation: 8,
+          automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffffffff),
           title: const TabBar(
             tabs: [
@@ -45,7 +46,7 @@ class SearchView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            PictureSearchView(camera: camera),
+            PictureSearchView(cameraController: cameraController),
             const KeywordSearchView(),
           ],
         ),
