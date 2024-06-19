@@ -2,9 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Domain/furniture.dart';
-import 'package:app/Views/furniture_detail_view.dart';
-import 'package:app/Views/components/saled_painter.dart';
+import '../../Domain/furniture.dart';
+import 'furniture_detail_view.dart';
+import 'saled_painter.dart';
 
 class FurnitureCell extends HookConsumerWidget {
   final String prefecture;

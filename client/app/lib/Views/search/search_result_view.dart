@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/constants.dart';
-import 'package:app/Views/components/furniture_cell.dart';
+import '../../Domain/constants.dart';
+import '../common/furniture_cell.dart';
 
 class SearchResultView extends HookConsumerWidget {
   final String searchKeyword;

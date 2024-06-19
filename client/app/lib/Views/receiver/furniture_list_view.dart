@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/constants.dart';
-import 'package:app/Views/todo_list_view.dart';
-import 'package:app/Views/favorite_list_view.dart';
-import 'package:app/Views/components/furniture_cell.dart';
+import '../../Domain/constants.dart';
+import '../common/furniture_cell.dart';
+import 'favorite_list_view.dart';
+import 'todo_list_view.dart';
 
 class FurnitureListView extends HookConsumerWidget {
   const FurnitureListView({super.key});

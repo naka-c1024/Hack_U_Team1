@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/constants.dart';
-import 'package:app/Domain/furniture.dart';
-import 'package:app/Views/components/trade_adjust_sheet.dart';
+import '../../Domain/constants.dart';
+import '../../Domain/furniture.dart';
+import 'trade_adjust_sheet.dart';
 
 class FurnitureDetailView extends HookConsumerWidget {
   final Furniture furniture;

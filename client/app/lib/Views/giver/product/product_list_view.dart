@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Domain/furniture.dart';
-import 'package:app/Views/components/product_cell.dart';
+import '../../../Domain/furniture.dart';
+import 'product_cell.dart';
 
 class ProductListView extends HookConsumerWidget {
   final bool isCompleted;

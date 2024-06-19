@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Domain/trade.dart';
-import 'package:app/Views/components/trade_approve_sheet.dart';
+import '../../../Domain/trade.dart';
+import '../../common/trade_approve_sheet.dart';
 
 class TradeDetailView extends HookConsumerWidget {
   final Trade trade;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Domain/trade.dart';
-import 'package:app/Views/components/trade_cell.dart';
+import '../../../Domain/trade.dart';
+import 'trade_cell.dart';
 
 class TradeListView extends HookConsumerWidget {
   const TradeListView({super.key});

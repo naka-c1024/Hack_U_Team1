@@ -5,8 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
-import 'package:app/Domain/furniture.dart';
-import 'package:app/Views/components/trade_order_sheet.dart';
+import '../../Domain/furniture.dart';
+import 'trade_order_sheet.dart';
 
 class TradeAdjustSheet extends HookConsumerWidget {
   final Furniture furniture;

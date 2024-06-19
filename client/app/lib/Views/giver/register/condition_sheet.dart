@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Views/components/condition_cell.dart';
+import '../../common/condition_cell.dart';
 
 class ConditionSheet extends HookConsumerWidget {
   const ConditionSheet({

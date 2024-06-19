@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class userMenuCell extends HookConsumerWidget {
+class UserMenuCell extends HookConsumerWidget {
   final IconData menuIcon;
   final String menuText;
-  const userMenuCell({
+  const UserMenuCell({
     required this.menuIcon,
     required this.menuText,
     super.key,

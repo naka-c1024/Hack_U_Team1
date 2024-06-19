@@ -2,22 +2,23 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:app/Views/home_view.dart';
+import '../../Domain/constants.dart';
+import 'login_view.dart';
 
-class LoginView extends HookConsumerWidget {
+class SignUpView extends HookConsumerWidget {
   final CameraDescription? camera;
-  const LoginView({super.key, required this.camera});
+  const SignUpView({super.key, required this.camera});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userNameController = useTextEditingController(text: '');
     final passwordController = useTextEditingController(text: '');
-
+    final selectedPrefecture = useState<int>(12); // デフォルトは東京
+    
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
+      appBar: AppBar(),
       body: Container(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -39,26 +40,47 @@ class LoginView extends HookConsumerWidget {
                 passwordController.text = value;
               },
             ),
+            const SizedBox(height: 24),
+            const Text('お住まいの都道府県'),
+            DropdownButton(
+              isExpanded: true,
+              menuMaxHeight: 240,
+              value: prefectures[selectedPrefecture.value],
+              items: prefectures.map((String item) {
+                return DropdownMenuItem(
+                  value: item,
+                  child: Text(item),
+                );
+              }).toList(),
+              onChanged: (String? value) {
+                selectedPrefecture.value = prefectures.indexOf(value!);
+              },
+            ),
             const SizedBox(height: 40),
             ElevatedButton(
               child: Container(
                 height: 40,
-                width: 120,
+                width: 80,
                 alignment: Alignment.center,
                 child: const Text(
-                  'ログイン',
+                  '登録',
                   style: TextStyle(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
               ),
-              onPressed: () {
-                // ホーム画面へ
+              onPressed: () async {
+                if (userNameController.text=='') return;
+                // ログイン画面へ
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomeView(camera: camera),
+                    builder: (context) => LoginView(camera: camera),
                   ),
                 );
+                // ユーザーネームとアドレスをデバイスに保存
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString('userName',userNameController.text);
+                await prefs.setInt('address',selectedPrefecture.value);
               },
             ),
           ],

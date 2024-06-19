@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Views/picture_search_view.dart';
-import 'package:app/Views/keyword_search_view.dart';
+import 'picture_search_view.dart';
+import 'keyword_search_view.dart';
 
 class SearchView extends HookConsumerWidget {
   final ValueNotifier<CameraController?> cameraController;

@@ -2,10 +2,10 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Usecases/provider.dart';
-import 'package:app/Views/trade_list_view.dart';
-import 'package:app/Views/product_list_view.dart';
-import 'package:app/Views/components/register_product_sheet.dart';
+import '../../../Usecases/provider.dart';
+import '../trade/trade_list_view.dart';
+import '../product/product_list_view.dart';
+import 'register_product_sheet.dart';
 
 class RegisterProductView extends HookConsumerWidget {
   final ValueNotifier<CameraController?> cameraController;

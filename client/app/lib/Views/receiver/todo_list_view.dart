@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Views/components/todo_cell.dart';
+import '../common/todo_cell.dart';
 
 class TodoListView extends HookConsumerWidget {
   const TodoListView({super.key});

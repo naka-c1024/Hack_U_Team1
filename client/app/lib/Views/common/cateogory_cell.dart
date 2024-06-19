@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/constants.dart';
-import 'package:app/Usecases/provider.dart';
+import '../../Domain/constants.dart';
+import '../../Usecases/provider.dart';
 
 class CategoryCell extends HookConsumerWidget {
   final int categoryIndex;

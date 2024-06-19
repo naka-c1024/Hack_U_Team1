@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Views/login_view.dart';
-import 'package:app/Views/components/user_menu_cell.dart';
+import 'login_view.dart';
+import 'user_menu_cell.dart';
 
 class MyPageView extends HookConsumerWidget {
   final CameraDescription? camera;
@@ -44,15 +44,15 @@ class MyPageView extends HookConsumerWidget {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                userMenuCell(
+                UserMenuCell(
                   menuIcon: Icons.favorite_outline,
                   menuText: 'いいね！一覧',
                 ),
-                userMenuCell(
+                UserMenuCell(
                   menuIcon: Icons.history,
                   menuText: '閲覧履歴',
                 ),
-                userMenuCell(
+                UserMenuCell(
                   menuIcon: Icons.search,
                   menuText: '保存した検索条件',
                 ),
@@ -62,15 +62,15 @@ class MyPageView extends HookConsumerWidget {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                userMenuCell(
+                UserMenuCell(
                   menuIcon: Icons.shopping_bag_outlined,
                   menuText: '購入した商品',
                 ),
-                userMenuCell(
+                UserMenuCell(
                   menuIcon: Icons.storefront_outlined,
                   menuText: '出品した商品',
                 ),
-                userMenuCell(
+                UserMenuCell(
                   menuIcon: Icons.location_on_outlined,
                   menuText: '住まいエリア',
                 ),

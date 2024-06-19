@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Views/search_view.dart';
-import 'package:app/Views/my_page_view.dart';
-import 'package:app/Views/furniture_list_view.dart';
-import 'package:app/Views/register_product_view.dart';
+import 'search/search_view.dart';
+import 'user/my_page_view.dart';
+import 'receiver/furniture_list_view.dart';
+import 'giver/register/register_product_view.dart';
 
 class HomeView extends HookConsumerWidget {
   final CameraDescription? camera;

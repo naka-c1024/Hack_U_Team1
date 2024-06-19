@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:app/Domain/furniture.dart';
-import 'package:app/Views/furniture_detail_view.dart';
+import '../../../Domain/furniture.dart';
+import '../../common/furniture_detail_view.dart';
 
 class ProductCell extends HookConsumerWidget {
   final Furniture furniture;
