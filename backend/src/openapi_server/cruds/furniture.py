@@ -49,7 +49,7 @@ async def create_furniture(db: AsyncSession, furniture_data: RegisterFurnitureRe
         is_sold=new_furniture.is_sold
     )
 
-async def get_furniture(db: AsyncSession, furniture_id: int) -> Optional[FurnitureResponse]:
+async def get_furniture(db: AsyncSession, furniture_id: int, user_id: int) -> Optional[FurnitureResponse]:
     result: Result = await db.execute(
         select(db_model.Furniture).where(db_model.Furniture.furniture_id == furniture_id)
     )
@@ -60,12 +60,12 @@ async def get_furniture(db: AsyncSession, furniture_id: int) -> Optional[Furnitu
         furniture = furniture[0]
     
     # # TODO: furniture.user_idからusernameとareaを取得, これはshimadaさんの実装が必要そう
-    # user = await get_user(db, furniture.user_id)
+    # user = await get_user(db, user_id)
     # if user is None:
     #     return None
     
     # furniture.furniture_idとis_favoriteを取得
-    is_favorite = await get_is_favorite(db, furniture_id, furniture.user_id)
+    is_favorite = await get_is_favorite(db, furniture_id, user_id)
     
     return FurnitureResponse(
         furniture_id=furniture.furniture_id,

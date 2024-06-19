@@ -14,14 +14,14 @@ from openapi_server.db import get_db
 
 from fastapi import Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Optional
 
 
-# class FurnitureApiImpl(BaseFurnitureApi):
-class FurnitureApiImpl():
+class FurnitureApiImpl(BaseFurnitureApi):
     async def furniture_furniture_id_delete(
         self,
         furniture_id: int,
-        db: AsyncSession = Depends(get_db),
+        db: AsyncSession,
     ) -> None:
         # furniture = await furniture_crud.get_furniture(db, furniture_id)
         # if furniture is None:
@@ -34,10 +34,11 @@ class FurnitureApiImpl():
     async def furniture_furniture_id_get(
         self,
         furniture_id: int,
+        user_id: int,
         db: AsyncSession,
     ) -> FurnitureResponse:
         
-        furniture: FurnitureResponse = await furniture_crud.get_furniture(db, furniture_id)
+        furniture: FurnitureResponse = await furniture_crud.get_furniture(db, furniture_id, user_id)
         if furniture is None:
             raise HTTPException(status_code=404, detail="Furniture not found")
         
@@ -55,16 +56,19 @@ class FurnitureApiImpl():
     async def furniture_get(
         self,
         furniture_list_request: FurnitureListRequest,
-        db: AsyncSession = Depends(get_db),
+        db: AsyncSession,
     ) -> FurnitureListResponse:
         ...
+        # user_id = furniture_list_request.user_id
+        # keyword: Optional[str] = furniture_list_request.keyword
+        # furniture_list: FurnitureListResponse = await furniture_crud.get_furniture_list(db, user_id, keyword)
 
 
     async def furniture_post(
         self,
         user_id: int,
         register_furniture_request: RegisterFurnitureRequest,
-        db: AsyncSession = Depends(get_db),
+        db: AsyncSession,
     ) -> FurnitureResponse:
         ...
 

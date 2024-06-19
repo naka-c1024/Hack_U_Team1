@@ -157,6 +157,11 @@ paths:
         schema:
           type: integer
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FurnitureRequest'
       responses:
         "200":
           content:
@@ -534,6 +539,17 @@ components:
       - userId
       - width
       title: RegisterFurnitureRequest
+      type: object
+    FurnitureRequest:
+      example:
+        user_id: 0
+      properties:
+        user_id:
+          title: user_id
+          type: integer
+      required:
+      - user_id
+      title: FurnitureRequest
       type: object
     FurnitureListRequest:
       example:

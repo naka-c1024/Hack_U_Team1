@@ -25,6 +25,7 @@ from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_list_response import FurnitureListResponse
+from openapi_server.models.furniture_request import FurnitureRequest
 from openapi_server.models.furniture_response import FurnitureResponse
 from openapi_server.models.register_furniture_request import RegisterFurnitureRequest
 
@@ -69,9 +70,10 @@ async def furniture_furniture_id_delete(
 )
 async def furniture_furniture_id_get(
     furniture_id: int = Path(..., description=""),
+    furniture_request: FurnitureRequest = Body(None, description=""),
     db: AsyncSession = Depends(get_db),
 ) -> FurnitureResponse:
-    return await impl.furniture_furniture_id_get(furniture_id, db)
+    return await impl.furniture_furniture_id_get(furniture_id, furniture_request.user_id, db)
 
 
 @router.get(
@@ -85,8 +87,9 @@ async def furniture_furniture_id_get(
 )
 async def furniture_get(
     furniture_list_request: FurnitureListRequest = Body(None, description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> FurnitureListResponse:
-    ...
+    return await impl.furniture_get(furniture_list_request, db)
 
 
 @router.post(
