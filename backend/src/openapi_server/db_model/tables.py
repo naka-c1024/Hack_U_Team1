@@ -35,7 +35,7 @@ class Furniture(Base):
     
     user = relationship("Users", back_populates="furniture")
     trades = relationship("Trades", back_populates="furniture")
-    favorites = relationship("Favorites", back_populates="furniture")
+    favorites = relationship("Favorites", back_populates="furniture", cascade="all, delete-orphan")
     
     __table_args__ = (
         CheckConstraint('height >= 0', name='check_height_positive'),

@@ -27,7 +27,7 @@
     - `giver_approval` (BOOLEAN, NOT NULL, DEFAULT 0) # giverが承認したかどうか
     - `receiver_approval` (BOOLEAN, NOT NULL, DEFAULT 0) # receiverが承認したかどうか
     - `trade_date` (DATE)
-- **Favorites**:
+- **Favorites**: Furniture:cascade="all, delete-orphan"
     - `favorite_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
     - `user_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
     - `furniture_id` (INT, FOREIGN KEY REFERENCES Furniture(furniture_id), NOT NULL)

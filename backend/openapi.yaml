@@ -102,14 +102,6 @@ paths:
       tags:
       - Furniture
     post:
-      parameters:
-      - explode: true
-        in: query
-        name: userId
-        required: true
-        schema:
-          type: integer
-        style: form
       requestBody:
         content:
           application/json:
@@ -157,6 +149,11 @@ paths:
         schema:
           type: integer
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FurnitureRequest'
       responses:
         "200":
           content:
@@ -416,8 +413,8 @@ components:
       type: object
     SignUpRequest:
       example:
+        area: 0
         password: password
-        address: address
         username: username
       properties:
         username:
@@ -426,11 +423,11 @@ components:
         password:
           title: password
           type: string
-        address:
-          title: address
-          type: string
+        area:
+          title: area
+          type: integer
       required:
-      - address
+      - area
       - password
       - username
       title: SignUpRequest
@@ -464,15 +461,15 @@ components:
       example:
         end_date: 2000-01-23
         image: ""
-        color: color
+        color: 2
         description: description
         trade_place: trade_place
         userId: 0
         product_name: product_name
-        condition: 5
+        condition: 7
         depth: 5.962133916683182
         width: 1.4658129805029452
-        category: category
+        category: 5
         height: 6.027456183070403
         start_date: 2000-01-23
       properties:
@@ -500,11 +497,11 @@ components:
           type: number
         category:
           title: category
-          type: string
+          type: integer
         color:
-          description: TODO 個数はあとで決める
+          description: "色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: color
-          type: string
+          type: integer
         start_date:
           format: date
           title: start_date
@@ -534,6 +531,17 @@ components:
       - userId
       - width
       title: RegisterFurnitureRequest
+      type: object
+    FurnitureRequest:
+      example:
+        user_id: 0
+      properties:
+        user_id:
+          title: user_id
+          type: integer
+      required:
+      - user_id
+      title: FurnitureRequest
       type: object
     FurnitureListRequest:
       example:
@@ -618,7 +626,7 @@ components:
           title: image
           type: string
         area:
-          description: "TODO 都道府県コード, URL()"
+          description: "都道府県コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: area
           type: integer
         username:
@@ -637,11 +645,11 @@ components:
           title: size
           type: string
         category:
-          description: 12個
+          description: "カテゴリコード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: category
           type: integer
         color:
-          description: TODO 個数はあとで決める
+          description: "色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           title: color
           type: integer
         condition:
