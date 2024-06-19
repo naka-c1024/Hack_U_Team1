@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TradeApproveSheet extends HookConsumerWidget {
-  const TradeApproveSheet({super.key});
+  final bool isCompleted;
+  const TradeApproveSheet({
+    required this.isCompleted,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 64),
         // なんかイラスト
@@ -17,14 +22,27 @@ class TradeApproveSheet extends HookConsumerWidget {
           color: const Color(0xffe1e1e1),
         ),
         const SizedBox(height: 24),
-        const Text(
-          '取引成立！',
-          style: TextStyle(
+        Text(
+          isCompleted ? 'おつかれさまでした！' : '取引成立！',
+          style: const TextStyle(
             fontSize: 20,
             color: Color(0xffffffff),
             fontWeight: FontWeight.bold,
           ),
         ),
+        isCompleted
+            ? const Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: Text(
+                  '相手も取引を完了すれば\nこの商品は譲渡済みに移行します。',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xffffffff),
+                  ),
+                ),
+              )
+            : const SizedBox(),
         const SizedBox(height: 24),
         Container(
           padding: const EdgeInsets.all(16),

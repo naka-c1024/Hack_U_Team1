@@ -55,7 +55,21 @@ class TradeDetailView extends HookConsumerWidget {
                 // 完了ボタン
                 ? ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pop(1);
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: screenSize.height,
+                            width: screenSize.width,
+                            color: const Color(0x4b000000),
+                            child: const TradeApproveSheet(
+                              isCompleted: true,
+                            ),
+                          );
+                        },
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff424242),
@@ -98,7 +112,9 @@ class TradeDetailView extends HookConsumerWidget {
                                 height: screenSize.height,
                                 width: screenSize.width,
                                 color: const Color(0x4b000000),
-                                child: const TradeApproveSheet(),
+                                child: const TradeApproveSheet(
+                                  isCompleted: false,
+                                ),
                               );
                             },
                           );
