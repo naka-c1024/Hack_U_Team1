@@ -39,3 +39,4 @@ sqlalchemy
 aiomysql
 pymysql
 greenlet
+passlib
