@@ -14,21 +14,31 @@ def insert_dummy_data(session: Session):
 
     # imageにはファイルパスを指定し、画像ファイルをダウンロードして保存する
     save_dir = "/app/src/openapi_server/file_storage"
-    image1, image2 = 'chair.png', 'table.png'
+    image1, image2, image3 = 'chair.png', 'table.png', 'sofa.png'
     download_image(
         url="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYanGaudOmCByjXQn4ZZ79lj-BKh3Qu_gaL6XC3aEUYDLFeqPPZwAX9beOtA-0y6jS0tCApILOTZ1YQMgcjfc4tCdmXf2rGIuoyHYlpoRzCxjswafsDlhQsBoDwZN8O36peV1HQLptiO7X/s400/chair_wood.png",
         save_dir=save_dir,
-        filename=image1)
+        filename=image1
+    )
     download_image(url="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjR2Cb3cxpyyGAEPBeeL_chhKY7pDepiHaDY-n0atEjz9-jrVkwayO1HggwWpuZHE61n8-oEgYdvreB16rsYDkS07e6hSFwfpxl2Yc05SmlPsrqy5ft6hGO5aZZCRZ3d43mjnMBL2m8dzU1/s400/chuuka_turntable.png",
         save_dir=save_dir,
-        filename=image2)
+        filename=image2
+    )
+    download_image(
+        url="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhM3YxI5TaHc9lGg0WY6QlTLi2BlCaBBH5SS08dGeCzZ0FzoVzqjFDmOW-8rbTCLIJiUW9DbvM9SUcLheKu7YIYeNDghYYExOvxdNG2lO3xg2u6bLifjz6EQ_Fz-rNLhcSThImBTwzxkYB-/s500/kagu_sofa.png",
+        save_dir=save_dir,
+        filename=image3
+    )
     furniture1 = Furniture(user_id=user1.user_id, product_name='木の椅子', image=os.path.join(save_dir, image1), 
-                           description='学校で使うような、木でできた椅子(https://www.irasutoya.com/2013/06/blog-post_6467.html)',
-                           height=1.0, width=0.5, depth=0.5, category=1, color=1, condition=1, trade_place='東京都千代田区千代田１−１')
+                            description='学校で使うような、木でできた椅子(https://www.irasutoya.com/2013/06/blog-post_6467.html)',
+                            height=1.0, width=0.5, depth=0.5, category=1, color=1, condition=1, trade_place='東京都千代田区千代田１−１')
     furniture2 = Furniture(user_id=user2.user_id, product_name='中華料理のターンテーブル', image=os.path.join(save_dir, image2), 
-                           description='中華料理を食べるときに使われる回転する円卓(https://www.irasutoya.com/2017/07/blog-post_465.html)',
-                           height=0.75, width=1.5, depth=0.75, category=2, color=2, condition=2, trade_place='東京都千代田区 霞が関2丁目1番2号')
-    session.add_all([furniture1, furniture2])
+                            description='中華料理を食べるときに使われる回転する円卓(https://www.irasutoya.com/2017/07/blog-post_465.html)',
+                            height=0.75, width=1.5, depth=0.75, category=2, color=2, condition=2, trade_place='東京都千代田区 霞が関2丁目1番2号')
+    furniture3 = Furniture(user_id=user3.user_id, product_name='ソファ', image=os.path.join(save_dir, image3), 
+                            description='かわいいクリーム色のソファ(https://www.irasutoya.com/2013/01/blog-post_6531.html)',
+                            height=1.0, width=1.0, depth=1.0, category=1, color=1, condition=1, trade_place='東京都千代田区千代田１−１')
+    session.add_all([furniture1, furniture2, furniture3])
     session.flush()  # furniture_idを取得するためにflushする
 
     trade1 = Trades(furniture_id=furniture1.furniture_id, receiver_id=user2.user_id)

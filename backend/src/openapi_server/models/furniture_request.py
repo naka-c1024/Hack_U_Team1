@@ -20,32 +20,19 @@ import json
 
 
 
-from datetime import date
-from pydantic import BaseModel, ConfigDict, Field, StrictBytes, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Union
+from pydantic import BaseModel, ConfigDict, StrictInt
+from typing import Any, ClassVar, Dict, List
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-class RegisterFurnitureRequest(BaseModel):
+class FurnitureRequest(BaseModel):
     """
-    RegisterFurnitureRequest
+    FurnitureRequest
     """ # noqa: E501
-    user_id: StrictInt = Field(alias="userId")
-    product_name: StrictStr
-    image: Union[StrictBytes, StrictStr]
-    description: StrictStr
-    height: Union[StrictFloat, StrictInt]
-    width: Union[StrictFloat, StrictInt]
-    depth: Union[StrictFloat, StrictInt]
-    category: StrictInt
-    color: StrictInt = Field(description="色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)")
-    start_date: date
-    end_date: date
-    trade_place: StrictStr
-    condition: StrictInt
-    __properties: ClassVar[List[str]] = ["userId", "product_name", "image", "description", "height", "width", "depth", "category", "color", "start_date", "end_date", "trade_place", "condition"]
+    user_id: StrictInt
+    __properties: ClassVar[List[str]] = ["user_id"]
 
     model_config = {
         "populate_by_name": True,
@@ -65,7 +52,7 @@ class RegisterFurnitureRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of RegisterFurnitureRequest from a JSON string"""
+        """Create an instance of FurnitureRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -88,7 +75,7 @@ class RegisterFurnitureRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Dict) -> Self:
-        """Create an instance of RegisterFurnitureRequest from a dict"""
+        """Create an instance of FurnitureRequest from a dict"""
         if obj is None:
             return None
 
@@ -96,19 +83,7 @@ class RegisterFurnitureRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "userId": obj.get("userId"),
-            "product_name": obj.get("product_name"),
-            "image": obj.get("image"),
-            "description": obj.get("description"),
-            "height": obj.get("height"),
-            "width": obj.get("width"),
-            "depth": obj.get("depth"),
-            "category": obj.get("category"),
-            "color": obj.get("color"),
-            "start_date": obj.get("start_date"),
-            "end_date": obj.get("end_date"),
-            "trade_place": obj.get("trade_place"),
-            "condition": obj.get("condition")
+            "user_id": obj.get("user_id")
         })
         return _obj
 

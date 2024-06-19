@@ -90,12 +90,6 @@ paths:
       tags:
         - Furniture
       summary: Register new furniture
-      parameters:
-        - name: userId
-          in: query
-          required: true
-          schema:
-            type: integer
       requestBody:
         required: true
         content:
@@ -136,6 +130,11 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FurnitureRequest'
       responses:
         '200':
           description: Furniture details retrieved successfully
@@ -447,9 +446,9 @@ components:
         depth:
           type: number
         category:
-          type: string
+          type: integer
         color:
-          type: string
+          type: integer
           description: 色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)
         start_date:
           type: string
@@ -460,6 +459,13 @@ components:
         trade_place:
           type: string
         condition:
+          type: integer
+    FurnitureRequest:
+      type: object
+      required:
+        - user_id
+      properties:
+        user_id:
           type: integer
     FurnitureListRequest:
       type: object

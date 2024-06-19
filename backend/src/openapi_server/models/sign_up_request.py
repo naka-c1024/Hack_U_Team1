@@ -20,7 +20,7 @@ import json
 
 
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List
 try:
     from typing import Self
@@ -33,8 +33,8 @@ class SignUpRequest(BaseModel):
     """ # noqa: E501
     username: StrictStr
     password: StrictStr
-    address: StrictStr
-    __properties: ClassVar[List[str]] = ["username", "password", "address"]
+    area: StrictInt
+    __properties: ClassVar[List[str]] = ["username", "password", "area"]
 
     model_config = {
         "populate_by_name": True,
@@ -87,7 +87,7 @@ class SignUpRequest(BaseModel):
         _obj = cls.model_validate({
             "username": obj.get("username"),
             "password": obj.get("password"),
-            "address": obj.get("address")
+            "area": obj.get("area")
         })
         return _obj
 

@@ -4,14 +4,12 @@ setup.cfg
 src/openapi_server/apis/__init__.py
 src/openapi_server/apis/favorite_api.py
 src/openapi_server/apis/favorite_api_base.py
-src/openapi_server/apis/furniture_api.py
 src/openapi_server/apis/furniture_api_base.py
 src/openapi_server/apis/ok_api_base.py
 src/openapi_server/apis/recommendation_api.py
 src/openapi_server/apis/recommendation_api_base.py
 src/openapi_server/apis/trade_api.py
 src/openapi_server/apis/trade_api_base.py
-src/openapi_server/apis/user_api.py
 src/openapi_server/apis/user_api_base.py
 src/openapi_server/main.py
 src/openapi_server/models/__init__.py
@@ -20,6 +18,7 @@ src/openapi_server/models/extra_models.py
 src/openapi_server/models/favorite_response.py
 src/openapi_server/models/furniture_list_request.py
 src/openapi_server/models/furniture_list_response.py
+src/openapi_server/models/furniture_request.py
 src/openapi_server/models/furniture_response.py
 src/openapi_server/models/login_request.py
 src/openapi_server/models/login_response.py
@@ -34,6 +33,4 @@ src/openapi_server/models/trade_list_response.py
 src/openapi_server/models/trade_response.py
 src/openapi_server/models/update_approval_request.py
 src/openapi_server/models/update_is_checked_request.py
-src/openapi_server/security_api.py
 tests/conftest.py
-tests/test_favorite_api.py
