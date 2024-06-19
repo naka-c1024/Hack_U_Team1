@@ -18,50 +18,52 @@ class LoginView extends HookConsumerWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            const Text('ユーザー名'),
-            TextField(
-              controller: userNameController,
-              onSubmitted: (String value) {
-                userNameController.text = value;
-              },
-            ),
-            const SizedBox(height: 24),
-            const Text('パスワード'),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              keyboardType: TextInputType.text,
-              onSubmitted: (String value) {
-                passwordController.text = value;
-              },
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              child: Container(
-                height: 40,
-                width: 120,
-                alignment: Alignment.center,
-                child: const Text(
-                  'ログイン',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: [
+              const Text('ユーザー名'),
+              TextField(
+                controller: userNameController,
+                onSubmitted: (String value) {
+                  userNameController.text = value;
+                },
               ),
-              onPressed: () {
-                // ホーム画面へ
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomeView(camera: camera),
+              const SizedBox(height: 24),
+              const Text('パスワード'),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                keyboardType: TextInputType.text,
+                onSubmitted: (String value) {
+                  passwordController.text = value;
+                },
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                child: Container(
+                  height: 40,
+                  width: 120,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'ログイン',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
                   ),
-                );
-              },
-            ),
-          ],
+                ),
+                onPressed: () {
+                  // ホーム画面へ
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeView(camera: camera),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
