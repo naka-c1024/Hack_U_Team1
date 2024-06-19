@@ -4,15 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
 import 'furniture_detail_view.dart';
-import 'saled_painter.dart';
+import 'sold_painter.dart';
 
 class FurnitureCell extends HookConsumerWidget {
   final String prefecture;
-  final bool isSaled;
+  final bool isSold;
 
   const FurnitureCell({
     required this.prefecture,
-    required this.isSaled,
+    required this.isSold,
     super.key,
   });
 
@@ -75,10 +75,10 @@ class FurnitureCell extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                isSaled
+                isSold
                     ? CustomPaint(
-                        size: const Size(56, 56), // 描画エリアのサイズを指定
-                        painter: SaledPainter(),
+                        size: const Size(52, 52),
+                        painter: SoldPainter(),
                       )
                     : const SizedBox(),
                 Container(
@@ -101,15 +101,15 @@ class FurnitureCell extends HookConsumerWidget {
                 )
               ],
             ),
-            isSaled
+            isSold
                 ? Column(
                     children: [
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 10),
                       Container(
                         transform: Matrix4.rotationZ(-45 * pi / 180),
                         transformAlignment: Alignment.center,
                         child: const Text(
-                          ' SALED',
+                          ' SOLD',
                           style: TextStyle(
                             fontSize: 12,
                             color: Color(0xffffffff),

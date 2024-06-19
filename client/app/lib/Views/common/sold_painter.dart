@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SaledPainter extends CustomPainter {
+class SoldPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()

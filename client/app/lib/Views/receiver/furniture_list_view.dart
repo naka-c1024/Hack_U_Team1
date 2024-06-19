@@ -19,21 +19,21 @@ class FurnitureListView extends HookConsumerWidget {
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
     ];
@@ -43,61 +43,61 @@ class FurnitureListView extends HookConsumerWidget {
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
     ];

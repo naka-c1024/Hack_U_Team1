@@ -15,7 +15,7 @@ class SearchResultView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    final isSaledOnly = useState(false);
+    final isSoldOnly = useState(false);
 
     const prefecturesIndex = 12;
     
@@ -23,61 +23,61 @@ class SearchResultView extends HookConsumerWidget {
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
       Row(
         children: [
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: true),
+              prefecture: prefectures[prefecturesIndex], isSold: true),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
           FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSaled: false),
+              prefecture: prefectures[prefecturesIndex], isSold: false),
         ],
       ),
     ];
@@ -226,9 +226,9 @@ class SearchResultView extends HookConsumerWidget {
                       height: 32,
                       width: 32,
                       child: Checkbox(
-                        value: isSaledOnly.value,
+                        value: isSoldOnly.value,
                         onChanged: (value) {
-                          isSaledOnly.value = value ?? false;
+                          isSoldOnly.value = value ?? false;
                         },
                       ),
                     ),
