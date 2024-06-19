@@ -5,7 +5,11 @@ import 'package:app/Domain/furniture.dart';
 import 'package:app/Views/components/product_cell.dart';
 
 class ProductListView extends HookConsumerWidget {
-  const ProductListView({super.key});
+  final bool isCompleted;
+  const ProductListView({
+    required this.isCompleted,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
