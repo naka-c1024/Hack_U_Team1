@@ -12,6 +12,10 @@ class MyPageView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+        automaticallyImplyLeading: false,
+      ),
       body: Container(
         color: const Color(0xffffffff),
         padding: const EdgeInsets.fromLTRB(16, 80, 16, 16),
@@ -107,12 +111,12 @@ class MyPageView extends HookConsumerWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // ログイン画面へ
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginView(camera: camera),
-                  ),
-                );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginView(camera: camera),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffe3e3e3),

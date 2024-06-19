@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/constants.dart';
-import 'package:app/Views/search_view.dart';
+import 'package:app/Usecases/provider.dart';
 
 class CategoryCell extends HookConsumerWidget {
   final int categoryIndex;
+  final bool isSheet;
 
   const CategoryCell({
     required this.categoryIndex,
+    this.isSheet = false,
     super.key,
   });
 
@@ -21,6 +23,9 @@ class CategoryCell extends HookConsumerWidget {
       child: InkWell(
         onTap: () {
           ref.read(categoryProvider.notifier).state = categoryIndex;
+          if (isSheet) {
+            Navigator.of(context).pop(1);
+          }
         },
         child: Ink(
           width: 88,
