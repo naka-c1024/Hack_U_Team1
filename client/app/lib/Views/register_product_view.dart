@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/Usecases/provider.dart';
 import 'package:app/Views/trade_list_view.dart';
+import 'package:app/Views/product_list_view.dart';
 import 'package:app/Views/components/register_product_sheet.dart';
 
 class RegisterProductView extends HookConsumerWidget {
@@ -109,7 +110,7 @@ class RegisterProductView extends HookConsumerWidget {
         body: TabBarView(
           children: [
             const TradeListView(),
-            Container(),
+            const ProductListView(),
             Container(),
           ],
         ),

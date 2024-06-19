@@ -8,30 +8,17 @@ import 'package:app/Domain/furniture.dart';
 import 'package:app/Views/components/trade_adjust_sheet.dart';
 
 class FurnitureDetailView extends HookConsumerWidget {
-  const FurnitureDetailView({super.key});
+  final Furniture furniture;
+  final bool isMyProduct;
+  const FurnitureDetailView({
+    required this.furniture,
+    required this.isMyProduct,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    final furniture = Furniture(
-      productName: "ガラス天板のローテーブル",
-      image: null,
-      description: "ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文",
-      height: 35.0,
-      width: 100.0,
-      depth: 42.0,
-      category: 2,
-      color: 2,
-      condition: 3,
-      userName: 'ibuibukiki',
-      area: 12,
-      startDate: DateTime(2024, 7, 1),
-      endDate: DateTime(2024, 7, 19),
-      tradePlace: '高田馬場駅',
-      isSold: false,
-      isFavorite: false,
-    );
-
     final isFavorite = useState(furniture.isFavorite);
 
     return Scaffold(
@@ -374,44 +361,123 @@ class FurnitureDetailView extends HookConsumerWidget {
                         ),
                         const Divider(),
                         const SizedBox(height: 24),
-                        // 取引依頼ボタン
-                        ElevatedButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return SizedBox(
-                                  height: screenSize.height - 64,
-                                  child: TradeAdjustSheet(furniture: furniture),
-                                );
-                              },
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff424242),
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size.zero,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          child: Container(
-                            height: 48,
-                            width: screenSize.width - 48,
-                            margin: const EdgeInsets.only(left: 8, right: 8),
-                            alignment: Alignment.center,
-                            child: const Text(
-                              '取引をお願いする',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xffffffff),
-                                fontWeight: FontWeight.bold,
+                        isMyProduct
+                            ? Column(
+                                children: [
+                                  // 商品を編集するボタン
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 16, right: 16),
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color(0xffffffff),
+                                        padding: EdgeInsets.zero,
+                                        minimumSize: Size.zero,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          side: const BorderSide(
+                                            color: Color(0xff424242),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      child: Container(
+                                        height: 48,
+                                        width: screenSize.width - 48,
+                                        margin: const EdgeInsets.only(
+                                            left: 8, right: 8),
+                                        alignment: Alignment.center,
+                                        child: const Text(
+                                          '商品を編集する',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xff424242),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  // 商品を削除するボタン
+                                  Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 16, right: 16),
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color(0xff424242),
+                                        padding: EdgeInsets.zero,
+                                        minimumSize: Size.zero,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                      child: Container(
+                                        height: 48,
+                                        width: screenSize.width - 48,
+                                        margin: const EdgeInsets.only(
+                                            left: 8, right: 8),
+                                        alignment: Alignment.center,
+                                        child: const Text(
+                                          '商品を削除する',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xffffffff),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            // 取引依頼ボタン
+                            : ElevatedButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return SizedBox(
+                                        height: screenSize.height - 64,
+                                        child: TradeAdjustSheet(
+                                            furniture: furniture),
+                                      );
+                                    },
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xff424242),
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: 48,
+                                  width: screenSize.width - 48,
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    '取引をお願いする',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xffffffff),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
                         const SizedBox(height: 64),
                       ],
                     ),
