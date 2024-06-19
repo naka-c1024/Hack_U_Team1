@@ -160,7 +160,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                           child: Text(
                             tradeStartDate.value == null
                                 ? '未指定'
-                                : DateFormat('yyyy年M月d日(E)', 'ja')
+                                : DateFormat('yyyy年M月d日（E）', 'ja')
                                     .format(tradeStartDate.value!),
                             style: const TextStyle(
                               color: Color(0xff636363),
@@ -194,7 +194,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                           child: Text(
                             tradeEndDate.value == null
                                 ? '未指定'
-                                : DateFormat('yyyy年M月d日(E)', 'ja')
+                                : DateFormat('yyyy年M月d日（E）', 'ja')
                                     .format(tradeEndDate.value!),
                             style: const TextStyle(
                               color: Color(0xff636363),

@@ -222,7 +222,7 @@ class TradeDetailView extends HookConsumerWidget {
                 ),
                 const SizedBox(width: 80),
                 Text(
-                  DateFormat('yyyy年M月d日 (E)  h:mm', 'ja')
+                  DateFormat('yyyy年M月d日 （E）  h:mm', 'ja')
                       .format(trade.tradeDate),
                   style: TextStyle(
                     fontSize: 12,

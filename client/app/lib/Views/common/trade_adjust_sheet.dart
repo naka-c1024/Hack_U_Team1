@@ -69,7 +69,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
           ),
           const Divider(),
           Container(
-            height: 584,
+            height: 560,
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: SingleChildScrollView(
               child: Column(
@@ -249,6 +249,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   //　日付選択画面
                   isSelectingDate.value
                       ? Container(
+                          height: 320,
                           decoration: BoxDecoration(
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
@@ -290,7 +291,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                 builder: (BuildContext context, int index) {
                                   return Text(
                                     "$index".padLeft(2, '0'),
-                                    style: const TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 20),
                                   );
                                 },
                                 controller: hoursWheel,
@@ -302,6 +303,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                   diameterRatio: .8,
                                   surroundingOpacity: .25,
                                   magnification: 1.2,
+                                  itemExtent: 40,
                                 ),
                                 onIndexChanged: (index) {
                                   final originalDateTime =
@@ -315,12 +317,18 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                   tradeTime.value = selectedDataTime;
                                 },
                               ),
-                              const Text(" : "),
+                              const Padding(
+                                padding: EdgeInsets.only(bottom:12),
+                                child: Text(
+                                  " : ",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
                               WheelPicker(
                                 builder: (BuildContext context, int index) {
                                   return Text(
                                     "$index".padLeft(2, '0'),
-                                    style: const TextStyle(fontSize: 16),
+                                    style: const TextStyle(fontSize: 20),
                                   );
                                 },
                                 controller: minutesWheel,
@@ -332,6 +340,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                   diameterRatio: .8,
                                   surroundingOpacity: .25,
                                   magnification: 1.2,
+                                  itemExtent: 40,
                                 ),
                                 onIndexChanged: (index) {
                                   final originalDateTime =
@@ -353,7 +362,6 @@ class TradeAdjustSheet extends HookConsumerWidget {
               ),
             ),
           ),
-          const Spacer(),
           const Divider(),
           // 取引依頼ボタン
           Container(
@@ -404,7 +412,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
         ],
       ),
     );

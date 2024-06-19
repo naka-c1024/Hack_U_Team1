@@ -153,10 +153,10 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       furniture.endDate == null)
                                   ? '無期限'
                                   : furniture.startDate == null
-                                      ? ' 〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)}'
+                                      ? ' 〜 ${DateFormat('yyyy年M月d日（E）', 'ja').format(furniture.endDate!)}'
                                       : furniture.endDate == null
-                                          ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 '
-                                          : '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年MM月dd日(E)', 'ja').format(furniture.endDate!)}',
+                                          ? '${DateFormat('yyyy年M月d日（E）', 'ja').format(furniture.startDate!)} 〜 '
+                                          : '${DateFormat('yyyy年M月d日（E）', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年MM月dd日（E）', 'ja').format(furniture.endDate!)}',
                               style: const TextStyle(
                                 color: Color(0xff636363),
                                 fontSize: 12,
