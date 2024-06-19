@@ -4,8 +4,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:app/Views/login_view.dart';
-import 'package:app/Views/sign_up_view.dart';
+import 'Views/user/login_view.dart';
+import 'Views/user/sign_up_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

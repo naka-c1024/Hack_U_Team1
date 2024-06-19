@@ -1,3 +1,5 @@
+// 取引に関する情報を保持するクラス
+
 import 'dart:typed_data';
 
 class Trade {
