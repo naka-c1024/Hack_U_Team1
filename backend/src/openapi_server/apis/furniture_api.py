@@ -103,8 +103,7 @@ async def furniture_get(
     response_model_by_alias=True,
 )
 async def furniture_post(
-    user_id: int = Query(None, description="", alias="userId"),
     register_furniture_request: RegisterFurnitureRequest = Body(None, description=""),
     db: AsyncSession = Depends(get_db),
 ) -> FurnitureResponse:
-    ...
+    return await impl.furniture_post(register_furniture_request, db)

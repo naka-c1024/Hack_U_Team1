@@ -4,6 +4,7 @@ setup.cfg
 src/openapi_server/apis/__init__.py
 src/openapi_server/apis/favorite_api.py
 src/openapi_server/apis/favorite_api_base.py
+src/openapi_server/apis/furniture_api.py
 src/openapi_server/apis/furniture_api_base.py
 src/openapi_server/apis/ok_api_base.py
 src/openapi_server/apis/recommendation_api.py

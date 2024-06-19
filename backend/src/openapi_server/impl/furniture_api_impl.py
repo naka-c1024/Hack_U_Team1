@@ -76,11 +76,22 @@ class FurnitureApiImpl(BaseFurnitureApi):
 
     async def furniture_post(
         self,
-        user_id: int,
         register_furniture_request: RegisterFurnitureRequest,
         db: AsyncSession,
     ) -> FurnitureResponse:
-        ...
+        furniture: FurnitureResponse = await furniture_crud.create_furniture(db, register_furniture_request)
+        if furniture is None:
+            raise HTTPException(status_code=400, detail="Failed to create furniture")
+
+        # furniture.imageのURIから画像を取得し入れ替える
+        try:
+            image_bytes = await read_image_file(furniture.image)
+            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+            furniture.image = image_base64
+        except FileNotFoundError:
+            raise HTTPException(status_code=404, detail="Image file not found")
+        
+        return furniture
 
 
 async def read_image_file(file_path: str) -> bytes:

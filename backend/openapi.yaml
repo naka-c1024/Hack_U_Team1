@@ -102,14 +102,6 @@ paths:
       tags:
       - Furniture
     post:
-      parameters:
-      - explode: true
-        in: query
-        name: userId
-        required: true
-        schema:
-          type: integer
-        style: form
       requestBody:
         content:
           application/json:

@@ -40,7 +40,6 @@ class BaseFurnitureApi:
 
     def furniture_post(
         self,
-        user_id: int,
         register_furniture_request: RegisterFurnitureRequest,
     ) -> FurnitureResponse:
         ...
