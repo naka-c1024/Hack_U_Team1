@@ -365,73 +365,61 @@ class FurnitureDetailView extends HookConsumerWidget {
                             ? Column(
                                 children: [
                                   // 商品を編集するボタン
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 16, right: 16),
-                                    child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xffffffff),
-                                        padding: EdgeInsets.zero,
-                                        minimumSize: Size.zero,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                            color: Color(0xff424242),
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(5),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xffffffff),
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size.zero,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                          color: Color(0xff424242),
                                         ),
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
-                                      child: Container(
-                                        height: 48,
-                                        width: screenSize.width - 48,
-                                        margin: const EdgeInsets.only(
-                                            left: 8, right: 8),
-                                        alignment: Alignment.center,
-                                        child: const Text(
-                                          '商品を編集する',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff424242),
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                    ),
+                                    child: Container(
+                                      height: 48,
+                                      width: screenSize.width - 48,
+                                      margin: const EdgeInsets.only(
+                                          left: 8, right: 8),
+                                      alignment: Alignment.center,
+                                      child: const Text(
+                                        '商品を編集する',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xff424242),
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
                                   ),
                                   const SizedBox(height: 8),
                                   // 商品を削除するボタン
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 16, right: 16),
-                                    child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xff424242),
-                                        padding: EdgeInsets.zero,
-                                        minimumSize: Size.zero,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xff424242),
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size.zero,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
-                                      child: Container(
-                                        height: 48,
-                                        width: screenSize.width - 48,
-                                        margin: const EdgeInsets.only(
-                                            left: 8, right: 8),
-                                        alignment: Alignment.center,
-                                        child: const Text(
-                                          '商品を削除する',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xffffffff),
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                    ),
+                                    child: Container(
+                                      height: 48,
+                                      width: screenSize.width - 48,
+                                      margin: const EdgeInsets.only(
+                                          left: 8, right: 8),
+                                      alignment: Alignment.center,
+                                      child: const Text(
+                                        '商品を削除する',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffffffff),
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
