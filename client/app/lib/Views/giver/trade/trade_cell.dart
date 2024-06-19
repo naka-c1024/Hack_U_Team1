@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../Domain/trade.dart';
-import 'trade_detail_view.dart';
+import '../../common/trade_detail_view.dart';
 
 class TradeCell extends HookConsumerWidget {
   final Trade trade;
@@ -27,7 +27,7 @@ class TradeCell extends HookConsumerWidget {
                 MaterialPageRoute(
                   builder: (context) => TradeDetailView(
                     trade: trade,
-                    isCompleted: isCompleted,
+                    tradeStatus: isCompleted ? 2 : 1,
                   ),
                 ),
               );

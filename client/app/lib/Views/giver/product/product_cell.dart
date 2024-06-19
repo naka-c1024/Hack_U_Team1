@@ -6,8 +6,10 @@ import '../../common/furniture_detail_view.dart';
 
 class ProductCell extends HookConsumerWidget {
   final Furniture furniture;
+  final bool isCompleted;
   const ProductCell({
     required this.furniture,
+    required this.isCompleted,
     super.key,
   });
 
@@ -26,6 +28,7 @@ class ProductCell extends HookConsumerWidget {
                   builder: (context) => FurnitureDetailView(
                     furniture: furniture,
                     isMyProduct: true,
+                    isHiddenButton: isCompleted,
                   ),
                 ),
               );

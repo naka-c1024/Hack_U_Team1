@@ -2,17 +2,17 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../Domain/trade.dart';
-import '../../../Domain/furniture.dart';
-import '../../common/trade_approve_sheet.dart';
-import '../../common/furniture_detail_view.dart';
+import '../../Domain/trade.dart';
+import '../../Domain/furniture.dart';
+import 'trade_approve_sheet.dart';
+import 'furniture_detail_view.dart';
 
 class TradeDetailView extends HookConsumerWidget {
   final Trade trade;
-  final bool isCompleted;
+  final int tradeStatus;
   const TradeDetailView({
     required this.trade,
-    required this.isCompleted,
+    required this.tradeStatus,
     super.key,
   });
 
@@ -63,65 +63,100 @@ class TradeDetailView extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isCompleted
-                  ? '受け渡しは完了しましたか？'
-                  : '${trade.receiverName} さんに商品を譲りますか？',
+              tradeStatus == 0
+                  ? '取引依頼の返事を待っています。'
+                  : tradeStatus == 1
+                      ? '${trade.receiverName} さんに商品を譲りますか？'
+                      : '受け渡しは完了しましたか？',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 24),
-            isCompleted
-                // 完了ボタン
-                ? ElevatedButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        builder: (BuildContext context) {
-                          return Container(
-                            height: screenSize.height,
-                            width: screenSize.width,
-                            color: const Color(0x4b000000),
-                            child: const TradeApproveSheet(
-                              isCompleted: true,
+            tradeStatus == 0
+                ? const SizedBox()
+                : tradeStatus == 1
+                    // 譲るキャンセルボタン
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    height: screenSize.height,
+                                    width: screenSize.width,
+                                    color: const Color(0x4b000000),
+                                    child: const TradeApproveSheet(
+                                      isCompleted: false,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff424242),
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Color(0xff424242),
+                                ),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
-                          );
-                        },
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff424242),
-                      padding: EdgeInsets.zero,
-                      minimumSize: Size.zero,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Color(0xff424242),
-                        ),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    child: Container(
-                      height: 48,
-                      margin: const EdgeInsets.only(left: 8, right: 8),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        '完了した',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xffffffff),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
-                // 譲るキャンセルボタン
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
+                            child: Container(
+                              height: 48,
+                              width: (screenSize.width - 80) / 2,
+                              margin: const EdgeInsets.only(left: 8, right: 8),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                '譲る',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xffffffff),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffffffff),
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Color(0xff424242),
+                                ),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            child: Container(
+                              height: 48,
+                              width: (screenSize.width - 80) / 2,
+                              margin: const EdgeInsets.only(left: 8, right: 8),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                'キャンセル',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xff424242),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ) // 完了ボタン
+                    : ElevatedButton(
                         onPressed: () {
                           showModalBottomSheet(
                             context: context,
@@ -133,7 +168,7 @@ class TradeDetailView extends HookConsumerWidget {
                                 width: screenSize.width,
                                 color: const Color(0x4b000000),
                                 child: const TradeApproveSheet(
-                                  isCompleted: false,
+                                  isCompleted: true,
                                 ),
                               );
                             },
@@ -153,11 +188,10 @@ class TradeDetailView extends HookConsumerWidget {
                         ),
                         child: Container(
                           height: 48,
-                          width: (screenSize.width - 80) / 2,
                           margin: const EdgeInsets.only(left: 8, right: 8),
                           alignment: Alignment.center,
                           child: const Text(
-                            '譲る',
+                            '完了した',
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xffffffff),
@@ -166,37 +200,7 @@ class TradeDetailView extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xffffffff),
-                          padding: EdgeInsets.zero,
-                          minimumSize: Size.zero,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              color: Color(0xff424242),
-                            ),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        child: Container(
-                          height: 48,
-                          width: (screenSize.width - 80) / 2,
-                          margin: const EdgeInsets.only(left: 8, right: 8),
-                          alignment: Alignment.center,
-                          child: const Text(
-                            'キャンセル',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff424242),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+
             const SizedBox(height: 24),
             const Text(
               '受け渡し',
@@ -247,8 +251,8 @@ class TradeDetailView extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight:
-                        isCompleted ? FontWeight.normal : FontWeight.bold,
-                    color: isCompleted
+                        tradeStatus == 2 ? FontWeight.normal : FontWeight.bold,
+                    color: tradeStatus == 2
                         ? const Color(0xff424242)
                         : const Color(0xff000000),
                   ),
@@ -317,6 +321,7 @@ class TradeDetailView extends HookConsumerWidget {
                       builder: (context) => FurnitureDetailView(
                         furniture: furniture,
                         isMyProduct: true,
+                        isHiddenButton: true,
                       ),
                     ),
                   );

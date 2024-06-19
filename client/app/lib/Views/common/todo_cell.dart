@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/trade.dart';
+import 'trade_detail_view.dart';
+
 class TodoCell extends HookConsumerWidget {
-  const TodoCell({super.key});
+  final Trade trade;
+  final int tradeStatus;
+  const TodoCell({
+    required this.trade,
+    required this.tradeStatus,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -11,7 +20,18 @@ class TodoCell extends HookConsumerWidget {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              // 取引承認ページへ
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TradeDetailView(
+                    trade: trade,
+                    tradeStatus: tradeStatus,
+                  ),
+                ),
+              );
+            },
             child: Ink(
               height: 88,
               color: const Color(0xffffffff),
@@ -27,22 +47,30 @@ class TodoCell extends HookConsumerWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
-                        '取引依頼が届きました。',
-                        style: TextStyle(
+                        tradeStatus == 0
+                            ? '取引依頼の返事を待っています。'
+                            : tradeStatus == 1
+                                ? '取引依頼が届きました。'
+                                : '取引は完了しましたか？',
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Color(0xff000000),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
-                        '取引を受けるか、返答しましょう。',
-                        style: TextStyle(
+                        tradeStatus == 0
+                            ? '返答を待ちましょう。'
+                            : tradeStatus == 1
+                                ? '取引を受けるか、返答しましょう。'
+                                : '取引を完了しましょう。',
+                        style: const TextStyle(
                           fontSize: 12,
                           color: Color(0xff636363),
                         ),

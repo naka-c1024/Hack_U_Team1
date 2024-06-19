@@ -10,9 +10,11 @@ import 'trade_adjust_sheet.dart';
 class FurnitureDetailView extends HookConsumerWidget {
   final Furniture furniture;
   final bool isMyProduct;
+  final bool isHiddenButton;
   const FurnitureDetailView({
     required this.furniture,
     required this.isMyProduct,
+    required this.isHiddenButton,
     super.key,
   });
 
@@ -361,7 +363,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                         ),
                         const Divider(),
                         const SizedBox(height: 24),
-                        isMyProduct
+                        (isMyProduct && !isHiddenButton)
                             ? Column(
                                 children: [
                                   // 商品を編集するボタン
@@ -427,45 +429,47 @@ class FurnitureDetailView extends HookConsumerWidget {
                                 ],
                               )
                             // 取引依頼ボタン
-                            : ElevatedButton(
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (BuildContext context) {
-                                      return SizedBox(
-                                        height: screenSize.height - 64,
-                                        child: TradeAdjustSheet(
-                                            furniture: furniture),
+                            : (!isMyProduct && !isHiddenButton)
+                                ? ElevatedButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        builder: (BuildContext context) {
+                                          return SizedBox(
+                                            height: screenSize.height - 64,
+                                            child: TradeAdjustSheet(
+                                                furniture: furniture),
+                                          );
+                                        },
                                       );
                                     },
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xff424242),
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                                child: Container(
-                                  height: 48,
-                                  width: screenSize.width - 48,
-                                  margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
-                                  alignment: Alignment.center,
-                                  child: const Text(
-                                    '取引をお願いする',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xffffffff),
-                                      fontWeight: FontWeight.bold,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xff424242),
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size.zero,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
+                                    child: Container(
+                                      height: 48,
+                                      width: screenSize.width - 48,
+                                      margin: const EdgeInsets.only(
+                                          left: 8, right: 8),
+                                      alignment: Alignment.center,
+                                      child: const Text(
+                                        '取引をお願いする',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xffffffff),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(),
                         const SizedBox(height: 64),
                       ],
                     ),

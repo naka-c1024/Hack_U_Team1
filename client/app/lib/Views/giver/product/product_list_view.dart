@@ -40,8 +40,8 @@ class ProductListView extends HookConsumerWidget {
           child: Column(
             children: [
               const Divider(),
-              ProductCell(furniture: furniture),
-              ProductCell(furniture: furniture),
+              ProductCell(furniture: furniture, isCompleted: isCompleted),
+              ProductCell(furniture: furniture, isCompleted: isCompleted),
             ],
           ),
         ),

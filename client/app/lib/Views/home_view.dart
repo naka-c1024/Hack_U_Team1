@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'search/search_view.dart';
 import 'user/my_page_view.dart';
 import 'receiver/furniture_list_view.dart';
-import 'giver/register/register_product_view.dart';
+import 'giver/register_product_view.dart';
 
 class HomeView extends HookConsumerWidget {
   final CameraDescription? camera;
