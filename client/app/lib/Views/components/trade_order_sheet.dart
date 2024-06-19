@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class TradeSuccessSheet extends HookConsumerWidget {
-  const TradeSuccessSheet({super.key});
+class TradeOrderSheet extends HookConsumerWidget {
+  const TradeOrderSheet({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

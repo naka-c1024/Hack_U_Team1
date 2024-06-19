@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:app/Usecases/provider.dart';
+import 'package:app/Views/trade_list_view.dart';
 import 'package:app/Views/components/register_product_sheet.dart';
 
-class ProductListView extends HookConsumerWidget {
+class RegisterProductView extends HookConsumerWidget {
   final ValueNotifier<CameraController?> cameraController;
-  const ProductListView({
+  const RegisterProductView({
     required this.cameraController,
     super.key,
   });
@@ -107,7 +108,7 @@ class ProductListView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            Container(),
+            const TradeListView(),
             Container(),
             Container(),
           ],

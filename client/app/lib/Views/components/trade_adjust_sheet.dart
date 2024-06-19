@@ -1,4 +1,3 @@
-import 'package:app/Views/components/trade_success_sheet.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_picker/wheel_picker.dart';
@@ -7,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 import 'package:app/Domain/furniture.dart';
+import 'package:app/Views/components/trade_order_sheet.dart';
 
 class TradeAdjustSheet extends HookConsumerWidget {
   final Furniture furniture;
@@ -367,7 +367,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                     builder: (BuildContext context) {
                       return SizedBox(
                         height: screenSize.height - 64,
-                        child: const TradeSuccessSheet(),
+                        child: const TradeOrderSheet(),
                       );
                     },
                   );
