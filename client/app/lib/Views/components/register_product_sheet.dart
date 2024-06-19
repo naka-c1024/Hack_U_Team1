@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -106,7 +107,10 @@ class RegisterProductSheet extends HookConsumerWidget {
       ),
       child: GestureDetector(
         onTap: () {
-          FocusScope.of(context).unfocus();
+          final FocusScopeNode currentScope = FocusScope.of(context);
+          if (!currentScope.hasPrimaryFocus && currentScope.hasFocus) {
+            FocusManager.instance.primaryFocus!.unfocus();
+          }
         },
         child: SingleChildScrollView(
           reverse: keyboardHeight == 0 ? false : true,
@@ -178,6 +182,12 @@ class RegisterProductSheet extends HookConsumerWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
+                            final FocusScopeNode currentScope =
+                                FocusScope.of(context);
+                            if (!currentScope.hasPrimaryFocus &&
+                                currentScope.hasFocus) {
+                              FocusManager.instance.primaryFocus!.unfocus();
+                            }
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
@@ -228,6 +238,9 @@ class RegisterProductSheet extends HookConsumerWidget {
                       child: TextField(
                         focusNode: focus,
                         controller: productName,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(40),
+                        ],
                         decoration: const InputDecoration(
                           hintText: '必須 (40文字まで)',
                           hintStyle: TextStyle(
@@ -256,6 +269,12 @@ class RegisterProductSheet extends HookConsumerWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
+                              final FocusScopeNode currentScope =
+                                  FocusScope.of(context);
+                              if (!currentScope.hasPrimaryFocus &&
+                                  currentScope.hasFocus) {
+                                FocusManager.instance.primaryFocus!.unfocus();
+                              }
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
@@ -315,6 +334,12 @@ class RegisterProductSheet extends HookConsumerWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
+                              final FocusScopeNode currentScope =
+                                  FocusScope.of(context);
+                              if (!currentScope.hasPrimaryFocus &&
+                                  currentScope.hasFocus) {
+                                FocusManager.instance.primaryFocus!.unfocus();
+                              }
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
@@ -374,6 +399,12 @@ class RegisterProductSheet extends HookConsumerWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
+                              final FocusScopeNode currentScope =
+                                  FocusScope.of(context);
+                              if (!currentScope.hasPrimaryFocus &&
+                                  currentScope.hasFocus) {
+                                FocusManager.instance.primaryFocus!.unfocus();
+                              }
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
@@ -383,7 +414,14 @@ class RegisterProductSheet extends HookConsumerWidget {
                                     child: const ColorSheet(),
                                   );
                                 },
-                              );
+                              ).whenComplete(() {
+                                final FocusScopeNode currentScope =
+                                    FocusScope.of(context);
+                                if (!currentScope.hasPrimaryFocus &&
+                                    currentScope.hasFocus) {
+                                  FocusManager.instance.primaryFocus!.unfocus();
+                                }
+                              });
                             },
                             child: Ink(
                               padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -454,6 +492,9 @@ class RegisterProductSheet extends HookConsumerWidget {
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                             ),
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(3),
+                            ],
                             keyboardType: TextInputType.number,
                           ),
                         ),
@@ -480,6 +521,9 @@ class RegisterProductSheet extends HookConsumerWidget {
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                             ),
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(3),
+                            ],
                             keyboardType: TextInputType.number,
                           ),
                         ),
@@ -506,6 +550,9 @@ class RegisterProductSheet extends HookConsumerWidget {
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                             ),
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(3),
+                            ],
                             keyboardType: TextInputType.number,
                           ),
                         ),
@@ -562,7 +609,12 @@ class RegisterProductSheet extends HookConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 child: ElevatedButton(
                   onPressed: () {
-                    // if (isInputCompleted.value) {
+                    final FocusScopeNode currentScope = FocusScope.of(context);
+                    if (!currentScope.hasPrimaryFocus &&
+                        currentScope.hasFocus) {
+                      FocusManager.instance.primaryFocus!.unfocus();
+                    }
+                    if (isInputCompleted.value) {
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
@@ -573,7 +625,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                           );
                         },
                       );
-                    // }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffffffff),
