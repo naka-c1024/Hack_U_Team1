@@ -19,7 +19,7 @@ async def create_furniture(
         db: AsyncSession,
         user_id: int,
         product_name: str,
-        image: str,
+        image_path: str,
         description: str,
         height: float,
         width: float,
@@ -38,7 +38,7 @@ async def create_furniture(
     furniture = db_model.Furniture(
         user_id=user_id,
         product_name=product_name,
-        image=image,
+        image=image_path,
         description=description,
         height=height,
         width=width,

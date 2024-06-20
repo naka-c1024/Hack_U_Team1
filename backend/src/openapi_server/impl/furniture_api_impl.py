@@ -2,7 +2,6 @@ import aiofiles
 import os
 import base64
 import uuid
-import imghdr
 
 from openapi_server.apis.furniture_api_base import BaseFurnitureApi
 
@@ -81,7 +80,7 @@ class FurnitureApiImpl(BaseFurnitureApi):
         self,
         user_id: int,
         product_name: str,
-        image_bytes: UploadFile,
+        image: UploadFile,
         description: str,
         height: float,
         width: float,
@@ -99,23 +98,17 @@ class FurnitureApiImpl(BaseFurnitureApi):
         if not os.path.exists(SAVE_DIR):
             raise FileNotFoundError(f"Directory not found: {SAVE_DIR}")
         
-        image_bytes_base64 = base64.b64decode(image_bytes)
-        
-        # 画像の拡張子を推定, jpgが推定されない可能性がある(https://x.gd/j4Gi9)
-        extension = imghdr.what(None, h=image_bytes_base64)
-        if extension is None:
-            raise HTTPException(status_code=400, detail="Unsupported image format")
-
+        extension = image.filename.split('.')[-1]
         image_filename = f"{user_id}-{product_name}-{uuid.uuid4().hex}.{extension}"
         image_path = os.path.join(SAVE_DIR, image_filename)
-        await write_image_file(image_path, image_bytes_base64)
-        image = image_path
+        image_bytes = await image.read()
+        await write_image_file(image_path, image_bytes)
         
         furniture: FurnitureResponse = await furniture_crud.create_furniture(
             db,
             user_id,
             product_name,
-            image,
+            image_path,
             description,
             height,
             width,
@@ -130,8 +123,9 @@ class FurnitureApiImpl(BaseFurnitureApi):
         if furniture is None:
             raise HTTPException(status_code=400, detail="Failed to create furniture")
 
-        # furniture.imageをURIから画像に入れ替える
-        furniture.image = image_bytes
+        # DBから渡されたfurniture.imageはURIなので、レスポンスでは画像データに入れ替える
+        image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+        furniture.image = image_base64
         
         return furniture
 
