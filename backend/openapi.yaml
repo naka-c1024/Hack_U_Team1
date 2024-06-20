@@ -459,7 +459,7 @@ components:
       type: object
     RegisterFurnitureRequest:
       properties:
-        userId:
+        user_id:
           type: integer
         product_name:
           type: string
@@ -495,13 +495,11 @@ components:
       - condition
       - depth
       - description
-      - end_date
       - height
       - image
       - product_name
-      - start_date
       - trade_place
-      - userId
+      - user_id
       - width
       type: object
     FurnitureRequest:
