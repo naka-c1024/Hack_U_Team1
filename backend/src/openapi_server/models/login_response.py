@@ -31,8 +31,8 @@ class LoginResponse(BaseModel):
     """
     LoginResponse
     """ # noqa: E501
-    user_id: Optional[StrictInt] = Field(default=None, alias="userId")
-    __properties: ClassVar[List[str]] = ["userId"]
+    user_id: Optional[StrictInt] = Field(default=None, alias="user_id")
+    __properties: ClassVar[List[str]] = ["user_id"]
 
     model_config = {
         "populate_by_name": True,
@@ -83,7 +83,7 @@ class LoginResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "userId": obj.get("userId")
+            "user_id": obj.get("user_id")
         })
         return _obj
 

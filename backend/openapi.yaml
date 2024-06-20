@@ -450,10 +450,10 @@ components:
       type: object
     LoginResponse:
       example:
-        userId: 0
+        user_id: 0
       properties:
-        userId:
-          title: userId
+        user_id:
+          title: user_id
           type: integer
       title: LoginResponse
       type: object
