@@ -8,11 +8,13 @@ from openapi_server.models.trade_response import TradeResponse
 
 import openapi_server.cruds.trade as trade_crud
 
+from fastapi import HTTPException
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 class TradeApiImpl(BaseTradeApi):
     async def trades_get(self, user_id: int, db: AsyncSession) -> TradeListResponse:
-        return TradeListResponse()
+        return await trade_crud.get_trades(db, user_id)
 
     async def trades_post(self, request_trade_request: RequestTradeRequest, db: AsyncSession) -> None:
         await trade_crud.create_trade(db, request_trade_request)
