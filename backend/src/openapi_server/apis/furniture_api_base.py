@@ -7,7 +7,8 @@ from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_list_response import FurnitureListResponse
 from openapi_server.models.furniture_request import FurnitureRequest
 from openapi_server.models.furniture_response import FurnitureResponse
-from openapi_server.models.register_furniture_request import RegisterFurnitureRequest
+
+from fastapi import UploadFile
 
 
 class BaseFurnitureApi:
@@ -40,6 +41,18 @@ class BaseFurnitureApi:
 
     def furniture_post(
         self,
-        register_furniture_request: RegisterFurnitureRequest,
+        user_id: int,
+        product_name: str,
+        image: UploadFile,
+        description: str,
+        height: float,
+        width: float,
+        depth: float,
+        category: int,
+        color: int,
+        start_date: str,
+        end_date: str,
+        trade_place: str,
+        condition: int,
     ) -> FurnitureResponse:
         ...

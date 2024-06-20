@@ -93,7 +93,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/RegisterFurnitureRequest'
       responses:
@@ -425,8 +425,6 @@ components:
         - depth
         - category
         - color
-        - start_date
-        - end_date
         - trade_place
         - condition
       properties:
