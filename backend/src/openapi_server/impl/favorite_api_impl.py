@@ -1,7 +1,9 @@
 from openapi_server.apis.favorite_api_base import BaseFavoriteApi
 from openapi_server.models.favorite_response import FavoriteResponse
-from sqlalchemy.ext.asyncio import AsyncSession
 import openapi_server.cruds.favorite as favorite_crud
+
+from sqlalchemy.ext.asyncio import AsyncSession
+
 
 class FavoriteApiImpl(BaseFavoriteApi):
     async def favorite_delete(
@@ -18,7 +20,8 @@ class FavoriteApiImpl(BaseFavoriteApi):
         furniture_id: int,
         db: AsyncSession,
     ) -> FavoriteResponse:
-        ...
+        favorites_count: int = await favorite_crud.get_favorite_count_by_furniture_id(db, furniture_id)
+        return FavoriteResponse(count_favorites=favorites_count)
 
 
     async def favorite_post(
