@@ -29,6 +29,11 @@ from openapi_server.models.trade_response import TradeResponse
 from openapi_server.models.update_approval_request import UpdateApprovalRequest
 from openapi_server.models.update_is_checked_request import UpdateIsCheckedRequest
 
+from openapi_server.impl.trade_api_impl import TradeApiImpl
+from sqlalchemy.ext.asyncio import AsyncSession
+from openapi_server.db import get_db
+
+impl = TradeApiImpl()
 
 router = APIRouter()
 
@@ -48,8 +53,9 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 )
 async def trades_get(
     user_id: int = Query(None, description="", alias="user_id"),
+    db: AsyncSession = Depends(get_db),
 ) -> TradeListResponse:
-    ...
+    return await impl.trades_get(user_id, db)
 
 
 @router.post(
@@ -64,8 +70,9 @@ async def trades_get(
 )
 async def trades_post(
     request_trade_request: RequestTradeRequest = Body(None, description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> None:
-    ...
+    return await impl.trades_post(request_trade_request, db)
 
 
 @router.get(
@@ -80,8 +87,9 @@ async def trades_post(
 )
 async def trades_trade_id_get(
     trade_id: int = Path(..., description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> TradeResponse:
-    ...
+    return await impl.trades_trade_id_get(trade_id, db)
 
 
 @router.put(
@@ -97,8 +105,9 @@ async def trades_trade_id_get(
 async def trades_trade_id_is_checked_put(
     trade_id: int = Path(..., description=""),
     update_is_checked_request: UpdateIsCheckedRequest = Body(None, description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> None:
-    ...
+    return await impl.trades_trade_id_is_checked_put(trade_id, update_is_checked_request, db)
 
 
 @router.put(
@@ -114,5 +123,6 @@ async def trades_trade_id_is_checked_put(
 async def trades_trade_id_put(
     trade_id: int = Path(..., description=""),
     update_approval_request: UpdateApprovalRequest = Body(None, description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> None:
-    ...
+    return await impl.trades_trade_id_put(trade_id, update_approval_request, db)

@@ -530,13 +530,13 @@ components:
     RequestTradeRequest:
       type: object
       required:
-        - furnitureId
-        - userId
+        - furniture_id
+        - user_id
         - trade_date
       properties:
-        furnitureId:
+        furniture_id:
           type: integer
-        userId:
+        user_id:
           type: integer
         trade_date:
           type: string
@@ -544,7 +544,7 @@ components:
     TradeResponse:
       type: object
       properties:
-        tradeId:
+        trade_id:
           type: integer
         image:
           type: string
@@ -556,11 +556,11 @@ components:
         trade_place:
           type: string
           description: 具体的な取引場所
-        furnitureId:
+        furniture_id:
           type: integer
-        giverId:
+        giver_id:
           type: integer
-        receiverId:
+        receiver_id:
           type: integer
         is_checked:
           type: boolean

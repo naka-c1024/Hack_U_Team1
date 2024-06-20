@@ -649,43 +649,43 @@ components:
       type: object
     RequestTradeRequest:
       example:
-        furnitureId: 0
-        userId: 6
+        furniture_id: 0
+        user_id: 6
         trade_date: 2000-01-23
       properties:
-        furnitureId:
-          title: furnitureId
+        furniture_id:
+          title: furniture_id
           type: integer
-        userId:
-          title: userId
+        user_id:
+          title: user_id
           type: integer
         trade_date:
           format: date
           title: trade_date
           type: string
       required:
-      - furnitureId
+      - furniture_id
       - trade_date
-      - userId
+      - user_id
       title: RequestTradeRequest
       type: object
     TradeResponse:
       example:
         image: ""
-        giverId: 1
-        receiverId: 5
+        giver_id: 1
+        receiver_id: 5
         giver_approval: true
         receiver_approval: true
         receiver_name: receiver_name
         is_checked: true
         trade_place: trade_place
-        furnitureId: 6
+        furniture_id: 6
         product_name: product_name
         trade_date: 2000-01-23
-        tradeId: 0
+        trade_id: 0
       properties:
-        tradeId:
-          title: tradeId
+        trade_id:
+          title: trade_id
           type: integer
         image:
           format: binary
@@ -701,14 +701,14 @@ components:
           description: 具体的な取引場所
           title: trade_place
           type: string
-        furnitureId:
-          title: furnitureId
+        furniture_id:
+          title: furniture_id
           type: integer
-        giverId:
-          title: giverId
+        giver_id:
+          title: giver_id
           type: integer
-        receiverId:
-          title: receiverId
+        receiver_id:
+          title: receiver_id
           type: integer
         is_checked:
           title: is_checked
@@ -729,29 +729,29 @@ components:
       example:
         trades:
         - image: ""
-          giverId: 1
-          receiverId: 5
+          giver_id: 1
+          receiver_id: 5
           giver_approval: true
           receiver_approval: true
           receiver_name: receiver_name
           is_checked: true
           trade_place: trade_place
-          furnitureId: 6
+          furniture_id: 6
           product_name: product_name
           trade_date: 2000-01-23
-          tradeId: 0
+          trade_id: 0
         - image: ""
-          giverId: 1
-          receiverId: 5
+          giver_id: 1
+          receiver_id: 5
           giver_approval: true
           receiver_approval: true
           receiver_name: receiver_name
           is_checked: true
           trade_place: trade_place
-          furnitureId: 6
+          furniture_id: 6
           product_name: product_name
           trade_date: 2000-01-23
-          tradeId: 0
+          trade_id: 0
       properties:
         trades:
           items:
