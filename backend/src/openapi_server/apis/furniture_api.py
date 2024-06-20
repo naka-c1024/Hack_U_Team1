@@ -117,5 +117,21 @@ async def furniture_post(
     end_date: str = Form(None, description=""),
     trade_place: str = Form(..., description=""),
     condition: int = Form(..., description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> FurnitureResponse:
-    ...
+    return await impl.furniture_post(
+        user_id,
+        product_name,
+        image,
+        description,
+        height,
+        width,
+        depth,
+        category,
+        color,
+        start_date,
+        end_date,
+        trade_place,
+        condition,
+        db
+    )

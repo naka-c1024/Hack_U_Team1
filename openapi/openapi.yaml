@@ -416,7 +416,7 @@ components:
     RegisterFurnitureRequest:
       type: object
       required:
-        - userId
+        - user_id
         - product_name
         - image
         - description
@@ -428,7 +428,7 @@ components:
         - trade_place
         - condition
       properties:
-        userId:
+        user_id:
           type: integer
         product_name:
           type: string
