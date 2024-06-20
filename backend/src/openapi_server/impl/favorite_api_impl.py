@@ -21,7 +21,7 @@ class FavoriteApiImpl(BaseFavoriteApi):
         db: AsyncSession,
     ) -> FavoriteResponse:
         favorites_count: int = await favorite_crud.get_favorite_count_by_furniture_id(db, furniture_id)
-        return FavoriteResponse(count_favorites=favorites_count)
+        return FavoriteResponse(favorites_count=favorites_count)
 
 
     async def favorite_post(

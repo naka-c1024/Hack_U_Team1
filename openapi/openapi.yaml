@@ -595,7 +595,7 @@ components:
     FavoriteResponse:
       type: object
       properties:
-        count_favorites:
+        favorites_count:
           type: integer
     RecommendRequest:
       type: object

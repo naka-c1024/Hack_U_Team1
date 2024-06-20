@@ -784,10 +784,10 @@ components:
       type: object
     FavoriteResponse:
       example:
-        count_favorites: 0
+        favorites_count: 0
       properties:
-        count_favorites:
-          title: count_favorites
+        favorites_count:
+          title: favorites_count
           type: integer
       title: FavoriteResponse
       type: object

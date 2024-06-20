@@ -31,7 +31,8 @@ https://qiita.com/A-Kira/items/3d17396c7cc98873e29d
 
 ## OpenAPIからFastAPIのコードを自動生成する方法
 
-`backend/.openapi-generator-ignore`に入っていないものは 更新 or 初期化 されてしまうので注意する
+`backend/.openapi-generator-ignore`に入っていないものは 更新 or 初期化 されてしまうので注意する。  
+まずcommitしてから以下を実行し、差分を全て確認すること。  
 
 ```
 docker run --rm -v ${PWD}:/local -v ${PWD}/../backend:/output openapitools/openapi-generator-cli generate -i /local/openapi.yaml -g python-fastapi -o /output

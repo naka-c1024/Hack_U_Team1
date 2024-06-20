@@ -24,3 +24,4 @@ src/openapi_server/apis/furniture_api_base.py
 src/openapi_server/apis/ok_api.py
 src/openapi_server/apis/furniture_api.py
 src/openapi_server/apis/user_api.py
+src/openapi_server/apis/favorite_api.py
