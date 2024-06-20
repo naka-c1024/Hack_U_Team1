@@ -19,6 +19,7 @@ from fastapi import (  # noqa: F401
     Response,
     Security,
     status,
+    UploadFile,
 )
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
@@ -103,7 +104,18 @@ async def furniture_get(
     response_model_by_alias=True,
 )
 async def furniture_post(
-    register_furniture_request: RegisterFurnitureRequest = Body(None, description=""),
-    db: AsyncSession = Depends(get_db),
+    user_id: int = Form(..., description=""),
+    product_name: str = Form(..., description=""),
+    image: UploadFile = Form(..., description=""),
+    description: str = Form(..., description=""),
+    height: float = Form(..., description=""),
+    width: float = Form(..., description=""),
+    depth: float = Form(..., description=""),
+    category: int = Form(..., description=""),
+    color: int = Form(..., description="色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"),
+    start_date: str = Form(None, description=""),
+    end_date: str = Form(None, description=""),
+    trade_place: str = Form(..., description=""),
+    condition: int = Form(..., description=""),
 ) -> FurnitureResponse:
-    return await impl.furniture_post(register_furniture_request, db)
+    ...
