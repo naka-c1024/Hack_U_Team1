@@ -206,7 +206,9 @@ class FurnitureListView extends HookConsumerWidget {
               // 最新の商品
               Container(
                 height: latestList.value.length < 4
-                    ? 456
+                    ? screenSize.height - 
+                    ((screenSize.width - 40) / 3 + 8) *
+                        favoriteList.value.length - 272
                     : 52 +
                         ((screenSize.width - 40) / 3 + 8) *
                             latestList.value.length,

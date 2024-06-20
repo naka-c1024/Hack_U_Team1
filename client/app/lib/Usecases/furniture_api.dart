@@ -3,14 +3,14 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import '../Domain/furniture.dart';
 
-Uint8List convertImage (String str) {
+Uint8List convertImage(String str) {
   List<int> bytes = utf8.encode(str);
   Uint8List uint8list = Uint8List.fromList(bytes);
   return uint8list;
 }
 
 // 家具リストを取得
-Future<List<Furniture>> getFurnitureList(int userId) async {
+Future<List<Furniture>> getFurnitureList(int userId, String? searchWord) async {
   try {
     final request = Request(
       'GET',
@@ -18,10 +18,12 @@ Future<List<Furniture>> getFurnitureList(int userId) async {
     )..headers.addAll({
         'Content-Type': 'application/json',
       });
-    final requestBody = {
+    Map<String,dynamic> requestBody = {
       'user_id': userId,
-      'keyword': '',
     };
+    if (searchWord != null ){
+      requestBody['keyword'] = searchWord;
+    }
     request.body = jsonEncode(requestBody);
     StreamedResponse response = await request.send();
     final jsonResponse = jsonDecode(await response.stream.bytesToString());
@@ -43,10 +45,14 @@ Future<List<Furniture>> getFurnitureList(int userId) async {
             color: item['color'],
             condition: item['condition'],
             isSold: item['is_sold'],
-            startDate: item['start_date'] == null ? null : DateTime.parse(item['start_date']),
-            endDate:item['end_date'] == null ? null :  DateTime.parse(item['end_date']),
+            startDate: item['start_date'] == null
+                ? null
+                : DateTime.parse(item['start_date']),
+            endDate: item['end_date'] == null
+                ? null
+                : DateTime.parse(item['end_date']),
             tradePlace: item['trade_place'],
-            isFavorite: true); //item['is_favorite']);
+            isFavorite: item['is_favorite']);
         furnitureList.add(furniture);
       }
       return furnitureList;
