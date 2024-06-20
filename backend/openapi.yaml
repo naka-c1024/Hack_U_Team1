@@ -104,7 +104,7 @@ paths:
     post:
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/RegisterFurnitureRequest'
         required: true
@@ -458,63 +458,36 @@ components:
       title: LoginResponse
       type: object
     RegisterFurnitureRequest:
-      example:
-        end_date: 2000-01-23
-        image: ""
-        color: 2
-        description: description
-        trade_place: trade_place
-        userId: 0
-        product_name: product_name
-        condition: 7
-        depth: 5.962133916683182
-        width: 1.4658129805029452
-        category: 5
-        height: 6.027456183070403
-        start_date: 2000-01-23
       properties:
         userId:
-          title: userId
           type: integer
         product_name:
-          title: product_name
           type: string
         image:
           format: binary
-          title: image
           type: string
         description:
-          title: description
           type: string
         height:
-          title: height
           type: number
         width:
-          title: width
           type: number
         depth:
-          title: depth
           type: number
         category:
-          title: category
           type: integer
         color:
           description: "色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
-          title: color
           type: integer
         start_date:
           format: date
-          title: start_date
           type: string
         end_date:
           format: date
-          title: end_date
           type: string
         trade_place:
-          title: trade_place
           type: string
         condition:
-          title: condition
           type: integer
       required:
       - category
@@ -530,7 +503,6 @@ components:
       - trade_place
       - userId
       - width
-      title: RegisterFurnitureRequest
       type: object
     FurnitureRequest:
       example:

@@ -4,6 +4,7 @@ setup.cfg
 src/openapi_server/apis/__init__.py
 src/openapi_server/apis/favorite_api.py
 src/openapi_server/apis/favorite_api_base.py
+src/openapi_server/apis/furniture_api.py
 src/openapi_server/apis/furniture_api_base.py
 src/openapi_server/apis/ok_api_base.py
 src/openapi_server/apis/recommendation_api.py
@@ -26,7 +27,6 @@ src/openapi_server/models/ok_response.py
 src/openapi_server/models/recommend_request.py
 src/openapi_server/models/recommend_response.py
 src/openapi_server/models/recommend_response_recommendations_inner.py
-src/openapi_server/models/register_furniture_request.py
 src/openapi_server/models/request_trade_request.py
 src/openapi_server/models/sign_up_request.py
 src/openapi_server/models/trade_list_response.py
