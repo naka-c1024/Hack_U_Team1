@@ -104,7 +104,7 @@ void main() {
     test('Test: Get furniture detailed successfully', () async {
       final request = Request(
         'GET',
-        Uri.parse('http://localhost:8080/furniture/${furnitureId}'),
+        Uri.parse('http://localhost:8080/furniture/$furnitureId'),
       )..headers.addAll({
           'Content-Type': 'application/json',
         });

@@ -3,7 +3,7 @@
 import 'dart:typed_data';
 
 class Furniture {
-  final String? furnitureId;
+  final int? furnitureId;
   final String productName;
   final Uint8List? image; // 画像はバイナリ型で保持
   final String description;

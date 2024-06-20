@@ -2,42 +2,23 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
 import 'furniture_detail_view.dart';
 import 'sold_painter.dart';
 
 class FurnitureCell extends HookConsumerWidget {
-  final String prefecture;
-  final bool isSold;
+  final Furniture furniture;
 
   const FurnitureCell({
-    required this.prefecture,
-    required this.isSold,
+    required this.furniture,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    final furniture = Furniture(
-      productName: "ガラス天板のローテーブル",
-      image: null,
-      description: "ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文",
-      height: 35.0,
-      width: 100.0,
-      depth: 42.0,
-      category: 2,
-      color: 2,
-      condition: 3,
-      userName: 'ibuibukiki',
-      area: 12,
-      startDate: DateTime(2024, 7, 1),
-      endDate: DateTime(2024, 7, 19),
-      tradePlace: '高田馬場駅',
-      isSold: false,
-      isFavorite: false,
-    );
-
+  
     return ElevatedButton(
       onPressed: () {
         // 家具の詳細ページへ
@@ -76,7 +57,7 @@ class FurnitureCell extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                isSold
+                furniture.isSold
                     ? CustomPaint(
                         size: const Size(52, 52),
                         painter: SoldPainter(),
@@ -91,7 +72,7 @@ class FurnitureCell extends HookConsumerWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
-                    prefecture,
+                    prefectures[furniture.area],
                     textAlign: TextAlign.start,
                     style: const TextStyle(
                       fontSize: 12,
@@ -102,7 +83,7 @@ class FurnitureCell extends HookConsumerWidget {
                 )
               ],
             ),
-            isSold
+            furniture.isSold
                 ? Column(
                     children: [
                       const SizedBox(height: 10),

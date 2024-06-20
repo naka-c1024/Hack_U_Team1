@@ -19,68 +19,68 @@ class SearchResultView extends HookConsumerWidget {
 
     const prefecturesIndex = 12;
     
-    final searchResultList = [
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-    ];
+    // final searchResultList = [
+    //   Row(
+    //     children: [
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: true),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //     ],
+    //   ),
+    //   Row(
+    //     children: [
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: true),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //     ],
+    //   ),
+    //   Row(
+    //     children: [
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: true),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: true),
+    //     ],
+    //   ),
+    //   Row(
+    //     children: [
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: true),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: true),
+    //     ],
+    //   ),
+    //   Row(
+    //     children: [
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: true),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //     ],
+    //   ),
+    //   Row(
+    //     children: [
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: true),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //       FurnitureCell(
+    //           prefecture: prefectures[prefecturesIndex], isSold: false),
+    //     ],
+    //   ),
+    // ];
 
     return Scaffold(
       appBar: AppBar(
@@ -250,7 +250,7 @@ class SearchResultView extends HookConsumerWidget {
             padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
             color: const Color(0xffffffff),
             child: SingleChildScrollView(
-              child: Column(children: searchResultList),
+              child: Column(children: []),
             ),
           ),
         ],

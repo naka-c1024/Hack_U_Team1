@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../Usecases/provider.dart';
 import 'search/search_view.dart';
 import 'user/my_page_view.dart';
 import 'receiver/furniture_list_view.dart';
@@ -30,8 +31,19 @@ class HomeView extends HookConsumerWidget {
       return null;
     }, [camera]);
 
+    final furnitureState = ref.watch(furnitureListProvider);
     final viewWidgets = [
-      const FurnitureListView(),
+      // 家具リストの取得
+      furnitureState.when(
+          loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+          error: (error, __) => Center(
+                child: Text('error: $error'),
+              ),
+          data: (data) {
+            return FurnitureListView(furnitureList: data);
+          }),
       SearchView(cameraController: cameraController),
       RegisterProductView(cameraController: cameraController),
       MyPageView(camera: camera),
