@@ -55,9 +55,9 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     response_model_by_alias=True,
 )
 async def furniture_describe_post(
-    image: str = Form(None, description=""),
+    image: UploadFile = Form(None, description=""),
 ) -> FurnitureDescribeResponse:
-    ...
+    return await impl.furniture_describe_post(image)
 
 
 @router.delete(
