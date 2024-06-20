@@ -3,6 +3,7 @@
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from openapi_server.models.error_response import ErrorResponse
+from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_list_response import FurnitureListResponse
 from openapi_server.models.furniture_request import FurnitureRequest
@@ -17,6 +18,13 @@ class BaseFurnitureApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseFurnitureApi.subclasses = BaseFurnitureApi.subclasses + (cls,)
+    def furniture_describe_post(
+        self,
+        image: str,
+    ) -> FurnitureDescribeResponse:
+        ...
+
+
     def furniture_furniture_id_delete(
         self,
         furniture_id: int,
@@ -55,4 +63,12 @@ class BaseFurnitureApi:
         trade_place: str,
         condition: int,
     ) -> FurnitureResponse:
+        ...
+
+
+    def furniture_recommend_post(
+        self,
+        room_photo: UploadFile,
+        category: int,
+    ) -> FurnitureListResponse:
         ...

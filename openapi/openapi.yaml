@@ -17,8 +17,6 @@ tags:
     description: 取引機能
   - name: Favorite
     description: いいね機能
-  - name: Recommendation
-    description: レコメンド機能
 
 paths:
   /ok:
@@ -167,6 +165,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /furniture/describe:
+    post:
+      tags:
+        - Furniture
+      summary: Generate furniture description
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FurnitureDescribeRequest'
+      responses:
+        '200':
+          description: Furniture described successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureDescribeResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /furniture/recommend:
+    post:
+      tags:
+        - Furniture
+      summary: Recommend furniture
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FurnitureRecommendRequest'
+      responses:
+        '200':
+          description: Furniture recommended successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureListResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   /trades:
     post:
       tags:
@@ -353,26 +400,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-
-  /recommend:
-    get:
-      tags:
-        - Recommendation
-      summary: Get furniture recommendations based on room photo
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RecommendRequest'
-      responses:
-        '200':
-          description: Furniture recommendations retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecommendResponse'
-
 components:
   schemas:
     OKResponse:
@@ -527,6 +554,39 @@ components:
         is_favorite:
           type: boolean
           description: 「いいねした商品」用
+    FurnitureDescribeRequest:
+      type: object
+      required:
+        - image
+      properties:
+        image:
+          type: string
+          format: binary
+    FurnitureDescribeResponse:
+      type: object
+      properties:
+        product_name:
+          type: string
+        description:
+          type: string
+        category:
+          type: integer
+          description: カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+        color:
+          type: integer
+          description: 色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+    FurnitureRecommendRequest:
+      type: object
+      required:
+        - room_photo
+        - category
+      properties:
+        room_photo:
+          type: string
+          format: binary
+        category:
+          type: integer
+          description: カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
     RequestTradeRequest:
       type: object
       required:
@@ -597,29 +657,3 @@ components:
       properties:
         favorites_count:
           type: integer
-    RecommendRequest:
-      type: object
-      required:
-        - roomPhoto
-      properties:
-        roomPhoto:
-          type: string
-    RecommendResponse:
-      type: object
-      properties:
-        recommendations:
-          type: array
-          items:
-            type: object
-            properties:
-              furnitureId:
-                type: integer
-              image:
-                type: string
-                format: binary
-              description:
-                type: string
-              size:
-                type: string
-              category:
-                type: string
