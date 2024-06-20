@@ -32,19 +32,19 @@ class TradeResponse(BaseModel):
     """
     TradeResponse
     """ # noqa: E501
-    trade_id: Optional[StrictInt] = Field(default=None, alias="tradeId")
+    trade_id: Optional[StrictInt] = Field(default=None, alias="trade_id")
     image: Optional[Union[StrictBytes, StrictStr]] = None
     receiver_name: Optional[StrictStr] = None
     product_name: Optional[StrictStr] = None
     trade_place: Optional[StrictStr] = Field(default=None, description="具体的な取引場所")
-    furniture_id: Optional[StrictInt] = Field(default=None, alias="furnitureId")
-    giver_id: Optional[StrictInt] = Field(default=None, alias="giverId")
-    receiver_id: Optional[StrictInt] = Field(default=None, alias="receiverId")
+    furniture_id: Optional[StrictInt] = Field(default=None, alias="furniture_id")
+    giver_id: Optional[StrictInt] = Field(default=None, alias="giver_id")
+    receiver_id: Optional[StrictInt] = Field(default=None, alias="receiver_id")
     is_checked: Optional[StrictBool] = None
     giver_approval: Optional[StrictBool] = None
     receiver_approval: Optional[StrictBool] = None
     trade_date: Optional[date] = None
-    __properties: ClassVar[List[str]] = ["tradeId", "image", "receiver_name", "product_name", "trade_place", "furnitureId", "giverId", "receiverId", "is_checked", "giver_approval", "receiver_approval", "trade_date"]
+    __properties: ClassVar[List[str]] = ["trade_id", "image", "receiver_name", "product_name", "trade_place", "furniture_id", "giver_id", "receiver_id", "is_checked", "giver_approval", "receiver_approval", "trade_date"]
 
     model_config = {
         "populate_by_name": True,
@@ -95,14 +95,14 @@ class TradeResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "tradeId": obj.get("tradeId"),
+            "trade_id": obj.get("trade_id"),
             "image": obj.get("image"),
             "receiver_name": obj.get("receiver_name"),
             "product_name": obj.get("product_name"),
             "trade_place": obj.get("trade_place"),
-            "furnitureId": obj.get("furnitureId"),
-            "giverId": obj.get("giverId"),
-            "receiverId": obj.get("receiverId"),
+            "furniture_id": obj.get("furniture_id"),
+            "giver_id": obj.get("giver_id"),
+            "receiver_id": obj.get("receiver_id"),
             "is_checked": obj.get("is_checked"),
             "giver_approval": obj.get("giver_approval"),
             "receiver_approval": obj.get("receiver_approval"),
