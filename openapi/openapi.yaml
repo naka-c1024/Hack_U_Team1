@@ -411,7 +411,7 @@ components:
     LoginResponse:
       type: object
       properties:
-        userId:
+        user_id:
           type: integer
     RegisterFurnitureRequest:
       type: object
