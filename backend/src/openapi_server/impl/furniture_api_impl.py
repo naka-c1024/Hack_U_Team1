@@ -2,7 +2,6 @@ import aiofiles
 import os
 import base64
 import uuid
-import imghdr
 
 from openapi_server.apis.furniture_api_base import BaseFurnitureApi
 
@@ -13,7 +12,7 @@ from openapi_server.models.register_furniture_request import RegisterFurnitureRe
 
 import openapi_server.cruds.furniture as furniture_crud
 
-from fastapi import HTTPException
+from fastapi import HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional
 
@@ -24,9 +23,13 @@ class FurnitureApiImpl(BaseFurnitureApi):
         furniture_id: int,
         db: AsyncSession,
     ) -> None:
-        error_msg = await furniture_crud.delete_furniture(db, furniture_id)
-        if error_msg is not None:
-            raise HTTPException(status_code=400, detail=error_msg)
+        image_uri_or_error_msg = await furniture_crud.delete_furniture(db, furniture_id)
+        if os.path.exists(image_uri_or_error_msg):
+            # ファイルが存在していたら削除
+            os.remove(image_uri_or_error_msg)
+        elif image_uri_or_error_msg is not None:
+            raise HTTPException(status_code=400, detail=image_uri_or_error_msg)
+        
 
 
     async def furniture_furniture_id_get(
@@ -73,10 +76,21 @@ class FurnitureApiImpl(BaseFurnitureApi):
 
         return furniture_list
 
-
     async def furniture_post(
         self,
-        register_furniture_request: RegisterFurnitureRequest,
+        user_id: int,
+        product_name: str,
+        image: UploadFile,
+        description: str,
+        height: float,
+        width: float,
+        depth: float,
+        category: int,
+        color: int,
+        start_date: str,
+        end_date: str,
+        trade_place: str,
+        condition: int,
         db: AsyncSession,
     ) -> FurnitureResponse:
         SAVE_DIR = "/app/src/openapi_server/file_storage"
@@ -84,25 +98,34 @@ class FurnitureApiImpl(BaseFurnitureApi):
         if not os.path.exists(SAVE_DIR):
             raise FileNotFoundError(f"Directory not found: {SAVE_DIR}")
         
-        image_bytes = register_furniture_request.image
-        image_bytes_base64 = base64.b64decode(image_bytes)
-        
-        # 画像の拡張子を推定, jpgが推定されない可能性がある(https://x.gd/j4Gi9)
-        extension = imghdr.what(None, h=image_bytes_base64)
-        if extension is None:
-            raise HTTPException(status_code=400, detail="Unsupported image format")
-
-        image_filename = f"{register_furniture_request.user_id}-{register_furniture_request.product_name}-{uuid.uuid4().hex}.{extension}"
+        extension = image.filename.split('.')[-1]
+        image_filename = f"{user_id}-{product_name}-{uuid.uuid4().hex}.{extension}"
         image_path = os.path.join(SAVE_DIR, image_filename)
-        await write_image_file(image_path, image_bytes_base64)
-        register_furniture_request.image = image_path
+        image_bytes = await image.read()
+        await write_image_file(image_path, image_bytes)
         
-        furniture: FurnitureResponse = await furniture_crud.create_furniture(db, register_furniture_request)
+        furniture: FurnitureResponse = await furniture_crud.create_furniture(
+            db,
+            user_id,
+            product_name,
+            image_path,
+            description,
+            height,
+            width,
+            depth,
+            category,
+            color,
+            condition,
+            trade_place,
+            start_date,
+            end_date,
+        )
         if furniture is None:
             raise HTTPException(status_code=400, detail="Failed to create furniture")
 
-        # furniture.imageをURIから画像に入れ替える
-        furniture.image = image_bytes
+        # DBから渡されたfurniture.imageはURIなので、レスポンスでは画像データに入れ替える
+        image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+        furniture.image = image_base64
         
         return furniture
 
