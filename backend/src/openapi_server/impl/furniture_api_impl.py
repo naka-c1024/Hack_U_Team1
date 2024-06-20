@@ -14,7 +14,7 @@ import openapi_server.cruds.furniture as furniture_crud
 
 from fastapi import HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import Optional
+from typing import Optional, List
 
 
 class FurnitureApiImpl(BaseFurnitureApi):
@@ -141,6 +141,17 @@ class FurnitureApiImpl(BaseFurnitureApi):
         furniture.image = image_base64
         
         return furniture
+    
+
+    async def furniture_recommend_post(
+        self,
+        room_photo: UploadFile,
+        category: int,
+    ) -> FurnitureListResponse:
+        # TODO: recommend_furniture_from_imageの実装
+        # まずカテゴリで絞る?それとも同時に予測する?
+        # どのように実装するかは要検討
+        return FurnitureListResponse() # ダミー
 
 
 async def read_image_file(file_path: str) -> bytes:
