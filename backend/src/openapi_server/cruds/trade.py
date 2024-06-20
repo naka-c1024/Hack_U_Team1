@@ -2,11 +2,9 @@ from  sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.engine import Result
 
-from openapi_server.db_model.tables import Trades, Furniture
+from openapi_server.db_model.tables import Trades, Furniture, Users
 
 from openapi_server.models.request_trade_request import RequestTradeRequest
-from openapi_server.models.trade_list_response import TradeListResponse
-from openapi_server.models.trade_response import TradeResponse
 
 from openapi_server.cruds.user_api import get_user
 
@@ -28,72 +26,66 @@ async def create_trade(
     db.add(trade)
     await db.commit()
     await db.refresh(trade)
-
-async def get_trade_list(
-    db: AsyncSession,
-    user_id: int
-) -> TradeListResponse:
-    query = select(
-        Trades,
-        Furniture
-    ).join(Furniture, Trades.furniture_id == Furniture.furniture_id).where(
-        (Trades.receiver_id == user_id) | (Furniture.user_id == user_id)
-    )
-
-    result: Result = await db.execute(query)
-    trades = result.all()
-    if not trades:
-        return None
-
-    trade_list_response = []
-    for trade in trades:
-        user = await get_user(db, trade.Furniture.user_id)
-        trade_list_response.append(
-            TradeResponse(
-                trade_id            = trade.Trades.trade_id,
-                image               = trade.Furniture.image,
-                receiver_name       = user.username,
-                product_name        = trade.Furniture.product_name,
-                trade_place         = trade.Furniture.trade_place,
-                furniture_id        = trade.Furniture.user_id,
-                giver_id            = trade.Furniture.user_id,
-                receiver_id         = trade.Trades.receiver_id,
-                is_checked          = trade.Trades.is_checked,
-                giver_approval      = trade.Trades.giver_approval,
-                receiver_approval   = trade.Trades.receiver_approval,
-                trade_date          = trade.Trades.trade_date,
-            )
-        )
-    return TradeListResponse(trades=trade_list_response)
+    return trade
 
 async def get_trade(
     db: AsyncSession,
-    trade_id: int
-) -> TradeResponse:
-    query = select(
-        Trades,
-        Furniture
-    ).join(Furniture, Trades.furniture_id == Furniture.furniture_id).where(
-        Trades.trade_id == trade_id
-    )
+    user_id: Optional[int] = None,
+    trade_id: Optional[int] = None
+):
+    query = select(Trades, Furniture, Users)
+    query = query.join(Furniture, Trades.furniture_id == Furniture.furniture_id)
+    query = query.join(Users, Furniture.user_id == Users.user_id)
+    if user_id:
+        query = query.where((Trades.receiver_id == user_id) | (Furniture.user_id == user_id))
+    if trade_id:
+        query = query.where(Trades.trade_id == trade_id)
 
     result: Result = await db.execute(query)
-    trade = result.first()
-    if not trade:
-        return None
+    return result.all()
 
-    user = await get_user(db, trade.Furniture.user_id)
-    return TradeResponse(
-        trade_id            = trade.Trades.trade_id,
-        image               = trade.Furniture.image,
-        receiver_name       = user.username,
-        product_name        = trade.Furniture.product_name,
-        trade_place         = trade.Furniture.trade_place,
-        furniture_id        = trade.Furniture.user_id,
-        giver_id            = trade.Furniture.user_id,
-        receiver_id         = trade.Trades.receiver_id,
-        is_checked          = trade.Trades.is_checked,
-        giver_approval      = trade.Trades.giver_approval,
-        receiver_approval   = trade.Trades.receiver_approval,
-        trade_date          = trade.Trades.trade_date,
-    )
+async def update_is_checked(
+    db: AsyncSession,
+    trade_id: int,
+    update_is_checked_request
+):
+    result = (await db.execute(select(Trades).where(Trades.trade_id == trade_id))).all()
+    if not result:
+        return None
+    trade = result[0].Trades
+    trade.is_checked = update_is_checked_request.is_checked
+    db.add(trade)
+    await db.commit()
+    await db.refresh(trade)
+    return trade
+
+async def update_trade(
+    db: AsyncSession,
+    trade_id: int,
+    update_trade_request: RequestTradeRequest
+):
+    result = (await db.execute(select(Trades).where(Trades.trade_id == trade_id))).all()
+    if not result:
+        return None
+    trade = result[0].Trades
+    result = (await db.execute(select(Furniture).where(Furniture.furniture_id == trade.furniture_id))).all()
+    if not result:
+        return None
+    furniture = result[0].Furniture
+
+    # 承認フラグを立てる
+    if update_trade_request.is_giver:
+        trade.giver_approval = True
+    else:
+        trade.receiver_approval = True
+    
+    # 双方が承認したら取引成立
+    if trade.giver_approval and trade.receiver_approval:
+        furniture.is_sold = True
+    
+    db.add(trade)
+    db.add(furniture)
+    await db.commit()
+    await db.refresh(trade)
+    await db.refresh(furniture)
+    return trade

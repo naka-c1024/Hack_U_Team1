@@ -41,23 +41,6 @@ ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
 
-
-@router.get(
-    "/trades",
-    responses={
-        200: {"model": TradeListResponse, "description": "Trade list retrieved successfully"},
-    },
-    tags=["Trade"],
-    summary="Get list of trades history",
-    response_model_by_alias=True,
-)
-async def trades_get(
-    user_id: int = Query(None, description="", alias="user_id"),
-    db: AsyncSession = Depends(get_db),
-) -> TradeListResponse:
-    return await impl.trades_get(user_id, db)
-
-
 @router.post(
     "/trades",
     responses={
@@ -74,6 +57,20 @@ async def trades_post(
 ) -> None:
     return await impl.trades_post(request_trade_request, db)
 
+@router.get(
+    "/trades",
+    responses={
+        200: {"model": TradeListResponse, "description": "Trade list retrieved successfully"},
+    },
+    tags=["Trade"],
+    summary="Get list of trades history",
+    response_model_by_alias=True,
+)
+async def trades_get(
+    user_id: int = Query(None, description="", alias="user_id"),
+    db: AsyncSession = Depends(get_db),
+) -> TradeListResponse:
+    return await impl.trades_get(user_id, db)
 
 @router.get(
     "/trades/{trade_id}",
