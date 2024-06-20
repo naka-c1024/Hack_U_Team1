@@ -29,7 +29,7 @@ async def create_trade(
     await db.commit()
     await db.refresh(trade)
 
-async def get_trades(
+async def get_trade_list(
     db: AsyncSession,
     user_id: int
 ) -> TradeListResponse:
@@ -65,3 +65,35 @@ async def get_trades(
             )
         )
     return TradeListResponse(trades=trade_list_response)
+
+async def get_trade(
+    db: AsyncSession,
+    trade_id: int
+) -> TradeResponse:
+    query = select(
+        Trades,
+        Furniture
+    ).join(Furniture, Trades.furniture_id == Furniture.furniture_id).where(
+        Trades.trade_id == trade_id
+    )
+
+    result: Result = await db.execute(query)
+    trade = result.first()
+    if not trade:
+        return None
+
+    user = await get_user(db, trade.Furniture.user_id)
+    return TradeResponse(
+        trade_id            = trade.Trades.trade_id,
+        image               = trade.Furniture.image,
+        receiver_name       = user.username,
+        product_name        = trade.Furniture.product_name,
+        trade_place         = trade.Furniture.trade_place,
+        furniture_id        = trade.Furniture.user_id,
+        giver_id            = trade.Furniture.user_id,
+        receiver_id         = trade.Trades.receiver_id,
+        is_checked          = trade.Trades.is_checked,
+        giver_approval      = trade.Trades.giver_approval,
+        receiver_approval   = trade.Trades.receiver_approval,
+        trade_date          = trade.Trades.trade_date,
+    )
