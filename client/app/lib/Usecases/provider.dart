@@ -1,5 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+// ユーザーIDを保持
+final userIdProvider = StateProvider((ref) => -1);
+
 // 選択したカテゴリをインデックスで保持
 final categoryProvider = StateProvider((ref) => -1);
 
