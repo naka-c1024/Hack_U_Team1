@@ -24,6 +24,7 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.error_response import ErrorResponse
+from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_list_response import FurnitureListResponse
 from openapi_server.models.furniture_request import FurnitureRequest
@@ -41,6 +42,22 @@ router = APIRouter()
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
+
+
+@router.post(
+    "/furniture/describe",
+    responses={
+        200: {"model": FurnitureDescribeResponse, "description": "Furniture described successfully"},
+        400: {"model": ErrorResponse, "description": "validation error"},
+    },
+    tags=["Furniture"],
+    summary="Generate furniture description",
+    response_model_by_alias=True,
+)
+async def furniture_describe_post(
+    image: str = Form(None, description=""),
+) -> FurnitureDescribeResponse:
+    ...
 
 
 @router.delete(
@@ -135,3 +152,20 @@ async def furniture_post(
         condition,
         db
     )
+
+
+@router.post(
+    "/furniture/recommend",
+    responses={
+        200: {"model": FurnitureListResponse, "description": "Furniture recommended successfully"},
+        400: {"model": ErrorResponse, "description": "validation error"},
+    },
+    tags=["Furniture"],
+    summary="Recommend furniture",
+    response_model_by_alias=True,
+)
+async def furniture_recommend_post(
+    room_photo: UploadFile = Form(..., description=""),
+    category: int = Form(..., description="カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)"),
+) -> FurnitureListResponse:
+    ...

@@ -20,19 +20,22 @@ import json
 
 
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-class LoginResponse(BaseModel):
+class FurnitureDescribeResponse(BaseModel):
     """
-    LoginResponse
+    FurnitureDescribeResponse
     """ # noqa: E501
-    user_id: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["user_id"]
+    product_name: Optional[StrictStr] = None
+    description: Optional[StrictStr] = None
+    category: Optional[StrictInt] = Field(default=None, description="カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)")
+    color: Optional[StrictInt] = Field(default=None, description="色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)")
+    __properties: ClassVar[List[str]] = ["product_name", "description", "category", "color"]
 
     model_config = {
         "populate_by_name": True,
@@ -52,7 +55,7 @@ class LoginResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of LoginResponse from a JSON string"""
+        """Create an instance of FurnitureDescribeResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +78,7 @@ class LoginResponse(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Dict) -> Self:
-        """Create an instance of LoginResponse from a dict"""
+        """Create an instance of FurnitureDescribeResponse from a dict"""
         if obj is None:
             return None
 
@@ -83,7 +86,10 @@ class LoginResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "user_id": obj.get("user_id")
+            "product_name": obj.get("product_name"),
+            "description": obj.get("description"),
+            "category": obj.get("category"),
+            "color": obj.get("color")
         })
         return _obj
 
