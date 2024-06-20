@@ -4,18 +4,37 @@ from sqlalchemy.engine import Result
 
 import openapi_server.db_model.tables as db_model
 
-async def get_is_favorite(db: AsyncSession, user_id: int, furniture_id: int) -> bool:
+async def get_favorite(db: AsyncSession, furniture_id: int, user_id: int) -> db_model.Favorites:
     result: Result = await db.execute(
-        select(db_model.Favorites).where(db_model.Favorites.user_id == user_id, db_model.Favorites.furniture_id == furniture_id)
+        select(db_model.Favorites).where(db_model.Favorites.furniture_id == furniture_id, db_model.Favorites.user_id == user_id)
     )
     favorite: db_model.Favorites = result.first()
+    return favorite
+
+
+async def get_is_favorite(db: AsyncSession, furniture_id: int, user_id: int) -> bool:
+    favorite = await get_favorite(db, furniture_id, user_id)
     return True if favorite else False
 
+
 async def create_favorite(db: AsyncSession, furniture_id: int, user_id: int) -> None:
-    is_favorite = await get_is_favorite(db, user_id, furniture_id)
+    # 既にいいねされている場合は何もしない
+    is_favorite = await get_is_favorite(db, furniture_id, user_id)
     if is_favorite:
         return
 
     favorite = db_model.Favorites(furniture_id=furniture_id, user_id=user_id)
     db.add(favorite)
+    await db.commit()
+
+
+async def delete_favorite(db: AsyncSession, furniture_id: int, user_id: int) -> None:
+    result: Result = await db.execute(
+        select(db_model.Favorites).where(db_model.Favorites.furniture_id == furniture_id, db_model.Favorites.user_id == user_id)
+    )
+    favorite = result.scalar_one_or_none()
+    if favorite is None:
+        return
+
+    await db.delete(favorite)
     await db.commit()

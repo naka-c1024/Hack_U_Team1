@@ -10,7 +10,7 @@ class FavoriteApiImpl(BaseFavoriteApi):
         user_id: int,
         db: AsyncSession,
     ) -> None:
-        ...
+        return await favorite_crud.delete_favorite(db, furniture_id, user_id)
 
 
     async def favorite_furniture_id_get(
