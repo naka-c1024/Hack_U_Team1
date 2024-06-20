@@ -15,6 +15,7 @@ class TradeApiImpl(BaseTradeApi):
         return TradeListResponse()
 
     async def trades_post(self, request_trade_request: RequestTradeRequest, db: AsyncSession) -> None:
+        await trade_crud.create_trade(db, request_trade_request)
         return None
 
     async def trades_trade_id_get(self, trade_id: int, db: AsyncSession) -> TradeResponse:

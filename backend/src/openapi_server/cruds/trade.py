@@ -8,8 +8,15 @@ async def create_trade(
     db: AsyncSession,
     request_trade_request: RequestTradeRequest
 ):
-    print(request_trade_request.dict())
-    trade = db_model.Trades(**request_trade_request.dict())
+    trade_request = {
+        "furniture_id"      : request_trade_request.furniture_id,
+        "receiver_id"       : request_trade_request.user_id,
+        "is_checked"        : False,
+        "giver_approval"    : False,
+        "receiver_approval" : False,
+        "trade_date"        : request_trade_request.trade_date
+    }
+    trade = db_model.Trades(**trade_request)
     db.add(trade)
     await db.commit()
     await db.refresh(trade)
