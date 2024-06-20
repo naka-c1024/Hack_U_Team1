@@ -10,3 +10,12 @@ async def get_is_favorite(db: AsyncSession, user_id: int, furniture_id: int) -> 
     )
     favorite: db_model.Favorites = result.first()
     return True if favorite else False
+
+async def create_favorite(db: AsyncSession, furniture_id: int, user_id: int) -> None:
+    is_favorite = await get_is_favorite(db, user_id, furniture_id)
+    if is_favorite:
+        return
+
+    favorite = db_model.Favorites(furniture_id=furniture_id, user_id=user_id)
+    db.add(favorite)
+    await db.commit()
