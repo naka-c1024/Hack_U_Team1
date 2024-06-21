@@ -32,14 +32,14 @@ class TradeResponse(BaseModel):
     """
     TradeResponse
     """ # noqa: E501
-    trade_id: Optional[StrictInt] = Field(default=None, alias="trade_id")
+    trade_id: Optional[StrictInt] = None
     image: Optional[Union[StrictBytes, StrictStr]] = None
     receiver_name: Optional[StrictStr] = None
     product_name: Optional[StrictStr] = None
     trade_place: Optional[StrictStr] = Field(default=None, description="具体的な取引場所")
-    furniture_id: Optional[StrictInt] = Field(default=None, alias="furniture_id")
-    giver_id: Optional[StrictInt] = Field(default=None, alias="giver_id")
-    receiver_id: Optional[StrictInt] = Field(default=None, alias="receiver_id")
+    furniture_id: Optional[StrictInt] = None
+    giver_id: Optional[StrictInt] = None
+    receiver_id: Optional[StrictInt] = None
     is_checked: Optional[StrictBool] = None
     giver_approval: Optional[StrictBool] = None
     receiver_approval: Optional[StrictBool] = None
