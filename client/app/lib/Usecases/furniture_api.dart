@@ -5,21 +5,16 @@ import '../Domain/furniture.dart';
 // 家具リストを取得
 Future<List<Furniture>> getFurnitureList(int userId, String? searchWord) async {
   try {
-    final request = Request(
-      'GET',
-      Uri.parse('http://localhost:8080/furniture'),
-    )..headers.addAll({
-        'Content-Type': 'application/json',
-      });
-    Map<String,dynamic> requestBody = {
-      'user_id': userId,
+    final url = Uri.parse('http://localhost:8080/furniture');
+    final params = {
+      'user_id': '0',
     };
-    if (searchWord != null ){
-      requestBody['keyword'] = searchWord;
+    if (searchWord != null) {
+      params['keyword'] = searchWord;
     }
-    request.body = jsonEncode(requestBody);
-    StreamedResponse response = await request.send();
-    final jsonResponse = jsonDecode(await response.stream.bytesToString());
+    final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+    final response = await get(uri);
+    final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200) {
       final items = jsonResponse['furniture'];
       List<Furniture> furnitureList = [];

@@ -64,39 +64,28 @@ void main() {
   group('Furniture Test', () {
     var furnitureId = 0;
     test('Test: Get furniture list successfully', () async {
-      final request = Request(
-        'GET',
-        Uri.parse('http://localhost:8080/furniture'),
-      )..headers.addAll({
-          'Content-Type': 'application/json',
-        });
-      final requestBody = {
-        'user_id': 0,
-        'keyword': '',
+      final url = Uri.parse('http://localhost:8080/furniture');
+      final params = {
+        'user_id' : '0',
       };
-      request.body = jsonEncode(requestBody);
-      StreamedResponse response = await request.send();
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
       expect(response.statusCode, 200);
-      final jsonResponse = jsonDecode(await response.stream.bytesToString());
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final furnitureList = jsonResponse['furniture'];
       expect(furnitureList.length, isNonZero);
     });
 
     test('Test: Search furniture by keyword', () async {
-      final request = Request(
-        'GET',
-        Uri.parse('http://localhost:8080/furniture'),
-      )..headers.addAll({
-          'Content-Type': 'application/json',
-        });
-      final requestBody = {
-        'user_id': 0,
+      final url = Uri.parse('http://localhost:8080/furniture');
+      final params = {
+        'user_id' : '0',
         'keyword': 'ソファ',
       };
-      request.body = jsonEncode(requestBody);
-      StreamedResponse response = await request.send();
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
       expect(response.statusCode, 200);
-      final jsonResponse = jsonDecode(await response.stream.bytesToString());
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final furnitureList = jsonResponse['furniture'];
       expect(furnitureList.length, 1);
       final furniture = furnitureList[0];
@@ -105,54 +94,39 @@ void main() {
     });
 
     test('Test: Search furniture by keyword : result 0', () async {
-      final request = Request(
-        'GET',
-        Uri.parse('http://localhost:8080/furniture'),
-      )..headers.addAll({
-          'Content-Type': 'application/json',
-        });
-      final requestBody = {
-        'user_id': 0,
+      final url = Uri.parse('http://localhost:8080/furniture');
+      final params = {
+        'user_id' : '0',
         'keyword': 'qwerty',
       };
-      request.body = jsonEncode(requestBody);
-      StreamedResponse response = await request.send();
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
       expect(response.statusCode, 200);
-      final jsonResponse = jsonDecode(await response.stream.bytesToString());
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final furnitureList = jsonResponse['furniture'];
       expect(furnitureList.length, 0);
     });
 
     test('Test: Get furniture detailed successfully', () async {
-      final request = Request(
-        'GET',
-        Uri.parse('http://localhost:8080/furniture/$furnitureId'),
-      )..headers.addAll({
-          'Content-Type': 'application/json',
-        });
-      final requestBody = {
-        'user_id': 0,
+      final url = Uri.parse('http://localhost:8080/furniture/$furnitureId');
+      final params = {
+        'user_id' : '0',
       };
-      request.body = jsonEncode(requestBody);
-      StreamedResponse response = await request.send();
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
       expect(response.statusCode, 200);
-      final jsonResponse = jsonDecode(await response.stream.bytesToString());
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final productName = jsonResponse['product_name'];
       expect(productName, 'ソファ');
     });
 
     test('Test: Get furniture detailed failed', () async {
-      final request = Request(
-        'GET',
-        Uri.parse('http://localhost:8080/furniture/0'),
-      )..headers.addAll({
-          'Content-Type': 'application/json',
-        });
-      final requestBody = {
-        'user_id': 0,
+      final url = Uri.parse('http://localhost:8080/furniture/0');
+      final params = {
+        'user_id' : '0',
       };
-      request.body = jsonEncode(requestBody);
-      StreamedResponse response = await request.send();
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
       expect(response.statusCode, 404);
     });
 
