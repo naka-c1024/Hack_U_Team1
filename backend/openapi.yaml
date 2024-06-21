@@ -17,8 +17,6 @@ tags:
   name: Trade
 - description: いいね機能
   name: Favorite
-- description: レコメンド機能
-  name: Recommendation
 paths:
   /ok:
     get:
@@ -168,6 +166,54 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
           description: validation error
       summary: Get furniture details
+      tags:
+      - Furniture
+  /furniture/describe:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FurnitureDescribeRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureDescribeResponse'
+          description: Furniture described successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
+      summary: Generate furniture description
+      tags:
+      - Furniture
+  /furniture/recommend:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FurnitureRecommendRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureListResponse'
+          description: Furniture recommended successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
+      summary: Recommend furniture
       tags:
       - Furniture
   /trades:
@@ -373,24 +419,6 @@ paths:
       summary: Get favorite status
       tags:
       - Favorite
-  /recommend:
-    get:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RecommendRequest'
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecommendResponse'
-          description: Furniture recommendations retrieved successfully
-      summary: Get furniture recommendations based on room photo
-      tags:
-      - Recommendation
 components:
   schemas:
     OKResponse:
@@ -450,16 +478,16 @@ components:
       type: object
     LoginResponse:
       example:
-        userId: 0
+        user_id: 0
       properties:
-        userId:
-          title: userId
+        user_id:
+          title: user_id
           type: integer
       title: LoginResponse
       type: object
     RegisterFurnitureRequest:
       properties:
-        userId:
+        user_id:
           type: integer
         product_name:
           type: string
@@ -495,13 +523,11 @@ components:
       - condition
       - depth
       - description
-      - end_date
       - height
       - image
       - product_name
-      - start_date
       - trade_place
-      - userId
+      - user_id
       - width
       type: object
     FurnitureRequest:
@@ -649,45 +675,88 @@ components:
           type: boolean
       title: FurnitureResponse
       type: object
+    FurnitureDescribeRequest:
+      properties:
+        image:
+          format: binary
+          type: string
+      required:
+      - image
+      type: object
+    FurnitureDescribeResponse:
+      example:
+        color: 6
+        description: description
+        category: 0
+        product_name: product_name
+      properties:
+        product_name:
+          title: product_name
+          type: string
+        description:
+          title: description
+          type: string
+        category:
+          description: カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+          title: category
+          type: integer
+        color:
+          description: 色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+          title: color
+          type: integer
+      title: FurnitureDescribeResponse
+      type: object
+    FurnitureRecommendRequest:
+      properties:
+        room_photo:
+          format: binary
+          type: string
+        category:
+          description: カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+          type: integer
+      required:
+      - category
+      - room_photo
+      type: object
     RequestTradeRequest:
       example:
-        furnitureId: 0
-        userId: 6
+        user_id: 6
+        furniture_id: 0
         trade_date: 2000-01-23
       properties:
-        furnitureId:
-          title: furnitureId
+        furniture_id:
+          title: furniture_id
           type: integer
-        userId:
-          title: userId
+        user_id:
+          title: user_id
           type: integer
         trade_date:
           format: date
           title: trade_date
           type: string
       required:
-      - furnitureId
+      - furniture_id
       - trade_date
-      - userId
+      - user_id
       title: RequestTradeRequest
       type: object
     TradeResponse:
       example:
         image: ""
-        giverId: 1
-        receiverId: 5
+        trade_id: 0
         giver_approval: true
+        receiver_id: 5
         receiver_approval: true
         receiver_name: receiver_name
         is_checked: true
         trade_place: trade_place
-        furnitureId: 6
+        furniture_id: 6
         product_name: product_name
         trade_date: 2000-01-23
-        tradeId: 0
+        giver_id: 1
       properties:
-        tradeId:
-          title: tradeId
+        trade_id:
+          title: trade_id
           type: integer
         image:
           format: binary
@@ -703,14 +772,14 @@ components:
           description: 具体的な取引場所
           title: trade_place
           type: string
-        furnitureId:
-          title: furnitureId
+        furniture_id:
+          title: furniture_id
           type: integer
-        giverId:
-          title: giverId
+        giver_id:
+          title: giver_id
           type: integer
-        receiverId:
-          title: receiverId
+        receiver_id:
+          title: receiver_id
           type: integer
         is_checked:
           title: is_checked
@@ -731,29 +800,29 @@ components:
       example:
         trades:
         - image: ""
-          giverId: 1
-          receiverId: 5
+          trade_id: 0
           giver_approval: true
+          receiver_id: 5
           receiver_approval: true
           receiver_name: receiver_name
           is_checked: true
           trade_place: trade_place
-          furnitureId: 6
+          furniture_id: 6
           product_name: product_name
           trade_date: 2000-01-23
-          tradeId: 0
+          giver_id: 1
         - image: ""
-          giverId: 1
-          receiverId: 5
+          trade_id: 0
           giver_approval: true
+          receiver_id: 5
           receiver_approval: true
           receiver_name: receiver_name
           is_checked: true
           trade_place: trade_place
-          furnitureId: 6
+          furniture_id: 6
           product_name: product_name
           trade_date: 2000-01-23
-          tradeId: 0
+          giver_id: 1
       properties:
         trades:
           items:
@@ -786,68 +855,10 @@ components:
       type: object
     FavoriteResponse:
       example:
-        count_favorites: 0
+        favorites_count: 0
       properties:
-        count_favorites:
-          title: count_favorites
+        favorites_count:
+          title: favorites_count
           type: integer
       title: FavoriteResponse
-      type: object
-    RecommendRequest:
-      example:
-        roomPhoto: roomPhoto
-      properties:
-        roomPhoto:
-          title: roomPhoto
-          type: string
-      required:
-      - roomPhoto
-      title: RecommendRequest
-      type: object
-    RecommendResponse:
-      example:
-        recommendations:
-        - image: ""
-          size: size
-          description: description
-          furnitureId: 0
-          category: category
-        - image: ""
-          size: size
-          description: description
-          furnitureId: 0
-          category: category
-      properties:
-        recommendations:
-          items:
-            $ref: '#/components/schemas/RecommendResponse_recommendations_inner'
-          title: recommendations
-          type: array
-      title: RecommendResponse
-      type: object
-    RecommendResponse_recommendations_inner:
-      example:
-        image: ""
-        size: size
-        description: description
-        furnitureId: 0
-        category: category
-      properties:
-        furnitureId:
-          title: furnitureId
-          type: integer
-        image:
-          format: binary
-          title: image
-          type: string
-        description:
-          title: description
-          type: string
-        size:
-          title: size
-          type: string
-        category:
-          title: category
-          type: string
-      title: RecommendResponse_recommendations_inner
       type: object

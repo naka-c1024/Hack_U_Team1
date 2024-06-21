@@ -31,8 +31,8 @@ class FavoriteResponse(BaseModel):
     """
     FavoriteResponse
     """ # noqa: E501
-    count_favorites: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["count_favorites"]
+    favorites_count: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["favorites_count"]
 
     model_config = {
         "populate_by_name": True,
@@ -83,7 +83,7 @@ class FavoriteResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "count_favorites": obj.get("count_favorites")
+            "favorites_count": obj.get("favorites_count")
         })
         return _obj
 

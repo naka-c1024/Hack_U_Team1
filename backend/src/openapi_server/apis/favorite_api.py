@@ -25,6 +25,12 @@ from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.favorite_response import FavoriteResponse
 
+from openapi_server.impl.favorite_api_impl import FavoriteApiImpl
+from sqlalchemy.ext.asyncio import AsyncSession
+from openapi_server.db import get_db
+
+
+impl = FavoriteApiImpl()
 
 router = APIRouter()
 
@@ -46,8 +52,9 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def favorite_delete(
     furniture_id: int = Query(None, description="", alias="furniture_id"),
     user_id: int = Query(None, description="", alias="user_id"),
+    db: AsyncSession = Depends(get_db),
 ) -> None:
-    ...
+    return await impl.favorite_delete(furniture_id, user_id, db)
 
 
 @router.get(
@@ -62,8 +69,9 @@ async def favorite_delete(
 )
 async def favorite_furniture_id_get(
     furniture_id: int = Path(..., description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> FavoriteResponse:
-    ...
+    return await impl.favorite_furniture_id_get(furniture_id, db)
 
 
 @router.post(
@@ -79,5 +87,6 @@ async def favorite_furniture_id_get(
 async def favorite_post(
     furniture_id: int = Query(None, description="", alias="furniture_id"),
     user_id: int = Query(None, description="", alias="user_id"),
+    db: AsyncSession = Depends(get_db),
 ) -> None:
-    ...
+    return await impl.favorite_post(furniture_id, user_id, db)

@@ -24,6 +24,7 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.error_response import ErrorResponse
+from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_list_response import FurnitureListResponse
 from openapi_server.models.furniture_request import FurnitureRequest
@@ -41,6 +42,22 @@ router = APIRouter()
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
+
+
+@router.post(
+    "/furniture/describe",
+    responses={
+        200: {"model": FurnitureDescribeResponse, "description": "Furniture described successfully"},
+        400: {"model": ErrorResponse, "description": "validation error"},
+    },
+    tags=["Furniture"],
+    summary="Generate furniture description",
+    response_model_by_alias=True,
+)
+async def furniture_describe_post(
+    image: UploadFile = Form(None, description=""),
+) -> FurnitureDescribeResponse:
+    return await impl.furniture_describe_post(image)
 
 
 @router.delete(
@@ -117,5 +134,38 @@ async def furniture_post(
     end_date: str = Form(None, description=""),
     trade_place: str = Form(..., description=""),
     condition: int = Form(..., description=""),
+    db: AsyncSession = Depends(get_db),
 ) -> FurnitureResponse:
-    ...
+    return await impl.furniture_post(
+        user_id,
+        product_name,
+        image,
+        description,
+        height,
+        width,
+        depth,
+        category,
+        color,
+        start_date,
+        end_date,
+        trade_place,
+        condition,
+        db
+    )
+
+
+@router.post(
+    "/furniture/recommend",
+    responses={
+        200: {"model": FurnitureListResponse, "description": "Furniture recommended successfully"},
+        400: {"model": ErrorResponse, "description": "validation error"},
+    },
+    tags=["Furniture"],
+    summary="Recommend furniture",
+    response_model_by_alias=True,
+)
+async def furniture_recommend_post(
+    room_photo: UploadFile = Form(..., description=""),
+    category: int = Form(..., description="カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)"),
+) -> FurnitureListResponse:
+    return await impl.furniture_recommend_post(room_photo, category)
