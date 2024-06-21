@@ -96,9 +96,29 @@ void main() {
       expect(response.statusCode, 200);
       final jsonResponse = jsonDecode(await response.stream.bytesToString());
       final furnitureList = jsonResponse['furniture'];
+      expect(furnitureList.length,1);
       final furniture = furnitureList[0];
       expect(furniture['product_name'], 'ソファ');
       furnitureId = furniture['furniture_id'];
+    });
+
+    test('Test: Search furniture by keyword : result 0', () async {
+      final request = Request(
+        'GET',
+        Uri.parse('http://localhost:8080/furniture'),
+      )..headers.addAll({
+          'Content-Type': 'application/json',
+        });
+      final requestBody = {
+        'user_id': 0,
+        'keyword': 'qwerty',
+      };
+      request.body = jsonEncode(requestBody);
+      StreamedResponse response = await request.send();
+      expect(response.statusCode, 200);
+      final jsonResponse = jsonDecode(await response.stream.bytesToString());
+      final furnitureList = jsonResponse['furniture'];
+      expect(furnitureList.length,0);
     });
 
     test('Test: Get furniture detailed successfully', () async {

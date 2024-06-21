@@ -32,7 +32,7 @@ class SearchResultView extends HookConsumerWidget {
         }
       }
       // あまりを追加
-      if (row.length > 1) {
+      if (row.isNotEmpty) {
         resultList.value.add(
           Row(
             mainAxisAlignment: MainAxisAlignment.start,

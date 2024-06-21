@@ -21,9 +21,3 @@ final furnitureListProvider = FutureProvider<List<Furniture>>((ref) async {
   return getFurnitureList(userId, null);
 });
 
-// 検索結果取得APUの状態を管理
-final searchResultProvider =
-    FutureProvider.family<List<Furniture>, String>((ref, searchWord) async {
-  final userId = ref.read(userIdProvider);
-  return getFurnitureList(userId, searchWord);
-});

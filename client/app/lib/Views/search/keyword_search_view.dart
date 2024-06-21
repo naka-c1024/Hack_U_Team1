@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Domain/furniture.dart';
 import '../../Usecases/provider.dart';
+import '../../Usecases/furniture_api.dart';
 import '../common/cateogory_cell.dart';
 import 'search_result_view.dart';
 
@@ -20,9 +18,7 @@ class KeywordSearchView extends HookConsumerWidget {
     final searchWordController = useTextEditingController(text: '');
     final focus = useFocusNode();
     final isFocused = useState(false);
-
-    AsyncValue<List<Furniture>> searchResultState =
-        ref.watch(searchResultProvider(searchWordController.text));
+    final userId = ref.read(userIdProvider);
 
     useEffect(() {
       void onFocusChanged() {
@@ -130,27 +126,21 @@ class KeywordSearchView extends HookConsumerWidget {
                           saveSearchLog(value);
                         }
                         // 検索結果の取得
-                        Future result = Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => searchResultState.when(
-                              loading: () => const Center(
-                                child: CircularProgressIndicator(),
+                        final futureResult = getFurnitureList(userId, value);
+                        futureResult.then((result) {
+                          return Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchResultView(
+                                searchWord: searchWordController.text,
+                                furnitureList: result,
                               ),
-                              error: (error, __) => Center(
-                                child: Text('error: $error'),
-                              ),
-                              data: (data) {
-                                return SearchResultView(
-                                  searchWord: searchWordController.text,
-                                  furnitureList: data,
-                                );
-                              },
                             ),
-                          ),
-                        );
-                        result.then((value){
-                          searchWordController.text = '';
+                          );
+                        }).catchError((error) {
+                          return Center(
+                            child: Text('error: $error'),
+                          );
                         });
                       },
                       textInputAction: TextInputAction.search,

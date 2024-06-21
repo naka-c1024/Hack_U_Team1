@@ -47,7 +47,7 @@ class FurnitureListView extends HookConsumerWidget {
         }
       }
       // あまりを追加
-      if (row.length > 1) {
+      if (row.isNotEmpty) {
         latestList.value.add(
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -55,7 +55,7 @@ class FurnitureListView extends HookConsumerWidget {
           ),
         );
       }
-      if (favoriteRow.length > 1) {
+      if (favoriteRow.isNotEmpty) {
         // 二行だけ表示
         if (favoriteList.value.length < 2) {
           favoriteList.value.add(
