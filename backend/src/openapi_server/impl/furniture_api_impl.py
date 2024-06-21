@@ -8,7 +8,7 @@ from openapi_server.apis.furniture_api_base import BaseFurnitureApi
 from openapi_server.models.furniture_list_response import FurnitureListResponse
 from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_response import FurnitureResponse
-from openapi_server.models.register_furniture_request import RegisterFurnitureRequest
+from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 
 import openapi_server.cruds.furniture as furniture_crud
 
@@ -18,6 +18,20 @@ from typing import Optional
 
 
 class FurnitureApiImpl(BaseFurnitureApi):
+    async def furniture_describe_post(
+        self,
+        image: UploadFile,
+    ) -> FurnitureDescribeResponse:
+        # TODO: describe_furniture_from_imageの実装
+        # return await describe_furniture_from_image(image)
+        return FurnitureDescribeResponse( # ダミー
+            product_name="product_name",
+            description="description",
+            category=1,
+            color=1,
+        )
+
+
     async def furniture_furniture_id_delete(
         self,
         furniture_id: int,
@@ -29,7 +43,6 @@ class FurnitureApiImpl(BaseFurnitureApi):
             os.remove(image_uri_or_error_msg)
         elif image_uri_or_error_msg is not None:
             raise HTTPException(status_code=400, detail=image_uri_or_error_msg)
-        
 
 
     async def furniture_furniture_id_get(
@@ -75,6 +88,7 @@ class FurnitureApiImpl(BaseFurnitureApi):
                 raise HTTPException(status_code=404, detail="Image file not found")
 
         return furniture_list
+
 
     async def furniture_post(
         self,
@@ -130,12 +144,25 @@ class FurnitureApiImpl(BaseFurnitureApi):
         return furniture
 
 
+    async def furniture_recommend_post(
+        self,
+        room_photo: UploadFile,
+        category: int,
+    ) -> FurnitureListResponse:
+        # まずカテゴリで絞る?それとも先にAIを使ってその結果を元にkeywordなども含めて絞る?
+        # アルゴリズムが決まったらそれに伴うDB処理を実装します！
+        # TODO: recommend_furniture_from_imageの実装
+        # response = await recommend_furniture_from_image(room_photo, category)
+        return FurnitureListResponse() # ダミー
+
+
 async def read_image_file(file_path: str) -> bytes:
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"File not found: {file_path}")
 
     async with aiofiles.open(file_path, 'rb') as file:
         return await file.read()
+
 
 async def write_image_file(file_path: str, image_bytes: bytes) -> None:
     async with aiofiles.open(file_path, 'wb') as file:

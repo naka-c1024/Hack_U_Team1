@@ -20,7 +20,7 @@ class BaseFurnitureApi:
         BaseFurnitureApi.subclasses = BaseFurnitureApi.subclasses + (cls,)
     def furniture_describe_post(
         self,
-        image: str,
+        image: UploadFile,
     ) -> FurnitureDescribeResponse:
         ...
 
