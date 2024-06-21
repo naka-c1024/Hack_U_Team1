@@ -145,70 +145,82 @@ class FurnitureListView extends HookConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 8),
+              favoriteList.value.isEmpty
+                  ? const SizedBox()
+                  : const SizedBox(height: 8),
               // いいねした商品
-              Container(
-                height: 52 +
-                    ((screenSize.width - 40) / 3 + 8) *
-                        favoriteList.value.length,
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                color: const Color(0xffffffff),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // ヘッダー
-                    SizedBox(
-                      height: 48,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              favoriteList.value.isEmpty
+                  ? const SizedBox()
+                  : Container(
+                      height: 52 +
+                          ((screenSize.width - 40) / 3 + 8) *
+                              favoriteList.value.length,
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      color: const Color(0xffffffff),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Text(
-                            ' いいねした商品',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                          // ヘッダー
+                          SizedBox(
+                            height: 48,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  ' いいねした商品',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                favoriteList.value.length <
+                                        favoriteAllList.value.length
+                                    ? TextButton(
+                                        onPressed: () {
+                                          // いいねした商品をすべて見るページへ
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FavoriteListView(
+                                                favoriteAllList:
+                                                    favoriteAllList.value,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: const Row(
+                                          children: [
+                                            Text('すべて見る'),
+                                            SizedBox(width: 8),
+                                            Icon(
+                                              size: 16,
+                                              Icons.arrow_forward_ios,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : const SizedBox(height: 24),
+                              ],
                             ),
                           ),
-                          favoriteList.value.length <
-                                  favoriteAllList.value.length
-                              ? TextButton(
-                                  onPressed: () {
-                                    // いいねした商品をすべて見るページへ
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => FavoriteListView(
-                                          favoriteAllList: favoriteAllList.value,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: const Row(
-                                    children: [
-                                      Text('すべて見る'),
-                                      SizedBox(width: 8),
-                                      Icon(
-                                        size: 16,
-                                        Icons.arrow_forward_ios,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : const SizedBox(height: 24),
+                          Column(children: favoriteList.value),
                         ],
                       ),
                     ),
-                    Column(children: favoriteList.value),
-                  ],
-                ),
-              ),
               const SizedBox(height: 8),
               // 最新の商品
               Container(
-                height: latestList.value.length < 4
-                    ? screenSize.height - 
-                    ((screenSize.width - 40) / 3 + 8) *
-                        favoriteList.value.length - 272
+                height: latestList.value.length < 5
+                    ? favoriteList.value.isEmpty
+                        ? screenSize.height -
+                            ((screenSize.width - 40) / 3 + 8) *
+                                favoriteList.value.length -
+                            192
+                        : screenSize.height -
+                            ((screenSize.width - 40) / 3 + 8) *
+                                favoriteList.value.length -
+                            272
                     : 52 +
                         ((screenSize.width - 40) / 3 + 8) *
                             latestList.value.length,

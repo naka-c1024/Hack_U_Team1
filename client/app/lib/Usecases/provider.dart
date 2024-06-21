@@ -17,13 +17,13 @@ final conditionProvider = StateProvider((ref) => -1);
 
 // 家具リスト取得APIの状態を管理
 final furnitureListProvider = FutureProvider<List<Furniture>>((ref) async {
-  final userId = ref.watch(userIdProvider);
+  final userId = ref.read(userIdProvider);
   return getFurnitureList(userId, null);
 });
 
 // 検索結果取得APUの状態を管理
 final searchResultProvider =
     FutureProvider.family<List<Furniture>, String>((ref, searchWord) async {
-  final userId = ref.watch(userIdProvider);
+  final userId = ref.read(userIdProvider);
   return getFurnitureList(userId, searchWord);
 });
