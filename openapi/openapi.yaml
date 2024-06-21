@@ -17,8 +17,6 @@ tags:
     description: 取引機能
   - name: Favorite
     description: いいね機能
-  - name: Recommendation
-    description: レコメンド機能
 
 paths:
   /ok:
@@ -93,7 +91,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/RegisterFurnitureRequest'
       responses:
@@ -107,11 +105,19 @@ paths:
       tags:
         - Furniture
       summary: Get list of furniture
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FurnitureListRequest'
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 1
+        - name: keyword
+          in: query
+          schema:
+            type: string
+          description: 検索キーワード, スペース区切りで複数指定可
+          example: "ソファ かわいい"
       responses:
         '200':
           description: Furniture list retrieved successfully
@@ -130,11 +136,13 @@ paths:
           required: true
           schema:
             type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FurnitureRequest'
+          example: 1
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 2
       responses:
         '200':
           description: Furniture details retrieved successfully
@@ -167,6 +175,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /furniture/describe:
+    post:
+      tags:
+        - Furniture
+      summary: Generate furniture description
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FurnitureDescribeRequest'
+      responses:
+        '200':
+          description: Furniture described successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureDescribeResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /furniture/recommend:
+    post:
+      tags:
+        - Furniture
+      summary: Recommend furniture
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FurnitureRecommendRequest'
+      responses:
+        '200':
+          description: Furniture recommended successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureListResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   /trades:
     post:
       tags:
@@ -353,26 +410,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-
-  /recommend:
-    get:
-      tags:
-        - Recommendation
-      summary: Get furniture recommendations based on room photo
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RecommendRequest'
-      responses:
-        '200':
-          description: Furniture recommendations retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RecommendResponse'
-
 components:
   schemas:
     OKResponse:
@@ -411,12 +448,12 @@ components:
     LoginResponse:
       type: object
       properties:
-        userId:
+        user_id:
           type: integer
     RegisterFurnitureRequest:
       type: object
       required:
-        - userId
+        - user_id
         - product_name
         - image
         - description
@@ -425,12 +462,10 @@ components:
         - depth
         - category
         - color
-        - start_date
-        - end_date
         - trade_place
         - condition
       properties:
-        userId:
+        user_id:
           type: integer
         product_name:
           type: string
@@ -460,23 +495,6 @@ components:
           type: string
         condition:
           type: integer
-    FurnitureRequest:
-      type: object
-      required:
-        - user_id
-      properties:
-        user_id:
-          type: integer
-    FurnitureListRequest:
-      type: object
-      required:
-        - user_id
-      properties:
-        user_id:
-          type: integer
-        keyword:
-          type: string
-          description: 検索キーワード, スペース区切りで複数指定可
     FurnitureListResponse:
       type: object
       properties:
@@ -529,16 +547,49 @@ components:
         is_favorite:
           type: boolean
           description: 「いいねした商品」用
+    FurnitureDescribeRequest:
+      type: object
+      required:
+        - image
+      properties:
+        image:
+          type: string
+          format: binary
+    FurnitureDescribeResponse:
+      type: object
+      properties:
+        product_name:
+          type: string
+        description:
+          type: string
+        category:
+          type: integer
+          description: カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+        color:
+          type: integer
+          description: 色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+    FurnitureRecommendRequest:
+      type: object
+      required:
+        - room_photo
+        - category
+      properties:
+        room_photo:
+          type: string
+          format: binary
+        category:
+          type: integer
+          description: カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
     RequestTradeRequest:
       type: object
       required:
-        - furnitureId
-        - userId
+        - furniture_id
+        - user_id
         - trade_date
       properties:
-        furnitureId:
+        furniture_id:
           type: integer
-        userId:
+        user_id:
           type: integer
         trade_date:
           type: string
@@ -546,7 +597,7 @@ components:
     TradeResponse:
       type: object
       properties:
-        tradeId:
+        trade_id:
           type: integer
         image:
           type: string
@@ -558,11 +609,11 @@ components:
         trade_place:
           type: string
           description: 具体的な取引場所
-        furnitureId:
+        furniture_id:
           type: integer
-        giverId:
+        giver_id:
           type: integer
-        receiverId:
+        receiver_id:
           type: integer
         is_checked:
           type: boolean
@@ -597,31 +648,5 @@ components:
     FavoriteResponse:
       type: object
       properties:
-        count_favorites:
+        favorites_count:
           type: integer
-    RecommendRequest:
-      type: object
-      required:
-        - roomPhoto
-      properties:
-        roomPhoto:
-          type: string
-    RecommendResponse:
-      type: object
-      properties:
-        recommendations:
-          type: array
-          items:
-            type: object
-            properties:
-              furnitureId:
-                type: integer
-              image:
-                type: string
-                format: binary
-              description:
-                type: string
-              size:
-                type: string
-              category:
-                type: string

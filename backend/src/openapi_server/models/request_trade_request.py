@@ -21,7 +21,7 @@ import json
 
 
 from datetime import date
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List
 try:
     from typing import Self
@@ -32,10 +32,10 @@ class RequestTradeRequest(BaseModel):
     """
     RequestTradeRequest
     """ # noqa: E501
-    furniture_id: StrictInt = Field(alias="furnitureId")
-    user_id: StrictInt = Field(alias="userId")
+    furniture_id: StrictInt
+    user_id: StrictInt
     trade_date: date
-    __properties: ClassVar[List[str]] = ["furnitureId", "userId", "trade_date"]
+    __properties: ClassVar[List[str]] = ["furniture_id", "user_id", "trade_date"]
 
     model_config = {
         "populate_by_name": True,
@@ -86,8 +86,8 @@ class RequestTradeRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "furnitureId": obj.get("furnitureId"),
-            "userId": obj.get("userId"),
+            "furniture_id": obj.get("furniture_id"),
+            "user_id": obj.get("user_id"),
             "trade_date": obj.get("trade_date")
         })
         return _obj

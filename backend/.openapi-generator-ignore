@@ -14,7 +14,15 @@ src/openapi_server/file_storage/**
 
 src/openapi_server/security_api.py
 
+# CORSの設定を行ったため追加
+src/openapi_server/main.py
+
+# multipart/form-dataを使用した場合、自動生成されたコードにはバグがあるため、修正が必要
+src/openapi_server/apis/furniture_api_base.py
+
 # routerの実装を行った場合はここに追加
 src/openapi_server/apis/ok_api.py
 src/openapi_server/apis/furniture_api.py
 src/openapi_server/apis/user_api.py
+src/openapi_server/apis/favorite_api.py
+src/openapi_server/apis/trade_api.py

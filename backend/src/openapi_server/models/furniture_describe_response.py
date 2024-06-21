@@ -20,31 +20,22 @@ import json
 
 
 
-from datetime import date
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictBytes, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-class TradeResponse(BaseModel):
+class FurnitureDescribeResponse(BaseModel):
     """
-    TradeResponse
+    FurnitureDescribeResponse
     """ # noqa: E501
-    trade_id: Optional[StrictInt] = None
-    image: Optional[Union[StrictBytes, StrictStr]] = None
-    receiver_name: Optional[StrictStr] = None
     product_name: Optional[StrictStr] = None
-    trade_place: Optional[StrictStr] = Field(default=None, description="具体的な取引場所")
-    furniture_id: Optional[StrictInt] = None
-    giver_id: Optional[StrictInt] = None
-    receiver_id: Optional[StrictInt] = None
-    is_checked: Optional[StrictBool] = None
-    giver_approval: Optional[StrictBool] = None
-    receiver_approval: Optional[StrictBool] = None
-    trade_date: Optional[date] = None
-    __properties: ClassVar[List[str]] = ["trade_id", "image", "receiver_name", "product_name", "trade_place", "furniture_id", "giver_id", "receiver_id", "is_checked", "giver_approval", "receiver_approval", "trade_date"]
+    description: Optional[StrictStr] = None
+    category: Optional[StrictInt] = Field(default=None, description="カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)")
+    color: Optional[StrictInt] = Field(default=None, description="色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)")
+    __properties: ClassVar[List[str]] = ["product_name", "description", "category", "color"]
 
     model_config = {
         "populate_by_name": True,
@@ -64,7 +55,7 @@ class TradeResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of TradeResponse from a JSON string"""
+        """Create an instance of FurnitureDescribeResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -87,7 +78,7 @@ class TradeResponse(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Dict) -> Self:
-        """Create an instance of TradeResponse from a dict"""
+        """Create an instance of FurnitureDescribeResponse from a dict"""
         if obj is None:
             return None
 
@@ -95,18 +86,10 @@ class TradeResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "trade_id": obj.get("trade_id"),
-            "image": obj.get("image"),
-            "receiver_name": obj.get("receiver_name"),
             "product_name": obj.get("product_name"),
-            "trade_place": obj.get("trade_place"),
-            "furniture_id": obj.get("furniture_id"),
-            "giver_id": obj.get("giver_id"),
-            "receiver_id": obj.get("receiver_id"),
-            "is_checked": obj.get("is_checked"),
-            "giver_approval": obj.get("giver_approval"),
-            "receiver_approval": obj.get("receiver_approval"),
-            "trade_date": obj.get("trade_date")
+            "description": obj.get("description"),
+            "category": obj.get("category"),
+            "color": obj.get("color")
         })
         return _obj
 

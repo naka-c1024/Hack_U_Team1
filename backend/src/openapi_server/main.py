@@ -13,6 +13,7 @@
 
 
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware # 追加
 
 from openapi_server.apis.favorite_api import router as FavoriteApiRouter
 from openapi_server.apis.furniture_api import router as FurnitureApiRouter
@@ -25,6 +26,15 @@ app = FastAPI(
     title="家具マッチングサービス",
     description="画像によるレコメンド機能を添えて",
     version="1.0.0",
+)
+
+# CORSの設定を追加
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(FavoriteApiRouter)
