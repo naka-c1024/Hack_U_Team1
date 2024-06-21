@@ -14,7 +14,7 @@ import openapi_server.cruds.furniture as furniture_crud
 
 from fastapi import HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import Optional, List
+from typing import Optional
 
 
 class FurnitureApiImpl(BaseFurnitureApi):
@@ -89,6 +89,7 @@ class FurnitureApiImpl(BaseFurnitureApi):
 
         return furniture_list
 
+
     async def furniture_post(
         self,
         user_id: int,
@@ -141,16 +142,17 @@ class FurnitureApiImpl(BaseFurnitureApi):
         furniture.image = image_base64
         
         return furniture
-    
+
 
     async def furniture_recommend_post(
         self,
         room_photo: UploadFile,
         category: int,
     ) -> FurnitureListResponse:
+        # まずカテゴリで絞る?それとも先にAIを使ってその結果を元にkeywordなども含めて絞る?
+        # アルゴリズムが決まったらそれに伴うDB処理を実装します！
         # TODO: recommend_furniture_from_imageの実装
-        # まずカテゴリで絞る?それとも同時に予測する?
-        # どのように実装するかは要検討
+        # response = await recommend_furniture_from_image(room_photo, category)
         return FurnitureListResponse() # ダミー
 
 
@@ -160,6 +162,7 @@ async def read_image_file(file_path: str) -> bytes:
 
     async with aiofiles.open(file_path, 'rb') as file:
         return await file.read()
+
 
 async def write_image_file(file_path: str, image_bytes: bytes) -> None:
     async with aiofiles.open(file_path, 'wb') as file:
