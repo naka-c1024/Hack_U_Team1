@@ -3,10 +3,7 @@ openapi.yaml
 setup.cfg
 src/openapi_server/apis/__init__.py
 src/openapi_server/apis/favorite_api_base.py
-src/openapi_server/apis/furniture_api.py
-src/openapi_server/apis/furniture_api_base.py
 src/openapi_server/apis/ok_api_base.py
-src/openapi_server/apis/trade_api.py
 src/openapi_server/apis/trade_api_base.py
 src/openapi_server/apis/user_api_base.py
 src/openapi_server/models/__init__.py
