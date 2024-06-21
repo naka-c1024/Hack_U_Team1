@@ -52,7 +52,9 @@ class FurnitureCell extends HookConsumerWidget {
         ),
         child: Stack(
           children: [
-            //TODO: ここに写真が入る
+            Center(
+              child:Image.memory(furniture.image!),
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,

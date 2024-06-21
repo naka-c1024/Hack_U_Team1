@@ -36,11 +36,13 @@ class FurnitureDetailView extends HookConsumerWidget {
                   // 商品画像
                   Stack(
                     children: [
-                      // TODO: ここに写真が入る
                       Container(
                         height: screenSize.width,
                         width: screenSize.width,
                         color: const Color(0xffd9d9d9),
+                        child: Center(
+                          child: Image.memory(furniture.image!),
+                        ),
                       ),
                       IconButton(
                         padding: const EdgeInsets.only(left: 8),

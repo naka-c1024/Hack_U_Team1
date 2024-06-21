@@ -1,13 +1,6 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:http/http.dart';
 import '../Domain/furniture.dart';
-
-Uint8List convertImage(String str) {
-  List<int> bytes = utf8.encode(str);
-  Uint8List uint8list = Uint8List.fromList(bytes);
-  return uint8list;
-}
 
 // 家具リストを取得
 Future<List<Furniture>> getFurnitureList(int userId, String? searchWord) async {
@@ -33,7 +26,7 @@ Future<List<Furniture>> getFurnitureList(int userId, String? searchWord) async {
       for (Map<String, dynamic> item in items) {
         var furniture = Furniture(
             furnitureId: item['furniture_id'],
-            image: convertImage(item['image']),
+            image: base64Decode(item['image']),
             area: item['area'],
             userName: item['username'],
             productName: item['product_name'],
