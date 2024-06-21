@@ -6,7 +6,6 @@ import uuid
 from openapi_server.apis.furniture_api_base import BaseFurnitureApi
 
 from openapi_server.models.furniture_list_response import FurnitureListResponse
-from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_response import FurnitureResponse
 from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 
@@ -68,11 +67,10 @@ class FurnitureApiImpl(BaseFurnitureApi):
 
     async def furniture_get(
         self,
-        furniture_list_request: FurnitureListRequest,
+        user_id: int,
+        keyword: Optional[str],
         db: AsyncSession,
     ) -> FurnitureListResponse:
-        user_id = furniture_list_request.user_id
-        keyword: Optional[str] = furniture_list_request.keyword
         furniture_list: FurnitureListResponse = await furniture_crud.get_furniture_list(db, user_id, keyword)
 
         if furniture_list is None:
