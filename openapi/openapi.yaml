@@ -105,11 +105,19 @@ paths:
       tags:
         - Furniture
       summary: Get list of furniture
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FurnitureListRequest'
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 1
+        - name: keyword
+          in: query
+          schema:
+            type: string
+          description: 検索キーワード, スペース区切りで複数指定可
+          example: "ソファ かわいい"
       responses:
         '200':
           description: Furniture list retrieved successfully
@@ -128,11 +136,13 @@ paths:
           required: true
           schema:
             type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FurnitureRequest'
+          example: 1
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 2
       responses:
         '200':
           description: Furniture details retrieved successfully
@@ -485,23 +495,6 @@ components:
           type: string
         condition:
           type: integer
-    FurnitureRequest:
-      type: object
-      required:
-        - user_id
-      properties:
-        user_id:
-          type: integer
-    FurnitureListRequest:
-      type: object
-      required:
-        - user_id
-      properties:
-        user_id:
-          type: integer
-        keyword:
-          type: string
-          description: 検索キーワード, スペース区切りで複数指定可
     FurnitureListResponse:
       type: object
       properties:
