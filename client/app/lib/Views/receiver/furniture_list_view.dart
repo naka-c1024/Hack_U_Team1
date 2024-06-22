@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
 import '../../Usecases/provider.dart';
 import '../../Usecases/trade_api.dart';
@@ -26,7 +24,7 @@ class FurnitureListView extends HookConsumerWidget {
     useEffect(() {
       List<Widget> row = [];
       List<Widget> favoriteRow = [];
-      for (Furniture furniture in furnitureList) {
+      for (Furniture furniture in furnitureList.reversed) {
         // 全ての商品をリストに入れる
         row.add(FurnitureCell(furniture: furniture));
         // 3個貯まったら追加
@@ -76,19 +74,6 @@ class FurnitureListView extends HookConsumerWidget {
           ),
         );
       }
-      return null;
-    }, []);
-
-    final future = useMemoized(SharedPreferences.getInstance);
-    final snapshot = useFuture(future, initialData: null);
-    final userArea = useState(12);
-
-    useEffect(() {
-      final preferences = snapshot.data;
-      if (preferences == null) {
-        return null;
-      }
-      userArea.value = preferences.getInt('Address') ?? 12;
       return null;
     }, []);
 
@@ -243,8 +228,8 @@ class FurnitureListView extends HookConsumerWidget {
                     // ヘッダー
                     Container(
                       padding: const EdgeInsets.only(top: 12, bottom: 12),
-                      child: Text(
-                        ' ${prefectures[userArea.value]}の最新の商品',
+                      child: const Text(
+                        ' 最新の商品',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
