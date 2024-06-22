@@ -271,4 +271,37 @@ void main() {
       expect(response.statusCode, 200);
     });
   });
+
+  group('Favorite Test', () {
+    test('Test: Add favorite successfully', () async {
+      final uri =
+          Uri.parse('http://localhost:8080/favorite').replace(queryParameters: {
+        'furniture_id': '1',
+        'user_id': '1',
+      });
+      final headers = {'Content-Type': 'application/json'};
+      var response = await post(uri, headers: headers);
+      expect(response.statusCode, 200);
+    });
+
+    test('Test: Delete favorite successfully', () async {
+      final uri =
+          Uri.parse('http://localhost:8080/favorite').replace(queryParameters: {
+        'furniture_id': '1',
+        'user_id': '1',
+      });
+      final headers = {'Content-Type': 'application/json'};
+      var response = await delete(uri, headers: headers);
+      expect(response.statusCode, 200);
+    });
+
+    test('Test: Get favorite status successfully', () async {
+      final uri = Uri.parse('http://localhost:8080/favorite/1/');
+      final headers = {'Content-Type': 'application/json'};
+      var response = await get(uri, headers: headers);
+      expect(response.statusCode, 200);
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      expect(jsonResponse['favorites_count'], isA<int>()); // int型が返ってくることを確認
+    });
+  });
 }
