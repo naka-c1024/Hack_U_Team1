@@ -42,6 +42,9 @@ Future<List<Furniture>> getFurnitureList(int userId, String? searchWord) async {
                 : DateTime.parse(item['end_date']),
             tradePlace: item['trade_place'],
             isFavorite: item['is_favorite']);
+            if(furniture.isFavorite){
+              print(furniture.productName);
+            }
         furnitureList.add(furniture);
       }
       return furnitureList;

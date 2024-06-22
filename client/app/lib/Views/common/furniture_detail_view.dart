@@ -5,7 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
+import '../../Usecases/provider.dart';
 import '../../Usecases/furniture_api.dart';
+import '../../Usecases/favorite_api.dart';
 import 'trade_adjust_sheet.dart';
 
 class FurnitureDetailView extends HookConsumerWidget {
@@ -23,6 +25,7 @@ class FurnitureDetailView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
     final isFavorite = useState(furniture.isFavorite);
+    final userId = ref.read(userIdProvider);
 
     return Scaffold(
       body: Column(
@@ -72,11 +75,17 @@ class FurnitureDetailView extends HookConsumerWidget {
                             ElevatedButton(
                               onPressed: () {
                                 isFavorite.value = !isFavorite.value;
+                                if (furniture.furnitureId == null) return;
+                                if (isFavorite.value) {
+                                  addFavorite(userId, furniture.furnitureId!);
+                                } else {
+                                  deleteFavorite(userId, furniture.furnitureId!);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xffffffff),
                                 foregroundColor: isFavorite.value
-                                    ? const Color(0xff474747)
+                                    ? const Color(0xffff0000)
                                     : const Color(0xff858585),
                                 padding: EdgeInsets.zero,
                                 minimumSize: Size.zero,
