@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../Domain/trade.dart';
+import '../../../Usecases/provider.dart';
+import '../../../Usecases/furniture_api.dart';
 import '../../common/trade_detail_view.dart';
 
 class TradeCell extends HookConsumerWidget {
   final Trade trade;
-  final bool isCompleted;
+  final bool isTrading;
   const TradeCell({
     required this.trade,
-    required this.isCompleted,
+    required this.isTrading,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.read(userIdProvider);
+    
     return Column(
       children: [
         Material(
@@ -22,15 +26,28 @@ class TradeCell extends HookConsumerWidget {
           child: InkWell(
             onTap: () {
               // 取引承認ページへ
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TradeDetailView(
-                    trade: trade,
-                    tradeStatus: isCompleted ? 2 : 1,
+              final futureResult = getFurnitureDetails(userId, trade.furnitureId);
+              futureResult.then((result) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TradeDetailView(
+                      trade: trade,
+                      furniture: result,
+                      tradeStatus: isTrading ? 2 : 1,
+                    ),
                   ),
-                ),
-              );
+                );
+              }).catchError((error) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Center(
+                      child: Text('error: $error'),
+                    ),
+                  ),
+                );
+              });
             },
             child: Ink(
               height: 88,
@@ -61,7 +78,7 @@ class TradeCell extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        isCompleted ? '受け渡しは完了しましたか？' : '取引依頼を承認しますか？',
+                        isTrading ? '受け渡しは完了しましたか？' : '取引依頼を承認しますか？',
                         style: const TextStyle(
                           fontSize: 12,
                           color: Color(0xff636363),

@@ -32,20 +32,36 @@ class HomeView extends HookConsumerWidget {
     }, [camera]);
 
     final furnitureState = ref.watch(furnitureListProvider);
+    final tradeState = ref.watch(tradeListProvider);
     final viewWidgets = [
       // 家具リストの取得
       furnitureState.when(
-          loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-          error: (error, __) => Center(
-                child: Text('error: $error'),
-              ),
-          data: (data) {
-            return FurnitureListView(furnitureList: data);
-          }),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (error, __) => Center(
+          child: Text('$error'),
+        ),
+        data: (data) {
+          return FurnitureListView(furnitureList: data);
+        },
+      ),
       SearchView(cameraController: cameraController),
-      RegisterProductView(cameraController: cameraController),
+      // 取引リストの取得
+      tradeState.when(
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (error, __) => Center(
+          child: Text('$error'),
+        ),
+        data: (data) {
+          return RegisterProductView(
+            tradeList: data,
+            cameraController: cameraController,
+          );
+        },
+      ),
       MyPageView(camera: camera),
     ];
 

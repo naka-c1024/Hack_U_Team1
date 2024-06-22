@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Domain/trade.dart';
 import '../../Domain/furniture.dart';
@@ -9,9 +11,11 @@ import 'furniture_detail_view.dart';
 
 class TradeDetailView extends HookConsumerWidget {
   final Trade trade;
+  final Furniture furniture;
   final int tradeStatus;
   const TradeDetailView({
     required this.trade,
+    required this.furniture,
     required this.tradeStatus,
     super.key,
   });
@@ -19,24 +23,34 @@ class TradeDetailView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    final furniture = Furniture(
-      productName: "ガラス天板のローテーブル",
-      image: null,
-      description: "ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文ローテーブルの説明文",
-      height: 35.0,
-      width: 100.0,
-      depth: 42.0,
-      category: 2,
-      color: 2,
-      condition: 3,
-      userName: 'ibuibukiki',
-      area: 12,
-      startDate: DateTime(2024, 7, 1),
-      endDate: DateTime(2024, 7, 19),
-      tradePlace: '高田馬場駅',
-      isSold: false,
-      isFavorite: false,
-    );
+    final future = useMemoized(SharedPreferences.getInstance);
+    final snapshot = useFuture(future, initialData: null);
+
+    // 譲渡を承認した取引のtradeIdを保存
+    void saveTradingIdList(int tradeId) {
+      final preferences = snapshot.data;
+      if (preferences == null) {
+        return;
+      }
+      final List<String> tradingIdList =
+          preferences.getStringList('tradingIdList') ?? [];
+      tradingIdList.add(tradeId.toString());
+      preferences.setStringList('tradingIdList', tradingIdList);
+    }
+
+    // 譲渡を完了したらtradeIdを削除
+    void deleteTradingIdList(int tradeId) {
+      final preferences = snapshot.data;
+      if (preferences == null) {
+        return;
+      }
+      final List<String> tradingIdList =
+          preferences.getStringList('tradingIdList') ?? [];
+      if (tradingIdList.contains(tradeId.toString())) {
+        tradingIdList.remove(tradeId.toString());
+      }
+      preferences.setStringList('tradingIdList', tradingIdList);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -82,6 +96,7 @@ class TradeDetailView extends HookConsumerWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () {
+                              saveTradingIdList(trade.tradeId);
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
@@ -158,6 +173,7 @@ class TradeDetailView extends HookConsumerWidget {
                       ) // 完了ボタン
                     : ElevatedButton(
                         onPressed: () {
+                          deleteTradingIdList(trade.tradeId);
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,

@@ -36,7 +36,7 @@ class LoginView extends HookConsumerWidget {
               builder: (context) => HomeView(camera: camera),
             ),
           );
-          final userId = jsonResponse['userId'];
+          final userId = jsonResponse['user_id'];
           ref.read(colorProvider.notifier).state = userId;
         } else {
           final msg = jsonResponse['detail'];

@@ -195,8 +195,18 @@ void main() {
       final response = await get(uri);
       expect(response.statusCode, 200);
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
-      final furnitureList = jsonResponse['trades'];
-      expect(furnitureList.length, isNonZero);
+      final tradeList = jsonResponse['trades'];
+      expect(tradeList.length, isNonZero);
+    });
+
+    test('Test: Get trade list : result 0', () async {
+      final url = Uri.parse('http://localhost:8080/trades');
+      final params = {
+        'user_id': '-1',
+      };
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
+      expect(response.statusCode, 404);
     });
 
     test('Test: Get trade details successfully', () async {
@@ -208,6 +218,10 @@ void main() {
       final response = await get(uri);
       expect(response.statusCode, 200);
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      // for (String key in jsonResponse.keys) {
+      //   print(key);
+      //   print(jsonResponse[key]);
+      // }
       final productName = jsonResponse['product_name'];
       expect(productName, '木の椅子');
     });

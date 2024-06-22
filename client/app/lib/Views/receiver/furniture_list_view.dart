@@ -5,8 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
+import '../../Usecases/provider.dart';
+import '../../Usecases/trade_api.dart';
 import '../common/furniture_cell.dart';
-import '../common/todo_list_view.dart';
+import 'todo_list_view.dart';
 import 'favorite_list_view.dart';
 
 class FurnitureListView extends HookConsumerWidget {
@@ -16,6 +18,7 @@ class FurnitureListView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final userId = ref.read(userIdProvider);
 
     final ValueNotifier<List<Row>> favoriteList = useState([]);
     final ValueNotifier<List<Row>> favoriteAllList = useState([]);
@@ -123,13 +126,20 @@ class FurnitureListView extends HookConsumerWidget {
               const SizedBox(width: 8),
               IconButton(
                 onPressed: () {
-                  // やることリストをすべて見るページへ
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TodoListView(),
-                    ),
-                  );
+                  // 取引リストの取得
+                  final futureResult = getTradeList(userId);
+                  futureResult.then((result) {
+                    return Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TodoListView(tradeList: result),
+                      ),
+                    );
+                  }).catchError((error) {
+                    return Center(
+                      child: Text('error: $error'),
+                    );
+                  });
                 },
                 icon: const Icon(
                   size: 24,
