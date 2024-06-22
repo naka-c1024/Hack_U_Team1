@@ -28,7 +28,7 @@ class FurnitureCell extends HookConsumerWidget {
             builder: (context) => FurnitureDetailView(
               furniture: furniture,
               isMyProduct: false,
-              isHiddenButton: false,
+              isHiddenButton: furniture.isSold,
             ),
           ),
         );

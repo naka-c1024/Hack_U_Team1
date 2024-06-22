@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -159,6 +161,8 @@ void main() {
   });
 
   group('Trade Test', () {
+    WidgetsFlutterBinding.ensureInitialized();
+    initializeDateFormatting('ja');
     var tradeId = 1;
     test('Test: Request trade successfully', () async {
       final url = Uri.parse('http://localhost:8080/trades');
@@ -166,7 +170,7 @@ void main() {
       final body = {
         'furniture_id': 1,
         'user_id': 1,
-        'trade_date': '2024-06-22',
+        'trade_date': DateFormat('yyyy-MM-dd', 'ja').format(DateTime.now()),
       };
       final jsonBody = json.encode(body);
       var response = await post(url, headers: headers, body: jsonBody);
@@ -240,7 +244,7 @@ void main() {
       final url = Uri.parse('http://localhost:8080/trades/$tradeId');
       final headers = {'Content-Type': 'application/json'};
       final body = {
-        'is_giver': true,
+        'is_giver': false,
       };
       final jsonBody = json.encode(body);
       var response = await put(url, headers: headers, body: jsonBody);

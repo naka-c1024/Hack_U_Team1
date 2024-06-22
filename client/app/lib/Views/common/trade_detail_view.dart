@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Domain/trade.dart';
 import '../../Domain/furniture.dart';
+import '../../Usecases/trade_api.dart';
+import '../../Usecases/provider.dart';
 import 'trade_approve_sheet.dart';
 import 'furniture_detail_view.dart';
 
@@ -23,6 +25,7 @@ class TradeDetailView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final userId = ref.read(userIdProvider);
     final future = useMemoized(SharedPreferences.getInstance);
     final snapshot = useFuture(future, initialData: null);
 
@@ -96,6 +99,34 @@ class TradeDetailView extends HookConsumerWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () {
+                              final futureResult =
+                                  approveTradeList(trade.tradeId, true);
+                              futureResult.then((result) {
+                                return showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: screenSize.height,
+                                      width: screenSize.width,
+                                      color: const Color(0x4b000000),
+                                      child: const TradeApproveSheet(
+                                        isCompleted: true,
+                                      ),
+                                    );
+                                  },
+                                );
+                              }).catchError((error) {
+                                return Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Center(
+                                      child: Text('error: $error'),
+                                    ),
+                                  ),
+                                );
+                              });
                               saveTradingIdList(trade.tradeId);
                               showModalBottomSheet(
                                 context: context,
@@ -171,24 +202,41 @@ class TradeDetailView extends HookConsumerWidget {
                           ),
                         ],
                       ) // 完了ボタン
+                    // 取引完了ボタン
                     : ElevatedButton(
                         onPressed: () {
-                          deleteTradingIdList(trade.tradeId);
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (BuildContext context) {
-                              return Container(
-                                height: screenSize.height,
-                                width: screenSize.width,
-                                color: const Color(0x4b000000),
-                                child: const TradeApproveSheet(
-                                  isCompleted: true,
+                          if (trade.receiverId == userId) {
+                            final futureResult =
+                                approveTradeList(trade.tradeId, false);
+                            futureResult.then((result) {
+                              return showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    height: screenSize.height,
+                                    width: screenSize.width,
+                                    color: const Color(0x4b000000),
+                                    child: const TradeApproveSheet(
+                                      isCompleted: true,
+                                    ),
+                                  );
+                                },
+                              );
+                            }).catchError((error) {
+                              return Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Center(
+                                    child: Text('error: $error'),
+                                  ),
                                 ),
                               );
-                            },
-                          );
+                            });
+                          } else {
+                            deleteTradingIdList(trade.tradeId);
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff424242),

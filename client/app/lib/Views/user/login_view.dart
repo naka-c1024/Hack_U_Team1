@@ -37,7 +37,7 @@ class LoginView extends HookConsumerWidget {
             ),
           );
           final userId = jsonResponse['user_id'];
-          ref.read(colorProvider.notifier).state = userId;
+          ref.read(userIdProvider.notifier).state = userId;
         } else {
           final msg = jsonResponse['detail'];
           // エラーダイアログ
