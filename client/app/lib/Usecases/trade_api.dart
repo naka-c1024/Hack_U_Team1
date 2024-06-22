@@ -63,7 +63,7 @@ Future<void> requestTrade(int furnitureId, int userId, DateTime tradeDate) async
     final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode != 200) {
       final msg = jsonResponse['detail'];
-      throw Exception('Failed to get trade list: $msg');
+      throw Exception('Failed to request trade: $msg');
     }
   } catch (e) {
     throw Exception('Undefined Error: $e');
@@ -71,7 +71,7 @@ Future<void> requestTrade(int furnitureId, int userId, DateTime tradeDate) async
 }
 
 // 取引を承認
-Future<void> approveTradeList(int tradeId, bool isGiver) async {
+Future<void> approveTrade(int tradeId, bool isGiver) async {
   try {
     final url = Uri.parse('http://localhost:8080/trades/$tradeId');
     final headers = {'Content-Type': 'application/json'};
@@ -83,7 +83,7 @@ Future<void> approveTradeList(int tradeId, bool isGiver) async {
     final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode != 200) {
       final msg = jsonResponse['detail'];
-      throw Exception('Failed to get trade list: $msg');
+      throw Exception('Failed to approve trade: $msg');
     }
   } catch (e) {
     throw Exception('Undefined Error: $e');
@@ -91,7 +91,7 @@ Future<void> approveTradeList(int tradeId, bool isGiver) async {
 }
 
 // 取引を確認
-Future<void> checkTradeList(int tradeId, bool isGiver) async {
+Future<void> checkTrade(int tradeId, bool isGiver) async {
   try {
     final url = Uri.parse('http://localhost:8080/trades/$tradeId/isChecked');
     final headers = {'Content-Type': 'application/json'};
@@ -103,7 +103,7 @@ Future<void> checkTradeList(int tradeId, bool isGiver) async {
     final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode != 200) {
       final msg = jsonResponse['detail'];
-      throw Exception('Failed to get trade list: $msg');
+      throw Exception('Failed to check trade: $msg');
     }
   } catch (e) {
     throw Exception('Undefined Error: $e');

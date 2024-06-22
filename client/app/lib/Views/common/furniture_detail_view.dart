@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
+import '../../Usecases/furniture_api.dart';
 import 'trade_adjust_sheet.dart';
 
 class FurnitureDetailView extends HookConsumerWidget {
@@ -402,7 +403,17 @@ class FurnitureDetailView extends HookConsumerWidget {
                                   const SizedBox(height: 8),
                                   // 商品を削除するボタン
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      if (furniture.furnitureId != null) {
+                                        final futureResult = deleteFurniture(
+                                            furniture.furnitureId!);
+                                        futureResult.then((result) {
+                                          Navigator.of(context).pop(0);
+                                        }).catchError((error) {
+                                          print('error: $error');
+                                        });
+                                      }
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xff424242),
                                       padding: EdgeInsets.zero,

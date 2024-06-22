@@ -100,7 +100,7 @@ class TradeDetailView extends HookConsumerWidget {
                           ElevatedButton(
                             onPressed: () {
                               final futureResult =
-                                  approveTradeList(trade.tradeId, true);
+                                  approveTrade(trade.tradeId, true);
                               futureResult.then((result) {
                                 return showModalBottomSheet(
                                   context: context,
@@ -207,7 +207,7 @@ class TradeDetailView extends HookConsumerWidget {
                         onPressed: () {
                           if (trade.receiverId == userId) {
                             final futureResult =
-                                approveTradeList(trade.tradeId, false);
+                                approveTrade(trade.tradeId, false);
                             futureResult.then((result) {
                               return showModalBottomSheet(
                                 context: context,

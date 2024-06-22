@@ -156,6 +156,15 @@ void main() {
       request.fields['condition'] = '0';
       final response = await request.send();
       expect(response.statusCode, 200);
+      final responseBody = await response.stream.bytesToString();
+      final jsonResponse = jsonDecode(responseBody);
+      furnitureId = jsonResponse['furniture_id'];
+    });
+
+    test('Test: Delete furniture successfully', () async {
+      final url = Uri.parse('http://localhost:8080/furniture/$furnitureId');
+      var response = await delete(url);
+      expect(response.statusCode, 200);
     });
   });
 

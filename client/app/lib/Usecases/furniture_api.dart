@@ -91,7 +91,7 @@ Future<Furniture> getFurnitureDetails(int userId, int furnitureId) async {
       return furniture;
     } else {
       final msg = jsonResponse['detail'];
-      throw Exception('Failed to get furniture list: $msg');
+      throw Exception('Failed to get furniture details: $msg');
     }
   } catch (e) {
     throw Exception('Undefined Error: $e');
@@ -131,6 +131,21 @@ Future<void> registerFurniture(int userId, Furniture furniture) async {
     final response = await request.send();
     final responseBody = await response.stream.bytesToString();
     final jsonResponse = jsonDecode(responseBody);
+    if (response.statusCode != 200) {
+      final msg = jsonResponse['detail'];
+      throw Exception('Failed to register furniture: $msg');
+    }
+  } catch (e) {
+    throw Exception('Undefined Error: $e');
+  }
+}
+
+// 家具を削除
+Future<void> deleteFurniture(int furnitureId) async {
+  try {
+    final url = Uri.parse('http://localhost:8080/furniture/$furnitureId');
+    final response = await delete(url);
+    final jsonResponse = jsonDecode(response.body);
     if (response.statusCode != 200) {
       final msg = jsonResponse['detail'];
       throw Exception('Failed to get furniture list: $msg');
