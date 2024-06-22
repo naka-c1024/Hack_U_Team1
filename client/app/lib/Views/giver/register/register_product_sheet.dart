@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Domain/constants.dart';
+import '../../../Domain/furniture.dart';
 import '../../../Usecases/provider.dart';
 import 'color_sheet.dart';
 import 'category_sheet.dart';
@@ -24,6 +26,21 @@ class RegisterProductSheet extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
+    final userName = useState('');
+    final area = useState(0);
+    final future = useMemoized(SharedPreferences.getInstance);
+    final snapshot = useFuture(future, initialData: null);
+
+    useEffect(() {
+      final preferences = snapshot.data;
+      if (preferences == null) {
+        return null;
+      }
+      userName.value = preferences.getString('userName') ?? '';
+      area.value = preferences.getInt('address') ?? 0;
+      return null;
+    }, [snapshot.data]);
 
     final ValueNotifier<String?> imagePath = useState(null);
     final productName = useTextEditingController(text: '');
@@ -614,13 +631,29 @@ class RegisterProductSheet extends HookConsumerWidget {
                       FocusManager.instance.primaryFocus!.unfocus();
                     }
                     if (isInputCompleted.value) {
+                      final furniture = Furniture(
+                        productName: productName.text,
+                        image: null,
+                        description:productDescription.text,
+                        height: double.parse(productHeight.text),
+                        width: double.parse(productWidth.text),
+                        depth: double.parse(productDepth.text),
+                        category: categoryIndex,
+                        color: colorIndex,
+                        condition: conditionIndex,
+                        userName: userName.value,
+                        area: area.value,
+                        tradePlace: '',
+                        isSold: false,
+                        isFavorite: false,
+                      );
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
                           return SizedBox(
                             height: screenSize.height - 64,
-                            child: const RegisterTradeSheet(),
+                            child: RegisterTradeSheet(furniture:furniture),
                           );
                         },
                       );
