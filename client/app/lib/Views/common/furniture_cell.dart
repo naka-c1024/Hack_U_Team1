@@ -18,7 +18,7 @@ class FurnitureCell extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-  
+
     return ElevatedButton(
       onPressed: () {
         // 家具の詳細ページへ
@@ -52,8 +52,11 @@ class FurnitureCell extends HookConsumerWidget {
         ),
         child: Stack(
           children: [
-            Center(
-              child:Image.memory(furniture.image!),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Center(
+                child: Image.memory(furniture.image!),
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

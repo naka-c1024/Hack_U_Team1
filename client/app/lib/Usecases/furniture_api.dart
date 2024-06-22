@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import '../Domain/furniture.dart';
 
 // 家具リストを取得
@@ -89,6 +90,48 @@ Future<Furniture> getFurnitureDetails(int userId, int furnitureId) async {
           isFavorite: item['is_favorite']);
       return furniture;
     } else {
+      final msg = jsonResponse['detail'];
+      throw Exception('Failed to get furniture list: $msg');
+    }
+  } catch (e) {
+    throw Exception('Undefined Error: $e');
+  }
+}
+
+// 家具を登録
+Future<void> registerFurniture(int userId, Furniture furniture) async {
+  try {
+    final uri = Uri.parse('http://localhost:8080/furniture');
+    final request = MultipartRequest('POST', uri);
+    // テスト用の画像を読み込む
+    var file = await MultipartFile.fromPath(
+      'image',
+      '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/white_shelf_1.png',
+    );
+    request.files.add(file);
+    // // 他のパラメータを設定
+    request.fields['user_id'] = userId.toString();
+    request.fields['product_name'] = furniture.productName;
+    request.fields['description'] = furniture.description;
+    request.fields['height'] = furniture.height.toString();
+    request.fields['width'] = furniture.width.toString();
+    request.fields['depth'] = furniture.depth.toString();
+    request.fields['category'] = furniture.category.toString();
+    request.fields['color'] = furniture.color.toString();
+    if (furniture.startDate != null) {
+      request.fields['start_date'] =
+          DateFormat('yyyy-MM-dd', 'ja').format(furniture.startDate!);
+    }
+    if (furniture.endDate != null) {
+      request.fields['end_date'] =
+          DateFormat('yyyy-MM-dd', 'ja').format(furniture.endDate!);
+    }
+    request.fields['trade_place'] = furniture.tradePlace;
+    request.fields['condition'] = furniture.condition.toString();
+    final response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+    final jsonResponse = jsonDecode(responseBody);
+    if (response.statusCode != 200) {
       final msg = jsonResponse['detail'];
       throw Exception('Failed to get furniture list: $msg');
     }

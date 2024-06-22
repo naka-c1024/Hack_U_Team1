@@ -88,6 +88,12 @@ class TradeAdjustSheet extends HookConsumerWidget {
                           color: const Color(0xffd9d9d9),
                           borderRadius: BorderRadius.circular(5),
                         ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Center(
+                            child: Image.memory(furniture.image!),
+                          ),
+                        ),
                       ),
                       Text(furniture.productName),
                     ],
