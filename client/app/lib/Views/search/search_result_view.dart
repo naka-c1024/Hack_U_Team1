@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../Domain/constants.dart';
+import '../../Domain/furniture.dart';
 import '../common/furniture_cell.dart';
 
 class SearchResultView extends HookConsumerWidget {
-  final String searchKeyword;
+  final String searchWord;
+  final List<Furniture> furnitureList;
   const SearchResultView({
+    required this.searchWord,
+    required this.furnitureList,
     super.key,
-    required this.searchKeyword,
   });
 
   @override
@@ -17,70 +19,29 @@ class SearchResultView extends HookConsumerWidget {
     final screenSize = MediaQuery.of(context).size;
     final isSoldOnly = useState(false);
 
-    const prefecturesIndex = 12;
-    
-    final searchResultList = [
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-    ];
+    final ValueNotifier<List<Row>> resultList = useState([]);
+    useEffect(() {
+      List<Widget> row = [];
+      for (Furniture furniture in furnitureList) {
+        // 全ての商品をリストに入れる
+        row.add(FurnitureCell(furniture: furniture));
+        // 3個貯まったら追加
+        if (row.length == 3) {
+          resultList.value.add(Row(children: row));
+          row = [];
+        }
+      }
+      // あまりを追加
+      if (row.isNotEmpty) {
+        resultList.value.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: row,
+          ),
+        );
+      }
+      return null;
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -107,7 +68,7 @@ class SearchResultView extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    searchKeyword,
+                    searchWord,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -247,10 +208,15 @@ class SearchResultView extends HookConsumerWidget {
           ),
           Container(
             height: screenSize.height - 204,
+            width: screenSize.width,
             padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
             color: const Color(0xffffffff),
             child: SingleChildScrollView(
-              child: Column(children: searchResultList),
+              child: resultList.value.isEmpty
+                  ? const Center(
+                      child: Text('検索結果：0件'),
+                    )
+                  : Column(children: resultList.value),
             ),
           ),
         ],

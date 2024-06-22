@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Usecases/provider.dart';
+import '../../Usecases/furniture_api.dart';
 import '../common/cateogory_cell.dart';
 import 'search_result_view.dart';
 
@@ -13,9 +15,10 @@ class KeywordSearchView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
 
-    final searchKeywordController = useTextEditingController(text: '');
+    final searchWordController = useTextEditingController(text: '');
     final focus = useFocusNode();
     final isFocused = useState(false);
+    final userId = ref.read(userIdProvider);
 
     useEffect(() {
       void onFocusChanged() {
@@ -29,6 +32,7 @@ class KeywordSearchView extends HookConsumerWidget {
     final future = useMemoized(SharedPreferences.getInstance);
     final snapshot = useFuture(future, initialData: null);
     final ValueNotifier<List<Widget>> searchLogList = useState([]);
+    final ValueNotifier<List<String>> searchLogTextList = useState([]);
 
     // 検索履歴を読み込んで表示
     useEffect(() {
@@ -36,21 +40,20 @@ class KeywordSearchView extends HookConsumerWidget {
       if (preferences == null) {
         return null;
       }
-      final List<String> searchLogTextList =
-          preferences.getStringList('searchLog') ?? [];
-      for (int i = searchLogTextList.length - 1; i >= 0; i--) {
+      searchLogTextList.value = preferences.getStringList('searchLog') ?? [];
+      for (int i = searchLogTextList.value.length - 1; i >= 0; i--) {
         searchLogList.value.add(
           Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                searchKeywordController.text = searchLogTextList[i];
+                searchWordController.text = searchLogTextList.value[i];
               },
               child: Ink(
                 width: screenSize.width - 32,
                 padding: const EdgeInsets.only(top: 4, left: 4, bottom: 4),
                 child: Text(
-                  searchLogTextList[i],
+                  searchLogTextList.value[i],
                   style: const TextStyle(fontSize: 14),
                 ),
               ),
@@ -101,7 +104,7 @@ class KeywordSearchView extends HookConsumerWidget {
                           onPressed: () {
                             isFocused.value = false;
                             FocusScope.of(context).unfocus();
-                            searchKeywordController.text = '';
+                            searchWordController.text = '';
                           },
                           icon: const Icon(Icons.arrow_back_ios),
                         )
@@ -115,27 +118,30 @@ class KeywordSearchView extends HookConsumerWidget {
                     color: const Color(0xffd9d9d9),
                     child: TextField(
                       focusNode: focus,
-                      controller: searchKeywordController,
+                      controller: searchWordController,
                       onSubmitted: (String value) {
                         FocusScope.of(context).unfocus();
-                        Future.delayed(
-                          const Duration(milliseconds: 500),
-                          () {
-                            // 検索結果画面へ
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SearchResultView(
-                                  searchKeyword: searchKeywordController.text,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                        searchKeywordController.text = value;
-                        if (value != '') {
+                        if (value != '' &&
+                            !searchLogTextList.value.contains(value)) {
                           saveSearchLog(value);
                         }
+                        // 検索結果の取得
+                        final futureResult = getFurnitureList(userId, value);
+                        futureResult.then((result) {
+                          return Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchResultView(
+                                searchWord: searchWordController.text,
+                                furnitureList: result,
+                              ),
+                            ),
+                          );
+                        }).catchError((error) {
+                          return Center(
+                            child: Text('error: $error'),
+                          );
+                        });
                       },
                       textInputAction: TextInputAction.search,
                       decoration: const InputDecoration(

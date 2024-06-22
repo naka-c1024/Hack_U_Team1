@@ -6,6 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 import '../../Domain/furniture.dart';
+import '../../Usecases/provider.dart';
+import '../../Usecases/trade_api.dart';
 import 'trade_order_sheet.dart';
 
 class TradeAdjustSheet extends HookConsumerWidget {
@@ -15,6 +17,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final userId = ref.read(userIdProvider);
 
     final isSelectingDate = useState(false);
     final ValueNotifier<DateTime?> tradeDate = useState(null);
@@ -84,6 +87,12 @@ class TradeAdjustSheet extends HookConsumerWidget {
                         decoration: BoxDecoration(
                           color: const Color(0xffd9d9d9),
                           borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Center(
+                            child: Image.memory(furniture.image!),
+                          ),
                         ),
                       ),
                       Text(furniture.productName),
@@ -318,7 +327,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                 },
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(bottom:12),
+                                padding: EdgeInsets.only(bottom: 12),
                                 child: Text(
                                   " : ",
                                   style: TextStyle(fontSize: 20),
@@ -369,16 +378,29 @@ class TradeAdjustSheet extends HookConsumerWidget {
             child: ElevatedButton(
               onPressed: () {
                 if (tradeDate.value != null && tradeTime.value != null) {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (BuildContext context) {
-                      return SizedBox(
-                        height: screenSize.height - 64,
-                        child: const TradeOrderSheet(),
-                      );
-                    },
-                  );
+                  final futureResult = requestTrade(
+                      furniture.furnitureId!, userId, tradeDate.value!);
+                  futureResult.then((result) {
+                    return showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: screenSize.height - 64,
+                          child: const TradeOrderSheet(),
+                        );
+                      },
+                    );
+                  }).catchError((error) {
+                    return Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Center(
+                          child: Text('error: $error'),
+                        ),
+                      ),
+                    );
+                  });
                 }
               },
               style: ElevatedButton.styleFrom(

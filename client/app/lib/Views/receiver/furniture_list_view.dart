@@ -1,106 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../Domain/constants.dart';
+import '../../Domain/furniture.dart';
+import '../../Usecases/provider.dart';
+import '../../Usecases/trade_api.dart';
 import '../common/furniture_cell.dart';
-import '../common/todo_list_view.dart';
+import 'todo_list_view.dart';
 import 'favorite_list_view.dart';
 
 class FurnitureListView extends HookConsumerWidget {
-  const FurnitureListView({super.key});
+  final List<Furniture> furnitureList;
+  const FurnitureListView({required this.furnitureList, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    const prefecturesIndex = 12;
-    
-    // いいねした商品を表示するためのリスト
-    final favoriteList = [
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-    ];
+    final userId = ref.read(userIdProvider);
 
-    // 最新の商品を表示するためのリスト
-    final latestList = [
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-      Row(
-        children: [
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: true),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-          FurnitureCell(
-              prefecture: prefectures[prefecturesIndex], isSold: false),
-        ],
-      ),
-    ];
+    final ValueNotifier<List<Row>> favoriteList = useState([]);
+    final ValueNotifier<List<Row>> favoriteAllList = useState([]);
+    final ValueNotifier<List<Row>> latestList = useState([]);
+    useEffect(() {
+      List<Widget> row = [];
+      List<Widget> favoriteRow = [];
+      for (Furniture furniture in furnitureList.reversed) {
+        // 全ての商品をリストに入れる
+        row.add(FurnitureCell(furniture: furniture));
+        // 3個貯まったら追加
+        if (row.length == 3) {
+          latestList.value.add(Row(children: row));
+          row = [];
+        }
+        // いいねした商品だけリストに入れる
+        if (furniture.isFavorite) {
+          favoriteRow.add(FurnitureCell(furniture: furniture));
+          // 3個貯まったら追加
+          if (favoriteRow.length == 3) {
+            // 二行だけ表示
+            if (favoriteList.value.length < 2) {
+              favoriteList.value.add(Row(children: favoriteRow));
+            }
+            // 全部のリストも作成
+            favoriteAllList.value.add(Row(children: favoriteRow));
+            favoriteRow = [];
+          }
+        }
+      }
+      // あまりを追加
+      if (row.isNotEmpty) {
+        latestList.value.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: row,
+          ),
+        );
+      }
+      if (favoriteRow.isNotEmpty) {
+        // 二行だけ表示
+        if (favoriteList.value.length < 2) {
+          favoriteList.value.add(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: favoriteRow,
+            ),
+          );
+        }
+        // 全部のリストも作成
+        favoriteAllList.value.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: favoriteRow,
+          ),
+        );
+      }
+      return null;
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -136,13 +111,20 @@ class FurnitureListView extends HookConsumerWidget {
               const SizedBox(width: 8),
               IconButton(
                 onPressed: () {
-                  // やることリストをすべて見るページへ
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TodoListView(),
-                    ),
-                  );
+                  // 取引リストの取得
+                  final futureResult = getTradeList(userId);
+                  futureResult.then((result) {
+                    return Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TodoListView(tradeList: result),
+                      ),
+                    );
+                  }).catchError((error) {
+                    return Center(
+                      child: Text('error: $error'),
+                    );
+                  });
                 },
                 icon: const Icon(
                   size: 24,
@@ -158,61 +140,85 @@ class FurnitureListView extends HookConsumerWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 8),
+              favoriteList.value.isEmpty
+                  ? const SizedBox()
+                  : const SizedBox(height: 8),
               // いいねした商品
-              Container(
-                height: 52 +
-                    ((screenSize.width - 40) / 3 + 8) * favoriteList.length,
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                color: const Color(0xffffffff),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // ヘッダー
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          ' いいねした商品',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            // いいねした商品をすべて見るページへ
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => FavoriteListView(
-                                  favoriteAllList: latestList,
+              favoriteList.value.isEmpty
+                  ? const SizedBox()
+                  : Container(
+                      height: 52 +
+                          ((screenSize.width - 40) / 3 + 8) *
+                              favoriteList.value.length,
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      color: const Color(0xffffffff),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          // ヘッダー
+                          SizedBox(
+                            height: 48,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  ' いいねした商品',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: const Row(
-                            children: [
-                              Text('すべて見る'),
-                              SizedBox(width: 8),
-                              Icon(
-                                size: 16,
-                                Icons.arrow_forward_ios,
-                              ),
-                            ],
+                                favoriteList.value.length <
+                                        favoriteAllList.value.length
+                                    ? TextButton(
+                                        onPressed: () {
+                                          // いいねした商品をすべて見るページへ
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FavoriteListView(
+                                                favoriteAllList:
+                                                    favoriteAllList.value,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: const Row(
+                                          children: [
+                                            Text('すべて見る'),
+                                            SizedBox(width: 8),
+                                            Icon(
+                                              size: 16,
+                                              Icons.arrow_forward_ios,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : const SizedBox(height: 24),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Column(children: favoriteList.value),
+                        ],
+                      ),
                     ),
-                    Column(children: favoriteList),
-                  ],
-                ),
-              ),
               const SizedBox(height: 8),
               // 最新の商品
               Container(
-                height:
-                    52 + ((screenSize.width - 40) / 3 + 8) * latestList.length,
+                height: latestList.value.length < 5
+                    ? favoriteList.value.isEmpty
+                        ? screenSize.height -
+                            ((screenSize.width - 40) / 3 + 8) *
+                                favoriteList.value.length -
+                            192
+                        : screenSize.height -
+                            ((screenSize.width - 40) / 3 + 8) *
+                                favoriteList.value.length -
+                            272
+                    : 52 +
+                        ((screenSize.width - 40) / 3 + 8) *
+                            latestList.value.length,
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 color: const Color(0xffffffff),
                 child: Column(
@@ -222,15 +228,15 @@ class FurnitureListView extends HookConsumerWidget {
                     // ヘッダー
                     Container(
                       padding: const EdgeInsets.only(top: 12, bottom: 12),
-                      child: Text(
-                        ' ${prefectures[prefecturesIndex]}の最新の商品',
+                      child: const Text(
+                        ' 最新の商品',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    Column(children: latestList),
+                    Column(children: latestList.value),
                   ],
                 ),
               ),

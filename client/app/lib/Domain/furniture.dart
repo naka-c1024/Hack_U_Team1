@@ -3,7 +3,7 @@
 import 'dart:typed_data';
 
 class Furniture {
-  final String? furnitureId;
+  final int? furnitureId;
   final String productName;
   final Uint8List? image; // 画像はバイナリ型で保持
   final String description;
@@ -15,9 +15,9 @@ class Furniture {
   final int condition; // コードで管理
   final String userName;
   final int area; // コードで管理
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final String tradePlace;
+  DateTime? startDate;
+  DateTime? endDate;
+  String tradePlace;
   final bool isSold;
   final bool isFavorite;
 
@@ -40,4 +40,14 @@ class Furniture {
     required this.isSold,
     required this.isFavorite,
   });
+
+  void updateTradeParams({
+    required String tradePlace,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    this.tradePlace = tradePlace;
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
 }

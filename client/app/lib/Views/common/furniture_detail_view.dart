@@ -5,6 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
+import '../../Usecases/provider.dart';
+import '../../Usecases/furniture_api.dart';
+import '../../Usecases/favorite_api.dart';
 import 'trade_adjust_sheet.dart';
 
 class FurnitureDetailView extends HookConsumerWidget {
@@ -22,6 +25,7 @@ class FurnitureDetailView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
     final isFavorite = useState(furniture.isFavorite);
+    final userId = ref.read(userIdProvider);
 
     return Scaffold(
       body: Column(
@@ -36,11 +40,13 @@ class FurnitureDetailView extends HookConsumerWidget {
                   // 商品画像
                   Stack(
                     children: [
-                      // TODO: ここに写真が入る
                       Container(
                         height: screenSize.width,
                         width: screenSize.width,
                         color: const Color(0xffd9d9d9),
+                        child: Center(
+                          child: Image.memory(furniture.image!),
+                        ),
                       ),
                       IconButton(
                         padding: const EdgeInsets.only(left: 8),
@@ -69,11 +75,17 @@ class FurnitureDetailView extends HookConsumerWidget {
                             ElevatedButton(
                               onPressed: () {
                                 isFavorite.value = !isFavorite.value;
+                                if (furniture.furnitureId == null) return;
+                                if (isFavorite.value) {
+                                  addFavorite(userId, furniture.furnitureId!);
+                                } else {
+                                  deleteFavorite(userId, furniture.furnitureId!);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xffffffff),
                                 foregroundColor: isFavorite.value
-                                    ? const Color(0xff474747)
+                                    ? const Color(0xffff0000)
                                     : const Color(0xff858585),
                                 padding: EdgeInsets.zero,
                                 minimumSize: Size.zero,
@@ -155,10 +167,10 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       furniture.endDate == null)
                                   ? '無期限'
                                   : furniture.startDate == null
-                                      ? ' 〜 ${DateFormat('yyyy年M月d日（E）', 'ja').format(furniture.endDate!)}'
+                                      ? ' 〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)}'
                                       : furniture.endDate == null
-                                          ? '${DateFormat('yyyy年M月d日（E）', 'ja').format(furniture.startDate!)} 〜 '
-                                          : '${DateFormat('yyyy年M月d日（E）', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年MM月dd日（E）', 'ja').format(furniture.endDate!)}',
+                                          ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 '
+                                          : '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年MM月dd日(E)', 'ja').format(furniture.endDate!)}',
                               style: const TextStyle(
                                 color: Color(0xff636363),
                                 fontSize: 12,
@@ -400,7 +412,17 @@ class FurnitureDetailView extends HookConsumerWidget {
                                   const SizedBox(height: 8),
                                   // 商品を削除するボタン
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      if (furniture.furnitureId != null) {
+                                        final futureResult = deleteFurniture(
+                                            furniture.furnitureId!);
+                                        futureResult.then((result) {
+                                          Navigator.of(context).pop(0);
+                                        }).catchError((error) {
+                                          print('error: $error');
+                                        });
+                                      }
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xff424242),
                                       padding: EdgeInsets.zero,

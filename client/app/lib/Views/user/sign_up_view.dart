@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -16,6 +18,73 @@ class SignUpView extends HookConsumerWidget {
     final userNameController = useTextEditingController(text: '');
     final passwordController = useTextEditingController(text: '');
     final selectedPrefecture = useState<int>(12); // デフォルトは東京
+
+    Future<void> isSignUpSuccessfully() async {
+      final url = Uri.parse('http://localhost:8080/sign_up');
+      final headers = {'Content-Type': 'application/json'};
+      final requestBody = jsonEncode({
+        'username': userNameController.text,
+        'password': passwordController.text,
+        'area': selectedPrefecture.value,
+      });
+      try {
+        final response =
+            await http.post(url, headers: headers, body: requestBody);
+        if (response.statusCode == 200) {
+          // ログイン画面へ
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginView(camera: camera),
+            ),
+          );
+          // ユーザーネームとアドレスをデバイスに保存
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('userName', userNameController.text);
+          await prefs.setInt('address', selectedPrefecture.value);
+        } else {
+          final jsonResponse = jsonDecode(response.body);
+          final msg = jsonResponse['detail'];
+          // エラーダイアログ
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: Text('Failed to Sign up: $msg'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      } catch (e) {
+        // エラーダイアログ
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: Text('Undefined Error: $e'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(),
@@ -71,18 +140,7 @@ class SignUpView extends HookConsumerWidget {
                 ),
                 onPressed: () async {
                   if (userNameController.text == '') return;
-                  // ログイン画面へ
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginView(camera: camera),
-                    ),
-                  );
-                  // ユーザーネームとアドレスをデバイスに保存
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.setString('userName', userNameController.text);
-                  await prefs.setInt('address', selectedPrefecture.value);
+                  isSignUpSuccessfully();
                 },
               ),
             ],

@@ -34,7 +34,17 @@ $ docker-compose exec backend-app python -m openapi_server.migrate_db
 
 ### client
 
+- Flutter 3.22.2
+- Dart 3.4.3
+- iOS 17.5.1
 
+#### ターミナルからビルド
+Pasha-niture/client/app/ で以下を実行　
+```
+flutter run
+```
+#### XCodeからビルド
+Paha-niture/client/app/ios/Runner.xcworkspace をビルド
 
 ## 技術構成
 
