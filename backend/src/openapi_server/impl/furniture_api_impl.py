@@ -111,7 +111,7 @@ class FurnitureApiImpl(BaseFurnitureApi):
             raise FileNotFoundError(f"Directory not found: {SAVE_DIR}")
         
         extension = image.filename.split('.')[-1]
-        image_filename = f"{user_id}-{product_name}-{uuid.uuid4().hex}.{extension}"
+        image_filename = f"userid{user_id}-{product_name}-{uuid.uuid4().hex}.{extension}"
         image_path = os.path.join(SAVE_DIR, image_filename)
         image_bytes = await image.read()
         await write_image_file(image_path, image_bytes)
@@ -137,6 +137,12 @@ class FurnitureApiImpl(BaseFurnitureApi):
 
         # DBから渡されたfurniture.imageはURIなので、レスポンスでは画像データに入れ替える
         image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+        
+        # DBから渡されたfurniture.imageはURIなので、レスポンスでは画像データに入れ替える
+        try:
+            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Image encoding failed: {e}")
         furniture.image = image_base64
         
         return furniture
