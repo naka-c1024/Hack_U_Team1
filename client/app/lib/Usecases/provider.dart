@@ -8,6 +8,9 @@ import 'trade_api.dart';
 // ユーザーIDを保持
 final userIdProvider = StateProvider((ref) => -1);
 
+// ユーザーネームを保持
+final userNameProvider = StateProvider((ref) => '');
+
 // 選択したカテゴリをインデックスで保持
 final categoryProvider = StateProvider((ref) => -1);
 

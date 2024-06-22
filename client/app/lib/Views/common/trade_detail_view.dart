@@ -396,13 +396,18 @@ class TradeDetailView extends HookConsumerWidget {
                   child: Row(
                     children: [
                       Container(
-                        // TODO: ここに写真が入る
                         height: 88,
                         width: 88,
                         decoration: BoxDecoration(
                           color: const Color(0xffd9d9d9),
                           borderRadius: BorderRadius.circular(5),
                         ),
+                        child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Center(
+                        child: Image.asset(trade.imagePath),
+                      ),
+                    ),
                       ),
                       const SizedBox(width: 16),
                       Column(

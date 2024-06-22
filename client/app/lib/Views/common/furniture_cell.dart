@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
+import '../../Usecases/provider.dart';
 import 'furniture_detail_view.dart';
 import 'sold_painter.dart';
 
@@ -18,6 +19,15 @@ class FurnitureCell extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final userName = ref.read(userNameProvider);
+
+    bool isMyProduct(){
+      if(furniture.userName == userName){
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     return ElevatedButton(
       onPressed: () {
@@ -27,7 +37,7 @@ class FurnitureCell extends HookConsumerWidget {
           MaterialPageRoute(
             builder: (context) => FurnitureDetailView(
               furniture: furniture,
-              isMyProduct: false,
+              isMyProduct: isMyProduct(),
               isHiddenButton: furniture.isSold,
             ),
           ),

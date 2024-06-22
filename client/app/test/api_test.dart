@@ -200,6 +200,7 @@ void main() {
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final tradeList = jsonResponse['trades'];
       expect(tradeList.length, isNonZero);
+      print(tradeList[0]['image']);
     });
 
     test('Test: Get trade list : result 0', () async {

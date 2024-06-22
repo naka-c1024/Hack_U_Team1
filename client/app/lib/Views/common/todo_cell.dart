@@ -18,7 +18,7 @@ class TodoCell extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.read(userIdProvider);
-    
+
     return Column(
       children: [
         Material(
@@ -26,7 +26,8 @@ class TodoCell extends HookConsumerWidget {
           child: InkWell(
             onTap: () {
               // 取引承認ページへ
-              final futureResult = getFurnitureDetails(userId, trade.furnitureId);
+              final futureResult =
+                  getFurnitureDetails(userId, trade.furnitureId);
               futureResult.then((result) {
                 Navigator.push(
                   context,
@@ -55,12 +56,17 @@ class TodoCell extends HookConsumerWidget {
               child: Row(
                 children: [
                   Container(
-                    // TODO: ここに写真が入る
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
                       color: const Color(0xffd9d9d9),
                       borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Center(
+                        child: Image.asset(trade.imagePath),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
