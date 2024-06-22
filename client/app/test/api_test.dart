@@ -66,7 +66,7 @@ void main() {
     test('Test: Get furniture list successfully', () async {
       final url = Uri.parse('http://localhost:8080/furniture');
       final params = {
-        'user_id' : '0',
+        'user_id': '0',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
@@ -79,7 +79,7 @@ void main() {
     test('Test: Search furniture by keyword', () async {
       final url = Uri.parse('http://localhost:8080/furniture');
       final params = {
-        'user_id' : '0',
+        'user_id': '0',
         'keyword': 'ソファ',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
@@ -96,7 +96,7 @@ void main() {
     test('Test: Search furniture by keyword : result 0', () async {
       final url = Uri.parse('http://localhost:8080/furniture');
       final params = {
-        'user_id' : '0',
+        'user_id': '0',
         'keyword': 'qwerty',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
@@ -107,10 +107,10 @@ void main() {
       expect(furnitureList.length, 0);
     });
 
-    test('Test: Get furniture detailed successfully', () async {
+    test('Test: Get furniture details successfully', () async {
       final url = Uri.parse('http://localhost:8080/furniture/$furnitureId');
       final params = {
-        'user_id' : '0',
+        'user_id': '0',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
@@ -120,10 +120,10 @@ void main() {
       expect(productName, 'ソファ');
     });
 
-    test('Test: Get furniture detailed failed', () async {
+    test('Test: Get furniture details failed', () async {
       final url = Uri.parse('http://localhost:8080/furniture/0');
       final params = {
-        'user_id' : '0',
+        'user_id': '0',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
@@ -156,5 +156,92 @@ void main() {
     //   final response = await request.send();
     //   expect(response.statusCode, 200);
     // });
+  });
+
+  group('Trade Test', () {
+    var tradeId = 1;
+    test('Test: Request trade successfully', () async {
+      final url = Uri.parse('http://localhost:8080/trades');
+      final headers = {'Content-Type': 'application/json'};
+      final body = {
+        'furniture_id': 1,
+        'user_id': 1,
+        'trade_date': '2024-06-22',
+      };
+      final jsonBody = json.encode(body);
+      var response = await post(url, headers: headers, body: jsonBody);
+      expect(response.statusCode, 200);
+    });
+
+    test('Test: Request trade failed', () async {
+      final url = Uri.parse('http://localhost:8080/trades');
+      final headers = {'Content-Type': 'application/json'};
+      final body = {
+        'furniture_id': 100000,
+        'user_id': 1,
+        'trade_date': '2024-06-22',
+      };
+      final jsonBody = json.encode(body);
+      var response = await post(url, headers: headers, body: jsonBody);
+      expect(response.statusCode, 500);
+    });
+
+    test('Test: Get trade list successfully', () async {
+      final url = Uri.parse('http://localhost:8080/trades');
+      final params = {
+        'user_id': '0',
+      };
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
+      expect(response.statusCode, 200);
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      final furnitureList = jsonResponse['trades'];
+      expect(furnitureList.length, isNonZero);
+    });
+
+    test('Test: Get trade details successfully', () async {
+      final url = Uri.parse('http://localhost:8080/trades/$tradeId');
+      final params = {
+        'user_id': '0',
+      };
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
+      expect(response.statusCode, 200);
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      final productName = jsonResponse['product_name'];
+      expect(productName, '木の椅子');
+    });
+
+    test('Test: Get trade details failed', () async {
+      final url = Uri.parse('http://localhost:8080/trades/-1');
+      final params = {
+        'user_id': '0',
+      };
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
+      expect(response.statusCode, 404);
+    });
+
+    test('Test: Update approval status', () async {
+      final url = Uri.parse('http://localhost:8080/trades/$tradeId');
+      final headers = {'Content-Type': 'application/json'};
+      final body = {
+        'is_giver': true,
+      };
+      final jsonBody = json.encode(body);
+      var response = await put(url, headers: headers, body: jsonBody);
+      expect(response.statusCode, 200);
+    });
+
+    test('Test: Update isChecked status', () async {
+      final url = Uri.parse('http://localhost:8080/trades/$tradeId/isChecked');
+      final headers = {'Content-Type': 'application/json'};
+      final body = {
+        'is_checked': true,
+      };
+      final jsonBody = json.encode(body);
+      var response = await put(url, headers: headers, body: jsonBody);
+      expect(response.statusCode, 200);
+    });
   });
 }
