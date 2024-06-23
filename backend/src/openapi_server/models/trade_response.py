@@ -20,7 +20,7 @@ import json
 
 
 
-from datetime import date
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictBytes, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 try:
@@ -43,8 +43,8 @@ class TradeResponse(BaseModel):
     is_checked: Optional[StrictBool] = None
     giver_approval: Optional[StrictBool] = None
     receiver_approval: Optional[StrictBool] = None
-    trade_date: Optional[date] = None
-    __properties: ClassVar[List[str]] = ["trade_id", "image", "receiver_name", "product_name", "trade_place", "furniture_id", "giver_id", "receiver_id", "is_checked", "giver_approval", "receiver_approval", "trade_date"]
+    trade_date_time: Optional[datetime] = Field(default=None, description="家具受取日時, 日付は日本標準時, ISO 8601形式")
+    __properties: ClassVar[List[str]] = ["trade_id", "image", "receiver_name", "product_name", "trade_place", "furniture_id", "giver_id", "receiver_id", "is_checked", "giver_approval", "receiver_approval", "trade_date_time"]
 
     model_config = {
         "populate_by_name": True,
@@ -106,7 +106,7 @@ class TradeResponse(BaseModel):
             "is_checked": obj.get("is_checked"),
             "giver_approval": obj.get("giver_approval"),
             "receiver_approval": obj.get("receiver_approval"),
-            "trade_date": obj.get("trade_date")
+            "trade_date_time": obj.get("trade_date_time")
         })
         return _obj
 

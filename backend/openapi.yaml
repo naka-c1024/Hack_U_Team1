@@ -554,9 +554,11 @@ components:
           description: "色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
           type: integer
         start_date:
+          example: 2021-01-01
           format: date
           type: string
         end_date:
+          example: 2024-01-01
           format: date
           type: string
         trade_place:
@@ -580,7 +582,7 @@ components:
       example:
         furniture:
         - area: 6
-          end_date: 2000-01-23
+          end_date: 2024-01-01
           image: ""
           is_favorite: true
           color: 5
@@ -593,9 +595,9 @@ components:
           furniture_id: 0
           category: 1
           username: ""
-          start_date: 2000-01-23
+          start_date: 2021-01-01
         - area: 6
-          end_date: 2000-01-23
+          end_date: 2024-01-01
           image: ""
           is_favorite: true
           color: 5
@@ -608,7 +610,7 @@ components:
           furniture_id: 0
           category: 1
           username: ""
-          start_date: 2000-01-23
+          start_date: 2021-01-01
       properties:
         furniture:
           items:
@@ -620,7 +622,7 @@ components:
     FurnitureResponse:
       example:
         area: 6
-        end_date: 2000-01-23
+        end_date: 2024-01-01
         image: ""
         is_favorite: true
         color: 5
@@ -633,7 +635,7 @@ components:
         furniture_id: 0
         category: 1
         username: ""
-        start_date: 2000-01-23
+        start_date: 2021-01-01
       properties:
         furniture_id:
           title: furniture_id
@@ -677,10 +679,12 @@ components:
           title: is_sold
           type: boolean
         start_date:
+          example: 2021-01-01
           format: date
           title: start_date
           type: string
         end_date:
+          example: 2024-01-01
           format: date
           title: end_date
           type: string
@@ -739,9 +743,9 @@ components:
       type: object
     RequestTradeRequest:
       example:
+        trade_date_time: 2021-01-01T00:00:00+09:00
         user_id: 6
         furniture_id: 0
-        trade_date: 2000-01-23
       properties:
         furniture_id:
           title: furniture_id
@@ -749,13 +753,15 @@ components:
         user_id:
           title: user_id
           type: integer
-        trade_date:
-          format: date
-          title: trade_date
+        trade_date_time:
+          description: "家具受取日時, 日付は日本標準時, ISO 8601形式"
+          example: 2021-01-01T00:00:00+09:00
+          format: date-time
+          title: trade_date_time
           type: string
       required:
       - furniture_id
-      - trade_date
+      - trade_date_time
       - user_id
       title: RequestTradeRequest
       type: object
@@ -763,6 +769,7 @@ components:
       example:
         image: ""
         trade_id: 0
+        trade_date_time: 2021-01-01T00:00:00+09:00
         giver_approval: true
         receiver_id: 5
         receiver_approval: true
@@ -771,7 +778,6 @@ components:
         trade_place: trade_place
         furniture_id: 6
         product_name: product_name
-        trade_date: 2000-01-23
         giver_id: 1
       properties:
         trade_id:
@@ -809,9 +815,11 @@ components:
         receiver_approval:
           title: receiver_approval
           type: boolean
-        trade_date:
-          format: date
-          title: trade_date
+        trade_date_time:
+          description: "家具受取日時, 日付は日本標準時, ISO 8601形式"
+          example: 2021-01-01T00:00:00+09:00
+          format: date-time
+          title: trade_date_time
           type: string
       title: TradeResponse
       type: object
@@ -820,6 +828,7 @@ components:
         trades:
         - image: ""
           trade_id: 0
+          trade_date_time: 2021-01-01T00:00:00+09:00
           giver_approval: true
           receiver_id: 5
           receiver_approval: true
@@ -828,10 +837,10 @@ components:
           trade_place: trade_place
           furniture_id: 6
           product_name: product_name
-          trade_date: 2000-01-23
           giver_id: 1
         - image: ""
           trade_id: 0
+          trade_date_time: 2021-01-01T00:00:00+09:00
           giver_approval: true
           receiver_id: 5
           receiver_approval: true
@@ -840,7 +849,6 @@ components:
           trade_place: trade_place
           furniture_id: 6
           product_name: product_name
-          trade_date: 2000-01-23
           giver_id: 1
       properties:
         trades:
