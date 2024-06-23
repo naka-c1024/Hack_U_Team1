@@ -125,6 +125,21 @@ async def furniture_personal_products_get(
     ...
 
 
+@router.get(
+    "/furniture/personal_products",
+    responses={
+        200: {"model": FurnitureListResponse, "description": "Furniture list retrieved successfully"},
+    },
+    tags=["Furniture"],
+    summary="Get list of Personal furniture by user_id",
+    response_model_by_alias=True,
+)
+async def furniture_personal_products_get(
+    user_id: int = Query(None, description="", alias="user_id"),
+) -> FurnitureListResponse:
+    ...
+
+
 @router.post(
     "/furniture",
     responses={
