@@ -1,4 +1,3 @@
-import aiofiles
 import os
 import base64
 import uuid
@@ -9,6 +8,7 @@ from openapi_server.models.furniture_response import FurnitureResponse
 from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 
 import openapi_server.cruds.furniture as furniture_crud
+from openapi_server.impl.common import read_image_file, write_image_file
 
 from fastapi import HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -146,13 +146,3 @@ class FurnitureApiImpl(BaseFurnitureApi):
     async def _embed_image_data_list(self, furniture_list: List[FurnitureResponse]):
         for furniture in furniture_list:
             await self._embed_image_data(furniture)
-
-async def read_image_file(file_path: str) -> bytes:
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"File not found: {file_path}")
-    async with aiofiles.open(file_path, 'rb') as file:
-        return await file.read()
-
-async def write_image_file(file_path: str, image_bytes: bytes) -> None:
-    async with aiofiles.open(file_path, 'wb') as file:
-        await file.write(image_bytes)
