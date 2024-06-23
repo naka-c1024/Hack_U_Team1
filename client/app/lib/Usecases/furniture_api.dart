@@ -110,10 +110,7 @@ Future<void> registerFurniture(int userId, Furniture furniture) async {
     final uri = Uri.parse('http://192.168.2.142:8080/furniture');
     final request = MultipartRequest('POST', uri);
     // テスト用の画像を読み込む
-    var file = await MultipartFile.fromPath(
-      'image',
-      '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/white_shelf_1.png',
-    );
+    var file = await MultipartFile.fromPath('image', furniture.imagePath!);
     request.files.add(file);
     // // 他のパラメータを設定
     request.fields['user_id'] = userId.toString();
