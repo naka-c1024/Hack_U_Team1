@@ -239,6 +239,12 @@ class RegisterTradeSheet extends HookConsumerWidget {
                       startDate: tradeStartDate.value,
                       endDate: tradeEndDate.value,
                     );
+                    ref.read(categoryProvider.notifier).state = -1;
+                    ref.read(colorProvider.notifier).state = -1;
+                    ref.read(conditionProvider.notifier).state = -1;
+                    ref.read(heightProvider.notifier).state = null;
+                    ref.read(widthProvider.notifier).state = null;
+                    ref.read(depthProvider.notifier).state = null;
                     final futureResult = registerFurniture(userId, furniture);
                     futureResult.then((result) {
                       Navigator.of(context).pop(0);

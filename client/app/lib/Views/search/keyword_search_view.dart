@@ -125,6 +125,7 @@ class KeywordSearchView extends HookConsumerWidget {
                             !searchLogTextList.value.contains(value)) {
                           saveSearchLog(value);
                         }
+                        ref.read(categoryProvider.notifier).state = -1;
                         // 検索結果の取得
                         final futureResult = getFurnitureList(userId, value);
                         futureResult.then((result) {

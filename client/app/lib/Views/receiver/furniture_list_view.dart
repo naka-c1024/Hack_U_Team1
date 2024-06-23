@@ -11,7 +11,12 @@ import 'favorite_list_view.dart';
 
 class FurnitureListView extends HookConsumerWidget {
   final List<Furniture> furnitureList;
-  const FurnitureListView({required this.furnitureList, super.key});
+  final ValueNotifier<int> selectedView;
+  const FurnitureListView({
+    required this.furnitureList,
+    required this.selectedView,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -89,7 +94,9 @@ class FurnitureListView extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  selectedView.value = 1;
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffffffff),
                   shape: const RoundedRectangleBorder(
