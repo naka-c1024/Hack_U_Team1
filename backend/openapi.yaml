@@ -93,6 +93,14 @@ paths:
         schema:
           type: integer
         style: form
+      - description: "カテゴリコード, URL(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)"
+        explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: integer
+        style: form
       - description: "検索キーワード, スペース区切りで複数指定可"
         example: ソファ かわいい
         explode: true
@@ -127,6 +135,27 @@ paths:
                 $ref: '#/components/schemas/FurnitureResponse'
           description: Furniture registered successfully
       summary: Register new furniture
+      tags:
+      - Furniture
+  /furniture/personal_products:
+    get:
+      parameters:
+      - example: 1
+        explode: true
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureListResponse'
+          description: Furniture list retrieved successfully
+      summary: Get list of Personal furniture by user_id
       tags:
       - Furniture
   /furniture/{furniture_id}:

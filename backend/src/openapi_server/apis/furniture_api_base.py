@@ -41,7 +41,15 @@ class BaseFurnitureApi:
     def furniture_get(
         self,
         user_id: int,
+        category: int,
         keyword: str,
+    ) -> FurnitureListResponse:
+        ...
+
+
+    def furniture_personal_products_get(
+        self,
+        user_id: int,
     ) -> FurnitureListResponse:
         ...
 
