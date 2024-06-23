@@ -125,16 +125,16 @@ class AreaMeasurementView extends HookConsumerWidget {
         alignment: Alignment.topCenter,
         children: [
           // 長さを測るためのカメラ
-          // SizedBox(
-          //   height: screenSize.height - 196,
-          //   child: ARKitSceneView(
-          //     enableTapRecognizer: true,
-          //     onARKitViewCreated: (controller) {
-          //       arkitController.value = controller;
-          //       onARKitViewCreated(controller);
-          //     },
-          //   ),
-          // ),
+          SizedBox(
+            height: screenSize.height - 196,
+            child: ARKitSceneView(
+              enableTapRecognizer: true,
+              onARKitViewCreated: (controller) {
+                arkitController.value = controller;
+                onARKitViewCreated(controller);
+              },
+            ),
+          ),
           // ボタンやテキスト
           Column(
             children: [
