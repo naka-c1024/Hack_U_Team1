@@ -31,7 +31,7 @@ def insert_dummy_data(session: Session):
     )
     furniture1 = Furniture(user_id=user1.user_id, product_name='木の椅子', image=os.path.join(save_dir, image1),
                             description='学校で使うような、木でできた椅子(https://www.irasutoya.com/2013/06/blog-post_6467.html)',
-                            height=1.0, width=0.5, depth=0.5, category=1, color=1, condition=1, trade_place='東京都千代田区千代田１−１')
+                            height=1.0, width=0.5, depth=0.5, category=1, color=1, condition=1, start_date='2024-01-01', end_date='2024-12-31', trade_place='東京都千代田区千代田１−１')
     furniture2 = Furniture(user_id=user2.user_id, product_name='中華料理のターンテーブル', image=os.path.join(save_dir, image2),
                             description='中華料理を食べるときに使われる回転する円卓(https://www.irasutoya.com/2017/07/blog-post_465.html)',
                             height=0.75, width=1.5, depth=0.75, category=2, color=2, condition=2, trade_place='東京都千代田区 霞が関2丁目1番2号')
