@@ -115,7 +115,7 @@ class TradeDetailView extends HookConsumerWidget {
                                       width: screenSize.width,
                                       color: const Color(0x4b000000),
                                       child: const TradeApproveSheet(
-                                        isCompleted: true,
+                                        isCompleted: false,
                                       ),
                                     );
                                   },
@@ -131,21 +131,6 @@ class TradeDetailView extends HookConsumerWidget {
                                 );
                               });
                               saveTradingIdList(trade.tradeId);
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    height: screenSize.height,
-                                    width: screenSize.width,
-                                    color: const Color(0x4b000000),
-                                    child: const TradeApproveSheet(
-                                      isCompleted: false,
-                                    ),
-                                  );
-                                },
-                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff424242),
