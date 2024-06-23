@@ -48,14 +48,17 @@ async def get_furniture(db: AsyncSession, furniture_id: int, request_user_id: in
     is_favorite = await get_is_favorite(db, furniture_id, request_user_id)
     return await build_furniture_response(furniture, user, is_favorite)
 
-async def get_furniture_list(db: AsyncSession, request_user_id: int, keyword: Optional[str]) -> FurnitureListResponse:
+async def get_furniture_list(db: AsyncSession, request_user_id: int, category: Optional[int], keyword: Optional[str]) -> FurnitureListResponse:
     query = select(db_model.Furniture)
+    if category is not None:
+        query = query.where(db_model.Furniture.category == category)
     if keyword:
-        conditions = []
+        keyword_conditions = []
         for word in keyword.split():
-            conditions.append(db_model.Furniture.product_name.like(f'%{word}%'))
-            conditions.append(db_model.Furniture.description.like(f'%{word}%'))
-        query = query.where(or_(*conditions))
+            keyword_conditions.append(db_model.Furniture.product_name.like(f'%{word}%'))
+            keyword_conditions.append(db_model.Furniture.description.like(f'%{word}%'))
+        query = query.where(or_(*keyword_conditions))
+
     result: Result = await db.execute(query)
     furniture_list = result.scalars().all()
     if not furniture_list:
@@ -68,6 +71,7 @@ async def get_furniture_list(db: AsyncSession, request_user_id: int, keyword: Op
             continue
         is_favorite = await get_is_favorite(db, furniture.furniture_id, request_user_id)
         response_list.append(await build_furniture_response(furniture, user, is_favorite))
+
     return FurnitureListResponse(furniture=response_list)
 
 async def create_furniture(

@@ -68,7 +68,10 @@ class HomeView extends HookConsumerWidget {
           ),
           skipLoadingOnRefresh: false,
           data: (data) {
-            return FurnitureListView(furnitureList: data);
+            return FurnitureListView(
+              furnitureList: data,
+              selectedView: selectedView,
+            );
           },
         ),
       ),
