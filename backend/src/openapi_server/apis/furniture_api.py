@@ -107,7 +107,7 @@ async def furniture_get(
     keyword: str = Query(None, description="検索キーワード, スペース区切りで複数指定可", alias="keyword"),
     db: AsyncSession = Depends(get_db),
 ) -> FurnitureListResponse:
-    return await impl.furniture_get(user_id, keyword, db)
+    return await impl.furniture_get(user_id, category, keyword, db)
 
 
 @router.get(
