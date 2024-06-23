@@ -20,7 +20,7 @@ async def create_trade(
         is_checked          = False,
         giver_approval      = False,
         receiver_approval   = False,
-        trade_date          = request_trade_request.trade_date
+        trade_date_time          = request_trade_request.trade_date_time
         
     )
     db.add(trade)
