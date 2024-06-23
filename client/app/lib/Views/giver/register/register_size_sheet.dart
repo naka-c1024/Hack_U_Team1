@@ -145,29 +145,6 @@ class RegisterSizeSheet extends HookConsumerWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    isMeasuringHeight.value = true;
-                    isMeasuringWidth.value = false;
-                    isMeasuringDepth.value = false;
-                  },
-                  child: Container(
-                    height: 32,
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    color: Colors.transparent,
-                    alignment: Alignment.center,
-                    child: Text(
-                      isMeasuringHeight.value
-                          ? '高さを計測中'
-                          : height == null
-                              ? '高さを計測'
-                              : '高さ：$height cm',
-                    ),
-                  ),
-                ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
                     isMeasuringHeight.value = false;
                     isMeasuringWidth.value = true;
                     isMeasuringDepth.value = false;
@@ -206,6 +183,29 @@ class RegisterSizeSheet extends HookConsumerWidget {
                           : depth == null
                               ? '奥行きを計測'
                               : '奥行き：$depth cm',
+                    ),
+                  ),
+                ),
+              ),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    isMeasuringHeight.value = true;
+                    isMeasuringWidth.value = false;
+                    isMeasuringDepth.value = false;
+                  },
+                  child: Container(
+                    height: 32,
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    color: Colors.transparent,
+                    alignment: Alignment.center,
+                    child: Text(
+                      isMeasuringHeight.value
+                          ? '高さを計測中'
+                          : height == null
+                              ? '高さを計測'
+                              : '高さ：$height cm',
                     ),
                   ),
                 ),
