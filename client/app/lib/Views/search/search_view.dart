@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'picture_search_view.dart';
@@ -15,6 +16,8 @@ class SearchView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isCamera = useState(true);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -47,8 +50,9 @@ class SearchView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            AreaMeasurementView(),
-            //PictureSearchView(cameraController: cameraController),
+            isCamera.value
+                ? PictureSearchView(cameraController: cameraController,isCamera:isCamera)
+                : AreaMeasurementView(isCamera:isCamera),
             const KeywordSearchView(),
           ],
         ),

@@ -9,8 +9,10 @@ import './../common/cateogory_cell.dart';
 
 class PictureSearchView extends HookConsumerWidget {
   final ValueNotifier<CameraController?> cameraController;
+  final ValueNotifier<bool> isCamera;
   const PictureSearchView({
     required this.cameraController,
+    required this.isCamera,
     super.key,
   });
 
@@ -68,23 +70,8 @@ class PictureSearchView extends HookConsumerWidget {
             children: [
               Container(
                 height: 24,
-                width: 168,
-                margin: const EdgeInsets.only(top: 280),
-                color: const Color(0x23000000),
-                alignment: Alignment.center,
-                child: const Text(
-                  '家具を設置したいエリア',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xffffffff),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                height: 24,
                 width: 248,
-                margin: const EdgeInsets.only(top: 200),
+                margin: const EdgeInsets.only(top: 504),
                 color: const Color(0x23000000),
                 alignment: Alignment.center,
                 child: const Text(
@@ -141,7 +128,9 @@ class PictureSearchView extends HookConsumerWidget {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          isCamera.value = false;
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           padding: const EdgeInsets.all(4),

@@ -9,7 +9,11 @@ import '../../Usecases/provider.dart';
 import './../common/cateogory_cell.dart';
 
 class AreaMeasurementView extends HookConsumerWidget {
-  const AreaMeasurementView({super.key});
+  final ValueNotifier<bool> isCamera;
+  const AreaMeasurementView({
+    required this.isCamera,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,21 +125,21 @@ class AreaMeasurementView extends HookConsumerWidget {
         alignment: Alignment.topCenter,
         children: [
           // 長さを測るためのカメラ
-          SizedBox(
-            height: screenSize.height - 196,
-            child: ARKitSceneView(
-              enableTapRecognizer: true,
-              onARKitViewCreated: (controller) {
-                arkitController.value = controller;
-                onARKitViewCreated(controller);
-              },
-            ),
-          ),
+          // SizedBox(
+          //   height: screenSize.height - 196,
+          //   child: ARKitSceneView(
+          //     enableTapRecognizer: true,
+          //     onARKitViewCreated: (controller) {
+          //       arkitController.value = controller;
+          //       onARKitViewCreated(controller);
+          //     },
+          //   ),
+          // ),
           // ボタンやテキスト
           Column(
             children: [
               Container(
-                padding: const EdgeInsets.fromLTRB(24, 440, 24, 24),
+                padding: const EdgeInsets.fromLTRB(24, 440, 24, 32),
                 child: Container(
                   decoration: BoxDecoration(
                     color: const Color(0xffffffff),
@@ -236,37 +240,72 @@ class AreaMeasurementView extends HookConsumerWidget {
                   ),
                 ),
               ),
-              // 検索ボタン
-              Stack(
-                alignment: Alignment.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 64,
-                    width: 64,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      shape: BoxShape.circle,
-                      border:
-                          Border.all(color: const Color(0xffd9d9d9), width: 2),
-                    ),
-                  ),
+                  // 戻るボタン
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    isCamera.value = true;
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       padding: const EdgeInsets.all(4),
+                      minimumSize: Size.zero,
                       elevation: 0,
                     ),
                     child: Container(
-                      height: 56,
-                      width: 56,
-                      decoration: const BoxDecoration(
-                        color: Color(0xffd9d9d9),
+                      height: 48,
+                      width: 48,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
                         shape: BoxShape.circle,
+                        border: Border.all(
+                            color: const Color(0xffd9d9d9), width: 1),
                       ),
-                      child: const Icon(Icons.search, size: 32),
+                      child: const Icon(
+                        Icons.photo_camera_outlined,
+                        size: 28,
+                        color: Color(0xffd9d9d9),
+                      ),
                     ),
                   ),
+                  const SizedBox(width: 32),
+                  // 検索ボタン
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        height: 64,
+                        width: 64,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: const Color(0xffd9d9d9), width: 2),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          padding: const EdgeInsets.all(4),
+                          elevation: 0,
+                        ),
+                        child: Container(
+                          height: 56,
+                          width: 56,
+                          decoration: const BoxDecoration(
+                            color: Color(0xffd9d9d9),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.search, size: 32),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 32),
+                  const SizedBox(height: 48, width: 48),
                 ],
               ),
             ],
