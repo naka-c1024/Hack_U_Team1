@@ -4,13 +4,15 @@ import base64
 from pathlib import Path
 
 # OpenAI APIキーをロード
-def load_api_key(file_path="secret.json"):
+def load_api_key():
+    file_path = Path(__file__).parent / 'secret.json'
     with open(file_path, 'r') as file:
         secrets = json.load(file)
     return secrets['OPENAI_API_KEY']
 
 # 製品情報データをロード
-def load_product_data(file_path="product_data.json"):
+def load_product_data():
+    file_path = Path(__file__).parent / 'product_data.json'
     with open(file_path, 'r') as file:
         product_data = json.load(file)
     return product_data
@@ -130,26 +132,3 @@ class FurnitureRecommendation:
             "color"     : (color_index, color),
             "reason"    : reason
         }
-
-if __name__ == '__main__':
-    recommend_model = FurnitureRecommendation()
-    describe_model = FurnitureDescribe()
-    print("レコメンドモデルのテスト")
-    for _ in range(3):
-        try:
-            recommend = recommend_model.get_recommend_color('recommend_example.jpg')
-            print(recommend)
-            break
-        except Exception as e:
-            print(e)
-            print("Retry")
-    
-    print("説明モデルのテスト")
-    for _ in range(3):
-        try:
-            describe = describe_model.get_describe('describe_example.jpg')
-            print(describe)
-            break
-        except Exception as e:
-            print(e)
-            print("Retry")
