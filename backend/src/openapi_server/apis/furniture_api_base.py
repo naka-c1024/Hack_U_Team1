@@ -5,6 +5,7 @@ from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 from openapi_server.models.furniture_list_response import FurnitureListResponse
+from openapi_server.models.furniture_recommend_response import FurnitureRecommendResponse
 from openapi_server.models.furniture_response import FurnitureResponse
 
 from fastapi import UploadFile
@@ -77,5 +78,5 @@ class BaseFurnitureApi:
         self,
         room_photo: UploadFile,
         category: int,
-    ) -> FurnitureListResponse:
+    ) -> FurnitureRecommendResponse:
         ...

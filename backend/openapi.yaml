@@ -251,7 +251,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FurnitureListResponse'
+                $ref: '#/components/schemas/FurnitureRecommendResponse'
           description: Furniture recommended successfully
         "400":
           content:
@@ -750,6 +750,56 @@ components:
       required:
       - category
       - room_photo
+      type: object
+    FurnitureRecommendResponse:
+      example:
+        reason: reason
+        furniture_list:
+        - area: 6
+          end_date: 2024-01-01
+          image: ""
+          is_favorite: true
+          color: 5
+          description: description
+          trade_place: trade_place
+          product_name: product_name
+          condition: 5
+          size: 100 50 30
+          is_sold: true
+          furniture_id: 0
+          category: 1
+          username: ""
+          start_date: 2021-01-01
+        - area: 6
+          end_date: 2024-01-01
+          image: ""
+          is_favorite: true
+          color: 5
+          description: description
+          trade_place: trade_place
+          product_name: product_name
+          condition: 5
+          size: 100 50 30
+          is_sold: true
+          furniture_id: 0
+          category: 1
+          username: ""
+          start_date: 2021-01-01
+        color: 0
+      properties:
+        color:
+          description: 色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+          title: color
+          type: integer
+        reason:
+          title: reason
+          type: string
+        furniture_list:
+          items:
+            $ref: '#/components/schemas/FurnitureResponse'
+          title: furniture_list
+          type: array
+      title: FurnitureRecommendResponse
       type: object
     RequestTradeRequest:
       example:
