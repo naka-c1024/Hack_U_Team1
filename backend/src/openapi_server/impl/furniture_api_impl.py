@@ -4,6 +4,7 @@ import uuid
 
 from openapi_server.apis.furniture_api_base import BaseFurnitureApi
 from openapi_server.models.furniture_list_response import FurnitureListResponse
+from openapi_server.models.furniture_recommend_response import FurnitureRecommendResponse
 from openapi_server.models.furniture_response import FurnitureResponse
 from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 
@@ -110,12 +111,12 @@ class FurnitureApiImpl(BaseFurnitureApi):
         self,
         room_photo: UploadFile,
         category: int,
-    ) -> FurnitureListResponse:
+    ) -> FurnitureRecommendResponse:
         # まずカテゴリで絞る?それとも先にAIを使ってその結果を元にkeywordなども含めて絞る?
         # アルゴリズムが決まったらそれに伴うDB処理を実装します！
         # TODO: recommend_furniture_from_imageの実装
         # response = await recommend_furniture_from_image(room_photo, category)
-        return FurnitureListResponse() # ダミー
+        return FurnitureRecommendResponse() # ダミー
 
     async def _save_image(self, user_id: int, product_name: str, image: UploadFile) -> str:
         SAVE_DIR = "/app/src/openapi_server/file_storage"
