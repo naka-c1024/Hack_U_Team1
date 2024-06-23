@@ -57,10 +57,11 @@ class FurnitureApiImpl(BaseFurnitureApi):
     async def furniture_get(
         self,
         request_user_id: int,
+        category: Optional[int],
         keyword: Optional[str],
         db: AsyncSession,
     ) -> FurnitureListResponse:
-        furniture_list = await furniture_crud.get_furniture_list(db, request_user_id, keyword)
+        furniture_list = await furniture_crud.get_furniture_list(db, request_user_id, category, keyword)
         if not furniture_list.furniture:
             raise HTTPException(status_code=404, detail="Furniture not found")
         await self._embed_image_data_list(furniture_list.furniture)

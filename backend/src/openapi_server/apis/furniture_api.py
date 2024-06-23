@@ -107,7 +107,22 @@ async def furniture_get(
     keyword: str = Query(None, description="検索キーワード, スペース区切りで複数指定可", alias="keyword"),
     db: AsyncSession = Depends(get_db),
 ) -> FurnitureListResponse:
-    return await impl.furniture_get(user_id, keyword, db)
+    return await impl.furniture_get(user_id, category, keyword, db)
+
+
+@router.get(
+    "/furniture/personal_products",
+    responses={
+        200: {"model": FurnitureListResponse, "description": "Furniture list retrieved successfully"},
+    },
+    tags=["Furniture"],
+    summary="Get list of Personal furniture by user_id",
+    response_model_by_alias=True,
+)
+async def furniture_personal_products_get(
+    user_id: int = Query(None, description="", alias="user_id"),
+) -> FurnitureListResponse:
+    ...
 
 
 @router.get(
