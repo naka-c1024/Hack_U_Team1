@@ -29,22 +29,22 @@ def insert_dummy_data(session: Session):
         save_dir=save_dir,
         filename=image3
     )
-    furniture1 = Furniture(user_id=user1.user_id, product_name='木の椅子', image=os.path.join(save_dir, image1), 
+    furniture1 = Furniture(user_id=user1.user_id, product_name='木の椅子', image=os.path.join(save_dir, image1),
                             description='学校で使うような、木でできた椅子(https://www.irasutoya.com/2013/06/blog-post_6467.html)',
-                            height=1.0, width=0.5, depth=0.5, category=1, color=1, condition=1, trade_place='東京都千代田区千代田１−１')
-    furniture2 = Furniture(user_id=user2.user_id, product_name='中華料理のターンテーブル', image=os.path.join(save_dir, image2), 
+                            height=1.0, width=0.5, depth=0.5, category=1, color=1, condition=1, start_date='2024-01-01', end_date='2024-12-31', trade_place='東京都千代田区千代田１−１')
+    furniture2 = Furniture(user_id=user2.user_id, product_name='中華料理のターンテーブル', image=os.path.join(save_dir, image2),
                             description='中華料理を食べるときに使われる回転する円卓(https://www.irasutoya.com/2017/07/blog-post_465.html)',
                             height=0.75, width=1.5, depth=0.75, category=2, color=2, condition=2, trade_place='東京都千代田区 霞が関2丁目1番2号')
-    furniture3 = Furniture(user_id=user3.user_id, product_name='ソファ', image=os.path.join(save_dir, image3), 
+    furniture3 = Furniture(user_id=user3.user_id, product_name='ソファ', image=os.path.join(save_dir, image3),
                             description='かわいいクリーム色のソファ(https://www.irasutoya.com/2013/01/blog-post_6531.html)',
                             height=1.0, width=1.0, depth=1.0, category=1, color=1, condition=1, trade_place='東京都千代田区千代田１−１')
     session.add_all([furniture1, furniture2, furniture3])
     session.flush()  # furniture_idを取得するためにflushする
 
-    trade1 = Trades(furniture_id=furniture1.furniture_id, receiver_id=user2.user_id)
+    # trade_dateには日付だけでなく日時にも指定する
+    trade1 = Trades(furniture_id=furniture1.furniture_id, receiver_id=user2.user_id, is_checked=True, giver_approval=True, receiver_approval=True, trade_date_time='2022-01-01 12:34:59')
     trade2 = Trades(furniture_id=furniture2.furniture_id, receiver_id=user1.user_id)
     session.add_all([trade1, trade2])
-
 
     favorite1 = Favorites(user_id=user1.user_id, furniture_id=furniture2.furniture_id)
     favorite2 = Favorites(user_id=user2.user_id, furniture_id=furniture1.furniture_id)

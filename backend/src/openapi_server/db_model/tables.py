@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Text, Boolean, Date, ForeignKey, CheckConstraint, UniqueConstraint, text
+from sqlalchemy import Column, Integer, String, Float, Text, Boolean, Date, DateTime, ForeignKey, CheckConstraint, UniqueConstraint, text
 from sqlalchemy.orm import relationship
 from openapi_server.db import Base
 
@@ -52,7 +52,7 @@ class Trades(Base):
     is_checked = Column(Boolean, nullable=False, server_default=text("False"))
     giver_approval = Column(Boolean, nullable=False, server_default=text("False"))
     receiver_approval = Column(Boolean, nullable=False, server_default=text("False"))
-    trade_date = Column(Date)
+    trade_date_time = Column(DateTime)
     
     furniture = relationship("Furniture", back_populates="trades")
     receiver = relationship("Users", back_populates="trades_received")
