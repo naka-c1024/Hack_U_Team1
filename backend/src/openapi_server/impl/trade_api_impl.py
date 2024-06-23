@@ -1,3 +1,5 @@
+import base64
+
 from openapi_server.models.update_is_checked_request import UpdateIsCheckedRequest
 from openapi_server.apis.trade_api_base import BaseTradeApi
 
@@ -7,6 +9,7 @@ from openapi_server.models.trade_list_response import TradeListResponse
 from openapi_server.models.trade_response import TradeResponse
 
 import openapi_server.cruds.trade as trade_crud
+from openapi_server.impl.common import read_image_file
 
 from fastapi import HTTPException
 
@@ -24,7 +27,8 @@ class TradeApiImpl(BaseTradeApi):
         
         return TradeListResponse(trades=[
             TradeResponse(
-                image               = trade.Furniture.image,
+                trade_id            = trade.Trades.trade_id,
+                image               = await self._convert_img_data(trade.Furniture.image),
                 receiver_name       = trade.Users.username,
                 product_name        = trade.Furniture.product_name,
                 trade_place         = trade.Furniture.trade_place,
@@ -45,7 +49,8 @@ class TradeApiImpl(BaseTradeApi):
             raise HTTPException(status_code=404, detail="Trade not found")
         
         return TradeResponse(
-            image               = trades[0].Furniture.image,
+            trade_id            = trades[0].Trades.trade_id,
+            image               = await self._convert_img_data(trades[0].Furniture.image),
             receiver_name       = trades[0].Users.username,
             product_name        = trades[0].Furniture.product_name,
             trade_place         = trades[0].Furniture.trade_place,
@@ -69,3 +74,14 @@ class TradeApiImpl(BaseTradeApi):
         if not trade:
             raise HTTPException(status_code=404, detail="Trade not found")
         return None
+    
+    async def _convert_img_data(self, image_file_path: str) -> str:
+        try:
+            image_bytes = await read_image_file(image_file_path)
+        except FileNotFoundError:
+            raise HTTPException(status_code=404, detail="Image file not found")
+        try:
+            image_str = base64.b64encode(image_bytes).decode('utf-8')
+            return image_str
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to encode or decode image data: {e}")
