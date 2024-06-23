@@ -38,7 +38,7 @@ class TradeApiImpl(BaseTradeApi):
                 is_checked          = trade.Trades.is_checked,
                 giver_approval      = trade.Trades.giver_approval,
                 receiver_approval   = trade.Trades.receiver_approval,
-                trade_date          = trade.Trades.trade_date,
+                trade_date_time          = trade.Trades.trade_date_time,
             )
             for trade in trades
         ])
@@ -60,7 +60,7 @@ class TradeApiImpl(BaseTradeApi):
             is_checked          = trades[0].Trades.is_checked,
             giver_approval      = trades[0].Trades.giver_approval,
             receiver_approval   = trades[0].Trades.receiver_approval,
-            trade_date          = trades[0].Trades.trade_date,
+            trade_date_time          = trades[0].Trades.trade_date_time,
         )
 
     async def trades_trade_id_is_checked_put(self, trade_id: int, update_is_checked_request: UpdateIsCheckedRequest, db: AsyncSession) -> None:

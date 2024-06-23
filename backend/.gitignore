@@ -136,3 +136,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# openai api_key
+src/openapi_server/ai/secret.json
