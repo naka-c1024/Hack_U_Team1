@@ -84,11 +84,32 @@ paths:
       - User
   /furniture:
     get:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FurnitureListRequest'
+      parameters:
+      - example: 1
+        explode: true
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+        style: form
+      - description: "カテゴリコード, URL(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)"
+        explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: "検索キーワード, スペース区切りで複数指定可"
+        example: ソファ かわいい
+        explode: true
+        in: query
+        name: keyword
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -116,6 +137,27 @@ paths:
       summary: Register new furniture
       tags:
       - Furniture
+  /furniture/personal_products:
+    get:
+      parameters:
+      - example: 1
+        explode: true
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureListResponse'
+          description: Furniture list retrieved successfully
+      summary: Get list of Personal furniture by user_id
+      tags:
+      - Furniture
   /furniture/{furniture_id}:
     delete:
       parameters:
@@ -140,18 +182,22 @@ paths:
       - Furniture
     get:
       parameters:
-      - explode: false
+      - example: 1
+        explode: false
         in: path
         name: furniture_id
         required: true
         schema:
           type: integer
         style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FurnitureRequest'
+      - example: 2
+        explode: true
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+        style: form
       responses:
         "200":
           content:
@@ -529,33 +575,6 @@ components:
       - trade_place
       - user_id
       - width
-      type: object
-    FurnitureRequest:
-      example:
-        user_id: 0
-      properties:
-        user_id:
-          title: user_id
-          type: integer
-      required:
-      - user_id
-      title: FurnitureRequest
-      type: object
-    FurnitureListRequest:
-      example:
-        user_id: 0
-        keyword: keyword
-      properties:
-        user_id:
-          title: user_id
-          type: integer
-        keyword:
-          description: "検索キーワード, スペース区切りで複数指定可"
-          title: keyword
-          type: string
-      required:
-      - user_id
-      title: FurnitureListRequest
       type: object
     FurnitureListResponse:
       example:

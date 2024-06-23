@@ -20,3 +20,5 @@ Hack U Team 1 Project !!
 - camera : https://pub.dev/packages/camera
 - path_provider : https://pub.dev/packages/path_provider
 - path_install : https://pub.dev/packages/path
+- http : https://pub.dev/packages/http
+- ARkit : https://pub.dev/packages/arkit_plugin

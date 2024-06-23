@@ -1,17 +1,17 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:arkit_plugin/arkit_plugin.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
 import '../../Usecases/provider.dart';
 import './../common/cateogory_cell.dart';
+import 'search_result_view.dart';
 
-class PictureSearchView extends HookConsumerWidget {
-  final ValueNotifier<CameraController?> cameraController;
+class AreaMeasurementView extends HookConsumerWidget {
   final ValueNotifier<bool> isCamera;
-  const PictureSearchView({
-    required this.cameraController,
+  const AreaMeasurementView({
     required this.isCamera,
     super.key,
   });
@@ -20,14 +20,84 @@ class PictureSearchView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
 
-    // カメラ関連の初期化処理
+    final arkitController = useState<ARKitController?>(null);
+    final nodes = useState<List<ARKitNode>>([]); // 設置した球体を保持
+    final positions = useState<List<vector.Vector3>>([]); // 球体の座標を保持
+
+    final isMeasuringHeight = useState(false);
+    final isMeasuringWidth = useState(false);
+    final isMeasuringDepth = useState(false);
+    final height = ref.watch(heightProvider);
+    final width = ref.watch(widthProvider);
+    final depth = ref.watch(depthProvider);
+
     useEffect(() {
-      Future<void> initializeController() async {
-        await cameraController.value?.initialize();
-      }
-      initializeController();
-      return null;
+      return () => arkitController.value?.dispose();
     }, []);
+
+    // 画面上の球体を削除
+    void removeAllSpheres(ARKitController controller) {
+      for (final node in nodes.value) {
+        controller.remove(node.name);
+      }
+      nodes.value.clear();
+      positions.value.clear();
+    }
+
+    // タップしたところに球体を設置
+    void addSphereAtPosition(
+      vector.Vector3 position,
+      ARKitController controller,
+    ) {
+      if (isMeasuringHeight.value ||
+          isMeasuringWidth.value ||
+          isMeasuringDepth.value) {
+        if (positions.value.length < 2) {
+          final material = ARKitMaterial(
+            diffuse: ARKitMaterialProperty.color(const Color(0xff7ddb0f)),
+          );
+          final sphere = ARKitSphere(materials: [material], radius: 0.01);
+          final node = ARKitNode(geometry: sphere, position: position);
+          controller.add(node);
+          nodes.value.add(node);
+          positions.value.add(position);
+          // 球体が二つ設置されたら距離を計算
+          if (positions.value.length == 2) {
+            final distance = positions.value[0].distanceTo(positions.value[1]);
+            if (isMeasuringHeight.value) {
+              ref.read(heightProvider.notifier).state =
+                  (distance * 100).round();
+              isMeasuringHeight.value = false;
+            }
+            if (isMeasuringWidth.value) {
+              ref.read(widthProvider.notifier).state = (distance * 100).round();
+              isMeasuringWidth.value = false;
+            }
+            if (isMeasuringDepth.value) {
+              ref.read(depthProvider.notifier).state = (distance * 100).round();
+              isMeasuringDepth.value = false;
+            }
+            // 画面上の球体を削除
+            Future.delayed(const Duration(seconds: 1), () {
+              removeAllSpheres(controller);
+            });
+          }
+        }
+      }
+    }
+
+    void onARKitViewCreated(ARKitController controller) {
+      controller.onARTap = (List<ARKitTestResult> hits) {
+        if (hits.isNotEmpty) {
+          final hit = hits.first;
+          final position = vector.Vector3(
+              hit.worldTransform.getColumn(3).x,
+              hit.worldTransform.getColumn(3).y,
+              hit.worldTransform.getColumn(3).z);
+          addSphereAtPosition(position, controller);
+        }
+      };
+    }
 
     final menuHeight = useState(48.0);
     void toggleHeight() {
@@ -56,40 +126,130 @@ class PictureSearchView extends HookConsumerWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          // カメラ
+          // 長さを測るためのカメラ
           SizedBox(
             height: screenSize.height - 196,
-            child: cameraController.value?.value.isInitialized ?? false
-                ? CameraPreview(cameraController.value!)
-                : Container(
-                    color: const Color(0x53000000),
-                  ),
+            child: ARKitSceneView(
+              enableTapRecognizer: true,
+              onARKitViewCreated: (controller) {
+                arkitController.value = controller;
+                onARKitViewCreated(controller);
+              },
+            ),
           ),
           // ボタンやテキスト
           Column(
             children: [
               Container(
-                height: 24,
-                width: 248,
-                margin: const EdgeInsets.only(top: 504),
-                color: const Color(0x23000000),
-                alignment: Alignment.center,
-                child: const Text(
-                  'シャッターボタンをタップして検索',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xffffffff),
-                    fontWeight: FontWeight.bold,
+                padding: const EdgeInsets.fromLTRB(24, 440, 24, 32),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xffffffff),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Container(
+                    height: 80,
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: Column(
+                      children: [
+                        const Text(
+                          '想定する家具の大きさを指定できます',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  isMeasuringHeight.value = false;
+                                  isMeasuringWidth.value = true;
+                                  isMeasuringDepth.value = false;
+                                },
+                                child: Container(
+                                  height: 32,
+                                  padding:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  color: Colors.transparent,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    isMeasuringWidth.value
+                                        ? '幅を計測中'
+                                        : width == null
+                                            ? '幅を計測'
+                                            : '幅：$width cm',
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  isMeasuringHeight.value = false;
+                                  isMeasuringWidth.value = false;
+                                  isMeasuringDepth.value = true;
+                                },
+                                child: Container(
+                                  height: 32,
+                                  padding:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  color: Colors.transparent,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    isMeasuringDepth.value
+                                        ? '奥行きを計測中'
+                                        : depth == null
+                                            ? '奥行きを計測'
+                                            : '奥行き：$depth cm',
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  isMeasuringHeight.value = true;
+                                  isMeasuringWidth.value = false;
+                                  isMeasuringDepth.value = false;
+                                },
+                                child: Container(
+                                  height: 32,
+                                  padding:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  color: Colors.transparent,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    isMeasuringHeight.value
+                                        ? '高さを計測中'
+                                        : height == null
+                                            ? '高さを計測'
+                                            : '高さ：$height cm',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // アルバムから持ってくるボタン
+                  // 戻るボタン
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      isCamera.value = true;
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       padding: const EdgeInsets.all(4),
@@ -106,14 +266,14 @@ class PictureSearchView extends HookConsumerWidget {
                             color: const Color(0xffd9d9d9), width: 1),
                       ),
                       child: const Icon(
-                        Icons.image_outlined,
+                        Icons.photo_camera_outlined,
                         size: 28,
                         color: Color(0xffd9d9d9),
                       ),
                     ),
                   ),
                   const SizedBox(width: 32),
-                  // シャッターボタン
+                  // 検索ボタン
                   Stack(
                     alignment: Alignment.center,
                     children: [
@@ -129,7 +289,19 @@ class PictureSearchView extends HookConsumerWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          isCamera.value = false;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SearchResultView(
+                                searchWord: '画像から検索',
+                                furnitureList: [],
+                              ),
+                            ),
+                          );
+                          ref.read(categoryProvider.notifier).state = -1;
+                          ref.read(heightProvider.notifier).state = null;
+                          ref.read(heightProvider.notifier).state = null;
+                          ref.read(heightProvider.notifier).state = null;
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
@@ -199,7 +371,7 @@ class PictureSearchView extends HookConsumerWidget {
                                       )
                                     : const SizedBox(width: 24),
                                 const SizedBox(width: 16),
-                                menuHeight.value == 48.0
+                                menuHeight.value == 48.0 && selectedIndex != -1
                                     ? Text(
                                         categorys[selectedIndex],
                                         style: const TextStyle(

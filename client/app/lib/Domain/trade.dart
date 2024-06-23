@@ -1,10 +1,8 @@
 // 取引に関する情報を保持するクラス
 
-import 'dart:typed_data';
-
 class Trade {
   final int tradeId;
-  final Uint8List? image;
+  final String imagePath;
   final String receiverName;
   final String productName;
   final String tradePlace;
@@ -18,7 +16,7 @@ class Trade {
 
   Trade({
     required this.tradeId,
-    required this.image,
+    required this.imagePath,
     required this.receiverName,
     required this.productName,
     required this.tradePlace,

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'register_size_sheet.dart';
+
 class RegisterPictureSheet extends HookConsumerWidget {
   final ValueNotifier<CameraController?> cameraController;
   final ValueNotifier<String?> imagePath;
@@ -178,7 +180,18 @@ class RegisterPictureSheet extends HookConsumerWidget {
                       padding: const EdgeInsets.only(left: 16, right: 16),
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).pop(1);
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                  height: screenSize.height - 64,
+                                  child: RegisterSizeSheet(
+                                    imagePath: imagePath,
+                                  ),
+                                );
+                              },
+                            );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff424242),

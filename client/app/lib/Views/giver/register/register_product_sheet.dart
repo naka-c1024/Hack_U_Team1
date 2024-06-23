@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Domain/constants.dart';
+import '../../../Domain/furniture.dart';
 import '../../../Usecases/provider.dart';
 import 'color_sheet.dart';
 import 'category_sheet.dart';
@@ -25,14 +27,29 @@ class RegisterProductSheet extends HookConsumerWidget {
     final screenSize = MediaQuery.of(context).size;
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
+    final userName = useState('');
+    final area = useState(0);
+    final future = useMemoized(SharedPreferences.getInstance);
+    final snapshot = useFuture(future, initialData: null);
+
+    useEffect(() {
+      final preferences = snapshot.data;
+      if (preferences == null) {
+        return null;
+      }
+      userName.value = preferences.getString('userName') ?? '';
+      area.value = preferences.getInt('address') ?? 0;
+      return null;
+    }, [snapshot.data]);
+
     final ValueNotifier<String?> imagePath = useState(null);
     final productName = useTextEditingController(text: '');
     final categoryIndex = ref.watch(categoryProvider);
     final colorIndex = ref.watch(colorProvider);
     final conditionIndex = ref.watch(conditionProvider);
-    final productWidth = useTextEditingController(text: '');
-    final productDepth = useTextEditingController(text: '');
-    final productHeight = useTextEditingController(text: '');
+    final width = ref.watch(widthProvider);
+    final depth = ref.watch(depthProvider);
+    final height = ref.watch(heightProvider);
     final productDescription = useTextEditingController(text: '');
     final isInputCompleted = useState(false);
 
@@ -54,15 +71,6 @@ class RegisterProductSheet extends HookConsumerWidget {
       if (colorIndex == -1) {
         return false;
       }
-      if (productWidth.text == '') {
-        return false;
-      }
-      if (productDepth.text == '') {
-        return false;
-      }
-      if (productHeight.text == '') {
-        return false;
-      }
       if (productDescription.text == '') {
         return false;
       }
@@ -78,9 +86,6 @@ class RegisterProductSheet extends HookConsumerWidget {
       categoryIndex,
       colorIndex,
       conditionIndex,
-      productWidth.text,
-      productDepth.text,
-      productHeight.text,
       productDescription.text,
     ]);
 
@@ -122,6 +127,12 @@ class RegisterProductSheet extends HookConsumerWidget {
                   IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(0);
+                      ref.read(categoryProvider.notifier).state = -1;
+                      ref.read(colorProvider.notifier).state = -1;
+                      ref.read(conditionProvider.notifier).state = -1;
+                      ref.read(heightProvider.notifier).state = null;
+                      ref.read(widthProvider.notifier).state = null;
+                      ref.read(depthProvider.notifier).state = null;
                     },
                     icon: const Icon(Icons.close),
                   ),
@@ -455,113 +466,33 @@ class RegisterProductSheet extends HookConsumerWidget {
                     ),
                     const Divider(),
                     const SizedBox(height: 4),
-                    const Text(
-                      'サイズ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff686868),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    // サイズ入力フォーム
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text(
-                          '幅',
+                          'サイズ',
                           style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xff4b4b4b),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff686868),
                           ),
                         ),
-                        Container(
-                          height: 32,
-                          width: 56,
-                          padding: const EdgeInsets.only(left: 8, bottom: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: const Color(0xffd9d9d9),
-                            ),
-                          ),
-                          child: TextField(
-                            controller: productWidth,
-                            style: const TextStyle(fontSize: 14),
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                            ),
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(3),
-                            ],
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        const Text(
-                          'cm × 奥行き',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xff4b4b4b),
-                          ),
-                        ),
-                        Container(
-                          height: 32,
-                          width: 56,
-                          padding: const EdgeInsets.only(left: 8, bottom: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: const Color(0xffd9d9d9),
-                            ),
-                          ),
-                          child: TextField(
-                            controller: productDepth,
-                            style: const TextStyle(fontSize: 14),
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                            ),
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(3),
-                            ],
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        const Text(
-                          'cm × 高さ',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xff4b4b4b),
-                          ),
-                        ),
-                        Container(
-                          height: 32,
-                          width: 56,
-                          padding: const EdgeInsets.only(left: 8, bottom: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: const Color(0xffd9d9d9),
-                            ),
-                          ),
-                          child: TextField(
-                            controller: productHeight,
-                            style: const TextStyle(fontSize: 14),
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                            ),
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(3),
-                            ],
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        const Text(
-                          'cm',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xff4b4b4b),
-                          ),
-                        ),
+                        const Spacer(),
+                        width != null && depth != null && height != null
+                            ? Text(
+                                '幅 ${width.toString()} cm × 奥行き ${width.toString()} cm × 高さ ${height.toString()} cm',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xff4b4b4b),
+                                ),
+                              )
+                            : const Text(
+                                '写真撮影画面からサイズを計測してください',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xff4b4b4b),
+                                ),
+                              ),
+                        const SizedBox(width: 8),
                       ],
                     ),
                     const SizedBox(height: 4),
@@ -614,13 +545,29 @@ class RegisterProductSheet extends HookConsumerWidget {
                       FocusManager.instance.primaryFocus!.unfocus();
                     }
                     if (isInputCompleted.value) {
+                      final furniture = Furniture(
+                        productName: productName.text,
+                        image: null,
+                        description: productDescription.text,
+                        height: (height ?? 0).toDouble(),
+                        width: (width ?? 0).toDouble(),
+                        depth: (depth ?? 0).toDouble(),
+                        category: categoryIndex,
+                        color: colorIndex,
+                        condition: conditionIndex,
+                        userName: userName.value,
+                        area: area.value,
+                        tradePlace: '',
+                        isSold: false,
+                        isFavorite: false,
+                      );
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         builder: (BuildContext context) {
                           return SizedBox(
                             height: screenSize.height - 64,
-                            child: const RegisterTradeSheet(),
+                            child: RegisterTradeSheet(furniture: furniture),
                           );
                         },
                       );

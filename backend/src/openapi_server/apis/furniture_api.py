@@ -25,11 +25,8 @@ from fastapi import (  # noqa: F401
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
-from openapi_server.models.furniture_list_request import FurnitureListRequest
 from openapi_server.models.furniture_list_response import FurnitureListResponse
-from openapi_server.models.furniture_request import FurnitureRequest
 from openapi_server.models.furniture_response import FurnitureResponse
-from openapi_server.models.register_furniture_request import RegisterFurnitureRequest
 
 from openapi_server.impl.furniture_api_impl import FurnitureApiImpl
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -89,10 +86,10 @@ async def furniture_furniture_id_delete(
 )
 async def furniture_furniture_id_get(
     furniture_id: int = Path(..., description=""),
-    furniture_request: FurnitureRequest = Body(None, description=""),
+    user_id: int = Query(None, description="", alias="user_id"),
     db: AsyncSession = Depends(get_db),
 ) -> FurnitureResponse:
-    return await impl.furniture_furniture_id_get(furniture_id, furniture_request.user_id, db)
+    return await impl.furniture_furniture_id_get(furniture_id, user_id, db)
 
 
 @router.get(
@@ -105,10 +102,42 @@ async def furniture_furniture_id_get(
     response_model_by_alias=True,
 )
 async def furniture_get(
-    furniture_list_request: FurnitureListRequest = Body(None, description=""),
+    user_id: int = Query(None, description="", alias="user_id"),
+    category: int = Query(None, description="カテゴリコード, URL(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)", alias="category"),
+    keyword: str = Query(None, description="検索キーワード, スペース区切りで複数指定可", alias="keyword"),
     db: AsyncSession = Depends(get_db),
 ) -> FurnitureListResponse:
-    return await impl.furniture_get(furniture_list_request, db)
+    return await impl.furniture_get(user_id, category, keyword, db)
+
+
+@router.get(
+    "/furniture/personal_products",
+    responses={
+        200: {"model": FurnitureListResponse, "description": "Furniture list retrieved successfully"},
+    },
+    tags=["Furniture"],
+    summary="Get list of Personal furniture by user_id",
+    response_model_by_alias=True,
+)
+async def furniture_personal_products_get(
+    user_id: int = Query(None, description="", alias="user_id"),
+) -> FurnitureListResponse:
+    ...
+
+
+@router.get(
+    "/furniture/personal_products",
+    responses={
+        200: {"model": FurnitureListResponse, "description": "Furniture list retrieved successfully"},
+    },
+    tags=["Furniture"],
+    summary="Get list of Personal furniture by user_id",
+    response_model_by_alias=True,
+)
+async def furniture_personal_products_get(
+    user_id: int = Query(None, description="", alias="user_id"),
+) -> FurnitureListResponse:
+    ...
 
 
 @router.post(

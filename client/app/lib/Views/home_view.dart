@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../Usecases/provider.dart';
 import 'search/search_view.dart';
 import 'user/my_page_view.dart';
 import 'receiver/furniture_list_view.dart';
@@ -30,10 +31,71 @@ class HomeView extends HookConsumerWidget {
       return null;
     }, [camera]);
 
+    final furnitureState = ref.watch(furnitureListProvider);
+    final tradeState = ref.watch(tradeListProvider);
+
+    // 画面を更新
+    Future<void> reloadFurnitureList() {
+      // ignore: unused_result
+      ref.refresh(furnitureListProvider);
+      return ref.read(furnitureListProvider.future);
+    }
+
+    Future<void> reloadTradeList() {
+      // ignore: unused_result
+      ref.refresh(tradeListProvider);
+      return ref.read(tradeListProvider.future);
+    }
+
+    // 画面を移動した時に自動で更新
+    useEffect(() {
+      reloadFurnitureList();
+      reloadTradeList();
+      return null;
+    }, [selectedView.value]);
+
     final viewWidgets = [
-      const FurnitureListView(),
+      // 下に引っ張った時に更新
+      RefreshIndicator(
+        onRefresh: () => reloadFurnitureList(),
+        // 家具リストの取得
+        child: furnitureState.when(
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          error: (error, __) => Center(
+            child: Text('$error'),
+          ),
+          skipLoadingOnRefresh: false,
+          data: (data) {
+            return FurnitureListView(
+              furnitureList: data,
+              selectedView: selectedView,
+            );
+          },
+        ),
+      ),
       SearchView(cameraController: cameraController),
-      RegisterProductView(cameraController: cameraController),
+      // 下に引っ張った時に更新
+      RefreshIndicator(
+        onRefresh: () => reloadTradeList(),
+        // 取引リストの取得
+        child: tradeState.when(
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          error: (error, __) => Center(
+            child: Text('$error'),
+          ),
+          skipLoadingOnRefresh: false,
+          data: (data) {
+            return RegisterProductView(
+              tradeList: data,
+              cameraController: cameraController,
+            );
+          },
+        ),
+      ),
       MyPageView(camera: camera),
     ];
 

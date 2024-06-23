@@ -4,12 +4,21 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
+import '../../../Domain/furniture.dart';
+import '../../../Usecases/provider.dart';
+import '../../../Usecases/furniture_api.dart';
+
 class RegisterTradeSheet extends HookConsumerWidget {
-  const RegisterTradeSheet({super.key});
+  final Furniture furniture;
+  const RegisterTradeSheet({
+    required this.furniture,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final userId = ref.read(userIdProvider);
 
     final tradePlace = useTextEditingController(text: '');
 
@@ -225,8 +234,24 @@ class RegisterTradeSheet extends HookConsumerWidget {
                 onPressed: () {
                   // 受け渡し場所さえ入力されていればok
                   if (tradePlace.text != '') {
-                    Navigator.of(context).pop(0);
-                    Navigator.of(context).pop(0);
+                    furniture.updateTradeParams(
+                      tradePlace: tradePlace.text,
+                      startDate: tradeStartDate.value,
+                      endDate: tradeEndDate.value,
+                    );
+                    ref.read(categoryProvider.notifier).state = -1;
+                    ref.read(colorProvider.notifier).state = -1;
+                    ref.read(conditionProvider.notifier).state = -1;
+                    ref.read(heightProvider.notifier).state = null;
+                    ref.read(widthProvider.notifier).state = null;
+                    ref.read(depthProvider.notifier).state = null;
+                    final futureResult = registerFurniture(userId, furniture);
+                    futureResult.then((result) {
+                      Navigator.of(context).pop(0);
+                      Navigator.of(context).pop(0);
+                    }).catchError((error) {
+                      print('error: $error');
+                    });
                   }
                 },
                 style: ElevatedButton.styleFrom(
