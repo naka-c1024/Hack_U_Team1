@@ -512,9 +512,11 @@ components:
         start_date:
           type: string
           format: date
+          example: 2021-01-01
         end_date: 
           type: string
           format: date
+          example: 2024-01-01
         trade_place:
           type: string
         condition:
@@ -562,9 +564,11 @@ components:
         start_date:
           type: string
           format: date
+          example: 2021-01-01
         end_date:
           type: string
           format: date
+          example: 2024-01-01
         trade_place:
           type: string
           description: 具体的な取引場所
@@ -609,15 +613,17 @@ components:
       required:
         - furniture_id
         - user_id
-        - trade_date
+        - trade_date_time
       properties:
         furniture_id:
           type: integer
         user_id:
           type: integer
-        trade_date:
+        trade_date_time:
           type: string
-          format: date
+          format: date-time
+          example: 2021-01-01T00:00:00+09:00
+          description: 家具受取日時, 日付は日本標準時, ISO 8601形式
     TradeResponse:
       type: object
       properties:
@@ -645,9 +651,11 @@ components:
           type: boolean
         receiver_approval:
           type: boolean
-        trade_date:
+        trade_date_time:
           type: string
-          format: date
+          format: date-time
+          example: 2021-01-01T00:00:00+09:00
+          description: 家具受取日時, 日付は日本標準時, ISO 8601形式
     TradeListResponse:
       type: object
       properties:
