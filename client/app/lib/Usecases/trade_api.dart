@@ -20,7 +20,7 @@ Future<List<Trade>> getTradeList(int userId) async {
       for (Map<String, dynamic> item in items) {
         var trade = Trade(
           tradeId: item['trade_id'] ?? 0,
-          imagePath: '/Users/ibuki/StudioProjects/Hack_U_Team1/backend/${item['image'].substring(5)}',
+          image: base64Decode(item['image']),
           receiverName: item['receiver_name'],
           productName: item['product_name'],
           furnitureId: item['furniture_id'],

@@ -403,11 +403,11 @@ class TradeDetailView extends HookConsumerWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Center(
-                        child: Image.asset(trade.imagePath),
-                      ),
-                    ),
+                          borderRadius: BorderRadius.circular(5),
+                          child: Center(
+                            child: Image.memory(trade.image),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 16),
                       Column(
