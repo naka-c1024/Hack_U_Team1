@@ -29,6 +29,9 @@ class TradeDetailView extends HookConsumerWidget {
     final future = useMemoized(SharedPreferences.getInstance);
     final snapshot = useFuture(future, initialData: null);
 
+    final favoriteCountState =
+        ref.watch(favoriteCountProvider(furniture.furnitureId));
+
     // 譲渡を承認した取引のtradeIdを保存
     void saveTradingIdList(int tradeId) {
       final preferences = snapshot.data;
@@ -410,6 +413,7 @@ class TradeDetailView extends HookConsumerWidget {
                         ),
                       ),
                       const SizedBox(width: 16),
+                      // 下に引っ張った時に更新
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -423,21 +427,36 @@ class TradeDetailView extends HookConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          const Row(
+                          Row(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(top: 4, right: 8),
                                 child: Icon(
                                   Icons.favorite_outline_outlined,
                                   color: Color(0xff636363),
                                 ),
                               ),
-                              Text(
-                                'いいね 8件',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xff636363),
+                              favoriteCountState.when(
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(),
                                 ),
+                                error: (error, __) => const Text(
+                                  'いいね 0件',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xff636363),
+                                  ),
+                                ),
+                                skipLoadingOnRefresh: false,
+                                data: (data) {
+                                  return Text(
+                                    'いいね ${data.toString()}件',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff636363),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),

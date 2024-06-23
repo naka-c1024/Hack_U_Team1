@@ -46,9 +46,6 @@ Future<List<Furniture>> getFurnitureList(
                 : DateTime.parse(item['end_date']),
             tradePlace: item['trade_place'],
             isFavorite: item['is_favorite']);
-        if (furniture.isFavorite) {
-          print(furniture.productName);
-        }
         furnitureList.add(furniture);
       }
       return furnitureList;

@@ -222,7 +222,7 @@ class FurnitureListView extends HookConsumerWidget {
                         : screenSize.height -
                             ((screenSize.width - 40) / 3 + 8) *
                                 favoriteList.value.length -
-                            272
+                            240
                     : 52 +
                         ((screenSize.width - 40) / 3 + 8) *
                             latestList.value.length,
@@ -237,7 +237,7 @@ class FurnitureListView extends HookConsumerWidget {
                       padding: const EdgeInsets.only(top: 12, bottom: 12),
                       child: const Text(
                         ' 最新の商品',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
