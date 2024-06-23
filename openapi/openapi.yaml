@@ -491,23 +491,31 @@ components:
       properties:
         user_id:
           type: integer
+          example: 1
         product_name:
           type: string
+          example: "棚"
         image:
           type: string
           format: binary
         description:
           type: string
+          example: "新品未使用の白い棚です。"
         height:
           type: number
+          example: 100.0
         width:
           type: number
+          example: 50.5
         depth:
           type: number
+          example: 30
         category:
           type: integer
+          example: 5
         color:
           type: integer
+          example: 0
           description: 色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)
         start_date:
           type: string
@@ -519,8 +527,10 @@ components:
           example: 2024-01-01
         trade_place:
           type: string
+          example: "東京都渋谷区"
         condition:
           type: integer
+          example: 0
     FurnitureListResponse:
       type: object
       properties:

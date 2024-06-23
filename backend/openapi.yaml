@@ -534,24 +534,32 @@ components:
     RegisterFurnitureRequest:
       properties:
         user_id:
+          example: 1
           type: integer
         product_name:
+          example: 棚
           type: string
         image:
           format: binary
           type: string
         description:
+          example: 新品未使用の白い棚です。
           type: string
         height:
+          example: 100.0
           type: number
         width:
+          example: 50.5
           type: number
         depth:
+          example: 30
           type: number
         category:
+          example: 5
           type: integer
         color:
           description: "色コード, URL(https://github.com/naka-c1024/Hack_U_Team1/blob/main/client/app/lib/constants.dart)"
+          example: 0
           type: integer
         start_date:
           example: 2021-01-01
@@ -562,8 +570,10 @@ components:
           format: date
           type: string
         trade_place:
+          example: 東京都渋谷区
           type: string
         condition:
+          example: 0
           type: integer
       required:
       - category
