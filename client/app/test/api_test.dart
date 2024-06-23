@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:intl/intl.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -176,7 +175,7 @@ void main() {
       final body = {
         'furniture_id': 1,
         'user_id': 1,
-        'trade_date': DateFormat('yyyy-MM-dd', 'ja').format(DateTime.now()),
+        'trade_date_time': DateTime.now().toIso8601String(),
       };
       final jsonBody = json.encode(body);
       var response = await post(url, headers: headers, body: jsonBody);
@@ -189,7 +188,7 @@ void main() {
       final body = {
         'furniture_id': 100000,
         'user_id': 1,
-        'trade_date': '2024-06-22',
+        'trade_date_time': DateTime.now().toIso8601String(),
       };
       final jsonBody = json.encode(body);
       var response = await post(url, headers: headers, body: jsonBody);
@@ -207,7 +206,6 @@ void main() {
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final tradeList = jsonResponse['trades'];
       expect(tradeList.length, isNonZero);
-      print(tradeList[0]['image']);
     });
 
     test('Test: Get trade list : result 0', () async {
@@ -229,10 +227,6 @@ void main() {
       final response = await get(uri);
       expect(response.statusCode, 200);
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
-      // for (String key in jsonResponse.keys) {
-      //   print(key);
-      //   print(jsonResponse[key]);
-      // }
       final productName = jsonResponse['product_name'];
       expect(productName, '木の椅子');
     });

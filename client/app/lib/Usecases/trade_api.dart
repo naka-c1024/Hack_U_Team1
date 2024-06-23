@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:intl/intl.dart';
 import 'package:http/http.dart';
 
 import '../Domain/trade.dart';
@@ -29,9 +28,9 @@ Future<List<Trade>> getTradeList(int userId) async {
           isChecked: item['is_checked'],
           giverApproval: item['giver_approval'],
           receiverApproval: item['receiver_approval'],
-          tradeDate: item['trade_date'] == null
+          tradeDate: item['trade_date_time'] == null
               ? DateTime.now()
-              : DateTime.parse(item['trade_date']),
+              : DateTime.parse(item['trade_date_time']),
           tradePlace: item['trade_place'],
         );
         tradeList.add(trade);
@@ -56,7 +55,7 @@ Future<void> requestTrade(int furnitureId, int userId, DateTime tradeDate) async
       final body = {
         'furniture_id': furnitureId,
         'user_id': userId,
-        'trade_date': DateFormat('yyyy-MM-dd', 'ja').format(tradeDate),
+        'trade_date_time': tradeDate.toIso8601String(),
       };
     final jsonBody = json.encode(body);
     final response = await post(url, headers: headers, body: jsonBody);
