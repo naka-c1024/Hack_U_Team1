@@ -51,8 +51,9 @@ class SearchView extends HookConsumerWidget {
         body: TabBarView(
           children: [
             isCamera.value
-                ? PictureSearchView(cameraController: cameraController,isCamera:isCamera)
-                : AreaMeasurementView(isCamera:isCamera),
+                ? PictureSearchView(
+                    cameraController: cameraController, isCamera: isCamera)
+                : AreaMeasurementView(isCamera: isCamera),
             const KeywordSearchView(),
           ],
         ),

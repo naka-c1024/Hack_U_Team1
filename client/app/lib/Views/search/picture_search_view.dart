@@ -25,6 +25,7 @@ class PictureSearchView extends HookConsumerWidget {
       Future<void> initializeController() async {
         await cameraController.value?.initialize();
       }
+
       initializeController();
       return null;
     }, []);
@@ -56,14 +57,25 @@ class PictureSearchView extends HookConsumerWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          // カメラ
-          SizedBox(
+          Container(
             height: screenSize.height - 196,
-            child: cameraController.value?.value.isInitialized ?? false
-                ? CameraPreview(cameraController.value!)
-                : Container(
-                    color: const Color(0x53000000),
-                  ),
+            width: screenSize.width,
+            color: const Color(0x53000000),
+          ),
+          // カメラ
+          Column(
+            children: [
+              const SizedBox(height: 48),
+              SizedOverflowBox(
+                size: Size(
+                    (screenSize.height - 196) / 4 * 3, screenSize.height - 196),
+                child: cameraController.value?.value.isInitialized ?? false
+                    ? CameraPreview(cameraController.value!)
+                    : Container(
+                        color: const Color(0x53000000),
+                      ),
+              ),
+            ],
           ),
           // ボタンやテキスト
           Column(
