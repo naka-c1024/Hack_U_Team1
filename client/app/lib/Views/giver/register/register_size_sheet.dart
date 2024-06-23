@@ -4,6 +4,8 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../Usecases/provider.dart';
+
 class RegisterSizeSheet extends HookConsumerWidget {
   final ValueNotifier<String?> imagePath;
   const RegisterSizeSheet({
@@ -22,9 +24,9 @@ class RegisterSizeSheet extends HookConsumerWidget {
     final isMeasuringHeight = useState(false);
     final isMeasuringWidth = useState(false);
     final isMeasuringDepth = useState(false);
-    final height = useState<int?>(null);
-    final width = useState<int?>(null);
-    final depth = useState<int?>(null);
+    final height = ref.watch(heightProvider);
+    final width = ref.watch(widthProvider);
+    final depth = ref.watch(depthProvider);
 
     useEffect(() {
       return () => arkitController.value?.dispose();
@@ -60,15 +62,16 @@ class RegisterSizeSheet extends HookConsumerWidget {
           if (positions.value.length == 2) {
             final distance = positions.value[0].distanceTo(positions.value[1]);
             if (isMeasuringHeight.value) {
-              height.value = (distance * 100).round();
+              ref.read(heightProvider.notifier).state =
+                  (distance * 100).round();
               isMeasuringHeight.value = false;
             }
             if (isMeasuringWidth.value) {
-              width.value = (distance * 100).round();
+              ref.read(widthProvider.notifier).state = (distance * 100).round();
               isMeasuringWidth.value = false;
             }
             if (isMeasuringDepth.value) {
-              depth.value = (distance * 100).round();
+              ref.read(depthProvider.notifier).state = (distance * 100).round();
               isMeasuringDepth.value = false;
             }
             // 画面上の球体を削除
@@ -154,9 +157,9 @@ class RegisterSizeSheet extends HookConsumerWidget {
                     child: Text(
                       isMeasuringHeight.value
                           ? '高さを計測中'
-                          : height.value == null
+                          : height == null
                               ? '高さを計測'
-                              : '高さ：${height.value} cm',
+                              : '高さ：$height cm',
                     ),
                   ),
                 ),
@@ -177,9 +180,9 @@ class RegisterSizeSheet extends HookConsumerWidget {
                     child: Text(
                       isMeasuringWidth.value
                           ? '幅を計測中'
-                          : width.value == null
+                          : width == null
                               ? '幅を計測'
-                              : '幅：${width.value} cm',
+                              : '幅：$width cm',
                     ),
                   ),
                 ),
@@ -200,9 +203,9 @@ class RegisterSizeSheet extends HookConsumerWidget {
                     child: Text(
                       isMeasuringDepth.value
                           ? '奥行きを計測中'
-                          : depth.value == null
+                          : depth == null
                               ? '奥行きを計測'
-                              : '奥行き：${depth.value} cm',
+                              : '奥行き：$depth cm',
                     ),
                   ),
                 ),
@@ -217,8 +220,10 @@ class RegisterSizeSheet extends HookConsumerWidget {
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(1);
-                    Navigator.of(context).pop(1);
+                    if (height != null && width != null && depth != null) {
+                      Navigator.of(context).pop(1);
+                      Navigator.of(context).pop(1);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff424242),

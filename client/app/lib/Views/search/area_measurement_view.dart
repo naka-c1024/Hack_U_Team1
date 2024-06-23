@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../Domain/constants.dart';
 import '../../Usecases/provider.dart';
 import './../common/cateogory_cell.dart';
+import 'search_result_view.dart';
 
 class AreaMeasurementView extends HookConsumerWidget {
   final ValueNotifier<bool> isCamera;
@@ -26,9 +27,9 @@ class AreaMeasurementView extends HookConsumerWidget {
     final isMeasuringHeight = useState(false);
     final isMeasuringWidth = useState(false);
     final isMeasuringDepth = useState(false);
-    final height = useState<int?>(null);
-    final width = useState<int?>(null);
-    final depth = useState<int?>(null);
+    final height = ref.watch(heightProvider);
+    final width = ref.watch(widthProvider);
+    final depth = ref.watch(depthProvider);
 
     useEffect(() {
       return () => arkitController.value?.dispose();
@@ -64,15 +65,16 @@ class AreaMeasurementView extends HookConsumerWidget {
           if (positions.value.length == 2) {
             final distance = positions.value[0].distanceTo(positions.value[1]);
             if (isMeasuringHeight.value) {
-              height.value = (distance * 100).round();
+              ref.read(heightProvider.notifier).state =
+                  (distance * 100).round();
               isMeasuringHeight.value = false;
             }
             if (isMeasuringWidth.value) {
-              width.value = (distance * 100).round();
+              ref.read(widthProvider.notifier).state = (distance * 100).round();
               isMeasuringWidth.value = false;
             }
             if (isMeasuringDepth.value) {
-              depth.value = (distance * 100).round();
+              ref.read(depthProvider.notifier).state = (distance * 100).round();
               isMeasuringDepth.value = false;
             }
             // 画面上の球体を削除
@@ -178,9 +180,9 @@ class AreaMeasurementView extends HookConsumerWidget {
                                   child: Text(
                                     isMeasuringHeight.value
                                         ? '高さを計測中'
-                                        : height.value == null
+                                        : height == null
                                             ? '高さを計測'
-                                            : '高さ：${height.value} cm',
+                                            : '高さ：$height cm',
                                   ),
                                 ),
                               ),
@@ -202,9 +204,9 @@ class AreaMeasurementView extends HookConsumerWidget {
                                   child: Text(
                                     isMeasuringWidth.value
                                         ? '幅を計測中'
-                                        : width.value == null
+                                        : width == null
                                             ? '幅を計測'
-                                            : '幅：${width.value} cm',
+                                            : '幅：$width cm',
                                   ),
                                 ),
                               ),
@@ -226,9 +228,9 @@ class AreaMeasurementView extends HookConsumerWidget {
                                   child: Text(
                                     isMeasuringDepth.value
                                         ? '奥行きを計測中'
-                                        : depth.value == null
+                                        : depth == null
                                             ? '奥行きを計測'
-                                            : '奥行き：${depth.value} cm',
+                                            : '奥行き：$depth cm',
                                   ),
                                 ),
                               ),
@@ -246,7 +248,7 @@ class AreaMeasurementView extends HookConsumerWidget {
                   // 戻るボタン
                   ElevatedButton(
                     onPressed: () {
-                    isCamera.value = true;
+                      isCamera.value = true;
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
@@ -286,7 +288,21 @@ class AreaMeasurementView extends HookConsumerWidget {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SearchResultView(
+                                searchWord: '画像から検索',
+                                furnitureList: [],
+                              ),
+                            ),
+                          );
+                          ref.read(categoryProvider.notifier).state = -1;
+                          ref.read(heightProvider.notifier).state = null;
+                          ref.read(heightProvider.notifier).state = null;
+                          ref.read(heightProvider.notifier).state = null;
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           padding: const EdgeInsets.all(4),

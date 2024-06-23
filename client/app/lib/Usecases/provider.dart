@@ -20,6 +20,15 @@ final colorProvider = StateProvider((ref) => -1);
 // 選択した商品の状態をインデックスで保持
 final conditionProvider = StateProvider((ref) => -1);
 
+// 計測した高さを保持
+final heightProvider = StateProvider<int?>((ref) => null);
+
+// 計測した幅を保持
+final widthProvider = StateProvider<int?>((ref) => null);
+
+// 計測した奥行きを保持
+final depthProvider = StateProvider<int?>((ref) => null);
+
 // 家具リスト取得APIの状態を管理
 final furnitureListProvider = FutureProvider<List<Furniture>>((ref) async {
   final userId = ref.read(userIdProvider);
