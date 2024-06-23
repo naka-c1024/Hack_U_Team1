@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Views/user/login_view.dart';
 import 'Views/user/sign_up_view.dart';
 
+import 'ar_hooks_tap_measurement.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting('ja');
@@ -40,7 +42,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Noto Sans JP',
       ),
-      home: userName == null ? SignUpView(camera:camera) : LoginView(camera: camera),
+      home: TapMeasurementPage(),
+      //userName == null ? SignUpView(camera:camera) : LoginView(camera: camera),
     );
   }
 }
