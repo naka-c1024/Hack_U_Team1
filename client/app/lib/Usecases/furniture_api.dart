@@ -4,13 +4,17 @@ import 'package:intl/intl.dart';
 import '../Domain/furniture.dart';
 
 // 家具リストを取得
-Future<List<Furniture>> getFurnitureList(int userId, String? searchWord) async {
+Future<List<Furniture>> getFurnitureList(
+    int userId, int? category, String? searchWord) async {
   try {
     final url = Uri.parse('http://192.168.2.142:8080/furniture');
     final params = {
-      'user_id': '0',
+      'user_id': userId.toString(),
     };
-    if (searchWord != null) {
+    if (category != null) {
+      params['category'] = category.toString();
+    }
+    if (searchWord != null && searchWord != '') {
       params['keyword'] = searchWord;
     }
     final uri = Uri.parse(url.toString()).replace(queryParameters: params);
@@ -42,12 +46,14 @@ Future<List<Furniture>> getFurnitureList(int userId, String? searchWord) async {
                 : DateTime.parse(item['end_date']),
             tradePlace: item['trade_place'],
             isFavorite: item['is_favorite']);
-            if(furniture.isFavorite){
-              print(furniture.productName);
-            }
+        if (furniture.isFavorite) {
+          print(furniture.productName);
+        }
         furnitureList.add(furniture);
       }
       return furnitureList;
+    } else if (response.statusCode == 404) {
+      return [];
     } else {
       final msg = jsonResponse['detail'];
       throw Exception('Failed to get furniture list: $msg');

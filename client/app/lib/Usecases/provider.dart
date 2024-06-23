@@ -32,7 +32,7 @@ final depthProvider = StateProvider<int?>((ref) => null);
 // 家具リスト取得APIの状態を管理
 final furnitureListProvider = FutureProvider<List<Furniture>>((ref) async {
   final userId = ref.read(userIdProvider);
-  return getFurnitureList(userId, null);
+  return getFurnitureList(userId, null, null);
 });
 
 // 取引リスト取得APIの状態を管理

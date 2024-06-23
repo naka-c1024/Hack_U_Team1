@@ -82,6 +82,7 @@ void main() {
       final url = Uri.parse('http://localhost:8080/furniture');
       final params = {
         'user_id': '0',
+        'category': '0',
         'keyword': 'ソファ',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
@@ -103,10 +104,7 @@ void main() {
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
-      expect(response.statusCode, 200);
-      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
-      final furnitureList = jsonResponse['furniture'];
-      expect(furnitureList.length, 0);
+      expect(response.statusCode, 404);
     });
 
     test('Test: Get furniture details successfully', () async {
