@@ -240,7 +240,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FurnitureListResponse'
+                $ref: '#/components/schemas/FurnitureRecommendResponse'
         '400':
           description: validation error
           content:
@@ -618,6 +618,18 @@ components:
         category:
           type: integer
           description: カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+    FurnitureRecommendResponse:
+      type: object
+      properties:
+        color:
+          type: integer
+          description: 色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)
+        reason:
+          type: string
+        furniture_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/FurnitureResponse'
     RequestTradeRequest:
       type: object
       required:

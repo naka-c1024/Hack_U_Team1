@@ -26,6 +26,7 @@ from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.error_response import ErrorResponse
 from openapi_server.models.furniture_describe_response import FurnitureDescribeResponse
 from openapi_server.models.furniture_list_response import FurnitureListResponse
+from openapi_server.models.furniture_recommend_response import FurnitureRecommendResponse
 from openapi_server.models.furniture_response import FurnitureResponse
 
 from openapi_server.impl.furniture_api_impl import FurnitureApiImpl
@@ -186,7 +187,7 @@ async def furniture_post(
 @router.post(
     "/furniture/recommend",
     responses={
-        200: {"model": FurnitureListResponse, "description": "Furniture recommended successfully"},
+        200: {"model": FurnitureRecommendResponse, "description": "Furniture recommended successfully"},
         400: {"model": ErrorResponse, "description": "validation error"},
     },
     tags=["Furniture"],
@@ -196,5 +197,5 @@ async def furniture_post(
 async def furniture_recommend_post(
     room_photo: UploadFile = Form(..., description=""),
     category: int = Form(..., description="カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)"),
-) -> FurnitureListResponse:
+) -> FurnitureRecommendResponse:
     return await impl.furniture_recommend_post(room_photo, category)
