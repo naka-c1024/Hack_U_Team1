@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'picture_search_view.dart';
 import 'keyword_search_view.dart';
+import 'area_measurement_view.dart';
 
 class SearchView extends HookConsumerWidget {
   final ValueNotifier<CameraController?> cameraController;
@@ -46,7 +47,8 @@ class SearchView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            PictureSearchView(cameraController: cameraController),
+            AreaMeasurementView(),
+            //PictureSearchView(cameraController: cameraController),
             const KeywordSearchView(),
           ],
         ),
