@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
 import '../common/furniture_cell.dart';
+import 'area_filter_menu.dart';
 
 class SearchResultView extends HookConsumerWidget {
   final String searchWord;
@@ -283,17 +284,16 @@ class SearchResultView extends HookConsumerWidget {
               // エリア選択メニュー
               isSelectingArea.value
                   ? Container(
-                      height: 504,
+                      height: 488,
                       width: screenSize.width,
                       color: const Color(0xffffffff),
                       child: Column(
                         children: [
-                          SingleChildScrollView(
-                            child: Container(
-                              height: 440,
-                              width: screenSize.width,
-                              color: const Color(0xffffffff),
-                            ),
+                          Container(
+                            height: 416,
+                            width: screenSize.width,
+                            padding: const EdgeInsets.fromLTRB(16,16,16,0),
+                            child: AreaFilterMenu(selectedArea: selectedArea),
                           ),
                           const Divider(),
                           Row(
