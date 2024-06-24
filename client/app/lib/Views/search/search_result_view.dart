@@ -13,9 +13,11 @@ import 'size_filter_menu.dart';
 class SearchResultView extends HookConsumerWidget {
   final String searchWord;
   final List<Furniture> furnitureList;
+  final bool isSearchPicture;
   const SearchResultView({
     required this.searchWord,
     required this.furnitureList,
+    required this.isSearchPicture,
     super.key,
   });
 
@@ -80,24 +82,48 @@ class SearchResultView extends HookConsumerWidget {
               ),
             ),
             // 検索した条件を表示
-            Row(
-              children: [
-                Image.asset(
-                  'assets/images/icon.png',
-                  height: 30,
-                  width: 30,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  searchWord == '' ? '検索結果' : searchWord,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff131313),
+            isSearchPicture
+                ? Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/icon.png',
+                        height: 30,
+                        width: 30,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        searchWord,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff131313),
+                        ),
+                      ),
+                    ],
+                  )
+                : Container(
+                    height: 32,
+                    width: screenSize.width - 80,
+                    padding: const EdgeInsets.only(left: 8),
+                    color: const Color(0xffd9d9d9),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.search,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          searchWord,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff4b4b4b),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
           ],
         ),
       ),

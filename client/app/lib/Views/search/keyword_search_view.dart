@@ -133,18 +133,22 @@ class KeywordSearchView extends HookConsumerWidget {
                         if (categoryIndex == -1) {
                           futureResult = getFurnitureList(userId, null, value);
                         } else {
-                          futureResult = getFurnitureList(userId, categoryIndex, value);
+                          futureResult =
+                              getFurnitureList(userId, categoryIndex, value);
                         }
-                        ref.read(categoryProvider.notifier).state = -1;
                         futureResult.then((result) {
                           return Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => SearchResultView(
-                                searchWord: searchWordController.text == ''
-                                    ? 'カテゴリ : ${categorys[categoryIndex]}'
-                                    : searchWordController.text,
+                                searchWord: searchWordController.text == '' &&
+                                        categoryIndex == -1
+                                    ? '検索結果'
+                                    : categoryIndex == -1
+                                        ? searchWordController.text
+                                        : categorys[categoryIndex],
                                 furnitureList: result,
+                                isSearchPicture: false,
                               ),
                             ),
                           );
@@ -153,6 +157,7 @@ class KeywordSearchView extends HookConsumerWidget {
                             child: Text('error: $error'),
                           );
                         });
+                        ref.read(categoryProvider.notifier).state = -1;
                       },
                       textInputAction: TextInputAction.search,
                       decoration: const InputDecoration(

@@ -4,7 +4,9 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/constants.dart';
 import '../../Usecases/provider.dart';
+import 'search_result_view.dart';
 
 class SpaceMeasurementView extends HookConsumerWidget {
   final ValueNotifier<int> searchPictureProcess;
@@ -16,6 +18,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final categoryIndex = ref.watch(categoryProvider);
 
     final arkitController = useState<ARKitController?>(null);
     final nodes = useState<List<ARKitNode>>([]); // 設置した球体を保持
@@ -336,7 +339,19 @@ class SpaceMeasurementView extends HookConsumerWidget {
                   ),
                   // 検索ボタン
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchResultView(
+                            searchWord: '${categorys[categoryIndex]} の画像検索結果',
+                            furnitureList: [],
+                            isSearchPicture: true,
+                          ),
+                        ),
+                      );
+                      ref.read(categoryProvider.notifier).state = -1;
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
                       padding: EdgeInsets.zero,
