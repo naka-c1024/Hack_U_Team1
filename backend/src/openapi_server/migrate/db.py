@@ -33,5 +33,6 @@ def reset_database():
     with SessionLocal() as session:
         insert_dummy_data(session)
 
+
 if __name__ == "__main__":
     reset_database()
