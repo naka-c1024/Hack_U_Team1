@@ -8,6 +8,7 @@ import '../../Usecases/provider.dart';
 import '../common/furniture_cell.dart';
 import 'area_filter_menu.dart';
 import 'color_filter_menu.dart';
+import 'size_filter_menu.dart';
 
 class SearchResultView extends HookConsumerWidget {
   final String searchWord;
@@ -30,9 +31,12 @@ class SearchResultView extends HookConsumerWidget {
     // 検索条件を保持
     final selectedArea = useState<List<int>>([]);
     final selectedColorList = ref.watch(colorListProvider);
-    final selectedWidth = useState(999);
-    final selectedDepth = useState(999);
-    final selectedHeight = useState(999);
+    final maxWidth = useTextEditingController(text: '');
+    final maxDepth = useTextEditingController(text: '');
+    final maxHeight = useTextEditingController(text: '');
+    final minWidth = useTextEditingController(text: '');
+    final minDepth = useTextEditingController(text: '');
+    final minHeight = useTextEditingController(text: '');
     final isSoldOnly = useState(false);
 
     final ValueNotifier<List<Row>> resultList = useState([]);
@@ -128,7 +132,8 @@ class SearchResultView extends HookConsumerWidget {
                           width: 136,
                           padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
-                            color: isSelectingArea.value
+                            color: isSelectingArea.value ||
+                                    selectedArea.value.isNotEmpty
                                 ? const Color(0xffd9d9d9)
                                 : const Color(0xffffffff),
                             border: Border.all(color: const Color(0xffd9d9d9)),
@@ -209,7 +214,13 @@ class SearchResultView extends HookConsumerWidget {
                           width: 96,
                           padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
-                            color: isSelectingSize.value
+                            color: isSelectingSize.value ||
+                                    (maxWidth.text != '' ||
+                                        maxDepth.text != '' ||
+                                        maxHeight.text != '' ||
+                                        minWidth.text != '' ||
+                                        minDepth.text != '' ||
+                                        minHeight.text != '')
                                 ? const Color(0xffd9d9d9)
                                 : const Color(0xffffffff),
                             border: Border.all(color: const Color(0xffd9d9d9)),
@@ -472,16 +483,23 @@ class SearchResultView extends HookConsumerWidget {
               // サイズ選択メニュー
               isSelectingSize.value
                   ? Container(
-                      height: 424,
+                      height: 336,
                       width: screenSize.width,
                       color: const Color(0xffffffff),
                       child: Column(
                         children: [
-                          SingleChildScrollView(
-                            child: Container(
-                              height: 360,
-                              width: screenSize.width,
-                              color: const Color(0xffffffff),
+                          Container(
+                            height: 256,
+                            width: screenSize.width,
+                            padding: const EdgeInsets.all(16),
+                            color: const Color(0xffffffff),
+                            child: SizeFilterMenu(
+                              maxWidth: maxWidth,
+                              maxDepth: maxDepth,
+                              maxHeight: maxHeight,
+                              minWidth: minWidth,
+                              minDepth: minDepth,
+                              minHeight: minHeight,
                             ),
                           ),
                           const Divider(),
@@ -492,9 +510,12 @@ class SearchResultView extends HookConsumerWidget {
                               ElevatedButton(
                                 onPressed: () {
                                   isSelectingSize.value = false;
-                                  selectedWidth.value = 999;
-                                  selectedDepth.value = 999;
-                                  selectedHeight.value = 999;
+                                  maxWidth.text = '';
+                                  maxDepth.text = '';
+                                  maxHeight.text = '';
+                                  minWidth.text = '';
+                                  minDepth.text = '';
+                                  minHeight.text = '';
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffffffff),
