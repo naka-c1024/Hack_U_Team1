@@ -17,6 +17,9 @@ final categoryProvider = StateProvider((ref) => -1);
 // 選択したカラーをインデックスで保持
 final colorProvider = StateProvider((ref) => -1);
 
+// 選択したカラーを複数インデックスで保持
+final colorListProvider = StateProvider((ref) => []);
+
 // 選択した商品の状態をインデックスで保持
 final conditionProvider = StateProvider((ref) => -1);
 

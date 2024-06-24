@@ -4,8 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
+import '../../Usecases/provider.dart';
 import '../common/furniture_cell.dart';
 import 'area_filter_menu.dart';
+import 'color_filter_menu.dart';
 
 class SearchResultView extends HookConsumerWidget {
   final String searchWord;
@@ -27,7 +29,7 @@ class SearchResultView extends HookConsumerWidget {
 
     // 検索条件を保持
     final selectedArea = useState<List<int>>([]);
-    final selectedColor = useState<List<int>>([]);
+    final selectedColorList = ref.watch(colorListProvider);
     final selectedWidth = useState(999);
     final selectedDepth = useState(999);
     final selectedHeight = useState(999);
@@ -66,6 +68,7 @@ class SearchResultView extends HookConsumerWidget {
             IconButton(
               onPressed: () {
                 Navigator.of(context).pop(0);
+                ref.read(colorListProvider.notifier).state = [];
               },
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -165,7 +168,8 @@ class SearchResultView extends HookConsumerWidget {
                           width: 64,
                           padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
-                            color: isSelectingColor.value
+                            color: isSelectingColor.value ||
+                                    selectedColorList.isNotEmpty
                                 ? const Color(0xffd9d9d9)
                                 : const Color(0xffffffff),
                             border: Border.all(color: const Color(0xffd9d9d9)),
@@ -292,7 +296,7 @@ class SearchResultView extends HookConsumerWidget {
                           Container(
                             height: 416,
                             width: screenSize.width,
-                            padding: const EdgeInsets.fromLTRB(16,16,16,0),
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                             child: AreaFilterMenu(selectedArea: selectedArea),
                           ),
                           const Divider(),
@@ -375,17 +379,17 @@ class SearchResultView extends HookConsumerWidget {
               // 色選択メニュー
               isSelectingColor.value
                   ? Container(
-                      height: 464,
+                      height: 448,
                       width: screenSize.width,
                       color: const Color(0xffffffff),
                       child: Column(
                         children: [
-                          SingleChildScrollView(
-                            child: Container(
-                              height: 400,
-                              width: screenSize.width,
-                              color: const Color(0xffffffff),
-                            ),
+                          Container(
+                            height: 376,
+                            width: screenSize.width,
+                            color: const Color(0xffffffff),
+                            padding: const EdgeInsets.all(16),
+                            child: const ColorFilterMenu(),
                           ),
                           const Divider(),
                           Row(
@@ -395,7 +399,8 @@ class SearchResultView extends HookConsumerWidget {
                               ElevatedButton(
                                 onPressed: () {
                                   isSelectingColor.value = false;
-                                  selectedColor.value = [];
+                                  ref.read(colorListProvider.notifier).state =
+                                      [];
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffffffff),
