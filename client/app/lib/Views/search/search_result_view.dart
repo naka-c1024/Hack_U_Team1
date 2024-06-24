@@ -126,6 +126,8 @@ class SearchResultView extends HookConsumerWidget {
                       child: InkWell(
                         onTap: () {
                           isSelectingArea.value = !isSelectingArea.value;
+                          isSelectingColor.value = false;
+                          isSelectingSize.value = false;
                         },
                         child: Ink(
                           height: 32,
@@ -167,6 +169,8 @@ class SearchResultView extends HookConsumerWidget {
                       child: InkWell(
                         onTap: () {
                           isSelectingColor.value = !isSelectingColor.value;
+                          isSelectingArea.value = false;
+                          isSelectingSize.value = false;
                         },
                         child: Ink(
                           height: 32,
@@ -208,6 +212,8 @@ class SearchResultView extends HookConsumerWidget {
                       child: InkWell(
                         onTap: () {
                           isSelectingSize.value = !isSelectingSize.value;
+                          isSelectingArea.value = false;
+                          isSelectingColor.value = false;
                         },
                         child: Ink(
                           height: 32,

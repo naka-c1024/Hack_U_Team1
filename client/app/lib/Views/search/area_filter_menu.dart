@@ -21,6 +21,35 @@ class AreaFilterMenu extends HookConsumerWidget {
     final isSelectingArea4 = useState(false);
     final isSelectingArea5 = useState(false);
 
+    const area0 = [0,1,2,3,4,5,6];
+    const area1 = [7,8,9,10,11,12,13];
+    const area2 = [14,15,16,17,18,19,20,21,22];
+    const area3 = [23,24,25,26,27,28,29];
+    const area4 = [30,31,32,33,34,35,36,37,38];
+    const area5 = [39,40,41,42,43,44,45,46,47];
+
+    useEffect((){
+      if (area0.any((items) => selectedArea.value.contains(items))){
+        isSelectingArea0.value = true;
+      }
+      if (area1.any((items) => selectedArea.value.contains(items))){
+        isSelectingArea1.value = true;
+      }
+      if (area2.any((items) => selectedArea.value.contains(items))){
+        isSelectingArea2.value = true;
+      }
+      if (area3.any((items) => selectedArea.value.contains(items))){
+        isSelectingArea3.value = true;
+      }
+      if (area4.any((items) => selectedArea.value.contains(items))){
+        isSelectingArea4.value = true;
+      }
+      if (area5.any((items) => selectedArea.value.contains(items))){
+        isSelectingArea5.value = true;
+      }
+      return null;
+    },[]);
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,6 +337,13 @@ class AreaCell extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSelected = useState(false);
+
+    useEffect(() {
+      if (selectedArea.value.contains(prefectureIndex)) {
+        isSelected.value = true;
+      }
+      return null;
+    }, []);
 
     return GestureDetector(
       onTap: () {
