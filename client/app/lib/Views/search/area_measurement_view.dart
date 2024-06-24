@@ -31,6 +31,8 @@ class AreaMeasurementView extends HookConsumerWidget {
     final width = ref.watch(widthProvider);
     final depth = ref.watch(depthProvider);
 
+    final categoryIndex = ref.watch(categoryProvider);
+
     useEffect(() {
       return () => arkitController.value?.dispose();
     }, []);
@@ -292,8 +294,8 @@ class AreaMeasurementView extends HookConsumerWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SearchResultView(
-                                searchWord: '画像から検索',
+                              builder: (context) => SearchResultView(
+                                searchWord: '${categorys[categoryIndex]} の 画像検索結果',
                                 furnitureList: [],
                               ),
                             ),

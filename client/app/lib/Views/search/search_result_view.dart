@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -53,30 +54,29 @@ class SearchResultView extends HookConsumerWidget {
               onPressed: () {
                 Navigator.of(context).pop(0);
               },
-              icon: const Icon(Icons.arrow_back_ios),
-            ),
-            Container(
-              height: 32,
-              width: screenSize.width - 80,
-              padding: const EdgeInsets.only(left: 8),
-              color: const Color(0xffd9d9d9),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.search,
-                    size: 20,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    searchWord,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff4b4b4b),
-                    ),
-                  ),
-                ],
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xff131313),
               ),
+            ),
+            // 検索した条件を表示
+            Row(
+              children: [
+                Image.asset(
+                  '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/icon.png',
+                  height: 30,
+                  width: 30,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  searchWord == '' ? '検索結果' : searchWord,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff131313),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -95,9 +95,11 @@ class SearchResultView extends HookConsumerWidget {
                   children: [
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.filter_alt_outlined),
+                      icon: const Icon(
+                        Icons.filter_alt_outlined,
+                        color: Color(0xff4b4b4b),
+                      ),
                     ),
-                    const SizedBox(width: 8),
                     // 受け渡しエリアで絞るボタン
                     Material(
                       color: Colors.transparent,
@@ -115,10 +117,16 @@ class SearchResultView extends HookConsumerWidget {
                             children: [
                               Text(
                                 '受け渡しエリア',
-                                style: TextStyle(fontSize: 12),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xff4b4b4b),
+                                ),
                               ),
                               SizedBox(width: 4),
-                              Icon(Icons.keyboard_arrow_down),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Color(0xff575757),
+                              ),
                             ],
                           ),
                         ),
@@ -142,10 +150,16 @@ class SearchResultView extends HookConsumerWidget {
                             children: [
                               Text(
                                 '色',
-                                style: TextStyle(fontSize: 12),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xff4b4b4b),
+                                ),
                               ),
                               SizedBox(width: 4),
-                              Icon(Icons.keyboard_arrow_down),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Color(0xff575757),
+                              ),
                             ],
                           ),
                         ),
@@ -169,10 +183,16 @@ class SearchResultView extends HookConsumerWidget {
                             children: [
                               Text(
                                 'サイズ',
-                                style: TextStyle(fontSize: 12),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xff4b4b4b),
+                                ),
                               ),
                               SizedBox(width: 4),
-                              Icon(Icons.keyboard_arrow_down),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Color(0xff575757),
+                              ),
                             ],
                           ),
                         ),
@@ -182,7 +202,7 @@ class SearchResultView extends HookConsumerWidget {
                 ),
                 Row(
                   children: [
-                    const SizedBox(width: 56),
+                    const SizedBox(width: 48),
                     SizedBox(
                       height: 32,
                       width: 32,
@@ -191,6 +211,11 @@ class SearchResultView extends HookConsumerWidget {
                         onChanged: (value) {
                           isSoldOnly.value = value ?? false;
                         },
+                        activeColor: Theme.of(context).primaryColor,
+                        side: const BorderSide(
+                          width: 1.5,
+                          color: Color(0xffd9d9d9),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 4),
