@@ -83,7 +83,7 @@ class SearchResultView extends HookConsumerWidget {
             Row(
               children: [
                 Image.asset(
-                  '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/icon.png',
+                  'assets/images/icon.png',
                   height: 30,
                   width: 30,
                 ),

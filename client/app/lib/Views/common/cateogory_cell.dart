@@ -61,14 +61,14 @@ class CategoryCell extends HookConsumerWidget {
                           child: Container(
                             transform: Matrix4.rotationZ(-15 * pi / 180),
                             child: Image.asset(
-                              '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/category_$categoryIndex.png',
+                              'assets/images/category_$categoryIndex.png',
                               height: 72,
                               width: 72,
                             ),
                           ),
                         )
                       : Image.asset(
-                          '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/category_$categoryIndex.png',
+                          'assets/images/category_$categoryIndex.png',
                           height: 72,
                           width: 72,
                         ),

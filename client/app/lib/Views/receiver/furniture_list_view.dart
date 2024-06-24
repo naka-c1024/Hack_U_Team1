@@ -108,7 +108,7 @@ class FurnitureListView extends HookConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/icon.png',
+                        'assets/images/icon.png',
                         color: const Color(0xffffffff),
                         height: 30,
                         width: 30,
