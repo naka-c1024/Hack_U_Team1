@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../Domain/furniture.dart';
 import '../Domain/trade.dart';
 import 'furniture_api.dart';
+import 'favorite_api.dart';
 import 'trade_api.dart';
 
 // ユーザーIDを保持
@@ -35,11 +36,21 @@ final depthProvider = StateProvider<int?>((ref) => null);
 // 家具リスト取得APIの状態を管理
 final furnitureListProvider = FutureProvider<List<Furniture>>((ref) async {
   final userId = ref.read(userIdProvider);
-  return getFurnitureList(userId, null);
+  return getFurnitureList(userId, null, null);
 });
 
 // 取引リスト取得APIの状態を管理
 final tradeListProvider = FutureProvider<List<Trade>>((ref) async {
   final userId = ref.read(userIdProvider);
   return getTradeList(userId);
+});
+
+// いいね数取得APIの状態を管理
+final favoriteCountProvider =
+    FutureProvider.family<int, int?>((ref, furnitureId) async {
+  if (furnitureId == null) {
+    return 0;
+  } else {
+    return getFavoriteCount(furnitureId);
+  }
 });

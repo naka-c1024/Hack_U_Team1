@@ -29,6 +29,9 @@ class TradeDetailView extends HookConsumerWidget {
     final future = useMemoized(SharedPreferences.getInstance);
     final snapshot = useFuture(future, initialData: null);
 
+    final favoriteCountState =
+        ref.watch(favoriteCountProvider(furniture.furnitureId));
+
     // 譲渡を承認した取引のtradeIdを保存
     void saveTradingIdList(int tradeId) {
       final preferences = snapshot.data;
@@ -114,7 +117,7 @@ class TradeDetailView extends HookConsumerWidget {
                                       width: screenSize.width,
                                       color: const Color(0x4b000000),
                                       child: const TradeApproveSheet(
-                                        isCompleted: true,
+                                        isCompleted: false,
                                       ),
                                     );
                                   },
@@ -130,21 +133,6 @@ class TradeDetailView extends HookConsumerWidget {
                                 );
                               });
                               saveTradingIdList(trade.tradeId);
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    height: screenSize.height,
-                                    width: screenSize.width,
-                                    color: const Color(0x4b000000),
-                                    child: const TradeApproveSheet(
-                                      isCompleted: false,
-                                    ),
-                                  );
-                                },
-                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff424242),
@@ -308,7 +296,7 @@ class TradeDetailView extends HookConsumerWidget {
                 ),
                 const SizedBox(width: 80),
                 Text(
-                  DateFormat('yyyy年M月d日 （E）  h:mm', 'ja')
+                  DateFormat('yyyy年M月d日(E) HH:mm', 'ja')
                       .format(trade.tradeDate),
                   style: TextStyle(
                     fontSize: 12,
@@ -402,13 +390,14 @@ class TradeDetailView extends HookConsumerWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Center(
-                        child: Image.asset(trade.imagePath),
-                      ),
-                    ),
+                          borderRadius: BorderRadius.circular(5),
+                          child: Center(
+                            child: Image.memory(trade.image),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 16),
+                      // 下に引っ張った時に更新
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -422,21 +411,36 @@ class TradeDetailView extends HookConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          const Row(
+                          Row(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(top: 4, right: 8),
                                 child: Icon(
                                   Icons.favorite_outline_outlined,
                                   color: Color(0xff636363),
                                 ),
                               ),
-                              Text(
-                                'いいね 8件',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xff636363),
+                              favoriteCountState.when(
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(),
                                 ),
+                                error: (error, __) => const Text(
+                                  'いいね 0件',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xff636363),
+                                  ),
+                                ),
+                                skipLoadingOnRefresh: false,
+                                data: (data) {
+                                  return Text(
+                                    'いいね ${data.toString()}件',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff636363),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),

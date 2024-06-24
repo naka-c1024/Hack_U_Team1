@@ -12,7 +12,7 @@ void main() async {
   initializeDateFormatting('ja');
   // TODO: 実機用にカメラ機能をオンにする
   // final cameras = await availableCameras();
-  const firstCamera = null; // cameras.first;
+  const  firstCamera = null; // cameras.first;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final userName = prefs.getString('userName');
   runApp(

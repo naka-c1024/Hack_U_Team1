@@ -168,6 +168,7 @@ class FurnitureListView extends HookConsumerWidget {
                       height: 52 +
                           ((screenSize.width - 40) / 3 + 8) *
                               favoriteList.value.length,
+                      width: screenSize.width,
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       color: const Color(0xffffffff),
                       child: Column(
@@ -241,10 +242,11 @@ class FurnitureListView extends HookConsumerWidget {
                         : screenSize.height -
                             ((screenSize.width - 40) / 3 + 8) *
                                 favoriteList.value.length -
-                            272
+                            240
                     : 52 +
                         ((screenSize.width - 40) / 3 + 8) *
                             latestList.value.length,
+                width: screenSize.width,
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 color: const Color(0xffffffff),
                 child: Column(

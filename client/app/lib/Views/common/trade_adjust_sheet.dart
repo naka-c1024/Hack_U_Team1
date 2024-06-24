@@ -378,8 +378,18 @@ class TradeAdjustSheet extends HookConsumerWidget {
             child: ElevatedButton(
               onPressed: () {
                 if (tradeDate.value != null && tradeTime.value != null) {
+                  DateTime tradeDateTime = DateTime(
+                    tradeDate.value!.year,
+                    tradeDate.value!.month,
+                    tradeDate.value!.day,
+                    tradeTime.value!.hour,
+                    tradeTime.value!.minute,
+                    tradeTime.value!.second,
+                    tradeTime.value!.millisecond,
+                    tradeTime.value!.microsecond,
+                  );
                   final futureResult = requestTrade(
-                      furniture.furnitureId!, userId, tradeDate.value!);
+                      furniture.furnitureId!, userId, tradeDateTime);
                   futureResult.then((result) {
                     return showModalBottomSheet(
                       context: context,

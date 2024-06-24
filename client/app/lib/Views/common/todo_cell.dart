@@ -65,7 +65,7 @@ class TodoCell extends HookConsumerWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
                       child: Center(
-                        child: Image.asset(trade.imagePath),
+                        child: Image.memory(trade.image),
                       ),
                     ),
                   ),
