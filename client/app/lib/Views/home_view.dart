@@ -120,8 +120,9 @@ class HomeView extends HookConsumerWidget {
             label: 'マイページ',
           ),
         ],
-        iconSize: 20,
+        iconSize: 24,
         elevation: 8,
+        selectedItemColor: Theme.of(context).primaryColor,
         backgroundColor: const Color(0xffffffff),
         currentIndex: selectedView.value,
         onTap: (value) => {

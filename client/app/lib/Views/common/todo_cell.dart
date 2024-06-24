@@ -83,7 +83,7 @@ class TodoCell extends HookConsumerWidget {
                                 : '取引は完了しましたか？',
                         style: const TextStyle(
                           fontSize: 14,
-                          color: Color(0xff000000),
+                          color: Color(0xff131313),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -104,7 +104,7 @@ class TodoCell extends HookConsumerWidget {
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 24,
-                    color: Color(0xff575757),
+                    color: Color(0xff3e3e3e),
                   ),
                   const SizedBox(width: 16),
                 ],
