@@ -547,7 +547,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                     if (isInputCompleted.value) {
                       final furniture = Furniture(
                         productName: productName.text,
-                        image: null,
+                        imagePath: imagePath.value,
                         description: productDescription.text,
                         height: (height ?? 0).toDouble(),
                         width: (width ?? 0).toDouble(),

@@ -6,6 +6,7 @@ class Furniture {
   final int? furnitureId;
   final String productName;
   final Uint8List? image; // 画像はバイナリ型で保持
+  final String? imagePath; // 画像登録時はパスを渡す
   final String description;
   final double height;
   final double width;
@@ -25,6 +26,7 @@ class Furniture {
     this.furnitureId,
     required this.productName,
     this.image,
+    this.imagePath,
     required this.description,
     required this.height,
     required this.width,

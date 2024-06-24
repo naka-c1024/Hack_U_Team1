@@ -1,3 +1,5 @@
+import 'package:app/Domain/constants.dart';
+import 'package:app/Domain/furniture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,6 +21,7 @@ class KeywordSearchView extends HookConsumerWidget {
     final focus = useFocusNode();
     final isFocused = useState(false);
     final userId = ref.read(userIdProvider);
+    final categoryIndex = ref.read(categoryProvider);
 
     useEffect(() {
       void onFocusChanged() {
@@ -125,15 +128,22 @@ class KeywordSearchView extends HookConsumerWidget {
                             !searchLogTextList.value.contains(value)) {
                           saveSearchLog(value);
                         }
-                        ref.read(categoryProvider.notifier).state = -1;
                         // 検索結果の取得
-                        final futureResult = getFurnitureList(userId, value);
+                        Future<List<Furniture>> futureResult;
+                        if (categoryIndex == -1) {
+                          futureResult = getFurnitureList(userId, null, value);
+                        } else {
+                          futureResult = getFurnitureList(userId, categoryIndex, value);
+                        }
+                        ref.read(categoryProvider.notifier).state = -1;
                         futureResult.then((result) {
                           return Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => SearchResultView(
-                                searchWord: searchWordController.text,
+                                searchWord: searchWordController.text == ''
+                                    ? 'カテゴリ : ${categorys[categoryIndex]}'
+                                    : searchWordController.text,
                                 furnitureList: result,
                               ),
                             ),
