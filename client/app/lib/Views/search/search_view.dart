@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'picture_search_view.dart';
+import 'select_category_view.dart';
+import 'room_picture_view.dart';
+import 'space_measurement_view.dart';
 import 'keyword_search_view.dart';
-import 'area_measurement_view.dart';
 
 class SearchView extends HookConsumerWidget {
   final ValueNotifier<CameraController?> cameraController;
@@ -16,20 +17,22 @@ class SearchView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isCamera = useState(true);
+    final searchPictureProcess = useState(0);
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          elevation: 8,
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffffffff),
-          title: const TabBar(
-            tabs: [
+          title: TabBar(
+            labelColor: const Color(0xff000000),
+            unselectedLabelColor: const Color(0xff000000),
+            indicatorColor: Theme.of(context).primaryColor,
+            tabs: const [
               Tab(
                 child: Text(
-                  '写真',
+                  '      写真      ',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -50,10 +53,17 @@ class SearchView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            isCamera.value
-                ? PictureSearchView(
-                    cameraController: cameraController, isCamera: isCamera)
-                : AreaMeasurementView(isCamera: isCamera),
+            searchPictureProcess.value == 0
+                ? SelectCategoryView(searchPictureProcess: searchPictureProcess)
+                : searchPictureProcess.value == 1
+                    ? RoomPictureView(
+                        searchPictureProcess: searchPictureProcess,
+                        cameraController: cameraController,
+                      )
+                    : SpaceMeasurementView(searchPictureProcess: searchPictureProcess),
+            // ? PictureSearchView(
+            //     cameraController: cameraController, searchPictureProcess: searchPictureProcess)
+            // : AreaMeasurementView(searchPictureProcess: searchPictureProcess),
             const KeywordSearchView(),
           ],
         ),

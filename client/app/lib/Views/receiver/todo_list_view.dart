@@ -85,7 +85,6 @@ class TodoListView extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 8,
         backgroundColor: const Color(0xffffffff),
         automaticallyImplyLeading: true,
         title: const Row(

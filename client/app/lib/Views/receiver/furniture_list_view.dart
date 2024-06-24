@@ -84,7 +84,6 @@ class FurnitureListView extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 8,
         backgroundColor: const Color(0xffffffff),
         automaticallyImplyLeading: false,
         title: Container(
@@ -98,19 +97,30 @@ class FurnitureListView extends HookConsumerWidget {
                   selectedView.value = 1;
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffffffff),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
                   ),
                 ),
                 child: SizedBox(
                   width: screenSize.width - 136,
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.photo_camera_outlined),
-                      SizedBox(width: 8),
-                      Text('部屋にあった家具を探す'),
+                      Image.asset(
+                        'assets/images/icon.png',
+                        color: const Color(0xffffffff),
+                        height: 30,
+                        width: 30,
+                      ),
+                      const SizedBox(width: 16),
+                      const Text(
+                        '部屋にあった家具を探す',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xffffffff),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -136,6 +146,7 @@ class FurnitureListView extends HookConsumerWidget {
                 icon: const Icon(
                   size: 24,
                   Icons.done_outline,
+                  color: Color(0xff4b4b4b),
                 ),
               ),
             ],
@@ -174,6 +185,7 @@ class FurnitureListView extends HookConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
+                                    color: Color(0xff131313),
                                   ),
                                 ),
                                 favoriteList.value.length <
@@ -194,7 +206,14 @@ class FurnitureListView extends HookConsumerWidget {
                                         },
                                         child: const Row(
                                           children: [
-                                            Text('すべて見る'),
+                                            Text(
+                                              'すべて見る',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w100,
+                                                color: Color(0xff575757),
+                                              ),
+                                            ),
                                             SizedBox(width: 8),
                                             Icon(
                                               size: 16,
@@ -242,6 +261,7 @@ class FurnitureListView extends HookConsumerWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          color: Color(0xff131313),
                         ),
                       ),
                     ),

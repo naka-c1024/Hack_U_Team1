@@ -71,6 +71,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
+                color: Color(0xff131313),
               ),
             ),
           ],
@@ -90,6 +91,7 @@ class TradeDetailView extends HookConsumerWidget {
                       : '受け渡しは完了しましたか？',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
+                color: Color(0xff131313),
               ),
             ),
             const SizedBox(height: 24),
@@ -227,14 +229,11 @@ class TradeDetailView extends HookConsumerWidget {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff424242),
+                          backgroundColor: Theme.of(context).primaryColor,
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              color: Color(0xff424242),
-                            ),
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
@@ -252,14 +251,13 @@ class TradeDetailView extends HookConsumerWidget {
                           ),
                         ),
                       ),
-
             const SizedBox(height: 24),
             const Text(
               '受け渡し',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff424242),
+                color: Color(0xff636363),
               ),
             ),
             const Divider(),
@@ -271,7 +269,7 @@ class TradeDetailView extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff424242),
+                    color: Color(0xff636363),
                   ),
                 ),
                 const SizedBox(width: 80),
@@ -279,7 +277,7 @@ class TradeDetailView extends HookConsumerWidget {
                   trade.tradePlace,
                   style: const TextStyle(
                     fontSize: 12,
-                    color: Color(0xff424242),
+                    color: Color(0xff636363),
                   ),
                 ),
               ],
@@ -293,7 +291,7 @@ class TradeDetailView extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff424242),
+                    color: Color(0xff636363),
                   ),
                 ),
                 const SizedBox(width: 80),
@@ -305,8 +303,8 @@ class TradeDetailView extends HookConsumerWidget {
                     fontWeight:
                         tradeStatus == 2 ? FontWeight.normal : FontWeight.bold,
                     color: tradeStatus == 2
-                        ? const Color(0xff424242)
-                        : const Color(0xff000000),
+                        ? const Color(0xff636363)
+                        : const Color(0xff131313),
                   ),
                 ),
               ],
@@ -318,7 +316,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff424242),
+                color: Color(0xff636363),
               ),
             ),
             const Divider(),
@@ -338,7 +336,7 @@ class TradeDetailView extends HookConsumerWidget {
                 Text(
                   trade.receiverName,
                   style: const TextStyle(
-                    color: Color(0xff636363),
+                    color: Color(0xff131313),
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
@@ -347,6 +345,7 @@ class TradeDetailView extends HookConsumerWidget {
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.arrow_forward_ios),
+                  color: const Color(0xff3e3e3e),
                 ),
               ],
             ),
@@ -357,7 +356,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff424242),
+                color: Color(0xff636363),
               ),
             ),
             const Divider(),
@@ -408,7 +407,7 @@ class TradeDetailView extends HookConsumerWidget {
                             trade.productName,
                             style: const TextStyle(
                               fontSize: 14,
-                              color: Color(0xff000000),
+                              color: Color(0xff131313),
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -451,7 +450,7 @@ class TradeDetailView extends HookConsumerWidget {
                       const Icon(
                         Icons.arrow_forward_ios,
                         size: 24,
-                        color: Color(0xff575757),
+                        color: Color(0xff3e3e3e),
                       ),
                       const SizedBox(width: 16),
                     ],

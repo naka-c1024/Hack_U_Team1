@@ -11,8 +11,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting('ja');
   // TODO: 実機用にカメラ機能をオンにする
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
+  // final cameras = await availableCameras();
+  const  firstCamera = null; // cameras.first;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final userName = prefs.getString('userName');
   runApp(
@@ -36,7 +36,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hack U team 1',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff74d800)),
+        primaryColor: const Color(0xff74d800),
         useMaterial3: true,
         fontFamily: 'Noto Sans JP',
       ),
