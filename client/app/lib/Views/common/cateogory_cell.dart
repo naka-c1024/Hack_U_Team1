@@ -8,10 +8,11 @@ import '../../Usecases/provider.dart';
 class CategoryCell extends HookConsumerWidget {
   final int categoryIndex;
   final bool isSheet;
-
+  final ValueNotifier<int>? searchPictureProcess;
   const CategoryCell({
     required this.categoryIndex,
     this.isSheet = false,
+    this.searchPictureProcess,
     super.key,
   });
 
@@ -27,6 +28,11 @@ class CategoryCell extends HookConsumerWidget {
           if (isSheet) {
             Future.delayed(const Duration(milliseconds: 300), () {
               Navigator.of(context).pop(1);
+            });
+          }
+          if (searchPictureProcess != null){
+            Future.delayed(const Duration(milliseconds: 300), () {
+              searchPictureProcess!.value = 1;
             });
           }
         },
