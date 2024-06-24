@@ -75,6 +75,23 @@ async def furniture_furniture_id_delete(
     return await impl.furniture_furniture_id_delete(furniture_id, db)
 
 
+# パスマッチの順番のために"/furniture/{furniture_id}"よりも前に書いている
+@router.get(
+    "/furniture/personal_products",
+    responses={
+        200: {"model": FurnitureListResponse, "description": "Furniture list retrieved successfully"},
+    },
+    tags=["Furniture"],
+    summary="Get list of Personal furniture by user_id",
+    response_model_by_alias=True,
+)
+async def furniture_personal_products_get(
+    user_id: int = Query(None, description="", alias="user_id"),
+    db: AsyncSession = Depends(get_db),
+) -> FurnitureListResponse:
+    return await impl.furniture_personal_products_get(user_id, db)
+
+
 @router.get(
     "/furniture/{furniture_id}",
     responses={
@@ -109,36 +126,6 @@ async def furniture_get(
     db: AsyncSession = Depends(get_db),
 ) -> FurnitureListResponse:
     return await impl.furniture_get(user_id, category, keyword, db)
-
-
-@router.get(
-    "/furniture/personal_products",
-    responses={
-        200: {"model": FurnitureListResponse, "description": "Furniture list retrieved successfully"},
-    },
-    tags=["Furniture"],
-    summary="Get list of Personal furniture by user_id",
-    response_model_by_alias=True,
-)
-async def furniture_personal_products_get(
-    user_id: int = Query(None, description="", alias="user_id"),
-) -> FurnitureListResponse:
-    ...
-
-
-@router.get(
-    "/furniture/personal_products",
-    responses={
-        200: {"model": FurnitureListResponse, "description": "Furniture list retrieved successfully"},
-    },
-    tags=["Furniture"],
-    summary="Get list of Personal furniture by user_id",
-    response_model_by_alias=True,
-)
-async def furniture_personal_products_get(
-    user_id: int = Query(None, description="", alias="user_id"),
-) -> FurnitureListResponse:
-    ...
 
 
 @router.post(
