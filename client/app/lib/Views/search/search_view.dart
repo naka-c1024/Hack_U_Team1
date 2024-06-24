@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'select_category_view.dart';
+import 'room_picture_view.dart';
 import 'keyword_search_view.dart';
 
 class SearchView extends HookConsumerWidget {
@@ -52,9 +53,12 @@ class SearchView extends HookConsumerWidget {
         body: TabBarView(
           children: [
             searchPictureProcess.value == 0
-                ? SelectCategoryView(searchPictureProcess:searchPictureProcess)
+                ? SelectCategoryView(searchPictureProcess: searchPictureProcess)
                 : searchPictureProcess.value == 1
-                    ? Container()
+                    ? RoomPictureView(
+                        searchPictureProcess: searchPictureProcess,
+                        cameraController: cameraController,
+                      )
                     : Container(),
             // ? PictureSearchView(
             //     cameraController: cameraController, searchPictureProcess: searchPictureProcess)
