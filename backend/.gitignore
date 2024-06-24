@@ -139,3 +139,7 @@ cython_debug/
 
 # openai api_key
 src/openapi_server/ai/secret.json
+
+# file storage
+src/openapi_server/file_storage/*
+!src/openapi_server/file_storage/.gitkeep

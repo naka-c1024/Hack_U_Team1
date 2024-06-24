@@ -30,7 +30,7 @@ backend-appコンテナが起動した状態で以下のコマンドを打つ
 
 
 ```
-docker-compose exec backend-app python -m openapi_server.migrate_db
+docker-compose exec backend-app python -m openapi_server.migrate.db
 ```
 
 ## MySQL
