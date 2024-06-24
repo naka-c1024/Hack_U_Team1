@@ -18,6 +18,18 @@ class SearchResultView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+
+    // メニューウィンドウの表示を管理
+    final isSelectingArea = useState(false);
+    final isSelectingColor = useState(false);
+    final isSelectingSize = useState(false);
+
+    // 検索条件を保持
+    final selectedArea = useState<List<int>>([]);
+    final selectedColor = useState<List<int>>([]);
+    final selectedWidth = useState(999);
+    final selectedDepth = useState(999);
+    final selectedHeight = useState(999);
     final isSoldOnly = useState(false);
 
     final ValueNotifier<List<Row>> resultList = useState([]);
@@ -104,28 +116,35 @@ class SearchResultView extends HookConsumerWidget {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          isSelectingArea.value = !isSelectingArea.value;
+                        },
                         child: Ink(
                           height: 32,
                           width: 136,
                           padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
+                            color: isSelectingArea.value
+                                ? const Color(0xffd9d9d9)
+                                : const Color(0xffffffff),
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Text(
+                              const Text(
                                 '受け渡しエリア',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color(0xff4b4b4b),
                                 ),
                               ),
-                              SizedBox(width: 4),
+                              const SizedBox(width: 4),
                               Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Color(0xff575757),
+                                isSelectingArea.value
+                                    ? Icons.keyboard_arrow_up
+                                    : Icons.keyboard_arrow_down,
+                                color: const Color(0xff575757),
                               ),
                             ],
                           ),
@@ -137,28 +156,35 @@ class SearchResultView extends HookConsumerWidget {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          isSelectingColor.value = !isSelectingColor.value;
+                        },
                         child: Ink(
                           height: 32,
                           width: 64,
                           padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
+                            color: isSelectingColor.value
+                                ? const Color(0xffd9d9d9)
+                                : const Color(0xffffffff),
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Text(
+                              const Text(
                                 '色',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color(0xff4b4b4b),
                                 ),
                               ),
-                              SizedBox(width: 4),
+                              const SizedBox(width: 4),
                               Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Color(0xff575757),
+                                isSelectingColor.value
+                                    ? Icons.keyboard_arrow_up
+                                    : Icons.keyboard_arrow_down,
+                                color: const Color(0xff575757),
                               ),
                             ],
                           ),
@@ -170,28 +196,35 @@ class SearchResultView extends HookConsumerWidget {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          isSelectingSize.value = !isSelectingSize.value;
+                        },
                         child: Ink(
                           height: 32,
                           width: 96,
                           padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
+                            color: isSelectingSize.value
+                                ? const Color(0xffd9d9d9)
+                                : const Color(0xffffffff),
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Text(
+                              const Text(
                                 'サイズ',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color(0xff4b4b4b),
                                 ),
                               ),
-                              SizedBox(width: 4),
+                              const SizedBox(width: 4),
                               Icon(
-                                Icons.keyboard_arrow_down,
-                                color: Color(0xff575757),
+                                isSelectingSize.value
+                                    ? Icons.keyboard_arrow_up
+                                    : Icons.keyboard_arrow_down,
+                                color: const Color(0xff575757),
                               ),
                             ],
                           ),
@@ -231,18 +264,301 @@ class SearchResultView extends HookConsumerWidget {
               ],
             ),
           ),
-          Container(
-            height: screenSize.height - 204,
-            width: screenSize.width,
-            padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
-            color: const Color(0xffffffff),
-            child: SingleChildScrollView(
-              child: resultList.value.isEmpty
-                  ? const Center(
-                      child: Text('検索結果：0件'),
+          Stack(
+            children: [
+              // 検索結果
+              Container(
+                height: screenSize.height - 204,
+                width: screenSize.width,
+                padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
+                color: const Color(0xffffffff),
+                child: SingleChildScrollView(
+                  child: resultList.value.isEmpty
+                      ? const Center(
+                          child: Text('検索結果：0件'),
+                        )
+                      : Column(children: resultList.value),
+                ),
+              ),
+              // エリア選択メニュー
+              isSelectingArea.value
+                  ? Container(
+                      height: 504,
+                      width: screenSize.width,
+                      color: const Color(0xffffffff),
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            child: Container(
+                              height: 440,
+                              width: screenSize.width,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                          const Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // クリアボタン
+                              ElevatedButton(
+                                onPressed: () {
+                                  isSelectingArea.value = false;
+                                  selectedArea.value = [];
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xffffffff),
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Color(0xffd9d9d9),
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  width: 64,
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    'クリア',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff4b4b4b),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              // 決定ボタン
+                              ElevatedButton(
+                                onPressed: () {
+                                  isSelectingArea.value = false;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  width: 64,
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    '決定する',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xffffffff),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                            ],
+                          )
+                        ],
+                      ),
                     )
-                  : Column(children: resultList.value),
-            ),
+                  : const SizedBox(),
+              // 色選択メニュー
+              isSelectingColor.value
+                  ? Container(
+                      height: 464,
+                      width: screenSize.width,
+                      color: const Color(0xffffffff),
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            child: Container(
+                              height: 400,
+                              width: screenSize.width,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                          const Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // クリアボタン
+                              ElevatedButton(
+                                onPressed: () {
+                                  isSelectingColor.value = false;
+                                  selectedColor.value = [];
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xffffffff),
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Color(0xffd9d9d9),
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  width: 64,
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    'クリア',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff4b4b4b),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              // 決定ボタン
+                              ElevatedButton(
+                                onPressed: () {
+                                  isSelectingColor.value = false;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  width: 64,
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    '決定する',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xffffffff),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : const SizedBox(),
+              // サイズ選択メニュー
+              isSelectingSize.value
+                  ? Container(
+                      height: 424,
+                      width: screenSize.width,
+                      color: const Color(0xffffffff),
+                      child: Column(
+                        children: [
+                          SingleChildScrollView(
+                            child: Container(
+                              height: 360,
+                              width: screenSize.width,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                          const Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // クリアボタン
+                              ElevatedButton(
+                                onPressed: () {
+                                  isSelectingSize.value = false;
+                                  selectedWidth.value = 999;
+                                  selectedDepth.value = 999;
+                                  selectedHeight.value = 999;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xffffffff),
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Color(0xffd9d9d9),
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  width: 64,
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    'クリア',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff4b4b4b),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              // 決定ボタン
+                              ElevatedButton(
+                                onPressed: () {
+                                  isSelectingSize.value = false;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  width: 64,
+                                  margin:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    '決定する',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xffffffff),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
           ),
         ],
       ),
