@@ -10,6 +10,7 @@ from openapi_server.models.furniture_describe_response import FurnitureDescribeR
 
 import openapi_server.cruds.furniture as furniture_crud
 from openapi_server.impl.common import read_image_file, write_image_file
+from openapi_server.ai.furniture import FurnitureDescribe, FurnitureRecommendation
 
 from fastapi import HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -20,14 +21,14 @@ class FurnitureApiImpl(BaseFurnitureApi):
         self,
         image: UploadFile,
     ) -> FurnitureDescribeResponse:
-        # TODO: describe_furniture_from_imageの実装
-        # return await describe_furniture_from_image(image)
-        return FurnitureDescribeResponse( # ダミー
-            product_name="product_name",
-            description="description",
-            category=1,
-            color=1,
-        )
+        response = await FurnitureDescribe().get_describe(image)
+        return FurnitureDescribeResponse(**response)
+        # return FurnitureDescribeResponse( # ダミー
+        #     product_name="product_name",
+        #     description="description",
+        #     category=1,
+        #     color=1,
+        # )
 
     async def furniture_furniture_id_delete(
         self,
@@ -112,11 +113,13 @@ class FurnitureApiImpl(BaseFurnitureApi):
         room_photo: UploadFile,
         category: int,
     ) -> FurnitureRecommendResponse:
-        # まずカテゴリで絞る?それとも先にAIを使ってその結果を元にkeywordなども含めて絞る?
-        # アルゴリズムが決まったらそれに伴うDB処理を実装します！
-        # TODO: recommend_furniture_from_imageの実装
-        # response = await recommend_furniture_from_image(room_photo, category)
-        return FurnitureRecommendResponse() # ダミー
+        response = await FurnitureRecommendation().get_recommend_color(room_photo)
+        # TODO: 辞書型でresponseを取得したのでこれをもとにDBから家具の取得をお願いします
+        return FurnitureRecommendResponse(
+            color           = response["color"],
+            reason          = response["reason"],
+            furniture_list  = []
+        )
 
     async def _save_image(self, user_id: int, product_name: str, image: UploadFile) -> str:
         SAVE_DIR = "/app/src/openapi_server/file_storage"

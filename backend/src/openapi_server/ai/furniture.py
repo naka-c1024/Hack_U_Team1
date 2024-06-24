@@ -3,22 +3,26 @@ import json
 import base64
 from pathlib import Path
 
+from fastapi import UploadFile
+
 # OpenAI APIキーをロード
-def load_api_key(file_path="secret.json"):
+def load_api_key():
+    file_path = Path(__file__).parent / 'secret.json'
     with open(file_path, 'r') as file:
         secrets = json.load(file)
     return secrets['OPENAI_API_KEY']
 
 # 製品情報データをロード
-def load_product_data(file_path="product_data.json"):
+def load_product_data():
+    file_path = Path(__file__).parent / 'product_data.json'
     with open(file_path, 'r') as file:
         product_data = json.load(file)
     return product_data
 
 # 画像をBase64でエンコード
-def encode_image_to_base64(image_path: str):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+async def encode_image_to_base64(image: UploadFile):
+    image_data = await image.read()
+    return base64.b64encode(image_data).decode('utf-8')
 
 # 製品情報データから色のインデックスを取得
 def select_color_index(color: str):
@@ -41,9 +45,9 @@ class FurnitureDescribe:
         openai.api_key = load_api_key()
         self.product_data = load_product_data()
     
-    def get_describe(self, image_path: str):
+    async def get_describe(self, image: UploadFile):
         # 画像をBase64エンコード
-        base64_image = encode_image_to_base64(image_path)
+        base64_image = await encode_image_to_base64(image)
         # OpenAI APIリクエストの実行
         response = openai.ChatCompletion.create(
             model="gpt-4o",
@@ -84,20 +88,20 @@ class FurnitureDescribe:
         return {
             "product_name"  : name, 
             "description"   : description, 
-            "color"         : (color_idx, color),
-            "category"      : (category_idx, category)
+            "color"         : color_idx,
+            "category"      : category_idx
         }
 
 class FurnitureRecommendation:
     def __init__(self):
         openai.api_key = load_api_key()
         self.product_data = load_product_data()
-    
-    def get_recommend_color(self, image_path: str):
+
+    async def get_recommend_color(self, image: UploadFile):
         color_list = self.product_data['colors']
 
         # 画像をBase64エンコード
-        base64_image = encode_image_to_base64(image_path)
+        base64_image = await encode_image_to_base64(image)
         # OpenAI APIリクエストの実行
         response = openai.ChatCompletion.create(
             model="gpt-4o",
@@ -127,29 +131,6 @@ class FurnitureRecommendation:
         color, reason = response.choices[0].message["content"].split(",")
         color_index = select_color_index(color)
         return {
-            "color"     : (color_index, color),
+            "color"     : color_index,
             "reason"    : reason
         }
-
-if __name__ == '__main__':
-    recommend_model = FurnitureRecommendation()
-    describe_model = FurnitureDescribe()
-    print("レコメンドモデルのテスト")
-    for _ in range(3):
-        try:
-            recommend = recommend_model.get_recommend_color('recommend_example.jpg')
-            print(recommend)
-            break
-        except Exception as e:
-            print(e)
-            print("Retry")
-    
-    print("説明モデルのテスト")
-    for _ in range(3):
-        try:
-            describe = describe_model.get_describe('describe_example.jpg')
-            print(describe)
-            break
-        except Exception as e:
-            print(e)
-            print("Retry")
