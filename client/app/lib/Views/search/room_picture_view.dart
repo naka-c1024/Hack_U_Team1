@@ -56,8 +56,16 @@ class RoomPictureView extends HookConsumerWidget {
                   padding: const EdgeInsets.only(left: 8),
                   child: const Row(
                     children: [
-                      Icon(Icons.arrow_back_ios),
-                      Text('戻る'),
+                      Icon(
+                        Icons.arrow_back_ios,
+                        color: Color(0xff131313),
+                      ),
+                      Text(
+                        '戻る',
+                        style: TextStyle(
+                          color: Color(0xff131313),
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'select_category_view.dart';
 import 'room_picture_view.dart';
+import 'space_measurement_view.dart';
 import 'keyword_search_view.dart';
 
 class SearchView extends HookConsumerWidget {
@@ -59,7 +60,7 @@ class SearchView extends HookConsumerWidget {
                         searchPictureProcess: searchPictureProcess,
                         cameraController: cameraController,
                       )
-                    : Container(),
+                    : SpaceMeasurementView(searchPictureProcess: searchPictureProcess),
             // ? PictureSearchView(
             //     cameraController: cameraController, searchPictureProcess: searchPictureProcess)
             // : AreaMeasurementView(searchPictureProcess: searchPictureProcess),
