@@ -221,9 +221,12 @@ class FurnitureDetailView extends HookConsumerWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 8),
-                                Image.asset(
-                                  'assets/images/trade_map.png',
-                                  width: 256,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.asset(
+                                    'assets/images/trade_map.png',
+                                    width: 256,
+                                  ),
                                 ),
                               ],
                             ),
@@ -368,7 +371,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               child: Image.asset(
                                 'assets/images/user_icon_2.png',
                                 width: 40,
-                                height: 40, 
+                                height: 40,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -494,7 +497,8 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       padding: EdgeInsets.zero,
                                       minimumSize: Size.zero,
                                       elevation: 0,

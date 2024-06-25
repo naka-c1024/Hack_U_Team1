@@ -102,7 +102,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   const Text(
                     '受け渡し場所',
                     style: TextStyle(
-                      color: Color(0xff6a6a6a),
+                      color: Color(0xff4b4b4b),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -112,6 +112,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   const SizedBox(height: 4),
                   // 受け渡し場所
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(
                         width: 96,
@@ -124,12 +125,25 @@ class TradeAdjustSheet extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      Text(
-                        furniture.tradePlace,
-                        style: const TextStyle(
-                          color: Color(0xff636363),
-                          fontSize: 12,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            furniture.tradePlace,
+                            style: const TextStyle(
+                              color: Color(0xff636363),
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.asset(
+                              'assets/images/trade_map.png',
+                              width: 256,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -137,7 +151,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   const Text(
                     '受け渡し日の指定',
                     style: TextStyle(
-                      color: Color(0xff6a6a6a),
+                      color: Color(0xff4b4b4b),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -148,17 +162,18 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   // 受け渡し期間の説明
                   Text(
                     (furniture.startDate == null && furniture.endDate == null)
-                        ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(DateTime.now().add(const Duration(days: 1)))} 〜 の期間で指定してください。'
+                        ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(DateTime.now().add(const Duration(days: 1)))} 〜 の間で指定してください。'
                         : furniture.startDate == null
-                            ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(DateTime.now().add(const Duration(days: 1)))}  〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)} の期間で指定してください。'
+                            ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(DateTime.now().add(const Duration(days: 1)))}  〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)} の間で指定してください。'
                             : furniture.endDate == null
-                                ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 の期間で指定してください。'
-                                : '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)} の期間で指定してください。',
+                                ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 の間で指定してください。'
+                                : '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)} の間で指定してください。',
                     style: const TextStyle(
                       color: Color(0xff636363),
                       fontSize: 12,
                     ),
                   ),
+                  const SizedBox(height: 8),
                   // 日時指定
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -167,7 +182,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                         '日時',
                         style: TextStyle(
                           color: Color(0xff636363),
-                          fontSize: 12,
+                          fontSize: 14,
                         ),
                       ),
                       const SizedBox(width: 48),
@@ -180,21 +195,24 @@ class TradeAdjustSheet extends HookConsumerWidget {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isSelectingDate.value
-                              ? const Color(0xffd9d9d9)
-                              : const Color(0xffffffff),
+                          backgroundColor: const Color(0xffffffff),
                           foregroundColor: const Color(0xff636363),
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
+                            side: BorderSide(
+                              color: isSelectingDate.value
+                                  ? Theme.of(context).primaryColor
+                                  : const Color(0xffd9d9d9),
+                              width: 1.5,
+                            ),
                           ),
                         ),
                         child: Container(
-                          height: 24,
-                          padding:
-                              const EdgeInsets.only(left: 8, top: 2, right: 8),
+                          height: 32,
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: const Color(0xffd9d9d9)),
@@ -206,7 +224,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                     .format(tradeDate.value!),
                             style: const TextStyle(
                               color: Color(0xff636363),
-                              fontSize: 12,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -222,21 +240,24 @@ class TradeAdjustSheet extends HookConsumerWidget {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isSelectingTime.value
-                              ? const Color(0xffd9d9d9)
-                              : const Color(0xffffffff),
+                          backgroundColor: const Color(0xffffffff),
                           foregroundColor: const Color(0xff636363),
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
+                            side: BorderSide(
+                              color: isSelectingTime.value
+                                  ? Theme.of(context).primaryColor
+                                  : const Color(0xffd9d9d9),
+                              width: 1.5,
+                            ),
                           ),
                         ),
                         child: Container(
-                          height: 24,
-                          padding:
-                              const EdgeInsets.only(left: 8, top: 2, right: 8),
+                          height: 32,
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: const Color(0xffd9d9d9)),
@@ -247,7 +268,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                 : DateFormat('HH:mm').format(tradeTime.value!),
                             style: const TextStyle(
                               color: Color(0xff636363),
-                              fontSize: 12,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -416,13 +437,12 @@ class TradeAdjustSheet extends HookConsumerWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor:
                     (tradeDate.value == null || tradeTime.value == null)
-                        ? const Color(0xffffffff)
-                        : const Color(0xff424242),
+                        ? const Color(0xffc4c4c4)
+                        : Theme.of(context).primaryColor,
                 padding: EdgeInsets.zero,
                 minimumSize: Size.zero,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Color(0xff9e9e9e)),
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
@@ -431,13 +451,11 @@ class TradeAdjustSheet extends HookConsumerWidget {
                 width: screenSize.width - 48,
                 margin: const EdgeInsets.only(left: 8, right: 8),
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   '取引をお願いする',
                   style: TextStyle(
-                    fontSize: 14,
-                    color: (tradeDate.value == null || tradeTime.value == null)
-                        ? const Color(0xff9e9e9e)
-                        : const Color(0xffffffff),
+                    fontSize: 16,
+                    color: Color(0xffffffff),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
