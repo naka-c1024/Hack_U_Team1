@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../Usecases/ai_api.dart';
 import 'register_size_sheet.dart';
 
 class RegisterPictureSheet extends HookConsumerWidget {
@@ -31,14 +32,14 @@ class RegisterPictureSheet extends HookConsumerWidget {
     }, []);
 
     // カメラかプレビューか
-    useEffect((){
-      if (imagePath.value == null){
+    useEffect(() {
+      if (imagePath.value == null) {
         isCamera.value = true;
       } else {
         isCamera.value = false;
       }
       return null;
-    },[]);
+    }, []);
 
     return Container(
       decoration: const BoxDecoration(
@@ -180,18 +181,21 @@ class RegisterPictureSheet extends HookConsumerWidget {
                       padding: const EdgeInsets.only(left: 16, right: 16),
                       child: ElevatedButton(
                         onPressed: () {
+                          if (imagePath.value != null) {
+                            describeFurniture(ref, imagePath.value!);
+                          }
                           showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return SizedBox(
-                                  height: screenSize.height - 64,
-                                  child: RegisterSizeSheet(
-                                    imagePath: imagePath,
-                                  ),
-                                );
-                              },
-                            );
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return SizedBox(
+                                height: screenSize.height - 64,
+                                child: RegisterSizeSheet(
+                                  imagePath: imagePath,
+                                ),
+                              );
+                            },
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff424242),

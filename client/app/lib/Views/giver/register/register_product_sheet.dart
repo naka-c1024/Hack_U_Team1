@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Domain/constants.dart';
 import '../../../Domain/furniture.dart';
 import '../../../Usecases/provider.dart';
+import '../../../Usecases/ai_api.dart';
 import 'color_sheet.dart';
 import 'category_sheet.dart';
 import 'condition_sheet.dart';
@@ -52,6 +53,23 @@ class RegisterProductSheet extends HookConsumerWidget {
     final height = ref.watch(heightProvider);
     final productDescription = useTextEditingController(text: '');
     final isInputCompleted = useState(false);
+
+    final description = ref.watch(descriptionProvider.notifier).state;
+
+    useEffect(() {
+      // この画面に戻ってきた時に商品説明を更新
+      Future.microtask(() => {
+            if (description != null)
+              {
+                productName.text = description.productName,
+                productDescription.text = description.description,
+                ref.read(categoryProvider.notifier).state =
+                    description.category,
+                ref.read(colorProvider.notifier).state = description.color,
+              }
+          });
+      return null;
+    }, [description]);
 
     // 一つでも未入力だったら次へ進まない
     bool checkInputCompleted() {
