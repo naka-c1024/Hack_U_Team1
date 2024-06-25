@@ -3,12 +3,13 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import '../Domain/furniture.dart';
+import '../Domain/constants.dart';
 
 // 家具リストを取得
 Future<List<Furniture>> getFurnitureList(
     int userId, int? category, String? searchWord) async {
   try {
-    final url = Uri.parse('http://192.168.2.142:8080/furniture');
+    final url = Uri.parse('http://$ipAddress:8080/furniture');
     final params = {
       'user_id': userId.toString(),
     };
@@ -64,7 +65,7 @@ Future<List<Furniture>> getFurnitureList(
 // 家具IDを指定して詳細を取得
 Future<Furniture> getFurnitureDetails(int userId, int furnitureId) async {
   try {
-    final url = Uri.parse('http://192.168.2.142:8080/furniture/$furnitureId');
+    final url = Uri.parse('http://$ipAddress:8080/furniture/$furnitureId');
     final params = {
       'user_id': userId.toString(),
     };
@@ -108,7 +109,7 @@ Future<Furniture> getFurnitureDetails(int userId, int furnitureId) async {
 // 家具を登録
 Future<void> registerFurniture(int userId, Furniture furniture) async {
   try {
-    final uri = Uri.parse('http://192.168.2.142:8080/furniture');
+    final uri = Uri.parse('http://$ipAddress:8080/furniture');
     final request = MultipartRequest('POST', uri);
     // 画像を読み込む
     var file = await MultipartFile.fromPath('image', furniture.imagePath!);
@@ -147,7 +148,7 @@ Future<void> registerFurniture(int userId, Furniture furniture) async {
 // 家具を削除
 Future<void> deleteFurniture(int furnitureId) async {
   try {
-    final url = Uri.parse('http://192.168.2.142:8080/furniture/$furnitureId');
+    final url = Uri.parse('http://$ipAddress:8080/furniture/$furnitureId');
     final response = await delete(url);
     final jsonResponse = jsonDecode(response.body);
     if (response.statusCode != 200) {
@@ -163,7 +164,7 @@ Future<void> deleteFurniture(int furnitureId) async {
 Future<List<Furniture>> getMyProductList(int userId) async {
   try {
     final url =
-        Uri.parse('http://192.168.2.142:8080/furniture/personal_products');
+        Uri.parse('http://$ipAddress:8080/furniture/personal_products');
     final params = {
       'user_id': userId.toString(),
     };
