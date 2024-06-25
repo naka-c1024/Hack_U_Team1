@@ -1,14 +1,15 @@
 # テーブル定義: backend/src/openapi_server/db_model/tables.py
 # データを作成する際のForeignKeyのIDに注意すること
+# AutoIncrementのIDは1はじまり
 
 users:
-  - username: "user1"
+  - username: "朝比奈まふゆ"
     password_hash: "hash1"
     area: 1
-  - username: "user2"
+  - username: "宵崎奏"
     password_hash: "hash2"
     area: 2
-  - username: "user3"
+  - username: "暁山瑞希"
     password_hash: "hash3"
     area: 3
 
@@ -67,3 +68,13 @@ favorites:
     furniture_id: 2
   - user_id: 2
     furniture_id: 1
+
+chats:
+  - sender_id: 1
+    receiver_id: 2
+    message: "はじめまして。朝比奈まふゆです！取引よろしくお願いします。"
+    send_date_time: "2024-01-01 12:34:59"
+  - sender_id: 2
+    receiver_id: 1
+    message: "こんにちは。宵崎奏です。こちらこそよろしくお願いします。"
+    send_date_time: "2024-01-02 12:34:59"

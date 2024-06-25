@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from openapi_server.db import Base
-from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites # 明示的にインポートしなければならない
+from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites, Chats # 明示的にインポートしなければならない
 from openapi_server.migrate.insert_dummy_data import insert_dummy_data
 import os
 import shutil
