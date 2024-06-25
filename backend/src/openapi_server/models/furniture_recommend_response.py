@@ -22,7 +22,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from openapi_server.models.furniture_response import FurnitureResponse
+from openapi_server.models.furniture_list_response import FurnitureListResponse
 try:
     from typing import Self
 except ImportError:
@@ -34,7 +34,7 @@ class FurnitureRecommendResponse(BaseModel):
     """ # noqa: E501
     color: Optional[StrictInt] = Field(default=None, description="色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)")
     reason: Optional[StrictStr] = None
-    furniture_list: Optional[List[FurnitureResponse]] = None
+    furniture_list: Optional[FurnitureListResponse] = None
     __properties: ClassVar[List[str]] = ["color", "reason", "furniture_list"]
 
     model_config = {
