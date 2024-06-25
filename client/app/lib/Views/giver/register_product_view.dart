@@ -2,17 +2,14 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../Domain/trade.dart';
 import '../../Usecases/provider.dart';
 import 'trade/trade_list_view.dart';
 import 'product/product_list_view.dart';
 import 'register/register_product_sheet.dart';
 
 class RegisterProductView extends HookConsumerWidget {
-  final List<Trade> tradeList;
   final ValueNotifier<CameraController?> cameraController;
   const RegisterProductView({
-    required this.tradeList,
     required this.cameraController,
     super.key,
   });
@@ -110,11 +107,11 @@ class RegisterProductView extends HookConsumerWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            TradeListView(tradeList: tradeList),
-            const ProductListView(isCompleted: false),
-            const ProductListView(isCompleted: true),
+            TradeListView(),
+            ProductListView(isCompleted: false),
+            ProductListView(isCompleted: true),
           ],
         ),
       ),
