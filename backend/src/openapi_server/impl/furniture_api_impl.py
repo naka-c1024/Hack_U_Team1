@@ -23,12 +23,6 @@ class FurnitureApiImpl(BaseFurnitureApi):
     ) -> FurnitureDescribeResponse:
         response = await FurnitureDescribe().get_describe(image)
         return FurnitureDescribeResponse(**response)
-        # return FurnitureDescribeResponse( # ダミー
-        #     product_name="product_name",
-        #     description="description",
-        #     category=1,
-        #     color=1,
-        # )
 
     async def furniture_furniture_id_delete(
         self,
@@ -63,7 +57,7 @@ class FurnitureApiImpl(BaseFurnitureApi):
         keyword: Optional[str],
         db: AsyncSession,
     ) -> FurnitureListResponse:
-        furniture_list = await furniture_crud.get_furniture_list(db, request_user_id, category, keyword)
+        furniture_list = await furniture_crud.get_furniture_list(db, request_user_id, category, None, keyword)
         if not furniture_list.furniture:
             raise HTTPException(status_code=404, detail="Furniture not found")
         await self._embed_image_data_list(furniture_list.furniture)
@@ -112,13 +106,16 @@ class FurnitureApiImpl(BaseFurnitureApi):
         self,
         room_photo: UploadFile,
         category: int,
+        db: AsyncSession,
     ) -> FurnitureRecommendResponse:
         response = await FurnitureRecommendation().get_recommend_color(room_photo)
-        # TODO: 辞書型でresponseを取得したのでこれをもとにDBから家具の取得をお願いします
+        furniture_list = await furniture_crud.get_furniture_list(db, 1, category, response["color"], None)
+        if furniture_list is not None:
+            await self._embed_image_data_list(furniture_list.furniture)
         return FurnitureRecommendResponse(
             color           = response["color"],
             reason          = response["reason"],
-            furniture_list  = []
+            furniture_list  = furniture_list
         )
 
     async def _save_image(self, user_id: int, product_name: str, image: UploadFile) -> str:
