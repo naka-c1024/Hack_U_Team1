@@ -163,6 +163,29 @@ void main() {
       var response = await delete(url);
       expect(response.statusCode, 200);
     });
+
+    test('Test: Get personal product list successfully', () async {
+      final url = Uri.parse('http://localhost:8080/furniture/personal_products');
+      final params = {
+        'user_id': '1',
+      };
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
+      expect(response.statusCode, 200);
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      final furnitureList = jsonResponse['furniture'];
+      expect(furnitureList.length, isNonZero);
+    });
+
+    test('Test: Get personal product list failed', () async {
+      final url = Uri.parse('http://localhost:8080/furniture/personal_products');
+      final params = {
+        'user_id': '-1',
+      };
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
+      expect(response.statusCode, 404);
+    });
   });
 
   group('Trade Test', () {
