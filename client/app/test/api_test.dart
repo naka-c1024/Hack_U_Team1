@@ -135,18 +135,18 @@ void main() {
       // テスト用の画像を読み込む
       var file = await MultipartFile.fromPath(
         'image',
-        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/white_shelf_2.jpeg',
+        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/describe_example.jpeg',
       );
       request.files.add(file);
       // // 他のパラメータを設定
       request.fields['user_id'] = '1';
-      request.fields['product_name'] = 'ナチュラルな棚';
-      request.fields['description'] = 'ものがたくさん置けるナチュラルな棚です。';
-      request.fields['height'] = '160';
+      request.fields['product_name'] = '革製のソファ';
+      request.fields['description'] = '二人がけの革のソファです';
+      request.fields['height'] = '120';
       request.fields['width'] = '200';
-      request.fields['depth'] = '30';
-      request.fields['category'] = '5';
-      request.fields['color'] = '0';
+      request.fields['depth'] = '50';
+      request.fields['category'] = '0';
+      request.fields['color'] = '8';
       request.fields['start_date'] = '2024-06-21';
       request.fields['end_date'] = '2024-07-21';
       request.fields['trade_place'] = '東京都千代田区千代田１−１';
@@ -162,6 +162,43 @@ void main() {
       final url = Uri.parse('http://localhost:8080/furniture/$furnitureId');
       var response = await delete(url);
       expect(response.statusCode, 200);
+    });
+
+    test('Test: Describe furniture successfully', () async {
+      final uri = Uri.parse('http://localhost:8080/furniture/describe');
+      final request = MultipartRequest('POST', uri);
+      // テスト用の画像を読み込む
+      var file = await MultipartFile.fromPath(
+        'image',
+        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/describe_example.jpg',
+      );
+      request.files.add(file);
+      final response = await request.send();
+      expect(response.statusCode, 200);
+      final responseBody = await response.stream.bytesToString();
+      final jsonResponse = jsonDecode(responseBody);
+      expect(jsonResponse['product_name'].length, isNonZero);
+      expect(jsonResponse['description'].length, isNonZero);
+      expect(jsonResponse['category'], isA<int>()); // int型が返ってくることを確認
+      expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
+    });
+
+    test('Test: Recommend furniture successfully', () async {
+      final uri = Uri.parse('http://localhost:8080/furniture/recommend');
+      final request = MultipartRequest('POST', uri);
+      // テスト用の画像を読み込む
+      var file = await MultipartFile.fromPath(
+        'room_photo',
+        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/recommend_example.jpg',
+      );
+      request.fields['category'] = '0';
+      request.files.add(file);
+      final response = await request.send();
+      expect(response.statusCode, 200);
+      final responseBody = await response.stream.bytesToString();
+      final jsonResponse = jsonDecode(responseBody);
+      expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
+      expect(jsonResponse['reason'].length, isNonZero);
     });
   });
 

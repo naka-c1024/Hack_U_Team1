@@ -53,6 +53,23 @@ class RegisterProductSheet extends HookConsumerWidget {
     final productDescription = useTextEditingController(text: '');
     final isInputCompleted = useState(false);
 
+    final description = ref.watch(descriptionProvider.notifier).state;
+
+    useEffect(() {
+      // この画面に戻ってきた時に商品説明を更新
+      Future.microtask(() => {
+            if (description != null)
+              {
+                productName.text = description.productName,
+                productDescription.text = description.description,
+                ref.read(categoryProvider.notifier).state =
+                    description.category,
+                ref.read(colorProvider.notifier).state = description.color,
+              }
+          });
+      return null;
+    }, [description]);
+
     // 一つでも未入力だったら次へ進まない
     bool checkInputCompleted() {
       // TODO: 実機の時にチェック
