@@ -31,7 +31,7 @@ $ curl http://localhost:8080/ok
 もしデモデータを入れたい場合はコンテナが起動した状態で以下を打つ。
 
 ```bash
-$ docker-compose exec backend-app python -m openapi_server.migrate_db
+$ docker-compose exec backend-app python -m openapi_server.migrate.db
 ```
 
 ### client
