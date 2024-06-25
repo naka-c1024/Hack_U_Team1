@@ -470,14 +470,16 @@ paths:
   /chat/{sender_id}/{receiver_id}:
     get:
       parameters:
-      - explode: false
+      - example: 1
+        explode: false
         in: path
         name: sender_id
         required: true
         schema:
           type: integer
         style: simple
-      - explode: false
+      - example: 2
+        explode: false
         in: path
         name: receiver_id
         required: true
