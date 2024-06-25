@@ -197,5 +197,6 @@ async def furniture_post(
 async def furniture_recommend_post(
     room_photo: UploadFile = Form(..., description=""),
     category: int = Form(..., description="カテゴリコード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)"),
+    db: AsyncSession = Depends(get_db),
 ) -> FurnitureRecommendResponse:
-    return await impl.furniture_recommend_post(room_photo, category)
+    return await impl.furniture_recommend_post(room_photo, category, db)
