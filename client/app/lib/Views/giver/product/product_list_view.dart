@@ -27,17 +27,22 @@ class ProductListView extends HookConsumerWidget {
       return ref.read(myProductListProvider.future);
     }
 
-    useEffect((){
-      reloadMyProductList();
+    useEffect(() {
+      Future.microtask(() => {reloadMyProductList()});
       return null;
-    },[]);
+    }, []);
 
-    return RefreshIndicator(
+    return Container(
+      color: const Color(0xffffffff),
+      child: RefreshIndicator(
+        color: Theme.of(context).primaryColor,
         onRefresh: () => reloadMyProductList(),
         // 家具リストの取得
         child: myProductState.when(
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
+          loading: () => Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           error: (error, __) => Center(
             child: Text('$error'),
@@ -72,6 +77,8 @@ class ProductListView extends HookConsumerWidget {
               ),
             );
           },
-        ));
+        ),
+      ),
+    );
   }
 }
