@@ -39,10 +39,16 @@ class TradeDetailView extends HookConsumerWidget {
       return ref.read(favoriteCountProvider(furniture.furnitureId).future);
     }
 
-    useEffect((){
+    Future<void> reloadTradeList() {
+      // ignore: unused_result
+      ref.refresh(tradeListProvider);
+      return ref.read(tradeListProvider.future);
+    }
+
+    useEffect(() {
       reloadFavoriteCount();
       return null;
-    },[]);
+    }, []);
 
     // 譲渡を承認した取引のtradeIdを保存
     void saveTradingIdList(int tradeId) {
@@ -144,6 +150,7 @@ class TradeDetailView extends HookConsumerWidget {
                                   ),
                                 );
                               });
+                              reloadTradeList();
                               saveTradingIdList(trade.tradeId);
                             },
                             style: ElevatedButton.styleFrom(
@@ -238,6 +245,22 @@ class TradeDetailView extends HookConsumerWidget {
                             });
                           } else {
                             deleteTradingIdList(trade.tradeId);
+                            reloadTradeList();
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: screenSize.height,
+                                  width: screenSize.width,
+                                  color: const Color(0x4b000000),
+                                  child: const TradeApproveSheet(
+                                    isCompleted: true,
+                                  ),
+                                );
+                              },
+                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(

@@ -26,7 +26,8 @@ class TradeCell extends HookConsumerWidget {
           child: InkWell(
             onTap: () {
               // 取引承認ページへ
-              final futureResult = getFurnitureDetails(userId, trade.furnitureId);
+              final futureResult =
+                  getFurnitureDetails(userId, trade.furnitureId);
               futureResult.then((result) {
                 Navigator.push(
                   context,
@@ -83,7 +84,11 @@ class TradeCell extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        isTrading ? '受け渡しは完了しましたか？' : '取引依頼を承認しますか？',
+                        isTrading
+                            ? '受け渡しは完了しましたか？'
+                            : trade.giverApproval
+                                ? '取引相手の完了待ちです。'
+                                : '取引依頼を承認しますか？',
                         style: const TextStyle(
                           fontSize: 12,
                           color: Color(0xff636363),

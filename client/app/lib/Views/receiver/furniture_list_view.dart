@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
 import '../../Usecases/provider.dart';
-import '../../Usecases/trade_api.dart';
 import '../common/furniture_cell.dart';
 import 'todo_list_view.dart';
 import 'favorite_list_view.dart';
@@ -19,7 +18,6 @@ class FurnitureListView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    final userId = ref.read(userIdProvider);
 
     final furnitureState = ref.watch(furnitureListProvider);
 
@@ -142,20 +140,13 @@ class FurnitureListView extends HookConsumerWidget {
               const SizedBox(width: 8),
               IconButton(
                 onPressed: () {
-                  // 取引リストの取得
-                  final futureResult = getTradeList(userId);
-                  futureResult.then((result) {
-                    return Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TodoListView(tradeList: result),
-                      ),
-                    );
-                  }).catchError((error) {
-                    return Center(
-                      child: Text('error: $error'),
-                    );
-                  });
+                  // やることリストへ
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TodoListView(),
+                    ),
+                  );
                 },
                 icon: const Icon(
                   size: 24,
