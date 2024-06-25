@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../Domain/furniture.dart';
+import '../../../Usecases/provider.dart';
 import '../../common/furniture_detail_view.dart';
 
 class ProductCell extends HookConsumerWidget {
@@ -15,6 +17,21 @@ class ProductCell extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteCountState =
+        ref.watch(favoriteCountProvider(furniture.furnitureId));
+
+    // 画面を更新
+    Future<void> reloadFavoriteCount() {
+      // ignore: unused_result
+      ref.refresh(favoriteCountProvider(furniture.furnitureId));
+      return ref.read(favoriteCountProvider(furniture.furnitureId).future);
+    }
+
+    useEffect((){
+      reloadFavoriteCount();
+      return null;
+    },[]);
+
     return Column(
       children: [
         Material(
@@ -39,12 +56,17 @@ class ProductCell extends HookConsumerWidget {
               child: Row(
                 children: [
                   Container(
-                    // TODO: ここに写真が入る
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
                       color: const Color(0xffd9d9d9),
                       borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Center(
+                        child: Image.memory(furniture.image!),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -61,21 +83,36 @@ class ProductCell extends HookConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const Row(
+                      Row(
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.only(top: 4, right: 8),
                             child: Icon(
                               Icons.favorite_outline_outlined,
                               color: Color(0xff636363),
                             ),
                           ),
-                          Text(
-                            'いいね 8件',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xff636363),
+                          favoriteCountState.when(
+                            loading: () => const Center(
+                              child: CircularProgressIndicator(),
                             ),
+                            error: (error, __) => const Text(
+                              'いいね 0件',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xff636363),
+                              ),
+                            ),
+                            skipLoadingOnRefresh: false,
+                            data: (data) {
+                              return Text(
+                                'いいね ${data.toString()}件',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xff636363),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

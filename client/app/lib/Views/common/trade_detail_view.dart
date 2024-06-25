@@ -29,6 +29,21 @@ class TradeDetailView extends HookConsumerWidget {
     final future = useMemoized(SharedPreferences.getInstance);
     final snapshot = useFuture(future, initialData: null);
 
+    final favoriteCountState =
+        ref.watch(favoriteCountProvider(furniture.furnitureId));
+
+    // 画面を更新
+    Future<void> reloadFavoriteCount() {
+      // ignore: unused_result
+      ref.refresh(favoriteCountProvider(furniture.furnitureId));
+      return ref.read(favoriteCountProvider(furniture.furnitureId).future);
+    }
+
+    useEffect((){
+      reloadFavoriteCount();
+      return null;
+    },[]);
+
     // 譲渡を承認した取引のtradeIdを保存
     void saveTradingIdList(int tradeId) {
       final preferences = snapshot.data;
@@ -68,6 +83,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
+                color: Color(0xff131313),
               ),
             ),
           ],
@@ -87,6 +103,7 @@ class TradeDetailView extends HookConsumerWidget {
                       : '受け渡しは完了しましたか？',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
+                color: Color(0xff131313),
               ),
             ),
             const SizedBox(height: 24),
@@ -112,7 +129,7 @@ class TradeDetailView extends HookConsumerWidget {
                                       width: screenSize.width,
                                       color: const Color(0x4b000000),
                                       child: const TradeApproveSheet(
-                                        isCompleted: true,
+                                        isCompleted: false,
                                       ),
                                     );
                                   },
@@ -128,21 +145,6 @@ class TradeDetailView extends HookConsumerWidget {
                                 );
                               });
                               saveTradingIdList(trade.tradeId);
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    height: screenSize.height,
-                                    width: screenSize.width,
-                                    color: const Color(0x4b000000),
-                                    child: const TradeApproveSheet(
-                                      isCompleted: false,
-                                    ),
-                                  );
-                                },
-                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff424242),
@@ -239,14 +241,11 @@ class TradeDetailView extends HookConsumerWidget {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff424242),
+                          backgroundColor: Theme.of(context).primaryColor,
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              color: Color(0xff424242),
-                            ),
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
@@ -264,14 +263,13 @@ class TradeDetailView extends HookConsumerWidget {
                           ),
                         ),
                       ),
-
             const SizedBox(height: 24),
             const Text(
               '受け渡し',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff424242),
+                color: Color(0xff636363),
               ),
             ),
             const Divider(),
@@ -283,7 +281,7 @@ class TradeDetailView extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff424242),
+                    color: Color(0xff636363),
                   ),
                 ),
                 const SizedBox(width: 80),
@@ -291,7 +289,7 @@ class TradeDetailView extends HookConsumerWidget {
                   trade.tradePlace,
                   style: const TextStyle(
                     fontSize: 12,
-                    color: Color(0xff424242),
+                    color: Color(0xff636363),
                   ),
                 ),
               ],
@@ -305,20 +303,20 @@ class TradeDetailView extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff424242),
+                    color: Color(0xff636363),
                   ),
                 ),
                 const SizedBox(width: 80),
                 Text(
-                  DateFormat('yyyy年M月d日 （E）  h:mm', 'ja')
+                  DateFormat('yyyy年M月d日(E) HH:mm', 'ja')
                       .format(trade.tradeDate),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight:
                         tradeStatus == 2 ? FontWeight.normal : FontWeight.bold,
                     color: tradeStatus == 2
-                        ? const Color(0xff424242)
-                        : const Color(0xff000000),
+                        ? const Color(0xff636363)
+                        : const Color(0xff131313),
                   ),
                 ),
               ],
@@ -330,7 +328,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff424242),
+                color: Color(0xff636363),
               ),
             ),
             const Divider(),
@@ -350,7 +348,7 @@ class TradeDetailView extends HookConsumerWidget {
                 Text(
                   trade.receiverName,
                   style: const TextStyle(
-                    color: Color(0xff636363),
+                    color: Color(0xff131313),
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
@@ -359,6 +357,7 @@ class TradeDetailView extends HookConsumerWidget {
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.arrow_forward_ios),
+                  color: const Color(0xff3e3e3e),
                 ),
               ],
             ),
@@ -369,7 +368,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff424242),
+                color: Color(0xff636363),
               ),
             ),
             const Divider(),
@@ -403,13 +402,14 @@ class TradeDetailView extends HookConsumerWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Center(
-                        child: Image.asset(trade.imagePath),
-                      ),
-                    ),
+                          borderRadius: BorderRadius.circular(5),
+                          child: Center(
+                            child: Image.memory(trade.image),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 16),
+                      // 下に引っ張った時に更新
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -419,25 +419,40 @@ class TradeDetailView extends HookConsumerWidget {
                             trade.productName,
                             style: const TextStyle(
                               fontSize: 14,
-                              color: Color(0xff000000),
+                              color: Color(0xff131313),
                             ),
                           ),
                           const SizedBox(height: 8),
-                          const Row(
+                          Row(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(top: 4, right: 8),
                                 child: Icon(
                                   Icons.favorite_outline_outlined,
                                   color: Color(0xff636363),
                                 ),
                               ),
-                              Text(
-                                'いいね 8件',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xff636363),
+                              favoriteCountState.when(
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(),
                                 ),
+                                error: (error, __) => const Text(
+                                  'いいね 0件',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xff636363),
+                                  ),
+                                ),
+                                skipLoadingOnRefresh: false,
+                                data: (data) {
+                                  return Text(
+                                    'いいね ${data.toString()}件',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff636363),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -447,7 +462,7 @@ class TradeDetailView extends HookConsumerWidget {
                       const Icon(
                         Icons.arrow_forward_ios,
                         size: 24,
-                        color: Color(0xff575757),
+                        color: Color(0xff3e3e3e),
                       ),
                       const SizedBox(width: 16),
                     ],

@@ -76,6 +76,23 @@ async def get_furniture_list(db: AsyncSession, request_user_id: int, category: O
 
     return FurnitureListResponse(furniture=response_list)
 
+async def get_personal_furniture_list(db: AsyncSession, user_id: int) -> FurnitureListResponse:
+    result: Result = await db.execute(
+        select(db_model.Furniture).where(db_model.Furniture.user_id == user_id)
+    )
+    furniture_list = result.scalars().all()
+    if not furniture_list:
+        return FurnitureListResponse(furniture=[])
+
+    response_list = []
+    for furniture in furniture_list:
+        user = await get_user(db, furniture.user_id)
+        if user is None:
+            continue
+        response_list.append(await build_furniture_response(furniture, user))
+
+    return FurnitureListResponse(furniture=response_list)
+
 async def create_furniture(
         db: AsyncSession,
         user_id: int,
