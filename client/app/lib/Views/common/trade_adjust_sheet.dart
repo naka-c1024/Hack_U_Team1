@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_picker/wheel_picker.dart';
@@ -280,6 +281,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   isSelectingDate.value
                       ? Container(
                           height: 320,
+                          padding: const EdgeInsets.only(bottom:8),
                           decoration: BoxDecoration(
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
@@ -289,6 +291,16 @@ class TradeAdjustSheet extends HookConsumerWidget {
                               firstDate: startDate,
                               lastDate: endDate,
                               centerAlignModePicker: true,
+                              selectedDayHighlightColor:
+                                  Theme.of(context).primaryColor,
+                              selectedDayTextStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffffffff),
+                              ),
+                              todayTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                              ),
                               weekdayLabels: [
                                 '日',
                                 '月',
@@ -299,6 +311,42 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                 '土'
                               ],
                               disableModePicker: true,
+                              dayBuilder: (
+                                  {required date,
+                                  decoration,
+                                  isDisabled,
+                                  isSelected,
+                                  isToday,
+                                  textStyle}) {
+                                Widget? dayWidget;
+                                if (date.isAfter(startDate) &&
+                                    date.isBefore(endDate)) {
+                                  dayWidget = Container(
+                                    decoration: decoration,
+                                    child: Center(
+                                      child: Stack(
+                                        alignment: AlignmentDirectional.center,
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0x2075d000),
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                          Text(
+                                            MaterialLocalizations.of(context)
+                                                .formatDecimal(date.day),
+                                            style: textStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return dayWidget;
+                              },
                             ),
                             value: [tradeDate.value],
                             onValueChanged: (dates) => {
