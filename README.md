@@ -1,4 +1,6 @@
-# Pasha-niture <ここにロゴいれる>
+# Pasha-niture
+
+<img src=https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/assets/images/logo.png/ width=50%>
 
 #### ぱしゃっと検索、かしゃっと出品
 
@@ -44,7 +46,7 @@ Pasha-niture/client/app/ で以下を実行　
 flutter run
 ```
 #### XCodeからビルド
-Paha-niture/client/app/ios/Runner.xcworkspace をビルド
+Pasha-niture/client/app/ios/Runner.xcworkspace をビルド
 
 ## 技術構成
 
