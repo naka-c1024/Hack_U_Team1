@@ -40,6 +40,12 @@ final furnitureListProvider = FutureProvider<List<Furniture>>((ref) async {
   return getFurnitureList(userId, null, null);
 });
 
+//　出品した商品取得APIの状態を取得
+final myProductListProvider = FutureProvider<List<Furniture>>((ref) async {
+  final userId = ref.read(userIdProvider);
+  return getMyProductList(userId);
+});
+
 // 取引リスト取得APIの状態を管理
 final tradeListProvider = FutureProvider<List<Trade>>((ref) async {
   final userId = ref.read(userIdProvider);
@@ -49,11 +55,7 @@ final tradeListProvider = FutureProvider<List<Trade>>((ref) async {
 // いいね数取得APIの状態を管理
 final favoriteCountProvider =
     FutureProvider.family<int, int?>((ref, furnitureId) async {
-  if (furnitureId == null) {
-    return 0;
-  } else {
-    return getFavoriteCount(furnitureId);
-  }
+  return getFavoriteCount(furnitureId!);
 });
 
 // AIが返してくれた家具の説明を保持

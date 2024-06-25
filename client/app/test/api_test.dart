@@ -164,41 +164,65 @@ void main() {
       expect(response.statusCode, 200);
     });
 
-    test('Test: Describe furniture successfully', () async {
-      final uri = Uri.parse('http://localhost:8080/furniture/describe');
-      final request = MultipartRequest('POST', uri);
-      // テスト用の画像を読み込む
-      var file = await MultipartFile.fromPath(
-        'image',
-        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/describe_example.jpg',
-      );
-      request.files.add(file);
-      final response = await request.send();
+    test('Test: Get personal product list successfully', () async {
+      final url =
+          Uri.parse('http://localhost:8080/furniture/personal_products');
+      final params = {
+        'user_id': '1',
+      };
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
       expect(response.statusCode, 200);
-      final responseBody = await response.stream.bytesToString();
-      final jsonResponse = jsonDecode(responseBody);
-      expect(jsonResponse['product_name'].length, isNonZero);
-      expect(jsonResponse['description'].length, isNonZero);
-      expect(jsonResponse['category'], isA<int>()); // int型が返ってくることを確認
-      expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
+      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      final furnitureList = jsonResponse['furniture'];
+      expect(furnitureList.length, isNonZero);
     });
 
-    test('Test: Recommend furniture successfully', () async {
-      final uri = Uri.parse('http://localhost:8080/furniture/recommend');
-      final request = MultipartRequest('POST', uri);
-      // テスト用の画像を読み込む
-      var file = await MultipartFile.fromPath(
-        'room_photo',
-        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/recommend_example.jpg',
-      );
-      request.fields['category'] = '0';
-      request.files.add(file);
-      final response = await request.send();
-      expect(response.statusCode, 200);
-      final responseBody = await response.stream.bytesToString();
-      final jsonResponse = jsonDecode(responseBody);
-      expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
-      expect(jsonResponse['reason'].length, isNonZero);
+    test('Test: Get personal product list failed', () async {
+      final url =
+          Uri.parse('http://localhost:8080/furniture/personal_products');
+      final params = {
+        'user_id': '-1',
+      };
+      final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+      final response = await get(uri);
+      expect(response.statusCode, 404);
+      test('Test: Describe furniture successfully', () async {
+        final uri = Uri.parse('http://localhost:8080/furniture/describe');
+        final request = MultipartRequest('POST', uri);
+        // テスト用の画像を読み込む
+        var file = await MultipartFile.fromPath(
+          'image',
+          '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/describe_example.jpg',
+        );
+        request.files.add(file);
+        final response = await request.send();
+        expect(response.statusCode, 200);
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = jsonDecode(responseBody);
+        expect(jsonResponse['product_name'].length, isNonZero);
+        expect(jsonResponse['description'].length, isNonZero);
+        expect(jsonResponse['category'], isA<int>()); // int型が返ってくることを確認
+        expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
+      });
+
+      test('Test: Recommend furniture successfully', () async {
+        final uri = Uri.parse('http://localhost:8080/furniture/recommend');
+        final request = MultipartRequest('POST', uri);
+        // テスト用の画像を読み込む
+        var file = await MultipartFile.fromPath(
+          'room_photo',
+          '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/recommend_example.jpg',
+        );
+        request.fields['category'] = '0';
+        request.files.add(file);
+        final response = await request.send();
+        expect(response.statusCode, 200);
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = jsonDecode(responseBody);
+        expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
+        expect(jsonResponse['reason'].length, isNonZero);
+      });
     });
   });
 
@@ -325,7 +349,7 @@ void main() {
     });
 
     test('Test: Get favorite status successfully', () async {
-      final uri = Uri.parse('http://localhost:8080/favorite/1/');
+      final uri = Uri.parse('http://localhost:8080/favorite/4/');
       final headers = {'Content-Type': 'application/json'};
       var response = await get(uri, headers: headers);
       expect(response.statusCode, 200);

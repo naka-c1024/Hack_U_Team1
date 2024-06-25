@@ -26,7 +26,6 @@ class RegisterProductView extends HookConsumerWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          elevation: 8,
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffffffff),
           title: Column(
@@ -113,7 +112,7 @@ class RegisterProductView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            TradeListView(tradeList:tradeList),
+            TradeListView(tradeList: tradeList),
             const ProductListView(isCompleted: false),
             const ProductListView(isCompleted: true),
           ],
