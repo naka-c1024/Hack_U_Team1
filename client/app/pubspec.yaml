@@ -80,6 +80,8 @@ flutter:
         weight: 700
   assets:
     - assets/images/
+    - assets/images/user_icon_1.png
+    - assets/images/user_icon_2.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

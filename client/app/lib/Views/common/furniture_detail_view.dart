@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -28,9 +29,9 @@ class FurnitureDetailView extends HookConsumerWidget {
     final userId = ref.read(userIdProvider);
 
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         toolbarHeight: 0,
-        elevation:0,
+        elevation: 0,
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xffffffff),
       ),
@@ -121,7 +122,8 @@ class FurnitureDetailView extends HookConsumerWidget {
                                   children: [
                                     isFavorite.value
                                         ? const Icon(Icons.favorite, size: 16)
-                                        : const Icon(Icons.favorite_border, size: 16),
+                                        : const Icon(Icons.favorite_border,
+                                            size: 16),
                                     const Padding(
                                       padding: EdgeInsets.only(bottom: 2),
                                       child: Text('いいね',
@@ -195,6 +197,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                         const SizedBox(height: 8),
                         // 引き渡し場所
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
                               width: 96,
@@ -207,12 +210,22 @@ class FurnitureDetailView extends HookConsumerWidget {
                                 ),
                               ),
                             ),
-                            Text(
-                              furniture.tradePlace,
-                              style: const TextStyle(
-                                color: Color(0xff636363),
-                                fontSize: 12,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  furniture.tradePlace,
+                                  style: const TextStyle(
+                                    color: Color(0xff636363),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Image.asset(
+                                  'assets/images/trade_map.png',
+                                  width: 256,
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -245,7 +258,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               ),
                             ),
                             Text(
-                              '幅${furniture.width}cm × 奥行き${furniture.depth}cm × 高さ${furniture.height}cm',
+                              '幅${furniture.width.toInt()}cm×奥行き${furniture.depth.toInt()}cm×高さ${furniture.height.toInt()}cm',
                               style: const TextStyle(
                                 color: Color(0xff636363),
                                 fontSize: 12,
@@ -295,8 +308,8 @@ class FurnitureDetailView extends HookConsumerWidget {
                             Container(
                               height: 16,
                               width: 16,
-                              decoration: const BoxDecoration(
-                                color: Color(0xffd9d9d9),
+                              decoration: BoxDecoration(
+                                color: colorCodes[furniture.color],
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -351,12 +364,12 @@ class FurnitureDetailView extends HookConsumerWidget {
                         Row(
                           children: [
                             const SizedBox(width: 16),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: const BoxDecoration(
-                                color: Color(0xffd9d9d9),
-                                shape: BoxShape.circle,
+                            ClipOval(
+                              child: Image.asset(
+                                'assets/images/user_icon_2.png',
+                                width: 40,
+                                height: 40, 
+                                fit: BoxFit.cover,
                               ),
                             ),
                             const SizedBox(width: 24),
@@ -481,7 +494,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xff424242),
+                                      backgroundColor: Theme.of(context).primaryColor,
                                       padding: EdgeInsets.zero,
                                       minimumSize: Size.zero,
                                       elevation: 0,
