@@ -76,6 +76,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
             height: 560,
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: SingleChildScrollView(
+              reverse: isSelectingDate.value || isSelectingTime.value,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -281,7 +282,8 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   isSelectingDate.value
                       ? Container(
                           height: 320,
-                          padding: const EdgeInsets.only(bottom:8),
+                          padding: const EdgeInsets.only(bottom: 8),
+                          margin: const EdgeInsets.only(bottom: 24),
                           decoration: BoxDecoration(
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
@@ -358,79 +360,94 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   // 時間選択画面
                   isSelectingTime.value
                       ? Container(
+                          margin: const EdgeInsets.only(bottom: 24),
                           decoration: BoxDecoration(
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Stack(
+                            alignment: Alignment.center,
                             children: [
-                              WheelPicker(
-                                builder: (BuildContext context, int index) {
-                                  return Text(
-                                    "$index".padLeft(2, '0'),
-                                    style: const TextStyle(fontSize: 20),
-                                  );
-                                },
-                                controller: hoursWheel,
-                                looping: false,
-                                selectedIndexColor: const Color(0xff4b4b4b),
-                                style: const WheelPickerStyle(
-                                  size: 160,
-                                  squeeze: 1.25,
-                                  diameterRatio: .8,
-                                  surroundingOpacity: .25,
-                                  magnification: 1.2,
-                                  itemExtent: 40,
-                                ),
-                                onIndexChanged: (index) {
-                                  final originalDateTime =
-                                      tradeTime.value ?? DateTime.now();
-                                  final selectedDataTime = DateTime(
-                                      originalDateTime.year,
-                                      originalDateTime.month,
-                                      originalDateTime.day,
-                                      index,
-                                      originalDateTime.minute);
-                                  tradeTime.value = selectedDataTime;
-                                },
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(bottom: 12),
-                                child: Text(
-                                  " : ",
-                                  style: TextStyle(fontSize: 20),
+                              Container(
+                                height: 40,
+                                width: screenSize.width - 80,
+                                margin: const EdgeInsets.only(bottom: 8),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffe6f5d0),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                               ),
-                              WheelPicker(
-                                builder: (BuildContext context, int index) {
-                                  return Text(
-                                    "$index".padLeft(2, '0'),
-                                    style: const TextStyle(fontSize: 20),
-                                  );
-                                },
-                                controller: minutesWheel,
-                                enableTap: true,
-                                selectedIndexColor: const Color(0xff4b4b4b),
-                                style: const WheelPickerStyle(
-                                  size: 160,
-                                  squeeze: 1.25,
-                                  diameterRatio: .8,
-                                  surroundingOpacity: .25,
-                                  magnification: 1.2,
-                                  itemExtent: 40,
-                                ),
-                                onIndexChanged: (index) {
-                                  final originalDateTime =
-                                      tradeTime.value ?? DateTime.now();
-                                  final selectedDataTime = DateTime(
-                                      originalDateTime.year,
-                                      originalDateTime.month,
-                                      originalDateTime.day,
-                                      originalDateTime.hour,
-                                      index);
-                                  tradeTime.value = selectedDataTime;
-                                },
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  WheelPicker(
+                                    builder: (BuildContext context, int index) {
+                                      return Text(
+                                        "$index".padLeft(2, '0'),
+                                        style: const TextStyle(fontSize: 20),
+                                      );
+                                    },
+                                    controller: hoursWheel,
+                                    looping: false,
+                                    selectedIndexColor: const Color(0xff4b4b4b),
+                                    style: const WheelPickerStyle(
+                                      size: 160,
+                                      squeeze: 1.25,
+                                      diameterRatio: .8,
+                                      surroundingOpacity: .25,
+                                      magnification: 1.2,
+                                      itemExtent: 40,
+                                    ),
+                                    onIndexChanged: (index) {
+                                      final originalDateTime =
+                                          tradeTime.value ?? DateTime.now();
+                                      final selectedDataTime = DateTime(
+                                          originalDateTime.year,
+                                          originalDateTime.month,
+                                          originalDateTime.day,
+                                          index,
+                                          originalDateTime.minute);
+                                      tradeTime.value = selectedDataTime;
+                                    },
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(bottom: 12),
+                                    child: Text(
+                                      " : ",
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                                  WheelPicker(
+                                    builder: (BuildContext context, int index) {
+                                      return Text(
+                                        "$index".padLeft(2, '0'),
+                                        style: const TextStyle(fontSize: 20),
+                                      );
+                                    },
+                                    controller: minutesWheel,
+                                    enableTap: true,
+                                    selectedIndexColor: const Color(0xff4b4b4b),
+                                    style: const WheelPickerStyle(
+                                      size: 160,
+                                      squeeze: 1.25,
+                                      diameterRatio: .8,
+                                      surroundingOpacity: .25,
+                                      magnification: 1.2,
+                                      itemExtent: 40,
+                                    ),
+                                    onIndexChanged: (index) {
+                                      final originalDateTime =
+                                          tradeTime.value ?? DateTime.now();
+                                      final selectedDataTime = DateTime(
+                                          originalDateTime.year,
+                                          originalDateTime.month,
+                                          originalDateTime.day,
+                                          originalDateTime.hour,
+                                          index);
+                                      tradeTime.value = selectedDataTime;
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
