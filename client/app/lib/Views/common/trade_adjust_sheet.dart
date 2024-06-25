@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_picker/wheel_picker.dart';
@@ -75,6 +76,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
             height: 560,
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: SingleChildScrollView(
+              reverse: isSelectingDate.value || isSelectingTime.value,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -102,7 +104,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   const Text(
                     '受け渡し場所',
                     style: TextStyle(
-                      color: Color(0xff6a6a6a),
+                      color: Color(0xff4b4b4b),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -112,6 +114,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   const SizedBox(height: 4),
                   // 受け渡し場所
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(
                         width: 96,
@@ -124,12 +127,25 @@ class TradeAdjustSheet extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      Text(
-                        furniture.tradePlace,
-                        style: const TextStyle(
-                          color: Color(0xff636363),
-                          fontSize: 12,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            furniture.tradePlace,
+                            style: const TextStyle(
+                              color: Color(0xff636363),
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.asset(
+                              'assets/images/trade_map.png',
+                              width: 256,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -137,7 +153,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   const Text(
                     '受け渡し日の指定',
                     style: TextStyle(
-                      color: Color(0xff6a6a6a),
+                      color: Color(0xff4b4b4b),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -148,17 +164,18 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   // 受け渡し期間の説明
                   Text(
                     (furniture.startDate == null && furniture.endDate == null)
-                        ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(DateTime.now().add(const Duration(days: 1)))} 〜 の期間で指定してください。'
+                        ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(DateTime.now().add(const Duration(days: 1)))} 〜 の間で指定してください。'
                         : furniture.startDate == null
-                            ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(DateTime.now().add(const Duration(days: 1)))}  〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)} の期間で指定してください。'
+                            ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(DateTime.now().add(const Duration(days: 1)))}  〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)} の間で指定してください。'
                             : furniture.endDate == null
-                                ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 の期間で指定してください。'
-                                : '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)} の期間で指定してください。',
+                                ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 の間で指定してください。'
+                                : '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.endDate!)} の間で指定してください。',
                     style: const TextStyle(
                       color: Color(0xff636363),
                       fontSize: 12,
                     ),
                   ),
+                  const SizedBox(height: 8),
                   // 日時指定
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -167,7 +184,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                         '日時',
                         style: TextStyle(
                           color: Color(0xff636363),
-                          fontSize: 12,
+                          fontSize: 14,
                         ),
                       ),
                       const SizedBox(width: 48),
@@ -180,21 +197,24 @@ class TradeAdjustSheet extends HookConsumerWidget {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isSelectingDate.value
-                              ? const Color(0xffd9d9d9)
-                              : const Color(0xffffffff),
+                          backgroundColor: const Color(0xffffffff),
                           foregroundColor: const Color(0xff636363),
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
+                            side: BorderSide(
+                              color: isSelectingDate.value
+                                  ? Theme.of(context).primaryColor
+                                  : const Color(0xffd9d9d9),
+                              width: 1.5,
+                            ),
                           ),
                         ),
                         child: Container(
-                          height: 24,
-                          padding:
-                              const EdgeInsets.only(left: 8, top: 2, right: 8),
+                          height: 32,
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: const Color(0xffd9d9d9)),
@@ -206,7 +226,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                     .format(tradeDate.value!),
                             style: const TextStyle(
                               color: Color(0xff636363),
-                              fontSize: 12,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -222,21 +242,24 @@ class TradeAdjustSheet extends HookConsumerWidget {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isSelectingTime.value
-                              ? const Color(0xffd9d9d9)
-                              : const Color(0xffffffff),
+                          backgroundColor: const Color(0xffffffff),
                           foregroundColor: const Color(0xff636363),
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
+                            side: BorderSide(
+                              color: isSelectingTime.value
+                                  ? Theme.of(context).primaryColor
+                                  : const Color(0xffd9d9d9),
+                              width: 1.5,
+                            ),
                           ),
                         ),
                         child: Container(
-                          height: 24,
-                          padding:
-                              const EdgeInsets.only(left: 8, top: 2, right: 8),
+                          height: 32,
+                          padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: const Color(0xffd9d9d9)),
@@ -247,7 +270,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                 : DateFormat('HH:mm').format(tradeTime.value!),
                             style: const TextStyle(
                               color: Color(0xff636363),
-                              fontSize: 12,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -259,6 +282,8 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   isSelectingDate.value
                       ? Container(
                           height: 320,
+                          padding: const EdgeInsets.only(bottom: 8),
+                          margin: const EdgeInsets.only(bottom: 24),
                           decoration: BoxDecoration(
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
@@ -268,6 +293,16 @@ class TradeAdjustSheet extends HookConsumerWidget {
                               firstDate: startDate,
                               lastDate: endDate,
                               centerAlignModePicker: true,
+                              selectedDayHighlightColor:
+                                  Theme.of(context).primaryColor,
+                              selectedDayTextStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffffffff),
+                              ),
+                              todayTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                              ),
                               weekdayLabels: [
                                 '日',
                                 '月',
@@ -278,6 +313,42 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                 '土'
                               ],
                               disableModePicker: true,
+                              dayBuilder: (
+                                  {required date,
+                                  decoration,
+                                  isDisabled,
+                                  isSelected,
+                                  isToday,
+                                  textStyle}) {
+                                Widget? dayWidget;
+                                if (date.isAfter(startDate) &&
+                                    date.isBefore(endDate)) {
+                                  dayWidget = Container(
+                                    decoration: decoration,
+                                    child: Center(
+                                      child: Stack(
+                                        alignment: AlignmentDirectional.center,
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: const BoxDecoration(
+                                              color: Color(0x2075d000),
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                          Text(
+                                            MaterialLocalizations.of(context)
+                                                .formatDecimal(date.day),
+                                            style: textStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return dayWidget;
+                              },
                             ),
                             value: [tradeDate.value],
                             onValueChanged: (dates) => {
@@ -289,79 +360,94 @@ class TradeAdjustSheet extends HookConsumerWidget {
                   // 時間選択画面
                   isSelectingTime.value
                       ? Container(
+                          margin: const EdgeInsets.only(bottom: 24),
                           decoration: BoxDecoration(
                             border: Border.all(color: const Color(0xffd9d9d9)),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Stack(
+                            alignment: Alignment.center,
                             children: [
-                              WheelPicker(
-                                builder: (BuildContext context, int index) {
-                                  return Text(
-                                    "$index".padLeft(2, '0'),
-                                    style: const TextStyle(fontSize: 20),
-                                  );
-                                },
-                                controller: hoursWheel,
-                                looping: false,
-                                selectedIndexColor: const Color(0xff4b4b4b),
-                                style: const WheelPickerStyle(
-                                  size: 160,
-                                  squeeze: 1.25,
-                                  diameterRatio: .8,
-                                  surroundingOpacity: .25,
-                                  magnification: 1.2,
-                                  itemExtent: 40,
-                                ),
-                                onIndexChanged: (index) {
-                                  final originalDateTime =
-                                      tradeTime.value ?? DateTime.now();
-                                  final selectedDataTime = DateTime(
-                                      originalDateTime.year,
-                                      originalDateTime.month,
-                                      originalDateTime.day,
-                                      index,
-                                      originalDateTime.minute);
-                                  tradeTime.value = selectedDataTime;
-                                },
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(bottom: 12),
-                                child: Text(
-                                  " : ",
-                                  style: TextStyle(fontSize: 20),
+                              Container(
+                                height: 40,
+                                width: screenSize.width - 80,
+                                margin: const EdgeInsets.only(bottom: 8),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffe6f5d0),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                               ),
-                              WheelPicker(
-                                builder: (BuildContext context, int index) {
-                                  return Text(
-                                    "$index".padLeft(2, '0'),
-                                    style: const TextStyle(fontSize: 20),
-                                  );
-                                },
-                                controller: minutesWheel,
-                                enableTap: true,
-                                selectedIndexColor: const Color(0xff4b4b4b),
-                                style: const WheelPickerStyle(
-                                  size: 160,
-                                  squeeze: 1.25,
-                                  diameterRatio: .8,
-                                  surroundingOpacity: .25,
-                                  magnification: 1.2,
-                                  itemExtent: 40,
-                                ),
-                                onIndexChanged: (index) {
-                                  final originalDateTime =
-                                      tradeTime.value ?? DateTime.now();
-                                  final selectedDataTime = DateTime(
-                                      originalDateTime.year,
-                                      originalDateTime.month,
-                                      originalDateTime.day,
-                                      originalDateTime.hour,
-                                      index);
-                                  tradeTime.value = selectedDataTime;
-                                },
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  WheelPicker(
+                                    builder: (BuildContext context, int index) {
+                                      return Text(
+                                        "$index".padLeft(2, '0'),
+                                        style: const TextStyle(fontSize: 20),
+                                      );
+                                    },
+                                    controller: hoursWheel,
+                                    looping: false,
+                                    selectedIndexColor: const Color(0xff4b4b4b),
+                                    style: const WheelPickerStyle(
+                                      size: 160,
+                                      squeeze: 1.25,
+                                      diameterRatio: .8,
+                                      surroundingOpacity: .25,
+                                      magnification: 1.2,
+                                      itemExtent: 40,
+                                    ),
+                                    onIndexChanged: (index) {
+                                      final originalDateTime =
+                                          tradeTime.value ?? DateTime.now();
+                                      final selectedDataTime = DateTime(
+                                          originalDateTime.year,
+                                          originalDateTime.month,
+                                          originalDateTime.day,
+                                          index,
+                                          originalDateTime.minute);
+                                      tradeTime.value = selectedDataTime;
+                                    },
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(bottom: 12),
+                                    child: Text(
+                                      " : ",
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                                  WheelPicker(
+                                    builder: (BuildContext context, int index) {
+                                      return Text(
+                                        "$index".padLeft(2, '0'),
+                                        style: const TextStyle(fontSize: 20),
+                                      );
+                                    },
+                                    controller: minutesWheel,
+                                    enableTap: true,
+                                    selectedIndexColor: const Color(0xff4b4b4b),
+                                    style: const WheelPickerStyle(
+                                      size: 160,
+                                      squeeze: 1.25,
+                                      diameterRatio: .8,
+                                      surroundingOpacity: .25,
+                                      magnification: 1.2,
+                                      itemExtent: 40,
+                                    ),
+                                    onIndexChanged: (index) {
+                                      final originalDateTime =
+                                          tradeTime.value ?? DateTime.now();
+                                      final selectedDataTime = DateTime(
+                                          originalDateTime.year,
+                                          originalDateTime.month,
+                                          originalDateTime.day,
+                                          originalDateTime.hour,
+                                          index);
+                                      tradeTime.value = selectedDataTime;
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -416,13 +502,12 @@ class TradeAdjustSheet extends HookConsumerWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor:
                     (tradeDate.value == null || tradeTime.value == null)
-                        ? const Color(0xffffffff)
-                        : const Color(0xff424242),
+                        ? const Color(0xffc4c4c4)
+                        : Theme.of(context).primaryColor,
                 padding: EdgeInsets.zero,
                 minimumSize: Size.zero,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Color(0xff9e9e9e)),
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
@@ -431,13 +516,11 @@ class TradeAdjustSheet extends HookConsumerWidget {
                 width: screenSize.width - 48,
                 margin: const EdgeInsets.only(left: 8, right: 8),
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   '取引をお願いする',
                   style: TextStyle(
-                    fontSize: 14,
-                    color: (tradeDate.value == null || tradeTime.value == null)
-                        ? const Color(0xff9e9e9e)
-                        : const Color(0xffffffff),
+                    fontSize: 16,
+                    color: Color(0xffffffff),
                     fontWeight: FontWeight.bold,
                   ),
                 ),

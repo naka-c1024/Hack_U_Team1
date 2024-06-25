@@ -18,7 +18,7 @@ class LoginView extends HookConsumerWidget {
     final passwordController = useTextEditingController(text: '');
 
     Future<void> putLogin() async {
-      final url = Uri.parse('http://192.168.2.152:8080/login');
+      final url = Uri.parse('http://192.168.2.142:8080/login');
       final headers = {'Content-Type': 'application/json'};
       final requestBody = jsonEncode({
         'username': userNameController.text,
