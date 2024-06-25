@@ -6,7 +6,7 @@ import '../Domain/trade.dart';
 // 取引リストを取得
 Future<List<Trade>> getTradeList(int userId) async {
   try {
-    final url = Uri.parse('http://192.168.2.152:8080/trades');
+    final url = Uri.parse('http://192.168.2.142:8080/trades');
     final params = {
       'user_id': userId.toString(),
     };
@@ -50,7 +50,7 @@ Future<List<Trade>> getTradeList(int userId) async {
 // 取引を承認
 Future<void> requestTrade(int furnitureId, int userId, DateTime tradeDate) async {
   try {
-    final url = Uri.parse('http://192.168.2.152:8080/trades');
+    final url = Uri.parse('http://192.168.2.142:8080/trades');
       final headers = {'Content-Type': 'application/json'};
       final body = {
         'furniture_id': furnitureId,
@@ -72,7 +72,7 @@ Future<void> requestTrade(int furnitureId, int userId, DateTime tradeDate) async
 // 取引を承認
 Future<void> approveTrade(int tradeId, bool isGiver) async {
   try {
-    final url = Uri.parse('http://192.168.2.152:8080/trades/$tradeId');
+    final url = Uri.parse('http://192.168.2.142:8080/trades/$tradeId');
     final headers = {'Content-Type': 'application/json'};
     final body = {
       'is_giver': isGiver,
@@ -92,7 +92,7 @@ Future<void> approveTrade(int tradeId, bool isGiver) async {
 // 取引を確認
 Future<void> checkTrade(int tradeId, bool isGiver) async {
   try {
-    final url = Uri.parse('http://192.168.2.152:8080/trades/$tradeId/isChecked');
+    final url = Uri.parse('http://192.168.2.142:8080/trades/$tradeId/isChecked');
     final headers = {'Content-Type': 'application/json'};
     final body = {
       'is_checked': true,

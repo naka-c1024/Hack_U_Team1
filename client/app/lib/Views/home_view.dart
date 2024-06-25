@@ -102,27 +102,67 @@ class HomeView extends HookConsumerWidget {
     return Scaffold(
       body: viewWidgets.elementAt(selectedView.value),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            activeIcon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Image.asset('assets/images/menu_home_fill.png', scale: 2),
+            ),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Image.asset('assets/images/menu_home.png', scale: 2),
+            ),
             label: 'ホーム',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            activeIcon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child:
+                  Image.asset('assets/images/menu_search_fill.png', scale: 2),
+            ),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Image.asset('assets/images/menu_search.png', scale: 2),
+            ),
             label: '検索',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.photo_camera_outlined),
+            activeIcon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child:
+                  Image.asset('assets/images/menu_camera_fill.png', scale: 2),
+            ),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Image.asset('assets/images/menu_camera.png', scale: 2),
+            ),
             label: '出品',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            activeIcon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Image.asset('assets/images/menu_user_fill.png', scale: 2),
+            ),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Image.asset('assets/images/menu_user.png', scale: 2),
+            ),
             label: 'マイページ',
           ),
         ],
-        iconSize: 24,
         elevation: 8,
-        selectedItemColor: Theme.of(context).primaryColor,
+        selectedItemColor: const Color(0xff3e3e3e),
+        unselectedItemColor: const Color(0xff3e3e3e),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Color(0xff636363),
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+          color: Color(0xff636363),
+        ),
         backgroundColor: const Color(0xffffffff),
         currentIndex: selectedView.value,
         onTap: (value) => {
