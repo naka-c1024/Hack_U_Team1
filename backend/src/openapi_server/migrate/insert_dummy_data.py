@@ -2,7 +2,7 @@ import os
 import requests
 import yaml
 from sqlalchemy.orm import Session
-from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites
+from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites, Chats
 
 def insert_dummy_data(session: Session):
     yaml_file_path = "/app/src/openapi_server/migrate/dummy_data.yaml"
@@ -31,6 +31,10 @@ def insert_dummy_data(session: Session):
     # Insert favorites
     favorites = [Favorites(**favorite_data) for favorite_data in data['favorites']]
     session.add_all(favorites)
+
+    # insert chats
+    chats = [Chats(**chat_data) for chat_data in data['chats']]
+    session.add_all(chats)
 
     session.commit()
 
