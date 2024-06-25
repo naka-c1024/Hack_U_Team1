@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Usecases/ai_api.dart';
+
 class RoomPictureView extends HookConsumerWidget {
   final ValueNotifier<int> searchPictureProcess;
   final ValueNotifier<CameraController?> cameraController;
@@ -199,8 +201,23 @@ class RoomPictureView extends HookConsumerWidget {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             searchPictureProcess.value = 2;
+                            if (cameraController.value == null) {
+                              print('Error: camera Controller is null.');
+                              return;
+                            }
+                            try {
+                              final image =
+                                  await cameraController.value?.takePicture();
+                              if (image == null) {
+                                print('Error: image is null.');
+                                return;
+                              }
+                              recommendFurniture(ref, image.path);
+                            } catch (e) {
+                              print(e);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,

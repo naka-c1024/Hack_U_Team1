@@ -19,6 +19,40 @@ class SearchView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final searchPictureProcess = useState(0);
 
+    final searchPictureViewList = useState<List<Widget>>(
+      [SelectCategoryView(searchPictureProcess: searchPictureProcess)],
+    );
+
+    // 画面を重ねて表示
+    useEffect(() {
+      if (searchPictureProcess.value == 0) {
+        if (searchPictureViewList.value.length == 2) {
+          searchPictureViewList.value.removeAt(1);
+        }
+      }
+      if (searchPictureProcess.value == 1) {
+        if (searchPictureViewList.value.length == 1) {
+          searchPictureViewList.value.add(
+            RoomPictureView(
+              searchPictureProcess: searchPictureProcess,
+              cameraController: cameraController,
+            ),
+          );
+        }
+        if (searchPictureViewList.value.length == 3) {
+          searchPictureViewList.value.removeAt(2);
+        }
+      }
+      if (searchPictureProcess.value == 2) {
+        if (searchPictureViewList.value.length == 2) {
+          searchPictureViewList.value.add(
+            SpaceMeasurementView(searchPictureProcess: searchPictureProcess),
+          );
+        }
+      }
+      return null;
+    }, [searchPictureProcess.value]);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -53,17 +87,7 @@ class SearchView extends HookConsumerWidget {
         ),
         body: TabBarView(
           children: [
-            searchPictureProcess.value == 0
-                ? SelectCategoryView(searchPictureProcess: searchPictureProcess)
-                : searchPictureProcess.value == 1
-                    ? RoomPictureView(
-                        searchPictureProcess: searchPictureProcess,
-                        cameraController: cameraController,
-                      )
-                    : SpaceMeasurementView(searchPictureProcess: searchPictureProcess),
-            // ? PictureSearchView(
-            //     cameraController: cameraController, searchPictureProcess: searchPictureProcess)
-            // : AreaMeasurementView(searchPictureProcess: searchPictureProcess),
+            Stack(children: searchPictureViewList.value),
             const KeywordSearchView(),
           ],
         ),

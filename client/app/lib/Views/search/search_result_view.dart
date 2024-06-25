@@ -25,6 +25,10 @@ class SearchResultView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
 
+    final reason = ref.watch(reasonProvider);
+
+    //const reason = 'この部屋は自然光が豊富で木の家具との調和がとれたナチュラルな雰囲気があるので、ベージュ色の家具がこの穏やかな雰囲気をさらに引き立てます。';
+
     // メニューウィンドウの表示を管理
     final isSelectingArea = useState(false);
     final isSelectingColor = useState(false);
@@ -131,12 +135,25 @@ class SearchResultView extends HookConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            height: 88,
+            height: 96 + ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 20 + 1) * 12,
             padding: const EdgeInsets.only(left: 8, right: 8),
             color: const Color(0xffffffff),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Flexible(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                    width: screenSize.width,
+                    child: Text(
+                      reason ?? '部屋の雰囲気にあった家具をおすすめします',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xff636363),
+                      ),
+                    ),
+                  ),
+                ),
                 Row(
                   children: [
                     IconButton(
@@ -316,7 +333,11 @@ class SearchResultView extends HookConsumerWidget {
             children: [
               // 検索結果
               Container(
-                height: screenSize.height - 204,
+                height: isSearchPicture
+                    ? screenSize.height -
+                        216 -
+                        ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 20 + 1) * 12
+                    : screenSize.height - 204,
                 width: screenSize.width,
                 padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
                 color: const Color(0xffffffff),

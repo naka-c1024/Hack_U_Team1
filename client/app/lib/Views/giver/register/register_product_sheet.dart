@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Domain/constants.dart';
 import '../../../Domain/furniture.dart';
 import '../../../Usecases/provider.dart';
-import '../../../Usecases/ai_api.dart';
 import 'color_sheet.dart';
 import 'category_sheet.dart';
 import 'condition_sheet.dart';

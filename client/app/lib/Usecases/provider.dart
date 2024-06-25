@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../Domain/description.dart';
 import '../Domain/furniture.dart';
 import '../Domain/trade.dart';
 import 'furniture_api.dart';
@@ -54,3 +55,12 @@ final favoriteCountProvider =
     return getFavoriteCount(furnitureId);
   }
 });
+
+// AIが返してくれた家具の説明を保持
+final descriptionProvider = StateProvider.autoDispose<Description?>((ref) => null);
+
+// AIが返してくれたおすすめ家具の理由を保持
+final reasonProvider = StateProvider<String?>((ref) => null);
+
+// AIが返してくれたおすすめ家具のリストを保持
+final recommendFurnitureListProvider = StateProvider.autoDispose<List<Furniture>>((ref) => []);
