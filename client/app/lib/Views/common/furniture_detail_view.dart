@@ -28,9 +28,14 @@ class FurnitureDetailView extends HookConsumerWidget {
     final userId = ref.read(userIdProvider);
 
     return Scaffold(
+      appBar:AppBar(
+        toolbarHeight: 0,
+        elevation:0,
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xffffffff),
+      ),
       body: Column(
         children: [
-          const SizedBox(height: 56),
           Container(
             height: screenSize.height - 56,
             color: const Color(0xffffffff),
@@ -50,14 +55,20 @@ class FurnitureDetailView extends HookConsumerWidget {
                       ),
                       IconButton(
                         padding: const EdgeInsets.only(left: 8),
-                        icon: const Icon(Icons.arrow_back_ios), // 戻るボタンの色を指定
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Color(0xffffffff),
+                          shadows: [
+                            BoxShadow(color: Color(0xff000000), blurRadius: 8)
+                          ],
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop(0);
                         },
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
                     child: Column(
@@ -79,13 +90,14 @@ class FurnitureDetailView extends HookConsumerWidget {
                                 if (isFavorite.value) {
                                   addFavorite(userId, furniture.furnitureId!);
                                 } else {
-                                  deleteFavorite(userId, furniture.furnitureId!);
+                                  deleteFavorite(
+                                      userId, furniture.furnitureId!);
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xffffffff),
                                 foregroundColor: isFavorite.value
-                                    ? const Color(0xffff0000)
+                                    ? const Color(0xff474747)
                                     : const Color(0xff858585),
                                 padding: EdgeInsets.zero,
                                 minimumSize: Size.zero,
@@ -103,12 +115,14 @@ class FurnitureDetailView extends HookConsumerWidget {
                                   borderRadius: BorderRadius.circular(5),
                                   border: Border.all(),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Icon(Icons.favorite, size: 16),
-                                    Padding(
+                                    isFavorite.value
+                                        ? const Icon(Icons.favorite, size: 16)
+                                        : const Icon(Icons.favorite_border, size: 16),
+                                    const Padding(
                                       padding: EdgeInsets.only(bottom: 2),
                                       child: Text('いいね',
                                           style: TextStyle(fontSize: 12)),
