@@ -83,7 +83,7 @@ class FurnitureCell extends HookConsumerWidget {
                   width: 64,
                   padding: const EdgeInsets.only(left: 8, top: 2),
                   decoration: BoxDecoration(
-                    color: const Color(0x2b666666),
+                    color: const Color(0x66666666),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
