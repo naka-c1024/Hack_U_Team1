@@ -25,7 +25,7 @@ class HomeView extends HookConsumerWidget {
       }
       cameraController.value = CameraController(
         camera!,
-        ResolutionPreset.max,
+        ResolutionPreset.medium,
         enableAudio: false,
       );
       return null;
