@@ -20,7 +20,7 @@ class SignUpView extends HookConsumerWidget {
     final selectedPrefecture = useState<int>(12); // デフォルトは東京
 
     Future<void> isSignUpSuccessfully() async {
-      final url = Uri.parse('http://192.168.2.142:8080/sign_up');
+      final url = Uri.parse('http://192.168.2.152:8080/sign_up');
       final headers = {'Content-Type': 'application/json'};
       final requestBody = jsonEncode({
         'username': userNameController.text,

@@ -10,7 +10,7 @@ import 'provider.dart';
 Future<void> describeFurniture(WidgetRef ref, String imagePath) async {
   ref.watch(descriptionProvider.notifier).state = null;
   try {
-    final uri = Uri.parse('http://192.168.2.142:8080/furniture/describe');
+    final uri = Uri.parse('http://192.168.2.152:8080/furniture/describe');
     final request = MultipartRequest('POST', uri);
     // 画像を読み込む
     var file = await MultipartFile.fromPath('image', imagePath);
@@ -38,7 +38,7 @@ Future<void> describeFurniture(WidgetRef ref, String imagePath) async {
 // 部屋の雰囲気にあった家具を取得
 Future<void> recommendFurniture(WidgetRef ref, String imagePath) async {
   try {
-    final uri = Uri.parse('http://192.168.2.142:8080/furniture/recommend');
+    final uri = Uri.parse('http://192.168.2.152:8080/furniture/recommend');
     final request = MultipartRequest('POST', uri);
     // 画像を読み込む
     var file = await MultipartFile.fromPath('room_photo', imagePath);

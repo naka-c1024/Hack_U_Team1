@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Usecases/provider.dart';
 import 'select_category_view.dart';
 import 'room_picture_view.dart';
 import 'space_measurement_view.dart';
@@ -18,6 +19,18 @@ class SearchView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchPictureProcess = useState(0);
+
+    useEffect(() {
+      Future.microtask(() => {
+            ref.read(categoryProvider.notifier).state = -1,
+            ref.read(colorProvider.notifier).state = -1,
+            ref.read(reasonProvider.notifier).state = null,
+            ref.read(heightProvider.notifier).state = null,
+            ref.read(widthProvider.notifier).state = null,
+            ref.read(depthProvider.notifier).state = null,
+          });
+      return null;
+    }, []);
 
     final searchPictureViewList = useState<List<Widget>>(
       [SelectCategoryView(searchPictureProcess: searchPictureProcess)],
