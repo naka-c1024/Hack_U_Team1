@@ -17,6 +17,8 @@ tags:
     description: 取引機能
   - name: Favorite
     description: いいね機能
+  - name: Chat
+    description: チャット機能
 
 paths:
   /ok:
@@ -247,7 +249,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
   /trades:
     post:
       tags:
@@ -427,6 +428,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FavoriteResponse'
+        '400':
+          description: validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /chat/{sender_id}/{receiver_id}:
+    get:
+      tags:
+        - Chat
+      summary: Get chat list
+      parameters:
+        - name: sender_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+        - name: receiver_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 2
+      responses:
+        '200':
+          description: Chat list retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatListResponse'
         '400':
           description: validation error
           content:
@@ -704,3 +736,26 @@ components:
       properties:
         favorites_count:
           type: integer
+    ChatListResponse:
+      type: object
+      properties:
+        chats:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatResponse'
+    ChatResponse:
+      type: object
+      properties:
+        chat_id:
+          type: integer
+        sender_id:
+          type: integer
+        receiver_id:
+          type: integer
+        message:
+          type: string
+        send_date_time:
+          type: string
+          format: date-time
+          example: 2021-01-01T00:00:00+09:00
+          description: メッセージ送信日時, 日付は日本標準時, ISO 8601形式

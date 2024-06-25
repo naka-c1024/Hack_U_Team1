@@ -2,11 +2,15 @@
 openapi.yaml
 setup.cfg
 src/openapi_server/apis/__init__.py
+src/openapi_server/apis/chat_api.py
+src/openapi_server/apis/chat_api_base.py
 src/openapi_server/apis/favorite_api_base.py
 src/openapi_server/apis/ok_api_base.py
 src/openapi_server/apis/trade_api_base.py
 src/openapi_server/apis/user_api_base.py
 src/openapi_server/models/__init__.py
+src/openapi_server/models/chat_list_response.py
+src/openapi_server/models/chat_response.py
 src/openapi_server/models/error_response.py
 src/openapi_server/models/extra_models.py
 src/openapi_server/models/favorite_response.py
@@ -24,3 +28,4 @@ src/openapi_server/models/trade_response.py
 src/openapi_server/models/update_approval_request.py
 src/openapi_server/models/update_is_checked_request.py
 tests/conftest.py
+tests/test_chat_api.py
