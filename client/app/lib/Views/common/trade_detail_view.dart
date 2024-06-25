@@ -32,6 +32,18 @@ class TradeDetailView extends HookConsumerWidget {
     final favoriteCountState =
         ref.watch(favoriteCountProvider(furniture.furnitureId));
 
+    // 画面を更新
+    Future<void> reloadFavoriteCount() {
+      // ignore: unused_result
+      ref.refresh(favoriteCountProvider(furniture.furnitureId));
+      return ref.read(favoriteCountProvider(furniture.furnitureId).future);
+    }
+
+    useEffect((){
+      reloadFavoriteCount();
+      return null;
+    },[]);
+
     // 譲渡を承認した取引のtradeIdを保存
     void saveTradingIdList(int tradeId) {
       final preferences = snapshot.data;

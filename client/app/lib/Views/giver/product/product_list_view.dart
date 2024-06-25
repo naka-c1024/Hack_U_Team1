@@ -27,6 +27,11 @@ class ProductListView extends HookConsumerWidget {
       return ref.read(myProductListProvider.future);
     }
 
+    useEffect((){
+      reloadMyProductList();
+      return null;
+    },[]);
+
     return RefreshIndicator(
         onRefresh: () => reloadMyProductList(),
         // 家具リストの取得
@@ -40,6 +45,7 @@ class ProductListView extends HookConsumerWidget {
           skipLoadingOnRefresh: false,
           data: (data) {
             // 取得したデータをWidgetに入れる
+            productCellList.value = [];
             for (Furniture furniture in data) {
               if (furniture.isSold == isCompleted) {
                 productCellList.value.add(

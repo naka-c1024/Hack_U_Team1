@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 Future<void> addFavorite(int userId, int furnitureId) async {
   try {
     final uri =
-        Uri.parse('http://localhost:8080/favorite').replace(queryParameters: {
+        Uri.parse('http://192.168.2.142:8080/favorite').replace(queryParameters: {
       'furniture_id': furnitureId.toString(),
       'user_id': userId.toString(),
     });
@@ -25,7 +25,7 @@ Future<void> addFavorite(int userId, int furnitureId) async {
 Future<void> deleteFavorite(int userId, int furnitureId) async {
   try {
     final uri =
-        Uri.parse('http://localhost:8080/favorite').replace(queryParameters: {
+        Uri.parse('http://192.168.2.142:8080/favorite').replace(queryParameters: {
       'furniture_id': furnitureId.toString(),
       'user_id': userId.toString(),
     });
@@ -44,7 +44,7 @@ Future<void> deleteFavorite(int userId, int furnitureId) async {
 // いいね数を取得
 Future<int> getFavoriteCount(int furnitureId) async {
   try {
-    final uri = Uri.parse('http://localhost:8080/favorite/$furnitureId/');
+    final uri = Uri.parse('http://192.168.2.142:8080/favorite/$furnitureId/');
     final headers = {'Content-Type': 'application/json'};
     var response = await get(uri, headers: headers);
     final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));

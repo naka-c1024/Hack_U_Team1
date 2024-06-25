@@ -54,9 +54,5 @@ final tradeListProvider = FutureProvider<List<Trade>>((ref) async {
 // いいね数取得APIの状態を管理
 final favoriteCountProvider =
     FutureProvider.family<int, int?>((ref, furnitureId) async {
-  if (furnitureId == null) {
-    return 0;
-  } else {
-    return getFavoriteCount(furnitureId);
-  }
+  return getFavoriteCount(furnitureId!);
 });

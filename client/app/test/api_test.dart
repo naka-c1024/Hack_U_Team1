@@ -311,7 +311,7 @@ void main() {
     });
 
     test('Test: Get favorite status successfully', () async {
-      final uri = Uri.parse('http://localhost:8080/favorite/1/');
+      final uri = Uri.parse('http://localhost:8080/favorite/4/');
       final headers = {'Content-Type': 'application/json'};
       var response = await get(uri, headers: headers);
       expect(response.statusCode, 200);
