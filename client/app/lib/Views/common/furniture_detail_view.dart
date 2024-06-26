@@ -419,6 +419,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       shape: RoundedRectangleBorder(
                                         side: const BorderSide(
                                           color: Color(0xffe55b20),
+                                          width: 1.5,
                                         ),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
