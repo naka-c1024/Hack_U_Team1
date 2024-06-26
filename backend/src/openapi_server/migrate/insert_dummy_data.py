@@ -4,6 +4,7 @@ from PIL import Image
 from io import BytesIO
 from urllib.parse import urlparse, unquote
 import yaml
+from urllib.parse import urlparse, unquote
 from sqlalchemy.orm import Session
 from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites, Chats
 
@@ -16,6 +17,7 @@ def insert_dummy_data(session: Session):
     users = [Users(**user_data) for user_data in data['users']]
     session.add_all(users)
     session.flush()  # メモリ消費を抑えるため
+    session.flush()  # メモリ消費を抑えるため
 
     # Insert furniture
     SAVE_DIR = "/app/src/openapi_server/file_storage"
@@ -25,6 +27,7 @@ def insert_dummy_data(session: Session):
         file_path = download_and_compress_image(image_url, SAVE_DIR, QUALITY)
         item['image'] = os.path.join(SAVE_DIR, file_path)
         session.add(Furniture(**item))
+    session.flush()  # メモリ消費を抑えるため
     session.flush()  # メモリ消費を抑えるため
 
     # Insert trades
