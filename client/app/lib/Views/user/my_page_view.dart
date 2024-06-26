@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
 import 'login_view.dart';
 import 'user_menu_cell.dart';
 
@@ -28,7 +29,7 @@ class MyPageView extends HookConsumerWidget {
                   height: 56,
                   width: 56,
                   decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Color(0xffd9d9d9)),
+                      shape: BoxShape.circle, color: ThemeColors.bgGray1,),
                 ),
                 const SizedBox(width: 16),
                 const Text(

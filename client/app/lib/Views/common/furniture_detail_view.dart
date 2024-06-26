@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -6,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
+import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import '../../Usecases/furniture_api.dart';
 import '../../Usecases/favorite_api.dart';
@@ -57,7 +57,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                       Container(
                         height: screenSize.width,
                         width: screenSize.width,
-                        color: const Color(0xffd9d9d9),
+                        color: ThemeColors.bgGray1,
                         child: Center(
                           child: Image.memory(furniture.image!),
                         ),
@@ -156,7 +156,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                         Text(
                           furniture.description,
                           style: const TextStyle(
-                            color: Color(0xff636363),
+                            color: ThemeColors.textGray1,
                             fontSize: 12,
                           ),
                         ),
@@ -180,7 +180,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               child: Text(
                                 '可能期間',
                                 style: TextStyle(
-                                  color: Color(0xff636363),
+                                  color: ThemeColors.textGray1,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -196,7 +196,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                           ? '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 '
                                           : '${DateFormat('yyyy年M月d日(E)', 'ja').format(furniture.startDate!)} 〜 ${DateFormat('yyyy年MM月dd日(E)', 'ja').format(furniture.endDate!)}',
                               style: const TextStyle(
-                                color: Color(0xff636363),
+                                color: ThemeColors.textGray1,
                                 fontSize: 12,
                               ),
                             ),
@@ -212,7 +212,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               child: Text(
                                 '場所',
                                 style: TextStyle(
-                                  color: Color(0xff636363),
+                                  color: ThemeColors.textGray1,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -224,7 +224,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                 Text(
                                   furniture.tradePlace,
                                   style: const TextStyle(
-                                    color: Color(0xff636363),
+                                    color: ThemeColors.textGray1,
                                     fontSize: 12,
                                   ),
                                 ),
@@ -262,7 +262,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               child: Text(
                                 'サイズ',
                                 style: TextStyle(
-                                  color: Color(0xff636363),
+                                  color: ThemeColors.textGray1,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -271,7 +271,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                             Text(
                               '幅${furniture.width.toInt()}cm×奥行き${furniture.depth.toInt()}cm×高さ${furniture.height.toInt()}cm',
                               style: const TextStyle(
-                                color: Color(0xff636363),
+                                color: ThemeColors.textGray1,
                                 fontSize: 12,
                               ),
                             ),
@@ -286,7 +286,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               child: Text(
                                 'カテゴリ',
                                 style: TextStyle(
-                                  color: Color(0xff636363),
+                                  color: ThemeColors.textGray1,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -295,7 +295,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                             Text(
                               categorys[furniture.category],
                               style: const TextStyle(
-                                color: Color(0xff636363),
+                                color: ThemeColors.textGray1,
                                 fontSize: 12,
                               ),
                             ),
@@ -310,7 +310,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               child: Text(
                                 '色味',
                                 style: TextStyle(
-                                  color: Color(0xff636363),
+                                  color: ThemeColors.textGray1,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -328,7 +328,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                             Text(
                               colors[furniture.color],
                               style: const TextStyle(
-                                color: Color(0xff636363),
+                                color: ThemeColors.textGray1,
                                 fontSize: 12,
                               ),
                             ),
@@ -343,7 +343,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               child: Text(
                                 '商品の状態',
                                 style: TextStyle(
-                                  color: Color(0xff636363),
+                                  color: ThemeColors.textGray1,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -352,7 +352,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                             Text(
                               conditions[furniture.condition],
                               style: const TextStyle(
-                                color: Color(0xff636363),
+                                color: ThemeColors.textGray1,
                                 fontSize: 12,
                               ),
                             ),
@@ -390,7 +390,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                 Text(
                                   furniture.userName,
                                   style: const TextStyle(
-                                    color: Color(0xff636363),
+                                    color: ThemeColors.textGray1,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -398,7 +398,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                 Text(
                                   prefectures[furniture.area],
                                   style: const TextStyle(
-                                    color: Color(0xff636363),
+                                    color: ThemeColors.textGray1,
                                     fontSize: 12,
                                   ),
                                 ),
@@ -426,7 +426,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
                                         side: const BorderSide(
-                                          color: Color(0xffe55b20),
+                                          color: ThemeColors.keyRed,
                                           width: 1.5,
                                         ),
                                         borderRadius: BorderRadius.circular(5),
@@ -442,7 +442,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                         '商品を編集する',
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: Color(0xffe55b20),
+                                          color: ThemeColors.keyRed,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -464,7 +464,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       reloadFurnitureList();
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xffe55b20),
+                                      backgroundColor: ThemeColors.keyRed,
                                       padding: EdgeInsets.zero,
                                       minimumSize: Size.zero,
                                       elevation: 0,
@@ -508,7 +508,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                          Theme.of(context).primaryColor,
+                                          ThemeColors.keyGreen,
                                       padding: EdgeInsets.zero,
                                       minimumSize: Size.zero,
                                       elevation: 0,

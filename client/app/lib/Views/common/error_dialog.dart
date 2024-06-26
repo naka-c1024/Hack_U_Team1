@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget ErrorDialog(BuildContext context, String message) {
+Widget errorDialog(BuildContext context, String message) {
   return AlertDialog(
     title: const Text('Error'),
     content: Text(message),
@@ -19,7 +19,7 @@ void showErrorDialog(BuildContext context, String message) {
   showDialog(
     context: context,
     builder: (context) {
-      return ErrorDialog(context, message);
+      return errorDialog(context, message);
     },
   );
 }

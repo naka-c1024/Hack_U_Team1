@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 
 class TradeOrderSheet extends HookConsumerWidget {
@@ -95,8 +96,8 @@ class TradeOrderSheet extends HookConsumerWidget {
                     minimumSize: Size.zero,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(context).primaryColor,
+                      side: const BorderSide(
+                        color: ThemeColors.keyGreen,
                         width: 1.5,
                       ),
                       borderRadius: BorderRadius.circular(5),
@@ -107,11 +108,11 @@ class TradeOrderSheet extends HookConsumerWidget {
                     width: screenSize.width - 48,
                     margin: const EdgeInsets.only(left: 8, right: 8),
                     alignment: Alignment.center,
-                    child: Text(
+                    child: const Text(
                       '戻る',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Theme.of(context).primaryColor,
+                        color: ThemeColors.keyGreen,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -129,7 +130,7 @@ class TradeOrderSheet extends HookConsumerWidget {
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(
-                      color: Color(0xffababab),
+                      color: ThemeColors.lineGray1,
                     ),
                     borderRadius: BorderRadius.circular(5),
                   ),
@@ -145,7 +146,7 @@ class TradeOrderSheet extends HookConsumerWidget {
                       Image.asset(
                         'assets/images/chat_icon.png',
                         width: 24,
-                        color: const Color(0xff3e3e3e),
+                        color: ThemeColors.lineGray2,
                       ),
                       const SizedBox(width: 16),
                       const Padding(
@@ -154,7 +155,7 @@ class TradeOrderSheet extends HookConsumerWidget {
                           'チャットする',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Color(0xff3e3e3e),
+                            color: ThemeColors.lineGray2,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

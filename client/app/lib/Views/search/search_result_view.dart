@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
+import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import '../common/furniture_cell.dart';
 import 'area_filter_menu.dart';
@@ -28,7 +27,7 @@ class SearchResultView extends HookConsumerWidget {
 
     final reason = ref.watch(reasonProvider);
 
-    //const reason = 'この部屋は自然光が豊富で木の家具との調和がとれたナチュラルな雰囲気があるので、ベージュ色の家具がこの穏やかな雰囲気をさらに引き立てます。';
+    // reason = 'この部屋は自然光が豊富で木の家具との調和がとれたナチュラルな雰囲気があるので、ベージュ色の家具がこの穏やかな雰囲気をさらに引き立てます。';
 
     // メニューウィンドウの表示を管理
     final isSelectingArea = useState(false);
@@ -72,7 +71,7 @@ class SearchResultView extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xffffffff),
+        backgroundColor:  const Color(0xffffffff),
         automaticallyImplyLeading: false,
         title: Row(
           children: [
@@ -81,9 +80,9 @@ class SearchResultView extends HookConsumerWidget {
                 Navigator.of(context).pop(0);
                 ref.read(colorListProvider.notifier).state = [];
               },
-              icon: const Icon(
+              icon:  const Icon(
                 Icons.arrow_back_ios,
-                color: Color(0xff131313),
+                color: ThemeColors.black,
               ),
             ),
             // 検索した条件を表示
@@ -95,13 +94,13 @@ class SearchResultView extends HookConsumerWidget {
                         height: 30,
                         width: 30,
                       ),
-                      const SizedBox(width: 12),
+                       const SizedBox(width: 12),
                       Text(
                         searchWord,
-                        style: const TextStyle(
+                        style:  const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff131313),
+                          color: ThemeColors.black,
                         ),
                       ),
                     ],
@@ -109,18 +108,18 @@ class SearchResultView extends HookConsumerWidget {
                 : Container(
                     height: 32,
                     width: screenSize.width - 80,
-                    padding: const EdgeInsets.only(left: 8),
-                    color: const Color(0xffd9d9d9),
+                    padding:  const EdgeInsets.only(left: 8),
+                    color:  ThemeColors.bgGray1,
                     child: Row(
                       children: [
-                        const Icon(
+                         const Icon(
                           Icons.search,
                           size: 20,
                         ),
-                        const SizedBox(width: 8),
+                         const SizedBox(width: 8),
                         Text(
                           searchWord,
-                          style: const TextStyle(
+                          style:  const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Color(0xff4b4b4b),
@@ -139,30 +138,30 @@ class SearchResultView extends HookConsumerWidget {
             height: isSearchPicture
                 ? 80 + ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 30 + 1) * 24
                 : 80,
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            color: const Color(0xffffffff),
+            padding:  const EdgeInsets.only(left: 8, right: 8),
+            color:  const Color(0xffffffff),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 isSearchPicture
                     ? Flexible(
                         child: Container(
-                          margin: const EdgeInsets.fromLTRB(8, 0, 8, 12),
+                          margin:  const EdgeInsets.fromLTRB(8, 0, 8, 12),
                           width: screenSize.width,
                           child: Text(
                             reason ?? '部屋の雰囲気にあった家具をおすすめします',
-                            style: const TextStyle(
+                            style:  const TextStyle(
                               fontSize: 12,
-                              color: Color(0xff636363),
+                              color: ThemeColors.textGray1,
                             ),
                           ),
                         ),
                       )
-                    : const SizedBox(),
+                    :  const SizedBox(),
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(18, 8, 16, 8),
+                      padding:  const EdgeInsets.fromLTRB(18, 8, 16, 8),
                       child: Image.asset(
                         'assets/images/filter_icon.png',
                         height: 20,
@@ -181,37 +180,37 @@ class SearchResultView extends HookConsumerWidget {
                         child: Ink(
                           height: 32,
                           width: 136,
-                          padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
+                          padding:  const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
                             color: isSelectingArea.value ||
                                     selectedArea.value.isNotEmpty
-                                ? const Color(0xffd9d9d9)
-                                : const Color(0xffffffff),
-                            border: Border.all(color: const Color(0xffd9d9d9)),
+                                ?  ThemeColors.bgGray1
+                                :  const Color(0xffffffff),
+                            border: Border.all(color:  ThemeColors.bgGray1),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Row(
                             children: [
-                              const Text(
+                               const Text(
                                 '受け渡しエリア',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color(0xff4b4b4b),
                                 ),
                               ),
-                              const SizedBox(width: 4),
+                               const SizedBox(width: 4),
                               Icon(
                                 isSelectingArea.value
                                     ? Icons.keyboard_arrow_up
                                     : Icons.keyboard_arrow_down,
-                                color: const Color(0xff575757),
+                                color:  const Color(0xff575757),
                               ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                     const SizedBox(width: 8),
                     // 色で絞るボタン
                     Material(
                       color: Colors.transparent,
@@ -224,37 +223,37 @@ class SearchResultView extends HookConsumerWidget {
                         child: Ink(
                           height: 32,
                           width: 64,
-                          padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
+                          padding:  const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
                             color: isSelectingColor.value ||
                                     selectedColorList.isNotEmpty
-                                ? const Color(0xffd9d9d9)
-                                : const Color(0xffffffff),
-                            border: Border.all(color: const Color(0xffd9d9d9)),
+                                ?  ThemeColors.bgGray1
+                                :  const Color(0xffffffff),
+                            border: Border.all(color:  ThemeColors.bgGray1),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Row(
                             children: [
-                              const Text(
+                               const Text(
                                 '色',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color(0xff4b4b4b),
                                 ),
                               ),
-                              const SizedBox(width: 4),
+                               const SizedBox(width: 4),
                               Icon(
                                 isSelectingColor.value
                                     ? Icons.keyboard_arrow_up
                                     : Icons.keyboard_arrow_down,
-                                color: const Color(0xff575757),
+                                color:  const Color(0xff575757),
                               ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                     const SizedBox(width: 8),
                     // サイズで絞るボタン
                     Material(
                       color: Colors.transparent,
@@ -267,7 +266,7 @@ class SearchResultView extends HookConsumerWidget {
                         child: Ink(
                           height: 32,
                           width: 96,
-                          padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
+                          padding:  const EdgeInsets.fromLTRB(12, 4, 8, 4),
                           decoration: BoxDecoration(
                             color: isSelectingSize.value ||
                                     (maxWidth.text != '' ||
@@ -276,26 +275,26 @@ class SearchResultView extends HookConsumerWidget {
                                         minWidth.text != '' ||
                                         minDepth.text != '' ||
                                         minHeight.text != '')
-                                ? const Color(0xffd9d9d9)
-                                : const Color(0xffffffff),
-                            border: Border.all(color: const Color(0xffd9d9d9)),
+                                ?  ThemeColors.bgGray1
+                                :  const Color(0xffffffff),
+                            border: Border.all(color:  ThemeColors.bgGray1),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Row(
                             children: [
-                              const Text(
+                               const Text(
                                 'サイズ',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Color(0xff4b4b4b),
                                 ),
                               ),
-                              const SizedBox(width: 4),
+                               const SizedBox(width: 4),
                               Icon(
                                 isSelectingSize.value
                                     ? Icons.keyboard_arrow_up
                                     : Icons.keyboard_arrow_down,
-                                color: const Color(0xff575757),
+                                color:  const Color(0xff575757),
                               ),
                             ],
                           ),
@@ -306,7 +305,7 @@ class SearchResultView extends HookConsumerWidget {
                 ),
                 Row(
                   children: [
-                    const SizedBox(width: 48),
+                     const SizedBox(width: 48),
                     SizedBox(
                       height: 40,
                       width: 40,
@@ -317,16 +316,16 @@ class SearchResultView extends HookConsumerWidget {
                           onChanged: (value) {
                             isSoldOnly.value = value ?? false;
                           },
-                          activeColor: Theme.of(context).primaryColor,
-                          side: const BorderSide(
+                          activeColor: ThemeColors.keyGreen,
+                          side:  const BorderSide(
                             width: 1.5,
-                            color: Color(0xffd9d9d9),
+                            color: ThemeColors.bgGray1,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    const Text(
+                     const SizedBox(width: 4),
+                     const Text(
                       '販売中の商品のみを表示',
                       style: TextStyle(
                         fontSize: 12,
@@ -349,11 +348,11 @@ class SearchResultView extends HookConsumerWidget {
                             24
                     : screenSize.height - 204,
                 width: screenSize.width,
-                padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
-                color: const Color(0xffffffff),
+                padding:  const EdgeInsets.only(left: 8, top: 8, right: 8),
+                color:  const Color(0xffffffff),
                 child: SingleChildScrollView(
                   child: resultList.value.isEmpty
-                      ? const Center(
+                      ?  const Center(
                           child: Text('検索結果：0件'),
                         )
                       : Column(children: resultList.value),
@@ -364,17 +363,17 @@ class SearchResultView extends HookConsumerWidget {
                   ? Container(
                       height: 496,
                       width: screenSize.width,
-                      color: const Color(0xffffffff),
+                      color:  const Color(0xffffffff),
                       child: Column(
                         children: [
-                          const Divider(),
+                           const Divider(),
                           Container(
                             height: 416,
                             width: screenSize.width,
-                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                            padding:  const EdgeInsets.fromLTRB(16, 16, 16, 0),
                             child: AreaFilterMenu(selectedArea: selectedArea),
                           ),
-                          const Divider(),
+                           const Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -385,13 +384,13 @@ class SearchResultView extends HookConsumerWidget {
                                   selectedArea.value = [];
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xffffffff),
+                                  backgroundColor:  const Color(0xffffffff),
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      color: Color(0xffd9d9d9),
+                                    side:  const BorderSide(
+                                      color: ThemeColors.bgGray1,
                                     ),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -400,9 +399,9 @@ class SearchResultView extends HookConsumerWidget {
                                   height: 40,
                                   width: 64,
                                   margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
+                                       const EdgeInsets.only(left: 8, right: 8),
                                   alignment: Alignment.center,
-                                  child: const Text(
+                                  child:  const Text(
                                     'クリア',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -412,7 +411,7 @@ class SearchResultView extends HookConsumerWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                               const SizedBox(width: 8),
                               // 決定ボタン
                               ElevatedButton(
                                 onPressed: () {
@@ -420,7 +419,7 @@ class SearchResultView extends HookConsumerWidget {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                      Theme.of(context).primaryColor,
+                                      ThemeColors.keyGreen,
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
                                   elevation: 0,
@@ -432,9 +431,9 @@ class SearchResultView extends HookConsumerWidget {
                                   height: 40,
                                   width: 64,
                                   margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
+                                       const EdgeInsets.only(left: 8, right: 8),
                                   alignment: Alignment.center,
-                                  child: const Text(
+                                  child:  const Text(
                                     '決定する',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -444,30 +443,30 @@ class SearchResultView extends HookConsumerWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                               const SizedBox(width: 16),
                             ],
                           )
                         ],
                       ),
                     )
-                  : const SizedBox(),
+                  :  const SizedBox(),
               // 色選択メニュー
               isSelectingColor.value
                   ? Container(
                       height: 456,
                       width: screenSize.width,
-                      color: const Color(0xffffffff),
+                      color:  const Color(0xffffffff),
                       child: Column(
                         children: [
-                          const Divider(),
+                           const Divider(),
                           Container(
                             height: 376,
                             width: screenSize.width,
-                            color: const Color(0xffffffff),
-                            padding: const EdgeInsets.all(16),
-                            child: const ColorFilterMenu(),
+                            color:  const Color(0xffffffff),
+                            padding:  const EdgeInsets.all(16),
+                            child:  const ColorFilterMenu(),
                           ),
-                          const Divider(),
+                           const Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -479,13 +478,13 @@ class SearchResultView extends HookConsumerWidget {
                                       [];
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xffffffff),
+                                  backgroundColor:  const Color(0xffffffff),
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      color: Color(0xffd9d9d9),
+                                    side:  const BorderSide(
+                                      color: ThemeColors.bgGray1,
                                     ),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -494,9 +493,9 @@ class SearchResultView extends HookConsumerWidget {
                                   height: 40,
                                   width: 64,
                                   margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
+                                       const EdgeInsets.only(left: 8, right: 8),
                                   alignment: Alignment.center,
-                                  child: const Text(
+                                  child:  const Text(
                                     'クリア',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -506,7 +505,7 @@ class SearchResultView extends HookConsumerWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                               const SizedBox(width: 8),
                               // 決定ボタン
                               ElevatedButton(
                                 onPressed: () {
@@ -514,7 +513,7 @@ class SearchResultView extends HookConsumerWidget {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                      Theme.of(context).primaryColor,
+                                      ThemeColors.keyGreen,
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
                                   elevation: 0,
@@ -526,9 +525,9 @@ class SearchResultView extends HookConsumerWidget {
                                   height: 40,
                                   width: 64,
                                   margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
+                                       const EdgeInsets.only(left: 8, right: 8),
                                   alignment: Alignment.center,
-                                  child: const Text(
+                                  child:  const Text(
                                     '決定する',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -538,27 +537,27 @@ class SearchResultView extends HookConsumerWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                               const SizedBox(width: 16),
                             ],
                           )
                         ],
                       ),
                     )
-                  : const SizedBox(),
+                  :  const SizedBox(),
               // サイズ選択メニュー
               isSelectingSize.value
                   ? Container(
                       height: 336,
                       width: screenSize.width,
-                      color: const Color(0xffffffff),
+                      color:  const Color(0xffffffff),
                       child: Column(
                         children: [
-                          const Divider(),
+                           const Divider(),
                           Container(
                             height: 256,
                             width: screenSize.width,
-                            padding: const EdgeInsets.all(16),
-                            color: const Color(0xffffffff),
+                            padding:  const EdgeInsets.all(16),
+                            color:  const Color(0xffffffff),
                             child: SizeFilterMenu(
                               maxWidth: maxWidth,
                               maxDepth: maxDepth,
@@ -568,7 +567,7 @@ class SearchResultView extends HookConsumerWidget {
                               minHeight: minHeight,
                             ),
                           ),
-                          const Divider(),
+                           const Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -584,13 +583,13 @@ class SearchResultView extends HookConsumerWidget {
                                   minHeight.text = '';
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xffffffff),
+                                  backgroundColor:  const Color(0xffffffff),
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      color: Color(0xffd9d9d9),
+                                    side:  const BorderSide(
+                                      color: ThemeColors.bgGray1,
                                     ),
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -599,9 +598,9 @@ class SearchResultView extends HookConsumerWidget {
                                   height: 40,
                                   width: 64,
                                   margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
+                                       const EdgeInsets.only(left: 8, right: 8),
                                   alignment: Alignment.center,
-                                  child: const Text(
+                                  child:  const Text(
                                     'クリア',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -611,7 +610,7 @@ class SearchResultView extends HookConsumerWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                               const SizedBox(width: 8),
                               // 決定ボタン
                               ElevatedButton(
                                 onPressed: () {
@@ -619,7 +618,7 @@ class SearchResultView extends HookConsumerWidget {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                      Theme.of(context).primaryColor,
+                                      ThemeColors.keyGreen,
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
                                   elevation: 0,
@@ -631,9 +630,9 @@ class SearchResultView extends HookConsumerWidget {
                                   height: 40,
                                   width: 64,
                                   margin:
-                                      const EdgeInsets.only(left: 8, right: 8),
+                                       const EdgeInsets.only(left: 8, right: 8),
                                   alignment: Alignment.center,
-                                  child: const Text(
+                                  child:  const Text(
                                     '決定する',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -643,13 +642,13 @@ class SearchResultView extends HookConsumerWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                               const SizedBox(width: 16),
                             ],
                           )
                         ],
                       ),
                     )
-                  : const SizedBox(),
+                  :  const SizedBox(),
             ],
           ),
         ],

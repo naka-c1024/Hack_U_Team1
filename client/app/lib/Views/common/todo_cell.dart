@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/trade.dart';
+import '../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 import '../../../Usecases/furniture_api.dart';
 import 'error_dialog.dart';
@@ -53,7 +54,7 @@ class TodoCell extends HookConsumerWidget {
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
-                      color: const Color(0xffd9d9d9),
+                      color: ThemeColors.bgGray1,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: ClipRRect(
@@ -79,7 +80,7 @@ class TodoCell extends HookConsumerWidget {
                                     : '相手の完了待ちです。',
                         style: const TextStyle(
                           fontSize: 14,
-                          color: Color(0xff131313),
+                          color: ThemeColors.black,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -93,7 +94,7 @@ class TodoCell extends HookConsumerWidget {
                                     : '相手が完了するのを待ちましょう.',
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Color(0xff636363),
+                          color: ThemeColors.textGray1,
                         ),
                       ),
                     ],
@@ -102,7 +103,7 @@ class TodoCell extends HookConsumerWidget {
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 24,
-                    color: Color(0xff3e3e3e),
+                    color: ThemeColors.lineGray2,
                   ),
                   const SizedBox(width: 16),
                 ],

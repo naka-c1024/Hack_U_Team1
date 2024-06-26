@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import 'select_category_view.dart';
 import 'room_picture_view.dart';
@@ -72,11 +73,11 @@ class SearchView extends HookConsumerWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffffffff),
-          title: TabBar(
-            labelColor: const Color(0xff000000),
-            unselectedLabelColor: const Color(0xff000000),
-            indicatorColor: Theme.of(context).primaryColor,
-            tabs: const [
+          title: const TabBar(
+            labelColor: Color(0xff000000),
+            unselectedLabelColor: Color(0xff000000),
+            indicatorColor: ThemeColors.keyGreen,
+            tabs: [
               Tab(
                 child: Text(
                   '      写真      ',
