@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Usecases/ai_api.dart';
+import '../common/error_dialog.dart';
 
 class RoomPictureView extends HookConsumerWidget {
   final ValueNotifier<int> searchPictureProcess;
@@ -204,19 +207,22 @@ class RoomPictureView extends HookConsumerWidget {
                           onPressed: () async {
                             searchPictureProcess.value = 2;
                             if (cameraController.value == null) {
-                              print('Error: camera Controller is null.');
+                              const message =
+                                  'Error: camera Controller is null.';
+                              showErrorDialog(context, message);
                               return;
                             }
                             try {
                               final image =
                                   await cameraController.value?.takePicture();
                               if (image == null) {
-                                print('Error: image is null.');
+                                const message = 'Error: image is null.';
+                                showErrorDialog(context, message);
                                 return;
                               }
                               recommendFurniture(ref, image.path);
                             } catch (e) {
-                              print(e);
+                              showErrorDialog(context, e.toString());
                             }
                           },
                           style: ElevatedButton.styleFrom(

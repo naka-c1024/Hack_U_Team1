@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
@@ -7,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Domain/constants.dart';
+import '../common/error_dialog.dart';
 import 'login_view.dart';
 
 class SignUpView extends HookConsumerWidget {
@@ -44,45 +47,11 @@ class SignUpView extends HookConsumerWidget {
           await prefs.setInt('address', selectedPrefecture.value);
         } else {
           final jsonResponse = jsonDecode(response.body);
-          final msg = jsonResponse['detail'];
-          // エラーダイアログ
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Error'),
-                content: Text('Failed to Sign up: $msg'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
+          final message = jsonResponse['detail'];
+          showErrorDialog(context, message);
         }
       } catch (e) {
-        // エラーダイアログ
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Error'),
-              content: Text('Undefined Error: $e'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
+        showErrorDialog(context, e.toString());
       }
     }
 

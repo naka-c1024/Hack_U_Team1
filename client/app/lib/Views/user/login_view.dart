@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
@@ -7,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
 import '../../Usecases/provider.dart';
+import '../common/error_dialog.dart';
 import '../home_view.dart';
 
 class LoginView extends HookConsumerWidget {
@@ -41,45 +44,11 @@ class LoginView extends HookConsumerWidget {
           ref.read(userIdProvider.notifier).state = userId;
           ref.read(userNameProvider.notifier).state = userNameController.text;
         } else {
-          final msg = jsonResponse['detail'];
-          // エラーダイアログ
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Error'),
-                content: Text('Failed to Login: $msg'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
+          final message = jsonResponse['detail'];
+          showErrorDialog(context, message);
         }
       } catch (e) {
-        // エラーダイアログ
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Error'),
-              content: Text('Undefined Error: $e'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
+        showErrorDialog(context, e.toString());
       }
     }
 

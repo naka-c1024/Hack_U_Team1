@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../Domain/trade.dart';
 import '../../../Usecases/provider.dart';
 import '../../../Usecases/furniture_api.dart';
+import '../../common/error_dialog.dart';
 import '../../common/trade_detail_view.dart';
 
 class TradeCell extends HookConsumerWidget {
@@ -40,14 +41,7 @@ class TradeCell extends HookConsumerWidget {
                   ),
                 );
               }).catchError((error) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Center(
-                      child: Text('error: $error'),
-                    ),
-                  ),
-                );
+                showErrorDialog(context, error.toString());
               });
             },
             child: Ink(

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Usecases/provider.dart';
 import '../../Usecases/furniture_api.dart';
 import '../common/cateogory_cell.dart';
+import '../common/error_dialog.dart';
 import 'search_result_view.dart';
 
 class KeywordSearchView extends HookConsumerWidget {
@@ -153,9 +154,7 @@ class KeywordSearchView extends HookConsumerWidget {
                             ),
                           );
                         }).catchError((error) {
-                          return Center(
-                            child: Text('error: $error'),
-                          );
+                          return showErrorDialog(context, error.toString());
                         });
                         ref.read(categoryProvider.notifier).state = -1;
                       },

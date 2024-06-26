@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Domain/trade.dart';
 import '../../Usecases/provider.dart';
+import '../common/error_dialog.dart';
 import '../common/todo_cell.dart';
 
 class TodoListView extends HookConsumerWidget {
@@ -129,9 +130,7 @@ class TodoListView extends HookConsumerWidget {
                 color: Theme.of(context).primaryColor,
               ),
             ),
-            error: (error, __) => Center(
-              child: Text('$error'),
-            ),
+            error: (error, __) => ErrorDialog(context,error.toString()),
             skipLoadingOnRefresh: false,
             data: (data) {
               getTradingIdList();

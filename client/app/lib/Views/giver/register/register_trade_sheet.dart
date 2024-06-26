@@ -7,6 +7,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import '../../../Domain/furniture.dart';
 import '../../../Usecases/provider.dart';
 import '../../../Usecases/furniture_api.dart';
+import '../../common/error_dialog.dart';
 
 class RegisterTradeSheet extends HookConsumerWidget {
   final Furniture furniture;
@@ -260,7 +261,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                       Navigator.of(context).pop(0);
                       Navigator.of(context).pop(0);
                     }).catchError((error) {
-                      print('error: $error');
+                      showErrorDialog(context, error.toString());
                     });
                   }
                 },

@@ -9,6 +9,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import '../../Domain/furniture.dart';
 import '../../Usecases/provider.dart';
 import '../../Usecases/trade_api.dart';
+import 'error_dialog.dart';
 import 'trade_order_sheet.dart';
 
 class TradeAdjustSheet extends HookConsumerWidget {
@@ -488,14 +489,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                       },
                     );
                   }).catchError((error) {
-                    return Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Center(
-                          child: Text('error: $error'),
-                        ),
-                      ),
-                    );
+                    return showErrorDialog(context, error.toString());
                   });
                 }
               },

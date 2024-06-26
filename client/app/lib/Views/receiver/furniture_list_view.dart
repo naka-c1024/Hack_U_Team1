@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
 import '../../Usecases/provider.dart';
+import '../common/error_dialog.dart';
 import '../common/furniture_cell.dart';
 import 'todo_list_view.dart';
 import 'favorite_list_view.dart';
@@ -180,9 +181,7 @@ class FurnitureListView extends HookConsumerWidget {
                 color: Theme.of(context).primaryColor,
               ),
             ),
-            error: (error, __) => Center(
-              child: Text('$error'),
-            ),
+            error: (error, __) => ErrorDialog(context,error.toString()),
             skipLoadingOnRefresh: false,
             data: (data) {
               favoriteList.value = [];

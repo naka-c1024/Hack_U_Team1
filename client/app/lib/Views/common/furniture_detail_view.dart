@@ -9,6 +9,7 @@ import '../../Domain/furniture.dart';
 import '../../Usecases/provider.dart';
 import '../../Usecases/furniture_api.dart';
 import '../../Usecases/favorite_api.dart';
+import 'error_dialog.dart';
 import 'trade_adjust_sheet.dart';
 
 class FurnitureDetailView extends HookConsumerWidget {
@@ -450,7 +451,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                         futureResult.then((result) {
                                           Navigator.of(context).pop(0);
                                         }).catchError((error) {
-                                          print('error: $error');
+                                          showErrorDialog(context, error.toString());
                                         });
                                       }
                                     },
