@@ -28,14 +28,14 @@ furniture:
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 2
-    product_name: "ブラウンの腰掛椅子"
-    image_url: "https://images.pexels.com/photos/2082090/pexels-photo-2082090.jpeg?cs=srgb&dl=pexels-zvolskiy-2082090.jpg&fm=jpg&_gl=1*1gzke9x*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTIyNTA3MC41LjEuMTcxOTIyNTQ4MS4wLjAuMA"
-    description: "リラックスできる快適なラウンジチェアです。厚みのあるクッションとゆったりとしたデザインが特徴で、長時間座っても疲れにくいです。オットマンも付いているので、足を伸ばしてくつろぐのに最適です。リビングルームや読書スペースで使うのにぴったりな椅子です。"
+    product_name: "カラフルなカーペット"
+    image_url: "https://images.pexels.com/photos/3965509/pexels-photo-3965509.jpeg?cs=srgb&dl=pexels-kseniachernaya-3965509.jpg&fm=jpg&_gl=1*ewflox*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTMwNzUxNC42LjEuMTcxOTMwODQ5Ni4wLjAuMA"
+    description: "カラフルな幾何学模様のカーペットで、リビングルームや子供部屋に利用できます。"
     height: 50
     width: 50
     depth: 50
-    category: 1
-    color: 4
+    category: 8
+    color: 0
     condition: 0
     start_date: "2024-01-01"
     end_date: "2024-12-31"
@@ -54,27 +54,27 @@ furniture:
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 1
-    product_name: "アンティーク調の椅子"
-    image_url: "https://images.pexels.com/photos/116915/pexels-photo-116915.jpeg?cs=srgb&dl=pexels-mikebirdy-116915.jpg&fm=jpg&_gl=1*52np8o*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTIyNTA3MC41LjEuMTcxOTIyNTcwNy4wLjAuMA"
-    description: "ヴィンテージの風合いが魅力のアンティークチェアです。年月を感じさせる木製のデザインが、どこか懐かしい雰囲気を醸し出しています。庭やテラスに置くことで、クラシックなアクセントになります。シンプルながらも存在感のある、趣のある椅子です。"
+    product_name: "赤いカフェテーブル"
+    image_url: "https://images.pexels.com/photos/2956952/pexels-photo-2956952.jpeg?cs=srgb&dl=pexels-urlapovaanna-2956952.jpg&fm=jpg&w=1920&h=1273&_gl=1*4xxo9d*_ga*Nzc1MTc3NjQxLjE3MTg4ODE4NDA.*_ga_8JE65Q40S6*MTcxOTIzMjQxOS42LjEuMTcxOTIzMjg1MC4wLjAuMA.."
+    description: "カフェで使用していた丸いテーブルです。"
     height: 50
     width: 50
     depth: 50
-    category: 1
-    color: 4
-    condition: 0
+    category: 2
+    color: 6
+    condition: 3
     start_date: "2024-01-01"
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 2
-    product_name: "青色のモダンチェア"
-    image_url: "https://images.pexels.com/photos/2258083/pexels-photo-2258083.jpeg?cs=srgb&dl=pexels-lysenkow-2258083.jpg&fm=jpg&_gl=1*6qa5yx*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTIyNTA3MC41LjEuMTcxOTIyNTgwMy4wLjAuMA"
-    description: "モダンでスタイリッシュなデザインが特徴のチェアです。金属製の細い脚とシンプルなシートが洗練された雰囲気を演出しています。リビングルームやダイニングルーム、オフィスなど、さまざまな場所で使える多用途な椅子です。"
+    product_name: "ストライプ柄のカーペット"
+    image_url: "https://user0514.cdnw.net/shared/img/thumb/YUKI1211A1138.jpg?&download=1"
+    description: "シンプルなグレーのストライプ柄のカーペットで、オフィスや寝室に利用できます。"
     height: 50
     width: 50
     depth: 50
-    category: 1
-    color: 11
+    category: 8
+    color: 0
     condition: 0
     start_date: "2024-01-01"
     end_date: "2024-12-31"
@@ -119,14 +119,14 @@ furniture:
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 3
-    product_name: "木製のパソコンデスク"
-    image_url: "https://images.pexels.com/photos/2349211/pexels-photo-2349211.jpeg?cs=srgb&dl=pexels-fotios-photos-2349211.jpg&fm=jpg&w=1920&h=2860&_gl=1*1vkc14n*_ga*Nzc1MTc3NjQxLjE3MTg4ODE4NDA.*_ga_8JE65Q40S6*MTcxOTIzMjQxOS42LjEuMTcxOTIzMjU3OS4wLjAuMA.."
-    description: "木製で作業スペースが広いパソコンデスクです。"
+    product_name: "ペルシャ絨毯"
+    image_url: "https://images.pexels.com/photos/14337369/pexels-photo-14337369.jpeg?cs=srgb&dl=pexels-dmitry93-14337369.jpg&fm=jpg&_gl=1*13a09at*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTMwNzUxNC42LjEuMTcxOTMwNzc5NC4wLjAuMA"
+    description: "伝統的なペルシャ絨毯で、リビングルームやダイニングルームに利用できる絨毯です。"
     height: 50
     width: 50
     depth: 50
-    category: 2
-    color: 4
+    category: 8
+    color: 6
     condition: 0
     start_date: "2024-01-01"
     end_date: "2024-12-31"
@@ -158,28 +158,28 @@ furniture:
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 3
-    product_name: "黒いテーブル"
-    image_url: "https://images.pexels.com/photos/9903578/pexels-photo-9903578.jpeg?cs=srgb&dl=pexels-ron-lach-9903578.jpg&fm=jpg&w=1920&h=1280&_gl=1*m6kux4*_ga*Nzc1MTc3NjQxLjE3MTg4ODE4NDA.*_ga_8JE65Q40S6*MTcxOTIzMjQxOS42LjEuMTcxOTIzMjgxMC4wLjAuMA.."
-    description: "シックな黒いテーブルです。"
+    product_name: "ヴィンテージ風カーペット"
+    image_url: "https://images.pexels.com/photos/4450337/pexels-photo-4450337.jpeg?cs=srgb&dl=pexels-kseniachernaya-4450337.jpg&fm=jpg&_gl=1*p31u9r*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTMwNzUxNC42LjEuMTcxOTMwODYwNy4wLjAuMA"
+    description: "ヴィンテージ風のカーペットで、バスルームや玄関に利用できます。"
     height: 50
     width: 50
     depth: 50
-    category: 2
-    color: 1
+    category: 8
+    color: 6
     condition: 0
     start_date: "2024-01-01"
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 1
-    product_name: "赤いカフェテーブル"
-    image_url: "https://images.pexels.com/photos/2956952/pexels-photo-2956952.jpeg?cs=srgb&dl=pexels-urlapovaanna-2956952.jpg&fm=jpg&w=1920&h=1273&_gl=1*4xxo9d*_ga*Nzc1MTc3NjQxLjE3MTg4ODE4NDA.*_ga_8JE65Q40S6*MTcxOTIzMjQxOS42LjEuMTcxOTIzMjg1MC4wLjAuMA.."
-    description: "カフェで使用していた丸いテーブルです。"
+    product_name: "アンティーク調の椅子"
+    image_url: "https://images.pexels.com/photos/116915/pexels-photo-116915.jpeg?cs=srgb&dl=pexels-mikebirdy-116915.jpg&fm=jpg&_gl=1*52np8o*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTIyNTA3MC41LjEuMTcxOTIyNTcwNy4wLjAuMA"
+    description: "ヴィンテージの風合いが魅力のアンティークチェアです。年月を感じさせる木製のデザインが、どこか懐かしい雰囲気を醸し出しています。庭やテラスに置くことで、クラシックなアクセントになります。シンプルながらも存在感のある、趣のある椅子です。"
     height: 50
     width: 50
     depth: 50
-    category: 2
-    color: 6
-    condition: 3
+    category: 1
+    color: 4
+    condition: 0
     start_date: "2024-01-01"
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
@@ -197,14 +197,14 @@ furniture:
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 3
-    product_name: "ペルシャ絨毯"
-    image_url: "https://images.pexels.com/photos/14337369/pexels-photo-14337369.jpeg?cs=srgb&dl=pexels-dmitry93-14337369.jpg&fm=jpg&_gl=1*13a09at*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTMwNzUxNC42LjEuMTcxOTMwNzc5NC4wLjAuMA"
-    description: "伝統的なペルシャ絨毯で、リビングルームやダイニングルームに利用できる絨毯です。"
+    product_name: "木製のパソコンデスク"
+    image_url: "https://images.pexels.com/photos/2349211/pexels-photo-2349211.jpeg?cs=srgb&dl=pexels-fotios-photos-2349211.jpg&fm=jpg&w=1920&h=2860&_gl=1*1vkc14n*_ga*Nzc1MTc3NjQxLjE3MTg4ODE4NDA.*_ga_8JE65Q40S6*MTcxOTIzMjQxOS42LjEuMTcxOTIzMjU3OS4wLjAuMA.."
+    description: "木製で作業スペースが広いパソコンデスクです。"
     height: 50
     width: 50
     depth: 50
-    category: 8
-    color: 6
+    category: 2
+    color: 4
     condition: 0
     start_date: "2024-01-01"
     end_date: "2024-12-31"
@@ -223,14 +223,14 @@ furniture:
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 2
-    product_name: "ストライプ柄のカーペット"
-    image_url: "https://user0514.cdnw.net/shared/img/thumb/YUKI1211A1138.jpg?&download=1"
-    description: "シンプルなグレーのストライプ柄のカーペットで、オフィスや寝室に利用できます。"
+    product_name: "青色のモダンチェア"
+    image_url: "https://images.pexels.com/photos/2258083/pexels-photo-2258083.jpeg?cs=srgb&dl=pexels-lysenkow-2258083.jpg&fm=jpg&_gl=1*6qa5yx*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTIyNTA3MC41LjEuMTcxOTIyNTgwMy4wLjAuMA"
+    description: "モダンでスタイリッシュなデザインが特徴のチェアです。金属製の細い脚とシンプルなシートが洗練された雰囲気を演出しています。リビングルームやダイニングルーム、オフィスなど、さまざまな場所で使える多用途な椅子です。"
     height: 50
     width: 50
     depth: 50
-    category: 8
-    color: 0
+    category: 1
+    color: 11
     condition: 0
     start_date: "2024-01-01"
     end_date: "2024-12-31"
@@ -262,40 +262,41 @@ furniture:
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
   - user_id: 2
-    product_name: "カラフルなカーペット"
-    image_url: "https://images.pexels.com/photos/3965509/pexels-photo-3965509.jpeg?cs=srgb&dl=pexels-kseniachernaya-3965509.jpg&fm=jpg&_gl=1*ewflox*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTMwNzUxNC42LjEuMTcxOTMwODQ5Ni4wLjAuMA"
-    description: "カラフルな幾何学模様のカーペットで、リビングルームや子供部屋に利用できます。"
+    product_name: "ブラウンの腰掛椅子"
+    image_url: "https://images.pexels.com/photos/2082090/pexels-photo-2082090.jpeg?cs=srgb&dl=pexels-zvolskiy-2082090.jpg&fm=jpg&_gl=1*1gzke9x*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTIyNTA3MC41LjEuMTcxOTIyNTQ4MS4wLjAuMA"
+    description: "リラックスできる快適なラウンジチェアです。厚みのあるクッションとゆったりとしたデザインが特徴で、長時間座っても疲れにくいです。オットマンも付いているので、足を伸ばしてくつろぐのに最適です。リビングルームや読書スペースで使うのにぴったりな椅子です。"
     height: 50
     width: 50
     depth: 50
-    category: 8
-    color: 0
+    category: 1
+    color: 4
     condition: 0
     start_date: "2024-01-01"
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
-  - user_id: 3
-    product_name: "ヴィンテージ風カーペット"
-    image_url: "https://images.pexels.com/photos/4450337/pexels-photo-4450337.jpeg?cs=srgb&dl=pexels-kseniachernaya-4450337.jpg&fm=jpg&_gl=1*p31u9r*_ga*MTg5Nzc5NDAzNS4xNzE4ODgxODY0*_ga_8JE65Q40S6*MTcxOTMwNzUxNC42LjEuMTcxOTMwODYwNy4wLjAuMA"
-    description: "ヴィンテージ風のカーペットで、バスルームや玄関に利用できます。"
+  - user_id: 3 # furniture_id: 21
+    product_name: "黒いテーブル"
+    image_url: "https://images.pexels.com/photos/9903578/pexels-photo-9903578.jpeg?cs=srgb&dl=pexels-ron-lach-9903578.jpg&fm=jpg&w=1920&h=1280&_gl=1*m6kux4*_ga*Nzc1MTc3NjQxLjE3MTg4ODE4NDA.*_ga_8JE65Q40S6*MTcxOTIzMjQxOS42LjEuMTcxOTIzMjgxMC4wLjAuMA.."
+    description: "シックな黒いテーブルです。"
     height: 50
     width: 50
     depth: 50
-    category: 8
-    color: 6
+    category: 2
+    color: 1
     condition: 0
+    is_sold: true # この家具は取引済み
     start_date: "2024-01-01"
     end_date: "2024-12-31"
     trade_place: "東京都千代田区千代田１−１"
 
 trades:
-  - furniture_id: 1
-    receiver_id: 2
+  - furniture_id: 21
+    receiver_id: 1
     is_checked: true
     giver_approval: true
     receiver_approval: true
-    trade_date_time: "2022-01-01 12:34:59"
-  - furniture_id: 2
+    trade_date_time: "2024-01-02 12:34:59"
+  - furniture_id: 2 # chatを作成するためのtrade
     receiver_id: 1
     is_checked: false
     giver_approval: false
