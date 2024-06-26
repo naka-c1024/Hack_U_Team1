@@ -5,38 +5,51 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Domain/trade.dart';
 import '../../../Usecases/provider.dart';
+import '../../common/error_dialog.dart';
 import 'trade_cell.dart';
 
 class TradeListView extends HookConsumerWidget {
-  final List<Trade> tradeList;
   const TradeListView({
-    required this.tradeList,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tradeState = ref.watch(tradeListProvider);
+
+    Future<void> reloadTradeList() {
+      // ignore: unused_result
+      ref.refresh(tradeListProvider);
+      return ref.read(tradeListProvider.future);
+    }
+
+    // 画面を移動した時に自動で更新
+    useEffect(() {
+      Future.microtask(() => {reloadTradeList()});
+      return null;
+    }, []);
+
     // 購入を承認したtradeIdを読み込む
     final future = useMemoized(SharedPreferences.getInstance);
     final snapshot = useFuture(future, initialData: null);
     ValueNotifier<List<String>> tradingIdList = useState([]);
-    useEffect(() {
+    void getTradingIdList() {
       final preferences = snapshot.data;
       if (preferences == null) {
-        return null;
+        return;
       }
       tradingIdList.value = preferences.getStringList('tradingIdList') ?? [];
-      return null;
-    }, [tradeList]);
-    
+    }
+
     // 取引内容を表示
     final userId = ref.read(userIdProvider);
     ValueNotifier<List<Widget>> tradeCellList = useState([]);
-    useEffect(() {
+    void createTradeCellList(List<Trade> tradeList) {
       tradeCellList.value = [];
       for (Trade trade in tradeList) {
         // 自分が出品者で取引が完了していないものだけ表示
-        if (trade.giverId == userId && (!trade.giverApproval || !trade.receiverApproval ) ) {
+        if (trade.giverId == userId &&
+            (!trade.giverApproval || !trade.receiverApproval)) {
           tradeCellList.value.add(
             TradeCell(
               trade: trade,
@@ -45,20 +58,36 @@ class TradeListView extends HookConsumerWidget {
           );
         }
       }
-      if (tradeCellList.value.isNotEmpty){
-        tradeCellList.value.insert(0,const Divider());
+      if (tradeCellList.value.isNotEmpty) {
+        tradeCellList.value.insert(0, const Divider());
       }
-      return null;
-    }, [tradeList,tradingIdList]);
+    }
 
     return Container(
       color: const Color(0xffffffff),
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: tradeCellList.value,
+      // 下に引っ張った時に更新
+      child: RefreshIndicator(
+        color: Theme.of(context).primaryColor,
+        onRefresh: () => reloadTradeList(),
+        // 取引リストの取得
+        child: tradeState.when(
+          loading: () => Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ),
           ),
+          error: (error, __) => ErrorDialog(context,error.toString()),
+          skipLoadingOnRefresh: false,
+          data: (data) {
+            getTradingIdList();
+            createTradeCellList(data);
+            return SingleChildScrollView(
+              padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
+              child: Column(
+                children: tradeCellList.value,
+              ),
+            );
+          },
         ),
       ),
     );

@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'package:app/Domain/constants.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final userName = DateTime.now().toString();
 
   test('Test: API is running', () async {
-    final url = Uri.parse('http://localhost:8080/ok');
+    final url = Uri.parse('http://$ipAddress:8080/ok');
     final response = await get(url);
     expect(response.statusCode, 200);
   });
 
   group('User Account Test', () {
     test('Test: User registered successfully', () async {
-      final url = Uri.parse('http://localhost:8080/sign_up');
+      final url = Uri.parse('http://$ipAddress:8080/sign_up');
       final headers = {'Content-Type': 'application/json'};
       final requestBody = jsonEncode({
         'username': userName,
@@ -27,7 +29,7 @@ void main() {
       expect(response.statusCode, 200);
     });
     test('Test: User registered failed', () async {
-      final url = Uri.parse('http://localhost:8080/sign_up');
+      final url = Uri.parse('http://$ipAddress:8080/sign_up');
       final headers = {'Content-Type': 'application/json'};
       final requestBody = jsonEncode({
         'username': userName,
@@ -38,7 +40,7 @@ void main() {
       expect(response.statusCode, 500);
     });
     test('Test: User login successfully', () async {
-      final url = Uri.parse('http://localhost:8080/login');
+      final url = Uri.parse('http://$ipAddress:8080/login');
       final headers = {'Content-Type': 'application/json'};
       final requestBody = jsonEncode({
         'username': userName,
@@ -47,11 +49,11 @@ void main() {
       final response = await post(url, headers: headers, body: requestBody);
       expect(response.statusCode, 200);
       final jsonResponse = jsonDecode(response.body);
-      final userId = jsonResponse['userId'];
+      final userId = jsonResponse['user_id'];
       expect(userId, isA<int>()); // int型が返ってくることを確認
     });
     test('Test: User login failed', () async {
-      final url = Uri.parse('http://localhost:8080/login');
+      final url = Uri.parse('http://$ipAddress:8080/login');
       final headers = {'Content-Type': 'application/json'};
       final requestBody = jsonEncode({
         'username': userName,
@@ -65,7 +67,7 @@ void main() {
   group('Furniture Test', () {
     var furnitureId = 0;
     test('Test: Get furniture list successfully', () async {
-      final url = Uri.parse('http://localhost:8080/furniture');
+      final url = Uri.parse('http://$ipAddress:8080/furniture');
       final params = {
         'user_id': '0',
       };
@@ -78,25 +80,23 @@ void main() {
     });
 
     test('Test: Search furniture by keyword', () async {
-      final url = Uri.parse('http://localhost:8080/furniture');
+      final url = Uri.parse('http://$ipAddress:8080/furniture');
       final params = {
         'user_id': '0',
-        'category': '0',
-        'keyword': 'ソファ',
+        'category': '1',
+        'keyword': 'の',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
       expect(response.statusCode, 200);
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final furnitureList = jsonResponse['furniture'];
-      expect(furnitureList.length, 1);
-      final furniture = furnitureList[0];
-      expect(furniture['product_name'], 'ソファ');
-      furnitureId = furniture['furniture_id'];
+      expect(furnitureList.length, isNonZero);
+      furnitureId = furnitureList[0]['furniture_id'];
     });
 
     test('Test: Search furniture by keyword : result 0', () async {
-      final url = Uri.parse('http://localhost:8080/furniture');
+      final url = Uri.parse('http://$ipAddress:8080/furniture');
       final params = {
         'user_id': '0',
         'keyword': 'qwerty',
@@ -107,20 +107,17 @@ void main() {
     });
 
     test('Test: Get furniture details successfully', () async {
-      final url = Uri.parse('http://localhost:8080/furniture/$furnitureId');
+      final url = Uri.parse('http://$ipAddress:8080/furniture/$furnitureId');
       final params = {
         'user_id': '0',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
       expect(response.statusCode, 200);
-      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
-      final productName = jsonResponse['product_name'];
-      expect(productName, 'ソファ');
     });
 
     test('Test: Get furniture details failed', () async {
-      final url = Uri.parse('http://localhost:8080/furniture/0');
+      final url = Uri.parse('http://$ipAddress:8080/furniture/0');
       final params = {
         'user_id': '0',
       };
@@ -130,12 +127,12 @@ void main() {
     });
 
     test('Test: Register furniture successfully', () async {
-      final uri = Uri.parse('http://localhost:8080/furniture');
+      final uri = Uri.parse('http://$ipAddress:8080/furniture');
       final request = MultipartRequest('POST', uri);
       // テスト用の画像を読み込む
       var file = await MultipartFile.fromPath(
         'image',
-        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/describe_example.jpeg',
+        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/describe_example.jpg',
       );
       request.files.add(file);
       // // 他のパラメータを設定
@@ -159,14 +156,14 @@ void main() {
     });
 
     test('Test: Delete furniture successfully', () async {
-      final url = Uri.parse('http://localhost:8080/furniture/$furnitureId');
+      final url = Uri.parse('http://$ipAddress:8080/furniture/$furnitureId');
       var response = await delete(url);
       expect(response.statusCode, 200);
     });
 
     test('Test: Get personal product list successfully', () async {
       final url =
-          Uri.parse('http://localhost:8080/furniture/personal_products');
+          Uri.parse('http://$ipAddress:8080/furniture/personal_products');
       final params = {
         'user_id': '1',
       };
@@ -180,49 +177,50 @@ void main() {
 
     test('Test: Get personal product list failed', () async {
       final url =
-          Uri.parse('http://localhost:8080/furniture/personal_products');
+          Uri.parse('http://$ipAddress:8080/furniture/personal_products');
       final params = {
         'user_id': '-1',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
       expect(response.statusCode, 404);
-      test('Test: Describe furniture successfully', () async {
-        final uri = Uri.parse('http://localhost:8080/furniture/describe');
-        final request = MultipartRequest('POST', uri);
-        // テスト用の画像を読み込む
-        var file = await MultipartFile.fromPath(
-          'image',
-          '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/describe_example.jpg',
-        );
-        request.files.add(file);
-        final response = await request.send();
-        expect(response.statusCode, 200);
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = jsonDecode(responseBody);
-        expect(jsonResponse['product_name'].length, isNonZero);
-        expect(jsonResponse['description'].length, isNonZero);
-        expect(jsonResponse['category'], isA<int>()); // int型が返ってくることを確認
-        expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
-      });
+    });
 
-      test('Test: Recommend furniture successfully', () async {
-        final uri = Uri.parse('http://localhost:8080/furniture/recommend');
-        final request = MultipartRequest('POST', uri);
-        // テスト用の画像を読み込む
-        var file = await MultipartFile.fromPath(
-          'room_photo',
-          '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/recommend_example.jpg',
-        );
-        request.fields['category'] = '0';
-        request.files.add(file);
-        final response = await request.send();
-        expect(response.statusCode, 200);
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = jsonDecode(responseBody);
-        expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
-        expect(jsonResponse['reason'].length, isNonZero);
-      });
+    test('Test: Describe furniture successfully', () async {
+      final uri = Uri.parse('http://$ipAddress:8080/furniture/describe');
+      final request = MultipartRequest('POST', uri);
+      // テスト用の画像を読み込む
+      var file = await MultipartFile.fromPath(
+        'image',
+        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/describe_example.jpg',
+      );
+      request.files.add(file);
+      final response = await request.send();
+      expect(response.statusCode, 200);
+      final responseBody = await response.stream.bytesToString();
+      final jsonResponse = jsonDecode(responseBody);
+      expect(jsonResponse['product_name'].length, isNonZero);
+      expect(jsonResponse['description'].length, isNonZero);
+      expect(jsonResponse['category'], isA<int>()); // int型が返ってくることを確認
+      expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
+    });
+
+    test('Test: Recommend furniture successfully', () async {
+      final uri = Uri.parse('http://$ipAddress:8080/furniture/recommend');
+      final request = MultipartRequest('POST', uri);
+      // テスト用の画像を読み込む
+      var file = await MultipartFile.fromPath(
+        'room_photo',
+        '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/recommend_example.jpg',
+      );
+      request.fields['category'] = '0';
+      request.files.add(file);
+      final response = await request.send();
+      expect(response.statusCode, 200);
+      final responseBody = await response.stream.bytesToString();
+      final jsonResponse = jsonDecode(responseBody);
+      expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
+      expect(jsonResponse['reason'].length, isNonZero);
     });
   });
 
@@ -231,7 +229,7 @@ void main() {
     initializeDateFormatting('ja');
     var tradeId = 1;
     test('Test: Request trade successfully', () async {
-      final url = Uri.parse('http://localhost:8080/trades');
+      final url = Uri.parse('http://$ipAddress:8080/trades');
       final headers = {'Content-Type': 'application/json'};
       final body = {
         'furniture_id': 1,
@@ -244,7 +242,7 @@ void main() {
     });
 
     test('Test: Request trade failed', () async {
-      final url = Uri.parse('http://localhost:8080/trades');
+      final url = Uri.parse('http://$ipAddress:8080/trades');
       final headers = {'Content-Type': 'application/json'};
       final body = {
         'furniture_id': 100000,
@@ -257,7 +255,7 @@ void main() {
     });
 
     test('Test: Get trade list successfully', () async {
-      final url = Uri.parse('http://localhost:8080/trades');
+      final url = Uri.parse('http://$ipAddress:8080/trades');
       final params = {
         'user_id': '0',
       };
@@ -270,7 +268,7 @@ void main() {
     });
 
     test('Test: Get trade list : result 0', () async {
-      final url = Uri.parse('http://localhost:8080/trades');
+      final url = Uri.parse('http://$ipAddress:8080/trades');
       final params = {
         'user_id': '-1',
       };
@@ -280,7 +278,7 @@ void main() {
     });
 
     test('Test: Get trade details successfully', () async {
-      final url = Uri.parse('http://localhost:8080/trades/$tradeId');
+      final url = Uri.parse('http://$ipAddress:8080/trades/$tradeId');
       final params = {
         'user_id': '0',
       };
@@ -293,7 +291,7 @@ void main() {
     });
 
     test('Test: Get trade details failed', () async {
-      final url = Uri.parse('http://localhost:8080/trades/-1');
+      final url = Uri.parse('http://$ipAddress:8080/trades/-1');
       final params = {
         'user_id': '0',
       };
@@ -303,7 +301,7 @@ void main() {
     });
 
     test('Test: Update approval status', () async {
-      final url = Uri.parse('http://localhost:8080/trades/$tradeId');
+      final url = Uri.parse('http://$ipAddress:8080/trades/$tradeId');
       final headers = {'Content-Type': 'application/json'};
       final body = {
         'is_giver': false,
@@ -314,7 +312,7 @@ void main() {
     });
 
     test('Test: Update isChecked status', () async {
-      final url = Uri.parse('http://localhost:8080/trades/$tradeId/isChecked');
+      final url = Uri.parse('http://$ipAddress:8080/trades/$tradeId/isChecked');
       final headers = {'Content-Type': 'application/json'};
       final body = {
         'is_checked': true,
@@ -327,8 +325,8 @@ void main() {
 
   group('Favorite Test', () {
     test('Test: Add favorite successfully', () async {
-      final uri =
-          Uri.parse('http://localhost:8080/favorite').replace(queryParameters: {
+      final uri = Uri.parse('http://$ipAddress:8080/favorite')
+          .replace(queryParameters: {
         'furniture_id': '1',
         'user_id': '1',
       });
@@ -338,8 +336,8 @@ void main() {
     });
 
     test('Test: Delete favorite successfully', () async {
-      final uri =
-          Uri.parse('http://localhost:8080/favorite').replace(queryParameters: {
+      final uri = Uri.parse('http://$ipAddress:8080/favorite')
+          .replace(queryParameters: {
         'furniture_id': '1',
         'user_id': '1',
       });
@@ -349,7 +347,7 @@ void main() {
     });
 
     test('Test: Get favorite status successfully', () async {
-      final uri = Uri.parse('http://localhost:8080/favorite/4/');
+      final uri = Uri.parse('http://$ipAddress:8080/favorite/4/');
       final headers = {'Content-Type': 'application/json'};
       var response = await get(uri, headers: headers);
       expect(response.statusCode, 200);

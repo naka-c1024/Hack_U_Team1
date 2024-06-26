@@ -8,6 +8,7 @@ import '../../Domain/trade.dart';
 import '../../Domain/furniture.dart';
 import '../../Usecases/trade_api.dart';
 import '../../Usecases/provider.dart';
+import 'error_dialog.dart';
 import 'trade_approve_sheet.dart';
 import 'furniture_detail_view.dart';
 
@@ -39,8 +40,14 @@ class TradeDetailView extends HookConsumerWidget {
       return ref.read(favoriteCountProvider(furniture.furnitureId).future);
     }
 
+    Future<void> reloadTradeList() {
+      // ignore: unused_result
+      ref.refresh(tradeListProvider);
+      return ref.read(tradeListProvider.future);
+    }
+
     useEffect(() {
-      reloadFavoriteCount();
+      Future.microtask(() => {reloadFavoriteCount()});
       return null;
     }, []);
 
@@ -135,15 +142,10 @@ class TradeDetailView extends HookConsumerWidget {
                                   },
                                 );
                               }).catchError((error) {
-                                return Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Center(
-                                      child: Text('error: $error'),
-                                    ),
-                                  ),
-                                );
+                                return showErrorDialog(
+                                    context, error.toString());
                               });
+                              reloadTradeList();
                               saveTradingIdList(trade.tradeId);
                             },
                             style: ElevatedButton.styleFrom(
@@ -228,17 +230,26 @@ class TradeDetailView extends HookConsumerWidget {
                                 },
                               );
                             }).catchError((error) {
-                              return Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Center(
-                                    child: Text('error: $error'),
-                                  ),
-                                ),
-                              );
+                              return showErrorDialog(context, error.toString());
                             });
                           } else {
                             deleteTradingIdList(trade.tradeId);
+                            reloadTradeList();
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: screenSize.height,
+                                  width: screenSize.width,
+                                  color: const Color(0x4b000000),
+                                  child: const TradeApproveSheet(
+                                    isCompleted: true,
+                                  ),
+                                );
+                              },
+                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -332,7 +343,7 @@ class TradeDetailView extends HookConsumerWidget {
               ),
             ),
             const Divider(),
-            const SizedBox(height:4),
+            const SizedBox(height: 4),
             // 希望者情報
             Row(
               children: [
@@ -387,20 +398,21 @@ class TradeDetailView extends HookConsumerWidget {
                     ),
                     const SizedBox(width: 16),
                     const Padding(
-                      padding: EdgeInsets.only(bottom:4),
-                      child:Text(
-                      'チャットする',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xff3e3e3e),
-                        fontWeight: FontWeight.bold,
+                      padding: EdgeInsets.only(bottom: 4),
+                      child: Text(
+                        'チャットする',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xff3e3e3e),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),),
+                    ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height:4),
+            const SizedBox(height: 4),
             const Divider(),
             const SizedBox(height: 24),
             const Text(

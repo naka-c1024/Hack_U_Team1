@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Usecases/provider.dart';
+
 class TradeOrderSheet extends HookConsumerWidget {
   const TradeOrderSheet({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+
+    Future<void> reloadTradeList() {
+      // ignore: unused_result
+      ref.refresh(tradeListProvider);
+      return ref.read(tradeListProvider.future);
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -25,6 +33,8 @@ class TradeOrderSheet extends HookConsumerWidget {
             children: [
               IconButton(
                 onPressed: () {
+                  // 取引リストを更新
+                  reloadTradeList();
                   // もとの画面に戻る
                   Navigator.of(context).pop(0);
                   Navigator.of(context).pop(0);

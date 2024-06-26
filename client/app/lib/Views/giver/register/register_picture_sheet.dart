@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../Usecases/ai_api.dart';
+import '../../common/error_dialog.dart';
 import 'register_size_sheet.dart';
 
 class RegisterPictureSheet extends HookConsumerWidget {
@@ -132,20 +135,23 @@ class RegisterPictureSheet extends HookConsumerWidget {
                         ElevatedButton(
                           onPressed: () async {
                             if (cameraController.value == null) {
-                              print('Error: camera Controller is null.');
+                              const message =
+                                  'Error: camera Controller is null.';
+                              showErrorDialog(context, message);
                               return;
                             }
                             try {
                               final image =
                                   await cameraController.value?.takePicture();
                               if (image == null) {
-                                print('Error: image is null.');
+                                const message = 'Error: image is null.';
+                                showErrorDialog(context, message);
                                 return;
                               }
                               imagePath.value = image.path;
                               isCamera.value = false;
                             } catch (e) {
-                              print(e);
+                              showErrorDialog(context, e.toString());
                             }
                           },
                           style: ElevatedButton.styleFrom(

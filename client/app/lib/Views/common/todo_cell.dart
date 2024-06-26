@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../Domain/trade.dart';
 import '../../../Usecases/provider.dart';
 import '../../../Usecases/furniture_api.dart';
+import 'error_dialog.dart';
 import 'trade_detail_view.dart';
 
 class TodoCell extends HookConsumerWidget {
@@ -40,14 +41,7 @@ class TodoCell extends HookConsumerWidget {
                   ),
                 );
               }).catchError((error) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Center(
-                      child: Text('error: $error'),
-                    ),
-                  ),
-                );
+                showErrorDialog(context, error.toString());
               });
             },
             child: Ink(
@@ -80,7 +74,9 @@ class TodoCell extends HookConsumerWidget {
                             ? '取引依頼の返事を待っています。'
                             : tradeStatus == 1
                                 ? '取引依頼が届きました。'
-                                : '取引は完了しましたか？',
+                                : tradeStatus == 2
+                                    ? '取引は完了しましたか？'
+                                    : '相手の完了待ちです。',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Color(0xff131313),
@@ -92,7 +88,9 @@ class TodoCell extends HookConsumerWidget {
                             ? '返答を待ちましょう。'
                             : tradeStatus == 1
                                 ? '取引を受けるか、返答しましょう。'
-                                : '取引を完了しましょう。',
+                                : tradeStatus == 2
+                                    ? '取引を完了しましょう。'
+                                    : '相手が完了するのを待ちましょう.',
                         style: const TextStyle(
                           fontSize: 12,
                           color: Color(0xff636363),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Usecases/provider.dart';
+
 class TradeApproveSheet extends HookConsumerWidget {
   final bool isCompleted;
   const TradeApproveSheet({
@@ -10,6 +12,12 @@ class TradeApproveSheet extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Future<void> reloadTradeList() {
+      // ignore: unused_result
+      ref.refresh(tradeListProvider);
+      return ref.read(tradeListProvider.future);
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,6 +56,8 @@ class TradeApproveSheet extends HookConsumerWidget {
           padding: const EdgeInsets.all(16),
           child: ElevatedButton(
             onPressed: () {
+              // 取引リストを更新
+              reloadTradeList();
               // もとの画面に戻る
               Navigator.of(context).pop(0);
               Navigator.of(context).pop(0);
