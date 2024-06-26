@@ -129,7 +129,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
           const SizedBox(height: 16),
           // 長さを測るためのカメラ
           SizedBox(
-            height: screenSize.width + 108,
+            height: screenSize.width + 116,
             child: ARKitSceneView(
               enableTapRecognizer: true,
               onARKitViewCreated: (controller) {
