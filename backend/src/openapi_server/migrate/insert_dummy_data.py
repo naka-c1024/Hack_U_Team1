@@ -1,5 +1,8 @@
 import os
 import requests
+from PIL import Image
+from io import BytesIO
+from urllib.parse import urlparse, unquote
 import yaml
 from urllib.parse import urlparse, unquote
 from sqlalchemy.orm import Session
@@ -14,14 +17,17 @@ def insert_dummy_data(session: Session):
     users = [Users(**user_data) for user_data in data['users']]
     session.add_all(users)
     session.flush()  # メモリ消費を抑えるため
+    session.flush()  # メモリ消費を抑えるため
 
     # Insert furniture
-    save_dir = "/app/src/openapi_server/file_storage"
+    SAVE_DIR = "/app/src/openapi_server/file_storage"
+    QUALITY = 40 # 画像の圧縮率, 低いほど圧縮されるが画質が劣化する
     for item in data['furniture']:
         image_url = item.pop('image_url')
-        file_path = download_image(image_url, save_dir)
-        item['image'] = os.path.join(save_dir, file_path)
+        file_path = download_and_compress_image(image_url, SAVE_DIR, QUALITY)
+        item['image'] = os.path.join(SAVE_DIR, file_path)
         session.add(Furniture(**item))
+    session.flush()  # メモリ消費を抑えるため
     session.flush()  # メモリ消費を抑えるため
 
     # Insert trades
@@ -38,22 +44,23 @@ def insert_dummy_data(session: Session):
 
     session.commit()
 
-def download_image(url, save_dir) -> str:
+def download_and_compress_image(url, save_dir, quality) -> str:
     if not os.path.exists(save_dir):
         raise FileNotFoundError(f"Directory not found: {save_dir}")
 
     parsed_url = urlparse(url)
     filename = os.path.basename(parsed_url.path)
-    filename = unquote(filename) # クエリパラメータを削除
+    filename = unquote(filename)  # クエリパラメータを削除
 
     # 画像を取得
     response = requests.get(url)
     # リクエストが成功したか確認
     response.raise_for_status()
 
-    # 画像を保存
+    # 画像をJPEG形式で圧縮
+    image = Image.open(BytesIO(response.content))
+    filename = os.path.splitext(filename)[0] + '.jpeg'  # 拡張子を.jpegに変更
     file_path = os.path.join(save_dir, filename)
-    with open(file_path, 'wb') as file:
-        file.write(response.content)
+    image.save(file_path, 'JPEG', quality=quality)  # JPEG形式で保存、品質はパラメータで調整
 
     return file_path
