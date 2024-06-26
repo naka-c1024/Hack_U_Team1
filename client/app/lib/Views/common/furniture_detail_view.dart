@@ -29,6 +29,13 @@ class FurnitureDetailView extends HookConsumerWidget {
     final isFavorite = useState(furniture.isFavorite);
     final userId = ref.read(userIdProvider);
 
+    // 画面を更新
+    Future<void> reloadFurnitureList() {
+      // ignore: unused_result
+      ref.refresh(furnitureListProvider);
+      return ref.read(furnitureListProvider.future);
+    }
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -454,6 +461,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                           showErrorDialog(context, error.toString());
                                         });
                                       }
+                                      reloadFurnitureList();
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xffe55b20),

@@ -158,11 +158,6 @@ class FurnitureListView extends HookConsumerWidget {
                   height: 24,
                   width: 24,
                 ),
-                // icon: const Icon(
-                //   size: 24,
-                //   Icons.done_outline,
-                //   color: Color(0xff4b4b4b),
-                // ),
               ),
             ],
           ),
