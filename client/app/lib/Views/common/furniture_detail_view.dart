@@ -38,7 +38,7 @@ class FurnitureDetailView extends HookConsumerWidget {
       body: Column(
         children: [
           Container(
-            height: screenSize.height - 56,
+            height: screenSize.height - 48,
             color: const Color(0xffffffff),
             child: SingleChildScrollView(
               child: Column(

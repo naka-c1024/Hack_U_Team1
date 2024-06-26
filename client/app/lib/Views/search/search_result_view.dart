@@ -137,7 +137,7 @@ class SearchResultView extends HookConsumerWidget {
         children: [
           Container(
             height: isSearchPicture
-                ? 80 + ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 20 + 1) * 12
+                ? 80 + ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 30 + 1) * 24
                 : 80,
             padding: const EdgeInsets.only(left: 8, right: 8),
             color: const Color(0xffffffff),
@@ -345,8 +345,8 @@ class SearchResultView extends HookConsumerWidget {
                 height: isSearchPicture
                     ? screenSize.height -
                         184 -
-                        ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 20 + 1) *
-                            12
+                        ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 30 + 1) *
+                            24
                     : screenSize.height - 204,
                 width: screenSize.width,
                 padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
