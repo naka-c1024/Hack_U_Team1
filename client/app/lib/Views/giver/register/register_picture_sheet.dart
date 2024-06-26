@@ -108,11 +108,8 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           border: Border.all(
                               color: const Color(0xff595959), width: 1),
                         ),
-                        child: const Icon(
-                          Icons.image_outlined,
-                          size: 28,
-                          color: Color(0xff595959),
-                        ),
+                        child: Image.asset('assets/images/album_icon.png',
+                            scale: 2),
                       ),
                     ),
                     const SizedBox(width: 32),
@@ -127,7 +124,9 @@ class RegisterPictureSheet extends HookConsumerWidget {
                             color: Colors.transparent,
                             shape: BoxShape.circle,
                             border: Border.all(
-                                color: const Color(0xff595959), width: 2),
+                              color: Theme.of(context).primaryColor,
+                              width: 3,
+                            ),
                           ),
                         ),
                         ElevatedButton(
@@ -155,17 +154,14 @@ class RegisterPictureSheet extends HookConsumerWidget {
                             elevation: 0,
                           ),
                           child: Container(
-                            height: 56,
-                            width: 56,
-                            decoration: const BoxDecoration(
-                              color: Color(0xff595959),
+                            height: 52,
+                            width: 52,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
-                              Icons.photo_camera_outlined,
-                              size: 32,
-                              color: Color(0xffffffff),
-                            ),
+                            child: Image.asset('assets/images/shutter_icon.png',
+                                scale: 2),
                           ),
                         ),
                       ],
@@ -198,7 +194,7 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff424242),
+                          backgroundColor: Theme.of(context).primaryColor,
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
@@ -214,7 +210,7 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           child: const Text(
                             'この写真にする',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 16,
                               color: Color(0xffffffff),
                               fontWeight: FontWeight.bold,
                             ),
@@ -238,7 +234,8 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             side: const BorderSide(
-                              color: Color(0xff424242),
+                              color: Color(0xffe55b20),
+                              width: 1.5,
                             ),
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -249,10 +246,10 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           margin: const EdgeInsets.only(left: 8, right: 8),
                           alignment: Alignment.center,
                           child: const Text(
-                            '撮影しなおす',
+                            '撮影する',
                             style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff424242),
+                              fontSize: 16,
+                              color: Color(0xffe55b20),
                               fontWeight: FontWeight.bold,
                             ),
                           ),

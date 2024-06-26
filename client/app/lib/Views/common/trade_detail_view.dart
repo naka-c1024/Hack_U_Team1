@@ -39,10 +39,10 @@ class TradeDetailView extends HookConsumerWidget {
       return ref.read(favoriteCountProvider(furniture.furnitureId).future);
     }
 
-    useEffect((){
+    useEffect(() {
       reloadFavoriteCount();
       return null;
-    },[]);
+    }, []);
 
     // 譲渡を承認した取引のtradeIdを保存
     void saveTradingIdList(int tradeId) {
@@ -147,13 +147,13 @@ class TradeDetailView extends HookConsumerWidget {
                               saveTradingIdList(trade.tradeId);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff424242),
+                              backgroundColor: Theme.of(context).primaryColor,
                               padding: EdgeInsets.zero,
                               minimumSize: Size.zero,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  color: Color(0xff424242),
+                                side: BorderSide(
+                                  color: Theme.of(context).primaryColor,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -166,7 +166,7 @@ class TradeDetailView extends HookConsumerWidget {
                               child: const Text(
                                 '譲る',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   color: Color(0xffffffff),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -182,7 +182,8 @@ class TradeDetailView extends HookConsumerWidget {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(
-                                  color: Color(0xff424242),
+                                  color: Color(0xffe55b20),
+                                  width: 1.5,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -193,10 +194,10 @@ class TradeDetailView extends HookConsumerWidget {
                               margin: const EdgeInsets.only(left: 8, right: 8),
                               alignment: Alignment.center,
                               child: const Text(
-                                'キャンセル',
+                                'キャンセルする',
                                 style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xff424242),
+                                  fontSize: 16,
+                                  color: Color(0xffe55b20),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -308,8 +309,7 @@ class TradeDetailView extends HookConsumerWidget {
                 ),
                 const SizedBox(width: 80),
                 Text(
-                  DateFormat('yyyy年M月d日(E) HH:mm', 'ja')
-                      .format(trade.tradeDate),
+                  DateFormat('yyyy年M月d日(E) H:mm', 'ja').format(trade.tradeDate),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight:
@@ -332,16 +332,17 @@ class TradeDetailView extends HookConsumerWidget {
               ),
             ),
             const Divider(),
+            const SizedBox(height:4),
             // 希望者情報
             Row(
               children: [
                 const SizedBox(width: 16),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: const BoxDecoration(
-                    color: Color(0xffd9d9d9),
-                    shape: BoxShape.circle,
+                ClipOval(
+                  child: Image.asset(
+                    'assets/images/user_icon_2.png',
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(width: 24),
@@ -353,14 +354,53 @@ class TradeDetailView extends HookConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  color: const Color(0xff3e3e3e),
-                ),
               ],
             ),
+            const SizedBox(height: 8),
+            // チャットボタン
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xffffffff),
+                padding: EdgeInsets.zero,
+                minimumSize: Size.zero,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: Color(0xffababab),
+                  ),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: Container(
+                height: 48,
+                width: (screenSize.width - 32),
+                margin: const EdgeInsets.only(left: 8, right: 8),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/chat_icon.png',
+                      width: 24,
+                      color: const Color(0xff3e3e3e),
+                    ),
+                    const SizedBox(width: 16),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom:4),
+                      child:Text(
+                      'チャットする',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xff3e3e3e),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height:4),
             const Divider(),
             const SizedBox(height: 24),
             const Text(
