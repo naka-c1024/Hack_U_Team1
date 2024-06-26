@@ -128,8 +128,9 @@ class RegisterProductView extends HookConsumerWidget {
             ],
           ),
         ),
-        body: const TabBarView(
-          children: [
+        body: TabBarView(
+          controller: controller,
+          children: const [
             TradeListView(),
             ProductListView(isCompleted: false),
             ProductListView(isCompleted: true),

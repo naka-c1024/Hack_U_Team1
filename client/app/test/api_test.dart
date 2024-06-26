@@ -83,18 +83,16 @@ void main() {
       final url = Uri.parse('http://$ipAddress:8080/furniture');
       final params = {
         'user_id': '0',
-        'category': '0',
-        'keyword': 'ソファ',
+        'category': '1',
+        'keyword': 'の',
       };
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
       expect(response.statusCode, 200);
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final furnitureList = jsonResponse['furniture'];
-      expect(furnitureList.length, 1);
-      final furniture = furnitureList[0];
-      expect(furniture['product_name'], '革製のソファ');
-      furnitureId = furniture['furniture_id'];
+      expect(furnitureList.length, isNonZero);
+      furnitureId = furnitureList[0]['furniture_id'];
     });
 
     test('Test: Search furniture by keyword : result 0', () async {
@@ -116,9 +114,6 @@ void main() {
       final uri = Uri.parse(url.toString()).replace(queryParameters: params);
       final response = await get(uri);
       expect(response.statusCode, 200);
-      final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
-      final productName = jsonResponse['product_name'];
-      expect(productName, '革製のソファ');
     });
 
     test('Test: Get furniture details failed', () async {

@@ -12,8 +12,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting('ja');
   // TODO: 実機用にカメラ機能をオンにする
-  // final cameras = await availableCameras();
-  final firstCamera = null; //cameras.first;
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final userName = prefs.getString('userName');
   runApp(
