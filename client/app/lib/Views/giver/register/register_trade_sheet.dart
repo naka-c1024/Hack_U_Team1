@@ -76,22 +76,22 @@ class RegisterTradeSheet extends HookConsumerWidget {
                 Container(
                   height: 8,
                   width: 8,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xff000000),
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
                 Container(
                   height: 2,
                   width: 24,
-                  color: const Color(0xff000000),
+                  color: Theme.of(context).primaryColor,
                 ),
                 Container(
                   height: 8,
                   width: 8,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xff000000),
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ],
@@ -166,7 +166,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                                   .format(tradeStartDate.value!),
                           style: const TextStyle(
                             color: Color(0xff636363),
-                            fontSize: 14,
+                            fontSize: 16,
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -192,13 +192,13 @@ class RegisterTradeSheet extends HookConsumerWidget {
                                   .format(tradeEndDate.value!),
                           style: const TextStyle(
                             color: Color(0xff636363),
-                            fontSize: 14,
+                            fontSize: 16,
                           ),
                         ),
                         const SizedBox(width: 16),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
                     //　日付選択画面
                     Container(
                       height: 296,
@@ -212,6 +212,16 @@ class RegisterTradeSheet extends HookConsumerWidget {
                           firstDate: DateTime.now(),
                           calendarType: CalendarDatePicker2Type.range,
                           centerAlignModePicker: true,
+                          selectedDayHighlightColor: Theme.of(context).primaryColor,
+                          selectedRangeHighlightColor: const Color(0xffe6f5d0),
+                          selectedDayTextStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffffffff),
+                              ),
+                              todayTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                              ),
                           weekdayLabels: ['日', '月', '火', '水', '木', '金', '土'],
                           disableModePicker: true,
                         ),
@@ -256,13 +266,12 @@ class RegisterTradeSheet extends HookConsumerWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: tradePlace.text == ''
-                      ? const Color(0xffffffff)
-                      : const Color(0xff424242),
+                      ? const Color(0xfdc4c4c4)
+                      : Theme.of(context).primaryColor,
                   padding: EdgeInsets.zero,
                   minimumSize: Size.zero,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Color(0xff9e9e9e)),
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
@@ -271,13 +280,11 @@ class RegisterTradeSheet extends HookConsumerWidget {
                   width: screenSize.width - 48,
                   margin: const EdgeInsets.only(left: 8, right: 8),
                   alignment: Alignment.center,
-                  child: Text(
+                  child: const Text(
                     '出品する',
                     style: TextStyle(
-                      fontSize: 14,
-                      color: tradePlace.text == ''
-                          ? const Color(0xff9e9e9e)
-                          : const Color(0xffffffff),
+                      fontSize: 16,
+                      color: Color(0xffffffff),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
