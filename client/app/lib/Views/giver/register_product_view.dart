@@ -19,7 +19,7 @@ class RegisterProductView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    final controller = useTabController(initialLength:3);
+    final controller = useTabController(initialLength: 3);
 
     return DefaultTabController(
       length: 3,
@@ -92,9 +92,19 @@ class RegisterProductView extends HookConsumerWidget {
           ),
           bottom: TabBar(
             controller: controller,
-            indicatorColor: ThemeColors.keyGreen,
+            labelColor: ThemeColors.black,
+            unselectedLabelColor: ThemeColors.black,
+            indicatorColor: ThemeColors.black,
             indicatorSize: TabBarIndicatorSize.label,
-            indicatorWeight: 2.0,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(0),
+              border: const Border(
+                bottom: BorderSide(
+                  color: ThemeColors.black,
+                  width: 3.0,
+                ), 
+              ),
+            ),
             tabs: const [
               Tab(
                 child: Text(

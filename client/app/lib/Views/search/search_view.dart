@@ -70,14 +70,27 @@ class SearchView extends HookConsumerWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffffffff),
-          title: const TabBar(
-            labelColor: Color(0xff000000),
-            unselectedLabelColor: Color(0xff000000),
-            indicatorColor: ThemeColors.keyGreen,
-            tabs: [
+          title: null,
+          toolbarHeight: 0,
+          bottom: TabBar(
+            labelColor: ThemeColors.black,
+            unselectedLabelColor: ThemeColors.black,
+            indicatorColor: ThemeColors.black,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(0),
+              border: const Border(
+                bottom: BorderSide(
+                  color: ThemeColors.black,
+                  width: 3.0,
+                ), 
+              ),
+            ),
+            tabs: const [
               Tab(
                 child: Text(
                   '      写真      ',
