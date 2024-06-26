@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
 import '../../Usecases/provider.dart';
+import '../../main.dart';
 import '../common/error_dialog.dart';
 import '../common/furniture_cell.dart';
 import 'todo_list_view.dart';
@@ -110,22 +111,17 @@ class FurnitureListView extends HookConsumerWidget {
                   selectedView.value = 1;
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffffffff),
-                  padding: const EdgeInsets.only(left: 16),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                  backgroundColor: ThemeColors.keyGreen,
+                  padding: const EdgeInsets.only(right: 8),
                 ),
                 child: SizedBox(
-                  width: screenSize.width - 104,
+                  width: screenSize.width - 96,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         'assets/images/icon.png',
-                        color: Theme.of(context).primaryColor,
+                        color: const Color(0xffffffff),
                         height: 30,
                         width: 30,
                       ),
@@ -133,9 +129,9 @@ class FurnitureListView extends HookConsumerWidget {
                       const Text(
                         '部屋にあった家具を探す',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff131313),
+                          color: Color(0xffffffff),
                         ),
                       ),
                     ],

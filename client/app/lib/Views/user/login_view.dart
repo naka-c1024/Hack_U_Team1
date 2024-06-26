@@ -80,6 +80,13 @@ class LoginView extends HookConsumerWidget {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                ),
+                onPressed: () async {
+                  if (userNameController.text == '') return;
+                  putLogin();
+                },
                 child: Container(
                   height: 40,
                   width: 120,
@@ -90,10 +97,6 @@ class LoginView extends HookConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                onPressed: () async {
-                  if (userNameController.text == '') return;
-                  putLogin();
-                },
               ),
             ],
           ),
