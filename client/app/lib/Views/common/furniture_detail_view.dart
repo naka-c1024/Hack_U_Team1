@@ -38,7 +38,7 @@ class FurnitureDetailView extends HookConsumerWidget {
       body: Column(
         children: [
           Container(
-            height: screenSize.height - 56,
+            height: screenSize.height - 48,
             color: const Color(0xffffffff),
             child: SingleChildScrollView(
               child: Column(
@@ -418,7 +418,8 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
                                         side: const BorderSide(
-                                          color: Color(0xff424242),
+                                          color: Color(0xffe55b20),
+                                          width: 1.5,
                                         ),
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -433,7 +434,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                         '商品を編集する',
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: Color(0xff424242),
+                                          color: Color(0xffe55b20),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -454,7 +455,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xff424242),
+                                      backgroundColor: const Color(0xffe55b20),
                                       padding: EdgeInsets.zero,
                                       minimumSize: Size.zero,
                                       elevation: 0,
