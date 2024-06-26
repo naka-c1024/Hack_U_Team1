@@ -55,7 +55,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
           isMeasuringDepth.value) {
         if (positions.value.length < 2) {
           final material = ARKitMaterial(
-            diffuse: ARKitMaterialProperty.color(const Color(0xff7ddb0f)),
+            diffuse: ARKitMaterialProperty.color(Theme.of(context).primaryColor),
           );
           final sphere = ARKitSphere(materials: [material], radius: 0.01);
           final node = ARKitNode(geometry: sphere, position: position);
@@ -148,32 +148,32 @@ class SpaceMeasurementView extends HookConsumerWidget {
               Container(
                 height: 8,
                 width: 8,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xffababab),
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
               Container(
                 height: 2,
-                width: 68,
-                color: const Color(0xffababab),
+                width: 48,
+                color: Theme.of(context).primaryColor,
               ),
               Container(
                 height: 8,
                 width: 8,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xffababab),
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
               Container(
                 height: 2,
-                width: 68,
-                color: const Color(0xffababab),
+                width: 48,
+                color: Theme.of(context).primaryColor,
               ),
               Container(
-                height: 32,
-                width: 32,
+                height: 28,
+                width: 28,
                 padding: const EdgeInsets.only(bottom: 4),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -369,7 +369,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
                       child: const Text(
                         '検索する',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           color: Color(0xffffffff),
                           fontWeight: FontWeight.bold,
                         ),

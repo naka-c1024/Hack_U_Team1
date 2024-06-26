@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'Views/user/login_view.dart';
 import 'Views/user/sign_up_view.dart';
@@ -41,7 +42,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Noto Sans JP',
       ),
-      home: userName == null ? SignUpView(camera:camera) : LoginView(camera: camera),
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: const [Locale("ja")],
+      home: userName == null
+          ? SignUpView(camera: camera)
+          : LoginView(camera: camera),
     );
   }
 }

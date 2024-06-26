@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -135,32 +136,37 @@ class SearchResultView extends HookConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            height: 96 + ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 20 + 1) * 12,
+            height: isSearchPicture
+                ? 80 + ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 30 + 1) * 24
+                : 80,
             padding: const EdgeInsets.only(left: 8, right: 8),
             color: const Color(0xffffffff),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Flexible(
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                    width: screenSize.width,
-                    child: Text(
-                      reason ?? '部屋の雰囲気にあった家具をおすすめします',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xff636363),
-                      ),
-                    ),
-                  ),
-                ),
+                isSearchPicture
+                    ? Flexible(
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(8, 0, 8, 12),
+                          width: screenSize.width,
+                          child: Text(
+                            reason ?? '部屋の雰囲気にあった家具をおすすめします',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color(0xff636363),
+                            ),
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
                 Row(
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.filter_alt_outlined,
-                        color: Color(0xff4b4b4b),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(18, 8, 16, 8),
+                      child: Image.asset(
+                        'assets/images/filter_icon.png',
+                        height: 20,
+                        width: 20,
                       ),
                     ),
                     // 受け渡しエリアで絞るボタン
@@ -302,17 +308,20 @@ class SearchResultView extends HookConsumerWidget {
                   children: [
                     const SizedBox(width: 48),
                     SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: Checkbox(
-                        value: isSoldOnly.value,
-                        onChanged: (value) {
-                          isSoldOnly.value = value ?? false;
-                        },
-                        activeColor: Theme.of(context).primaryColor,
-                        side: const BorderSide(
-                          width: 1.5,
-                          color: Color(0xffd9d9d9),
+                      height: 40,
+                      width: 40,
+                      child: Transform.scale(
+                        scale: 1.2,
+                        child: Checkbox(
+                          value: isSoldOnly.value,
+                          onChanged: (value) {
+                            isSoldOnly.value = value ?? false;
+                          },
+                          activeColor: Theme.of(context).primaryColor,
+                          side: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xffd9d9d9),
+                          ),
                         ),
                       ),
                     ),
@@ -335,8 +344,9 @@ class SearchResultView extends HookConsumerWidget {
               Container(
                 height: isSearchPicture
                     ? screenSize.height -
-                        216 -
-                        ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 20 + 1) * 12
+                        184 -
+                        ((reason ?? '部屋の雰囲気にあった家具をおすすめします').length / 30 + 1) *
+                            24
                     : screenSize.height - 204,
                 width: screenSize.width,
                 padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
@@ -352,11 +362,12 @@ class SearchResultView extends HookConsumerWidget {
               // エリア選択メニュー
               isSelectingArea.value
                   ? Container(
-                      height: 488,
+                      height: 496,
                       width: screenSize.width,
                       color: const Color(0xffffffff),
                       child: Column(
                         children: [
+                          const Divider(),
                           Container(
                             height: 416,
                             width: screenSize.width,
@@ -443,11 +454,12 @@ class SearchResultView extends HookConsumerWidget {
               // 色選択メニュー
               isSelectingColor.value
                   ? Container(
-                      height: 448,
+                      height: 456,
                       width: screenSize.width,
                       color: const Color(0xffffffff),
                       child: Column(
                         children: [
+                          const Divider(),
                           Container(
                             height: 376,
                             width: screenSize.width,
@@ -541,6 +553,7 @@ class SearchResultView extends HookConsumerWidget {
                       color: const Color(0xffffffff),
                       child: Column(
                         children: [
+                          const Divider(),
                           Container(
                             height: 256,
                             width: screenSize.width,

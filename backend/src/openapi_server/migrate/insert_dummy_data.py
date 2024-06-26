@@ -1,8 +1,9 @@
 import os
 import requests
 import yaml
+from urllib.parse import urlparse, unquote
 from sqlalchemy.orm import Session
-from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites
+from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites, Chats
 
 def insert_dummy_data(session: Session):
     yaml_file_path = "/app/src/openapi_server/migrate/dummy_data.yaml"
@@ -12,17 +13,16 @@ def insert_dummy_data(session: Session):
     # Insert users
     users = [Users(**user_data) for user_data in data['users']]
     session.add_all(users)
-    session.flush()  # user_idを取得するためにflushする
+    session.flush()  # メモリ消費を抑えるため
 
     # Insert furniture
     save_dir = "/app/src/openapi_server/file_storage"
     for item in data['furniture']:
         image_url = item.pop('image_url')
-        filename = os.path.basename(image_url)
-        download_image(image_url, save_dir, filename)
-        item['image'] = os.path.join(save_dir, filename)
+        file_path = download_image(image_url, save_dir)
+        item['image'] = os.path.join(save_dir, file_path)
         session.add(Furniture(**item))
-    session.flush()  # furniture_idを取得するためにflushする
+    session.flush()  # メモリ消費を抑えるため
 
     # Insert trades
     trades = [Trades(**trade_data) for trade_data in data['trades']]
@@ -32,11 +32,19 @@ def insert_dummy_data(session: Session):
     favorites = [Favorites(**favorite_data) for favorite_data in data['favorites']]
     session.add_all(favorites)
 
+    # insert chats
+    chats = [Chats(**chat_data) for chat_data in data['chats']]
+    session.add_all(chats)
+
     session.commit()
 
-def download_image(url, save_dir, filename):
+def download_image(url, save_dir) -> str:
     if not os.path.exists(save_dir):
         raise FileNotFoundError(f"Directory not found: {save_dir}")
+
+    parsed_url = urlparse(url)
+    filename = os.path.basename(parsed_url.path)
+    filename = unquote(filename) # クエリパラメータを削除
 
     # 画像を取得
     response = requests.get(url)
@@ -47,3 +55,5 @@ def download_image(url, save_dir, filename):
     file_path = os.path.join(save_dir, filename)
     with open(file_path, 'wb') as file:
         file.write(response.content)
+
+    return file_path

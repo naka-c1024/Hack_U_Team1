@@ -13,6 +13,8 @@ class Users(Base):
     furniture = relationship("Furniture", back_populates="user")
     trades_received = relationship("Trades", foreign_keys="[Trades.receiver_id]", back_populates="receiver")
     favorites = relationship("Favorites", back_populates="user")
+    chats_sent = relationship("Chats", foreign_keys="[Chats.sender_id]", back_populates="sender")
+    chats_received = relationship("Chats", foreign_keys="[Chats.receiver_id]", back_populates="receiver")
 
 class Furniture(Base):
     __tablename__ = 'furniture'
@@ -70,3 +72,15 @@ class Favorites(Base):
     __table_args__ = (
         UniqueConstraint('user_id', 'furniture_id', name='unique_favorite'),
     )
+
+class Chats(Base):
+    __tablename__ = 'chats'
+    
+    chat_id = Column(Integer, primary_key=True, autoincrement=True)
+    sender_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    receiver_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
+    message = Column(Text, nullable=False)
+    send_date_time = Column(DateTime, nullable=False)
+
+    sender = relationship("Users", foreign_keys=[sender_id], back_populates="chats_sent")
+    receiver = relationship("Users", foreign_keys=[receiver_id], back_populates="chats_received")

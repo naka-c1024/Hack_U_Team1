@@ -20,22 +20,20 @@ import json
 
 
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
-from openapi_server.models.furniture_list_response import FurnitureListResponse
+from openapi_server.models.chat_response import ChatResponse
 try:
     from typing import Self
 except ImportError:
     from typing_extensions import Self
 
-class FurnitureRecommendResponse(BaseModel):
+class ChatListResponse(BaseModel):
     """
-    FurnitureRecommendResponse
+    ChatListResponse
     """ # noqa: E501
-    color: Optional[StrictInt] = Field(default=None, description="色コード(https://github.com/naka-c1024/Pasha-niture/blob/main/client/app/lib/Domain/constants.dart)")
-    reason: Optional[StrictStr] = None
-    furniture_list: Optional[FurnitureListResponse] = None
-    __properties: ClassVar[List[str]] = ["color", "reason", "furniture_list"]
+    chats: Optional[List[ChatResponse]] = None
+    __properties: ClassVar[List[str]] = ["chats"]
 
     model_config = {
         "populate_by_name": True,
@@ -55,7 +53,7 @@ class FurnitureRecommendResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of FurnitureRecommendResponse from a JSON string"""
+        """Create an instance of ChatListResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,18 +72,18 @@ class FurnitureRecommendResponse(BaseModel):
             },
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in furniture_list (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in chats (list)
         _items = []
-        if self.furniture_list:
-            for _item in self.furniture_list:
+        if self.chats:
+            for _item in self.chats:
                 if _item:
                     _items.append(_item.to_dict())
-            _dict['furniture_list'] = _items
+            _dict['chats'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Dict) -> Self:
-        """Create an instance of FurnitureRecommendResponse from a dict"""
+        """Create an instance of ChatListResponse from a dict"""
         if obj is None:
             return None
 
@@ -93,9 +91,7 @@ class FurnitureRecommendResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "color": obj.get("color"),
-            "reason": obj.get("reason"),
-            "furniture_list": [FurnitureResponse.from_dict(_item) for _item in obj.get("furniture_list")] if obj.get("furniture_list") is not None else None
+            "chats": [ChatResponse.from_dict(_item) for _item in obj.get("chats")] if obj.get("chats") is not None else None
         })
         return _obj
 

@@ -169,9 +169,9 @@ class RegisterProductSheet extends HookConsumerWidget {
                   Container(
                     height: 8,
                     width: 8,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(0xff000000),
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   Container(
@@ -195,7 +195,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                 padding: EdgeInsets.only(
                   left: 16,
                   right: 16,
-                  top: 8,
+                  top: 16,
                   bottom: (isFocused.value == false && keyboardHeight != 0)
                       ? keyboardHeight * 0.75
                       : 16,
@@ -230,8 +230,8 @@ class RegisterProductSheet extends HookConsumerWidget {
                             );
                           },
                           child: Ink(
-                            height: 96,
-                            width: 96,
+                            height: 120,
+                            width: 120,
                             decoration: BoxDecoration(
                               color: const Color(0xffd9d9d9),
                               borderRadius: BorderRadius.circular(5),
@@ -514,7 +514,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     const Divider(),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 16),
                     const Text(
                       '商品説明',
                       style: TextStyle(
@@ -523,7 +523,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                         color: Color(0xff686868),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                     Container(
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       decoration: BoxDecoration(
@@ -550,7 +550,6 @@ class RegisterProductSheet extends HookConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
               // 取引依頼ボタン
               Container(
                 padding: const EdgeInsets.all(16),
@@ -598,8 +597,8 @@ class RegisterProductSheet extends HookConsumerWidget {
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                         color: isInputCompleted.value
-                            ? const Color(0xff424242)
-                            : const Color(0xffd9d9d9),
+                            ? Theme.of(context).primaryColor
+                            : const Color(0xffc4c4c4),
                       ),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -612,10 +611,10 @@ class RegisterProductSheet extends HookConsumerWidget {
                     child: Text(
                       '次へ',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         color: isInputCompleted.value
-                            ? const Color(0xff424242)
-                            : const Color(0xffd9d9d9),
+                            ? Theme.of(context).primaryColor
+                            : const Color(0xffc4c4c4),
                         fontWeight: FontWeight.bold,
                       ),
                     ),

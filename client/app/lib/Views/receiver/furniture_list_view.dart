@@ -109,19 +109,22 @@ class FurnitureListView extends HookConsumerWidget {
                   selectedView.value = 1;
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: const Color(0xffffffff),
+                  padding: const EdgeInsets.only(left: 16),
                   shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                    ),
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
                 child: SizedBox(
-                  width: screenSize.width - 136,
+                  width: screenSize.width - 104,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         'assets/images/icon.png',
-                        color: const Color(0xffffffff),
+                        color: Theme.of(context).primaryColor,
                         height: 30,
                         width: 30,
                       ),
@@ -129,8 +132,9 @@ class FurnitureListView extends HookConsumerWidget {
                       const Text(
                         '部屋にあった家具を探す',
                         style: TextStyle(
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xffffffff),
+                          color: Color(0xff131313),
                         ),
                       ),
                     ],
@@ -148,11 +152,16 @@ class FurnitureListView extends HookConsumerWidget {
                     ),
                   );
                 },
-                icon: const Icon(
-                  size: 24,
-                  Icons.done_outline,
-                  color: Color(0xff4b4b4b),
+                icon: Image.asset(
+                  'assets/images/todo_icon.png',
+                  height: 24,
+                  width: 24,
                 ),
+                // icon: const Icon(
+                //   size: 24,
+                //   Icons.done_outline,
+                //   color: Color(0xff4b4b4b),
+                // ),
               ),
             ],
           ),

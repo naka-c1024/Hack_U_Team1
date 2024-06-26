@@ -31,3 +31,9 @@
     - `favorite_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
     - `user_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
     - `furniture_id` (INT, FOREIGN KEY REFERENCES Furniture(furniture_id), NOT NULL)
+- **Chat**:
+    - `chat_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
+    - `sender_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
+    - `receiver_id` (INT, FOREIGN KEY REFERENCES Users(user_id), NOT NULL)
+    - `message` (TEXT, NOT NULL)
+    - `send_date_time` (DateTime, NOT NULL)

@@ -17,6 +17,8 @@ tags:
   name: Trade
 - description: いいね機能
   name: Favorite
+- description: チャット機能
+  name: Chat
 paths:
   /ok:
     get:
@@ -465,6 +467,41 @@ paths:
       summary: Get favorite status
       tags:
       - Favorite
+  /chat/{sender_id}/{receiver_id}:
+    get:
+      parameters:
+      - example: 1
+        explode: false
+        in: path
+        name: sender_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      - example: 2
+        explode: false
+        in: path
+        name: receiver_id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatListResponse'
+          description: Chat list retrieved successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: validation error
+      summary: Get chat list
+      tags:
+      - Chat
 components:
   schemas:
     OKResponse:
@@ -948,4 +985,53 @@ components:
           title: favorites_count
           type: integer
       title: FavoriteResponse
+      type: object
+    ChatListResponse:
+      example:
+        chats:
+        - receiver_id: 1
+          message: message
+          sender_id: 6
+          send_date_time: 2021-01-01T00:00:00+09:00
+          chat_id: 0
+        - receiver_id: 1
+          message: message
+          sender_id: 6
+          send_date_time: 2021-01-01T00:00:00+09:00
+          chat_id: 0
+      properties:
+        chats:
+          items:
+            $ref: '#/components/schemas/ChatResponse'
+          title: chats
+          type: array
+      title: ChatListResponse
+      type: object
+    ChatResponse:
+      example:
+        receiver_id: 1
+        message: message
+        sender_id: 6
+        send_date_time: 2021-01-01T00:00:00+09:00
+        chat_id: 0
+      properties:
+        chat_id:
+          title: chat_id
+          type: integer
+        sender_id:
+          title: sender_id
+          type: integer
+        receiver_id:
+          title: receiver_id
+          type: integer
+        message:
+          title: message
+          type: string
+        send_date_time:
+          description: "メッセージ送信日時, 日付は日本標準時, ISO 8601形式"
+          example: 2021-01-01T00:00:00+09:00
+          format: date-time
+          title: send_date_time
+          type: string
+      title: ChatResponse
       type: object

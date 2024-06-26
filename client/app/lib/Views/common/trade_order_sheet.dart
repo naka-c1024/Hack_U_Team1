@@ -53,9 +53,9 @@ class TradeOrderSheet extends HookConsumerWidget {
           ),
           const Divider(),
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 64),
+              const SizedBox(height: 96),
               // なんかイラスト
               Container(
                 height: 200,
@@ -79,8 +79,9 @@ class TradeOrderSheet extends HookConsumerWidget {
                 ),
               ),
               const SizedBox(height: 64),
+              // 戻るボタン
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.only(left: 16, bottom: 4, right: 16),
                 child: ElevatedButton(
                   onPressed: () {
                     // もとの画面に戻る
@@ -94,7 +95,10 @@ class TradeOrderSheet extends HookConsumerWidget {
                     minimumSize: Size.zero,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      side: const BorderSide(color: Color(0xff424242)),
+                      side: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                        width: 1.5,
+                      ),
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
@@ -103,18 +107,63 @@ class TradeOrderSheet extends HookConsumerWidget {
                     width: screenSize.width - 48,
                     margin: const EdgeInsets.only(left: 8, right: 8),
                     alignment: Alignment.center,
-                    child: const Text(
+                    child: Text(
                       '戻る',
                       style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xff424242),
+                        fontSize: 16,
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 8),
+              // チャットボタン
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xffffffff),
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size.zero,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(
+                      color: Color(0xffababab),
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: Container(
+                  height: 48,
+                  width: (screenSize.width - 32),
+                  margin: const EdgeInsets.only(left: 8, right: 8),
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/chat_icon.png',
+                        width: 24,
+                        color: const Color(0xff3e3e3e),
+                      ),
+                      const SizedBox(width: 16),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Text(
+                          'チャットする',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xff3e3e3e),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
             ],
           ),
         ],

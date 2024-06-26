@@ -76,19 +76,19 @@ class RoomPictureView extends HookConsumerWidget {
               Container(
                 height: 8,
                 width: 8,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xffababab),
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
               Container(
                 height: 2,
-                width: 68,
-                color: const Color(0xffababab),
+                width: 48,
+                color: Theme.of(context).primaryColor,
               ),
               Container(
-                height: 32,
-                width: 32,
+                height: 28,
+                width: 28,
                 padding: const EdgeInsets.only(bottom: 4),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -107,7 +107,7 @@ class RoomPictureView extends HookConsumerWidget {
               ),
               Container(
                 height: 2,
-                width: 68,
+                width: 48,
                 color: const Color(0xffababab),
               ),
               Container(

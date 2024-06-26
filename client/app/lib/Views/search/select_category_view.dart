@@ -18,7 +18,7 @@ class SelectCategoryView extends HookConsumerWidget {
       height: screenSize.height,
       width: screenSize.width,
       color: const Color(0xffffffff),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16,18,16,16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -27,8 +27,8 @@ class SelectCategoryView extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 32,
-                width: 32,
+                height: 28,
+                width: 28,
                 padding: const EdgeInsets.only(bottom: 4),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -47,7 +47,7 @@ class SelectCategoryView extends HookConsumerWidget {
               ),
               Container(
                 height: 2,
-                width: 64,
+                width: 44,
                 color: const Color(0xffababab),
               ),
               Container(
@@ -60,7 +60,7 @@ class SelectCategoryView extends HookConsumerWidget {
               ),
               Container(
                 height: 2,
-                width: 80,
+                width: 60,
                 color: const Color(0xffababab),
               ),
               Container(

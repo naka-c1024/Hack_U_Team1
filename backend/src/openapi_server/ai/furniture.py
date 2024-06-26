@@ -112,7 +112,7 @@ class FurnitureRecommendation:
                 },
                 {
                     "role": "system",
-                    "content": f"色は以下から選んでください".join(color_list)
+                    "content": f"色は以下から選んでください: {', '.join(color_list)}"
                 },
                 {
                     "role": "user",

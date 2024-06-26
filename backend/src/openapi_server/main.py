@@ -21,6 +21,7 @@ from openapi_server.apis.ok_api import router as OKApiRouter
 from openapi_server.apis.recommendation_api import router as RecommendationApiRouter
 from openapi_server.apis.trade_api import router as TradeApiRouter
 from openapi_server.apis.user_api import router as UserApiRouter
+from openapi_server.apis.chat_api import router as ChatApiRouter
 
 app = FastAPI(
     title="家具マッチングサービス",
@@ -43,3 +44,4 @@ app.include_router(OKApiRouter)
 app.include_router(RecommendationApiRouter)
 app.include_router(TradeApiRouter)
 app.include_router(UserApiRouter)
+app.include_router(ChatApiRouter)
