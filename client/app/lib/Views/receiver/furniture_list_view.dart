@@ -30,7 +30,7 @@ class FurnitureListView extends HookConsumerWidget {
 
     // 画面を移動した時に自動で更新
     useEffect(() {
-      reloadFurnitureList();
+      Future.microtask(() => {reloadFurnitureList()});
       return null;
     }, []);
 

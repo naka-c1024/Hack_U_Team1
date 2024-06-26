@@ -28,7 +28,7 @@ class ProductCell extends HookConsumerWidget {
     }
 
     useEffect((){
-      reloadFavoriteCount();
+      Future.microtask(() => {reloadFavoriteCount()});
       return null;
     },[]);
 

@@ -25,7 +25,7 @@ class TodoListView extends HookConsumerWidget {
 
     // 画面を移動した時に自動で更新
     useEffect(() {
-      reloadTradeList();
+      Future.microtask(() => {reloadTradeList()});
       return null;
     }, []);
 

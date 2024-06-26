@@ -46,7 +46,7 @@ class TradeDetailView extends HookConsumerWidget {
     }
 
     useEffect(() {
-      reloadFavoriteCount();
+      Future.microtask(() => {reloadFavoriteCount()});
       return null;
     }, []);
 
