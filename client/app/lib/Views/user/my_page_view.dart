@@ -12,31 +12,37 @@ class MyPageView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
+        backgroundColor: const Color(0xffffffff),
         automaticallyImplyLeading: false,
       ),
       body: Container(
         color: const Color(0xffffffff),
-        padding: const EdgeInsets.fromLTRB(16, 80, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
         child: Column(
           children: [
             Row(
               children: [
                 const SizedBox(width: 16),
-                Container(
-                  height: 56,
-                  width: 56,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: ThemeColors.bgGray1,),
+                ClipOval(
+                  child: Image.asset(
+                    'assets/images/user_icon_2.png',
+                    width: 56,
+                    height: 56,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 20),
                 const Text(
                   'ibuibukiki',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xff636363),
                   ),
                 ),
               ],
@@ -60,20 +66,20 @@ class MyPageView extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 6),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                UserMenuCell(
+                const UserMenuCell(
                   menuIcon: Icons.shopping_bag_outlined,
                   menuText: '購入した商品',
                 ),
-                UserMenuCell(
-                  menuIcon: Icons.storefront_outlined,
-                  menuText: '出品した商品',
-                ),
-                UserMenuCell(
+                const UserMenuCell(
                   menuIcon: Icons.location_on_outlined,
                   menuText: '住まいエリア',
+                ),
+                SizedBox(
+                  height: 80,
+                  width: (screenSize.width - 64) / 3,
                 ),
               ],
             ),
@@ -87,8 +93,9 @@ class MyPageView extends HookConsumerWidget {
                   padding: EdgeInsets.zero,
                   minimumSize: Size.zero,
                   elevation: 0,
+                  overlayColor: ThemeColors.bgGray1,
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Color(0xff424242)),
+                    side: const BorderSide(color: ThemeColors.keyGreen,width:2.0),
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
@@ -100,7 +107,7 @@ class MyPageView extends HookConsumerWidget {
                     'プロフィールを編集する',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color(0xff424242),
+                      color: ThemeColors.keyGreen,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -120,12 +127,13 @@ class MyPageView extends HookConsumerWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffe3e3e3),
                   padding: EdgeInsets.zero,
                   minimumSize: Size.zero,
                   elevation: 0,
+                  overlayColor: ThemeColors.bgGray1,
+                  backgroundColor: const Color(0xffffffff),
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Color(0xff424242)),
+                    side: const BorderSide(color: ThemeColors.keyRed,width:2.0),
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
@@ -134,10 +142,10 @@ class MyPageView extends HookConsumerWidget {
                   margin: const EdgeInsets.only(left: 8, right: 8),
                   alignment: Alignment.center,
                   child: const Text(
-                    'ログアウト',
+                    'ログアウトする',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color(0xff424242),
+                      color: ThemeColors.keyRed,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
