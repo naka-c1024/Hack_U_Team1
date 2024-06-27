@@ -6,35 +6,66 @@
 
 ## 概要
 
-<100文字程度で>
+**家具専用フリマアプリ**  
+写真をパシャっと撮るだけで面倒な家具情報を自動入力。そのまま簡単出品!  
+写真をパシャっと撮るだけであなたの部屋の雰囲気にぴったりの家具を提案!  
+スマートで楽しい家具選びを体験しよう!
 
-<プレゼン資料URL?>
+## DEMO
+
+<適当な動画>
 
 ## 環境構築
 
 ### backend
 
-Dockerコンテナを立ち上げる。
+#### 環境変数の設定
+
+`backend/.env`ファイルを作成し以下を記述
+
+```
+MYSQL_USER=backend_user
+MYSQL_PASSWORD=backend_password
+MYSQL_HOST=db
+MYSQL_PORT=3306
+MYSQL_ROOT_PASSWORD=root_password
+MYSQL_DATABASE=backend
+TZ=Asia/Tokyo
+```
+
+#### APIキーの設定
+
+`backend/src/openapi_server/ai/secret.json`ファイルを作成し、以下を記述
+
+```
+{
+    "OPENAI_API_KEY": "Your API KEY"
+}
+```
+
+#### Dockerコンテナを立ち上げる
 
 ```bash
-$ cd backend 
+$ cd backend
 $ docker-compose up --build
 ```
 
-以下のようにcurlを叩き、`API is running`と返却されたらバックエンドは完了。
+以下のようにcurlを叩き、`API is running`と返却されるか確認
 
 ```bash
 $ curl http://localhost:8080/ok
 {"msg":"API is running"}%
 ```
 
-もしデモデータを入れたい場合はコンテナが起動した状態で以下を打つ。
+#### DBマイグレーションとデモデータの投入
 
 ```bash
 $ docker-compose exec backend-app python -m openapi_server.migrate.db
 ```
 
 ### client
+
+#### Requirements
 
 - Flutter 3.22.2
 - Dart 3.4.3
