@@ -216,18 +216,35 @@ class RegisterProductSheet extends HookConsumerWidget {
                                 currentScope.hasFocus) {
                               FocusManager.instance.primaryFocus!.unfocus();
                             }
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return SizedBox(
-                                  height: screenSize.height - 64,
-                                  child: RegisterPictureSheet(
-                                    cameraController: cameraController,
-                                    imagePath: imagePath,
-                                  ),
-                                );
-                              },
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Scaffold(
+                                    body: Stack(
+                                      children: [
+                                        Container(
+                                          height: screenSize.height,
+                                          width: screenSize.width,
+                                          color: ThemeColors.lineGray2,
+                                        ),
+                                        Positioned(
+                                          top: 64,
+                                          child: SizedBox(
+                                            height: screenSize.height - 64,
+                                            width: screenSize.width,
+                                            child: RegisterPictureSheet(
+                                              cameraController:
+                                                  cameraController,
+                                              imagePath: imagePath,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             );
                           },
                           child: Ink(
@@ -303,15 +320,31 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   currentScope.hasFocus) {
                                 FocusManager.instance.primaryFocus!.unfocus();
                               }
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: screenSize.height - 64,
-                                    child: const CategorySheet(),
-                                  );
-                                },
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Scaffold(
+                                      body: Stack(
+                                        children: [
+                                          Container(
+                                            height: screenSize.height,
+                                            width: screenSize.width,
+                                            color: ThemeColors.lineGray2,
+                                          ),
+                                          Positioned(
+                                            top: 64,
+                                            child: SizedBox(
+                                              height: screenSize.height - 64,
+                                              width: screenSize.width,
+                                              child: const CategorySheet(),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               );
                             },
                             child: Ink(
@@ -368,15 +401,31 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   currentScope.hasFocus) {
                                 FocusManager.instance.primaryFocus!.unfocus();
                               }
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: screenSize.height - 64,
-                                    child: const ConditionSheet(),
-                                  );
-                                },
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Scaffold(
+                                      body: Stack(
+                                        children: [
+                                          Container(
+                                            height: screenSize.height,
+                                            width: screenSize.width,
+                                            color: ThemeColors.lineGray2,
+                                          ),
+                                          Positioned(
+                                            top: 64,
+                                            child: SizedBox(
+                                              height: screenSize.height - 64,
+                                              width: screenSize.width,
+                                              child: const ConditionSheet(),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               );
                             },
                             child: Ink(
@@ -433,23 +482,32 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   currentScope.hasFocus) {
                                 FocusManager.instance.primaryFocus!.unfocus();
                               }
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: screenSize.height - 64,
-                                    child: const ColorSheet(),
-                                  );
-                                },
-                              ).whenComplete(() {
-                                final FocusScopeNode currentScope =
-                                    FocusScope.of(context);
-                                if (!currentScope.hasPrimaryFocus &&
-                                    currentScope.hasFocus) {
-                                  FocusManager.instance.primaryFocus!.unfocus();
-                                }
-                              });
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Scaffold(
+                                      body: Stack(
+                                        children: [
+                                          Container(
+                                            height: screenSize.height,
+                                            width: screenSize.width,
+                                            color: ThemeColors.lineGray2,
+                                          ),
+                                          Positioned(
+                                            top: 64,
+                                            child: SizedBox(
+                                              height: screenSize.height - 64,
+                                              width: screenSize.width,
+                                              child: const ColorSheet(),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
                             },
                             child: Ink(
                               padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -578,15 +636,32 @@ class RegisterProductSheet extends HookConsumerWidget {
                         isSold: false,
                         isFavorite: false,
                       );
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: screenSize.height - 64,
-                            child: RegisterTradeSheet(furniture: furniture),
-                          );
-                        },
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return Scaffold(
+                              body: Stack(
+                                children: [
+                                  Container(
+                                    height: screenSize.height,
+                                    width: screenSize.width,
+                                    color: ThemeColors.lineGray2,
+                                  ),
+                                  Positioned(
+                                    top: 64,
+                                    child: SizedBox(
+                                      height: screenSize.height - 64,
+                                      width: screenSize.width,
+                                      child: RegisterTradeSheet(
+                                          furniture: furniture),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       );
                     }
                   },
