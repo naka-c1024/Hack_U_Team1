@@ -1,13 +1,65 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:app/Usecases/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../Domain/furniture.dart';
 import '../Domain/constants.dart';
 
 // 家具リストを取得
-Future<List<Furniture>> getFurnitureList(
-    int userId, int? category, String? searchWord) async {
+Future<List<Furniture>> getFurnitureList(int userId) async {
+  try {
+    final url = Uri.parse('http://$ipAddress:8080/furniture');
+    final params = {
+      'user_id': userId.toString(),
+    };
+    final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+    final response = await get(uri);
+    final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+    if (response.statusCode == 200) {
+      final items = jsonResponse['furniture'];
+      List<Furniture> furnitureList = [];
+      for (Map<String, dynamic> item in items) {
+        var furniture = Furniture(
+            furnitureId: item['furniture_id'],
+            image: base64Decode(item['image']),
+            area: item['area'],
+            userName: item['username'],
+            productName: item['product_name'],
+            description: item['description'],
+            height: double.parse(item['size'].split(' ')[0]),
+            width: double.parse(item['size'].split(' ')[1]),
+            depth: double.parse(item['size'].split(' ')[2]),
+            category: item['category'],
+            color: item['color'],
+            condition: item['condition'],
+            isSold: item['is_sold'],
+            startDate: item['start_date'] == null
+                ? null
+                : DateTime.parse(item['start_date']),
+            endDate: item['end_date'] == null
+                ? null
+                : DateTime.parse(item['end_date']),
+            tradePlace: item['trade_place'],
+            isFavorite: item['is_favorite']);
+        furnitureList.add(furniture);
+      }
+      return furnitureList;
+    } else if (response.statusCode == 404) {
+      return [];
+    } else {
+      final msg = jsonResponse['detail'];
+      throw Exception('Failed to get furniture list: $msg');
+    }
+  } catch (e) {
+    throw Exception('Undefined Error: $e');
+  }
+}
+
+// 家具をカテゴリやキーワードで検索
+Future<void> searchFurnitureList(
+    WidgetRef ref, int userId, int? category, String? searchWord) async {
   try {
     final url = Uri.parse('http://$ipAddress:8080/furniture');
     final params = {
@@ -50,12 +102,12 @@ Future<List<Furniture>> getFurnitureList(
             isFavorite: item['is_favorite']);
         furnitureList.add(furniture);
       }
-      return furnitureList;
+      ref.read(searchResultProvider.notifier).state = furnitureList;
     } else if (response.statusCode == 404) {
-      return [];
+      ref.read(searchResultProvider.notifier).state = [];
     } else {
       final msg = jsonResponse['detail'];
-      throw Exception('Failed to get furniture list: $msg');
+      throw Exception('Failed to search furniture: $msg');
     }
   } catch (e) {
     throw Exception('Undefined Error: $e');
@@ -163,8 +215,7 @@ Future<void> deleteFurniture(int furnitureId) async {
 // 自分が出品した家具を取得
 Future<List<Furniture>> getMyProductList(int userId) async {
   try {
-    final url =
-        Uri.parse('http://$ipAddress:8080/furniture/personal_products');
+    final url = Uri.parse('http://$ipAddress:8080/furniture/personal_products');
     final params = {
       'user_id': userId.toString(),
     };

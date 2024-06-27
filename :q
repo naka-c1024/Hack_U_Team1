@@ -1,0 +1,18 @@
+fix: 画像検索時に結果が表示されない不具合を修正
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Thu Jun 27 09:31:12 2024 +0900
+#
+# On branch client/fix/search-result
+# Changes to be committed:
+#	modified:   client/app/lib/Usecases/ai_api.dart
+#	modified:   client/app/lib/Usecases/provider.dart
+#	modified:   client/app/lib/Views/search/keyword_search_view.dart
+#	modified:   client/app/lib/Views/search/room_picture_view.dart
+#	modified:   client/app/lib/Views/search/search_result_view.dart
+#	modified:   client/app/lib/Views/search/space_measurement_view.dart
+#	modified:   client/app/lib/main.dart
+#	modified:   client/app/test/api_test.dart
+#
