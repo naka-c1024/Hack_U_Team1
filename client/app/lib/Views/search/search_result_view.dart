@@ -115,7 +115,7 @@ class SearchResultView extends HookConsumerWidget {
               slivers: [
                 SliverAppBar(
                   collapsedHeight: isSearchPicture
-                      ? 128 + ((reason ?? '').length / 30 + 1) * 24
+                      ? 144 + ((reason ?? '').length / 30 + 1) * 24
                       : 128,
                   expandedHeight: 56 + ((reason ?? '').length / 30 + 1) * 24,
                   automaticallyImplyLeading: false,
@@ -155,7 +155,7 @@ class SearchResultView extends HookConsumerWidget {
                                           Text(
                                             searchWord,
                                             style: const TextStyle(
-                                              fontSize: 14,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               color: ThemeColors.black,
                                             ),
@@ -189,7 +189,7 @@ class SearchResultView extends HookConsumerWidget {
                             ),
                             Container(
                               height: isSearchPicture && reason != null
-                                  ? 80 + (reason.length / 30 + 1) * 24
+                                  ? 80 + (reason.length / 30 + 1) * 28
                                   : 80,
                               padding: const EdgeInsets.only(left: 8, right: 8),
                               color: const Color(0xffffffff),
@@ -200,12 +200,12 @@ class SearchResultView extends HookConsumerWidget {
                                       ? Flexible(
                                           child: Container(
                                             margin: const EdgeInsets.fromLTRB(
-                                                8, 0, 8, 12),
+                                                8, 8, 8, 20),
                                             width: screenSize.width,
                                             child: Text(
                                               reason,
                                               style: const TextStyle(
-                                                fontSize: 12,
+                                                fontSize: 14,
                                                 color: ThemeColors.black,
                                               ),
                                             ),
