@@ -45,7 +45,8 @@ class FurnitureDescribe:
                                 "url": f"data:image/jpeg;base64,{base64_image}"
                             }
                         }
-                    ]
+                    ],
+                    "temperature": 0.5
                 }
             ],
             max_tokens=300,
@@ -95,7 +96,8 @@ class FurnitureRecommendation:
                                 "url": f"data:image/jpeg;base64,{base64_image}"
                             }
                         }
-                    ]
+                    ],
+                    "temperature": 0.5
                 }
             ],
             max_tokens=300,
