@@ -108,7 +108,6 @@ class FurnitureRecommendation:
             ],
             max_tokens=300,
         )
-        print(response.choices[0].message["content"])
         color, reason = response.choices[0].message["content"].split("\n")[0].split(",")
         try:
             color_index = util.select_color_index(color)
