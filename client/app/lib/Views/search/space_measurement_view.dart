@@ -20,7 +20,6 @@ class SpaceMeasurementView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
     final categoryIndex = ref.watch(categoryProvider);
-    final furnitureList = ref.watch(recommendFurnitureListProvider);
 
     final arkitController = useState<ARKitController?>(null);
     final nodes = useState<List<ARKitNode>>([]); // 設置した球体を保持
@@ -347,7 +346,6 @@ class SpaceMeasurementView extends HookConsumerWidget {
                         MaterialPageRoute(
                           builder: (context) => SearchResultView(
                             searchWord: '${categorys[categoryIndex]} の画像検索結果',
-                            furnitureList: furnitureList,
                             isSearchPicture: true,
                           ),
                         ),

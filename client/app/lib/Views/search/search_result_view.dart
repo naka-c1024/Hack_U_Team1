@@ -12,11 +12,9 @@ import 'size_filter_menu.dart';
 
 class SearchResultView extends HookConsumerWidget {
   final String searchWord;
-  final List<Furniture> furnitureList;
   final bool isSearchPicture;
   const SearchResultView({
     required this.searchWord,
-    required this.furnitureList,
     required this.isSearchPicture,
     super.key,
   });
@@ -24,6 +22,9 @@ class SearchResultView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+
+    final searchResultState = ref.watch(searchResultProvider.notifier).state;
+    final searchResult = ref.watch(searchResultProvider);
 
     final reason = ref.watch(reasonProvider);
 
@@ -46,10 +47,22 @@ class SearchResultView extends HookConsumerWidget {
     final minHeight = useTextEditingController(text: '');
     final isSoldOnly = useState(false);
 
-    final ValueNotifier<List<Row>> resultList = useState([]);
+    final isNoResponse = useState(false);
+    final ValueNotifier<List<Widget>> resultList = useState([
+      // デフォルトでインジケータを表示
+      const Center(
+        child: CircularProgressIndicator(color: ThemeColors.keyGreen),
+      ),
+    ]);
     useEffect(() {
       List<Widget> row = [];
-      for (Furniture furniture in furnitureList) {
+      if (searchResult == null ){
+        isNoResponse.value = true;
+        return null;
+      } else {
+        isNoResponse.value = false;
+      }
+      for (Furniture furniture in searchResult) {
         // 全ての商品をリストに入れる
         row.add(FurnitureCell(furniture: furniture));
         // 3個貯まったら追加
@@ -67,6 +80,24 @@ class SearchResultView extends HookConsumerWidget {
           ),
         );
       }
+      resultList.value.removeAt(0);
+      return null;
+    }, [searchResultState]);
+
+    useEffect(() {
+      Future.delayed(const Duration(seconds: 3), () {
+        if (isNoResponse.value) {
+          resultList.value = [
+            const Center(
+              child: Text(
+                '読み込みに失敗しました。\nもう一度条件を入力して検索してくだい。',
+                textAlign: TextAlign.center,
+                style:TextStyle(color:ThemeColors.textGray1)
+              ),
+            ),
+          ];
+        }
+      });
       return null;
     }, []);
 
