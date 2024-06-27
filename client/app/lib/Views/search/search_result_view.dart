@@ -47,7 +47,12 @@ class SearchResultView extends HookConsumerWidget {
     final minHeight = useTextEditingController(text: '');
     final isSoldOnly = useState(false);
 
-    final ValueNotifier<List<Row>> resultList = useState([]);
+    final ValueNotifier<List<Widget>> resultList = useState([
+      // デフォルトでインジケータを表示
+      Center(
+        child: CircularProgressIndicator(color: Theme.of(context).primaryColor),
+      ),
+    ]);
     useEffect(() {
       List<Widget> row = [];
       for (Furniture furniture in searchResult) {
@@ -67,6 +72,10 @@ class SearchResultView extends HookConsumerWidget {
             children: row,
           ),
         );
+      }
+      // 検索結果がゼロじゃなければインジケータを削除
+      if (resultList.value.length > 1) {
+        resultList.value.removeAt(0);
       }
       return null;
     }, [searchResultState]);

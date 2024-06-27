@@ -206,22 +206,21 @@ class RoomPictureView extends HookConsumerWidget {
                         ElevatedButton(
                           onPressed: () async {
                             searchPictureProcess.value = 2;
-                            // if (cameraController.value == null) {
-                            //   const message =
-                            //       'Error: camera Controller is null.';
-                            //   showErrorDialog(context, message);
-                            //   return;
-                            // }
+                            if (cameraController.value == null) {
+                              const message =
+                                  'Error: camera Controller is null.';
+                              showErrorDialog(context, message);
+                              return;
+                            }
                             try {
-                              // final image =
-                              //     await cameraController.value?.takePicture();
-                              // if (image == null) {
-                              //   const message = 'Error: image is null.';
-                              //   showErrorDialog(context, message);
-                              //   return;
-                              // }
-                              const imagePath = '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/recommend_example.jpg';
-                              recommendFurniture(ref, imagePath);
+                              final image =
+                                  await cameraController.value?.takePicture();
+                              if (image == null) {
+                                const message = 'Error: image is null.';
+                                showErrorDialog(context, message);
+                                return;
+                              }
+                              recommendFurniture(ref, image.path);
                             } catch (e) {
                               showErrorDialog(context, e.toString());
                             }
