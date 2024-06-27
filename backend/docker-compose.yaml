@@ -13,18 +13,12 @@ services:
       - ${PWD}/src/openapi_server/file_storage:/app/src/openapi_server/file_storage  # 画像ファイルの永続化
   db:
     image: mysql:8.0
-    environment:
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_HOST: ${MYSQL_HOST}
-      MYSQL_PORT: ${MYSQL_PORT}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      TZ: ${TZ}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf  # MySQLの日本語文字化け対策
     ports:
-      - 33306:${MYSQL_PORT}
+      - 33306:3306
+    env_file:
+      - .env
 volumes:
   mysql_data:
