@@ -44,3 +44,4 @@ passlib
 python-dateutil
 pytz
 pillow
+cryptography
