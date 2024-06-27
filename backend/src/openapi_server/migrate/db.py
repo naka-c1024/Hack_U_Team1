@@ -8,6 +8,7 @@ import os
 import shutil
 
 DB_URL = "mysql+pymysql://root@db:3306/backend?charset=utf8mb4"
+
 engine = create_engine(DB_URL, echo=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

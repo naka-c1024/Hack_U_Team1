@@ -37,7 +37,7 @@ final depthProvider = StateProvider<int?>((ref) => null);
 // 家具リスト取得APIの状態を管理
 final furnitureListProvider = FutureProvider<List<Furniture>>((ref) async {
   final userId = ref.read(userIdProvider);
-  return getFurnitureList(userId, null, null);
+  return getFurnitureList(userId);
 });
 
 //　出品した商品取得APIの状態を取得
@@ -64,5 +64,5 @@ final descriptionProvider = StateProvider.autoDispose<Description?>((ref) => nul
 // AIが返してくれたおすすめ家具の理由を保持
 final reasonProvider = StateProvider<String?>((ref) => null);
 
-// AIが返してくれたおすすめ家具のリストを保持
-final recommendFurnitureListProvider = StateProvider.autoDispose<List<Furniture>>((ref) => []);
+// AIが返してくれたおすすめ家具のリストを保持 (キーワード検索結果もこれで管理)
+final searchResultProvider = StateProvider.autoDispose<List<Furniture>?>((ref) => null);

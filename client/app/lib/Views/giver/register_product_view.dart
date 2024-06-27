@@ -1,18 +1,17 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../Domain/trade.dart';
+import '../../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import 'trade/trade_list_view.dart';
 import 'product/product_list_view.dart';
 import 'register/register_product_sheet.dart';
 
 class RegisterProductView extends HookConsumerWidget {
-  final List<Trade> tradeList;
   final ValueNotifier<CameraController?> cameraController;
   const RegisterProductView({
-    required this.tradeList,
     required this.cameraController,
     super.key,
   });
@@ -20,6 +19,7 @@ class RegisterProductView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final controller = useTabController(initialLength: 3);
 
     return DefaultTabController(
       length: 3,
@@ -53,22 +53,34 @@ class RegisterProductView extends HookConsumerWidget {
                                   cameraController: cameraController),
                             );
                           },
-                        );
+                        ).whenComplete(() {
+                          controller.index = 1;
+                        });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffffffff),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
+                        backgroundColor: ThemeColors.keyGreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
                         ),
                       ),
                       child: SizedBox(
-                        width: screenSize.width - 136,
-                        child: const Row(
+                        width: screenSize.width - 96,
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.photo_camera_outlined),
-                            SizedBox(width: 8),
-                            Text('出品する'),
+                            Image.asset(
+                              'assets/images/camera_icon.png',
+                              width: 24,
+                            ),
+                            const SizedBox(width: 16),
+                            const Text(
+                              '出品する',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffffffff),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -78,32 +90,49 @@ class RegisterProductView extends HookConsumerWidget {
               )
             ],
           ),
-          bottom: const TabBar(
-            tabs: [
+          bottom: TabBar(
+            controller: controller,
+            labelColor: ThemeColors.black,
+            unselectedLabelColor: ThemeColors.black,
+            indicatorColor: ThemeColors.black,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(0),
+              border: const Border(
+                bottom: BorderSide(
+                  color: ThemeColors.black,
+                  width: 3.0,
+                ), 
+              ),
+            ),
+            tabs: const [
               Tab(
                 child: Text(
-                  '取引中',
+                  '   取引中   ',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xff000000),
                   ),
                 ),
               ),
               Tab(
                 child: Text(
-                  '出品中',
+                  '   出品中   ',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xff000000),
                   ),
                 ),
               ),
               Tab(
                 child: Text(
-                  '譲渡済み',
+                  ' 譲渡済み ',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xff000000),
                   ),
                 ),
               ),
@@ -111,10 +140,11 @@ class RegisterProductView extends HookConsumerWidget {
           ),
         ),
         body: TabBarView(
-          children: [
-            TradeListView(tradeList: tradeList),
-            const ProductListView(isCompleted: false),
-            const ProductListView(isCompleted: true),
+          controller: controller,
+          children: const [
+            TradeListView(),
+            ProductListView(isCompleted: false),
+            ProductListView(isCompleted: true),
           ],
         ),
       ),

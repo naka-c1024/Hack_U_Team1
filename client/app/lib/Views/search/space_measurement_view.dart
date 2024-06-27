@@ -4,6 +4,7 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
 import '../../Domain/constants.dart';
 import '../../Usecases/provider.dart';
 import 'search_result_view.dart';
@@ -19,7 +20,6 @@ class SpaceMeasurementView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
     final categoryIndex = ref.watch(categoryProvider);
-    final furnitureList = ref.watch(recommendFurnitureListProvider);
 
     final arkitController = useState<ARKitController?>(null);
     final nodes = useState<List<ARKitNode>>([]); // 設置した球体を保持
@@ -55,7 +55,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
           isMeasuringDepth.value) {
         if (positions.value.length < 2) {
           final material = ARKitMaterial(
-            diffuse: ARKitMaterialProperty.color(Theme.of(context).primaryColor),
+            diffuse: ARKitMaterialProperty.color(ThemeColors.keyGreen),
           );
           final sphere = ARKitSphere(materials: [material], radius: 0.01);
           final node = ARKitNode(geometry: sphere, position: position);
@@ -132,12 +132,12 @@ class SpaceMeasurementView extends HookConsumerWidget {
                     children: [
                       Icon(
                         Icons.arrow_back_ios,
-                        color: Color(0xff131313),
+                        color: ThemeColors.black,
                       ),
                       Text(
                         '戻る',
                         style: TextStyle(
-                          color: Color(0xff131313),
+                          color: ThemeColors.black,
                         ),
                       ),
                     ],
@@ -148,36 +148,36 @@ class SpaceMeasurementView extends HookConsumerWidget {
               Container(
                 height: 8,
                 width: 8,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor,
+                  color: ThemeColors.keyGreen,
                 ),
               ),
               Container(
                 height: 2,
                 width: 48,
-                color: Theme.of(context).primaryColor,
+                color: ThemeColors.keyGreen,
               ),
               Container(
                 height: 8,
                 width: 8,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor,
+                  color: ThemeColors.keyGreen,
                 ),
               ),
               Container(
                 height: 2,
                 width: 48,
-                color: Theme.of(context).primaryColor,
+                color: ThemeColors.keyGreen,
               ),
               Container(
                 height: 28,
                 width: 28,
                 padding: const EdgeInsets.only(bottom: 4),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor,
+                  color: ThemeColors.keyGreen,
                 ),
                 child: const Center(
                   child: Text(
@@ -260,7 +260,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
                                       height: 4,
                                       width: 72,
                                       color: isMeasuringWidth.value
-                                          ? Theme.of(context).primaryColor
+                                          ? ThemeColors.keyGreen
                                           : Colors.transparent,
                                     ),
                                   ],
@@ -293,7 +293,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
                                       height: 4,
                                       width: 112,
                                       color: isMeasuringDepth.value
-                                          ? Theme.of(context).primaryColor
+                                          ? ThemeColors.keyGreen
                                           : Colors.transparent,
                                     ),
                                   ],
@@ -326,7 +326,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
                                       height: 4,
                                       width: 88,
                                       color: isMeasuringHeight.value
-                                          ? Theme.of(context).primaryColor
+                                          ? ThemeColors.keyGreen
                                           : Colors.transparent,
                                     ),
                                   ],
@@ -346,14 +346,13 @@ class SpaceMeasurementView extends HookConsumerWidget {
                         MaterialPageRoute(
                           builder: (context) => SearchResultView(
                             searchWord: '${categorys[categoryIndex]} の画像検索結果',
-                            furnitureList: furnitureList,
                             isSearchPicture: true,
                           ),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
+                      backgroundColor: ThemeColors.keyGreen,
                       padding: EdgeInsets.zero,
                       minimumSize: Size.zero,
                       elevation: 0,

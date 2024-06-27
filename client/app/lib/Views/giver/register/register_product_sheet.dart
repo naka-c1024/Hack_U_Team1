@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Domain/constants.dart';
 import '../../../Domain/furniture.dart';
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 import 'color_sheet.dart';
 import 'category_sheet.dart';
@@ -171,20 +172,20 @@ class RegisterProductSheet extends HookConsumerWidget {
                     width: 8,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(0xff000000),
+                      color: ThemeColors.keyGreen,
                     ),
                   ),
                   Container(
                     height: 2,
                     width: 24,
-                    color: const Color(0xffd9d9d9),
+                    color: ThemeColors.bgGray1,
                   ),
                   Container(
                     height: 8,
                     width: 8,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(0xffd9d9d9),
+                      color: ThemeColors.bgGray1,
                     ),
                   ),
                 ],
@@ -195,7 +196,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                 padding: EdgeInsets.only(
                   left: 16,
                   right: 16,
-                  top: 8,
+                  top: 16,
                   bottom: (isFocused.value == false && keyboardHeight != 0)
                       ? keyboardHeight * 0.75
                       : 16,
@@ -215,25 +216,42 @@ class RegisterProductSheet extends HookConsumerWidget {
                                 currentScope.hasFocus) {
                               FocusManager.instance.primaryFocus!.unfocus();
                             }
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return SizedBox(
-                                  height: screenSize.height - 64,
-                                  child: RegisterPictureSheet(
-                                    cameraController: cameraController,
-                                    imagePath: imagePath,
-                                  ),
-                                );
-                              },
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Scaffold(
+                                    body: Stack(
+                                      children: [
+                                        Container(
+                                          height: screenSize.height,
+                                          width: screenSize.width,
+                                          color: ThemeColors.lineGray2,
+                                        ),
+                                        Positioned(
+                                          top: 64,
+                                          child: SizedBox(
+                                            height: screenSize.height - 64,
+                                            width: screenSize.width,
+                                            child: RegisterPictureSheet(
+                                              cameraController:
+                                                  cameraController,
+                                              imagePath: imagePath,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             );
                           },
                           child: Ink(
-                            height: 96,
-                            width: 96,
+                            height: 120,
+                            width: 120,
                             decoration: BoxDecoration(
-                              color: const Color(0xffd9d9d9),
+                              color: ThemeColors.bgGray1,
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: imagePath.value == null
@@ -259,7 +277,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
-                          color: const Color(0xffd9d9d9),
+                          color: ThemeColors.bgGray1,
                         ),
                       ),
                       child: TextField(
@@ -272,7 +290,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                           hintText: '必須 (40文字まで)',
                           hintStyle: TextStyle(
                             fontSize: 14,
-                            color: Color(0xffd9d9d9),
+                            color: ThemeColors.bgGray1,
                           ),
                           border: InputBorder.none,
                         ),
@@ -302,15 +320,31 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   currentScope.hasFocus) {
                                 FocusManager.instance.primaryFocus!.unfocus();
                               }
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: screenSize.height - 64,
-                                    child: const CategorySheet(),
-                                  );
-                                },
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Scaffold(
+                                      body: Stack(
+                                        children: [
+                                          Container(
+                                            height: screenSize.height,
+                                            width: screenSize.width,
+                                            color: ThemeColors.lineGray2,
+                                          ),
+                                          Positioned(
+                                            top: 64,
+                                            child: SizedBox(
+                                              height: screenSize.height - 64,
+                                              width: screenSize.width,
+                                              child: const CategorySheet(),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               );
                             },
                             child: Ink(
@@ -322,14 +356,14 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           '選択してください',
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xffd9d9d9),
+                                            color: ThemeColors.bgGray1,
                                           ),
                                         )
                                       : Text(
                                           categorys[categoryIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xff636363),
+                                            color: ThemeColors.textGray1,
                                           ),
                                         ),
                                   const SizedBox(width: 8),
@@ -367,15 +401,31 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   currentScope.hasFocus) {
                                 FocusManager.instance.primaryFocus!.unfocus();
                               }
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: screenSize.height - 64,
-                                    child: const ConditionSheet(),
-                                  );
-                                },
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Scaffold(
+                                      body: Stack(
+                                        children: [
+                                          Container(
+                                            height: screenSize.height,
+                                            width: screenSize.width,
+                                            color: ThemeColors.lineGray2,
+                                          ),
+                                          Positioned(
+                                            top: 64,
+                                            child: SizedBox(
+                                              height: screenSize.height - 64,
+                                              width: screenSize.width,
+                                              child: const ConditionSheet(),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               );
                             },
                             child: Ink(
@@ -387,14 +437,14 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           '選択してください',
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xffd9d9d9),
+                                            color: ThemeColors.bgGray1,
                                           ),
                                         )
                                       : Text(
                                           conditions[conditionIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xff636363),
+                                            color: ThemeColors.textGray1,
                                           ),
                                         ),
                                   const SizedBox(width: 8),
@@ -432,23 +482,32 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   currentScope.hasFocus) {
                                 FocusManager.instance.primaryFocus!.unfocus();
                               }
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: screenSize.height - 64,
-                                    child: const ColorSheet(),
-                                  );
-                                },
-                              ).whenComplete(() {
-                                final FocusScopeNode currentScope =
-                                    FocusScope.of(context);
-                                if (!currentScope.hasPrimaryFocus &&
-                                    currentScope.hasFocus) {
-                                  FocusManager.instance.primaryFocus!.unfocus();
-                                }
-                              });
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Scaffold(
+                                      body: Stack(
+                                        children: [
+                                          Container(
+                                            height: screenSize.height,
+                                            width: screenSize.width,
+                                            color: ThemeColors.lineGray2,
+                                          ),
+                                          Positioned(
+                                            top: 64,
+                                            child: SizedBox(
+                                              height: screenSize.height - 64,
+                                              width: screenSize.width,
+                                              child: const ColorSheet(),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
                             },
                             child: Ink(
                               padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
@@ -459,14 +518,14 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           '選択してください',
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xffd9d9d9),
+                                            color: ThemeColors.bgGray1,
                                           ),
                                         )
                                       : Text(
                                           colors[colorIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xff636363),
+                                            color: ThemeColors.textGray1,
                                           ),
                                         ),
                                   const SizedBox(width: 8),
@@ -514,7 +573,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     const Divider(),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 16),
                     const Text(
                       '商品説明',
                       style: TextStyle(
@@ -523,13 +582,13 @@ class RegisterProductSheet extends HookConsumerWidget {
                         color: Color(0xff686868),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                     Container(
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
-                          color: const Color(0xffd9d9d9),
+                          color: ThemeColors.bgGray1,
                         ),
                       ),
                       child: TextField(
@@ -538,7 +597,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                           hintText: '商品について詳しく説明しましょう',
                           hintStyle: TextStyle(
                             fontSize: 14,
-                            color: Color(0xffd9d9d9),
+                            color: ThemeColors.bgGray1,
                           ),
                           border: InputBorder.none,
                         ),
@@ -550,7 +609,6 @@ class RegisterProductSheet extends HookConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
               // 取引依頼ボタン
               Container(
                 padding: const EdgeInsets.all(16),
@@ -578,15 +636,32 @@ class RegisterProductSheet extends HookConsumerWidget {
                         isSold: false,
                         isFavorite: false,
                       );
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: screenSize.height - 64,
-                            child: RegisterTradeSheet(furniture: furniture),
-                          );
-                        },
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return Scaffold(
+                              body: Stack(
+                                children: [
+                                  Container(
+                                    height: screenSize.height,
+                                    width: screenSize.width,
+                                    color: ThemeColors.lineGray2,
+                                  ),
+                                  Positioned(
+                                    top: 64,
+                                    child: SizedBox(
+                                      height: screenSize.height - 64,
+                                      width: screenSize.width,
+                                      child: RegisterTradeSheet(
+                                          furniture: furniture),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       );
                     }
                   },
@@ -598,8 +673,8 @@ class RegisterProductSheet extends HookConsumerWidget {
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                         color: isInputCompleted.value
-                            ? const Color(0xff424242)
-                            : const Color(0xffd9d9d9),
+                            ? ThemeColors.keyGreen
+                            : ThemeColors.bgGray2,
                       ),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -612,10 +687,10 @@ class RegisterProductSheet extends HookConsumerWidget {
                     child: Text(
                       '次へ',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         color: isInputCompleted.value
-                            ? const Color(0xff424242)
-                            : const Color(0xffd9d9d9),
+                            ? ThemeColors.keyGreen
+                            : ThemeColors.bgGray2,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

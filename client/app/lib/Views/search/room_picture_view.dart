@@ -1,9 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
 import '../../Usecases/ai_api.dart';
+import '../common/error_dialog.dart';
 
 class RoomPictureView extends HookConsumerWidget {
   final ValueNotifier<int> searchPictureProcess;
@@ -60,12 +64,12 @@ class RoomPictureView extends HookConsumerWidget {
                     children: [
                       Icon(
                         Icons.arrow_back_ios,
-                        color: Color(0xff131313),
+                        color: ThemeColors.black,
                       ),
                       Text(
                         '戻る',
                         style: TextStyle(
-                          color: Color(0xff131313),
+                          color: ThemeColors.black,
                         ),
                       ),
                     ],
@@ -76,23 +80,23 @@ class RoomPictureView extends HookConsumerWidget {
               Container(
                 height: 8,
                 width: 8,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor,
+                  color: ThemeColors.keyGreen,
                 ),
               ),
               Container(
                 height: 2,
                 width: 48,
-                color: Theme.of(context).primaryColor,
+                color: ThemeColors.keyGreen,
               ),
               Container(
                 height: 28,
                 width: 28,
                 padding: const EdgeInsets.only(bottom: 4),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor,
+                  color: ThemeColors.keyGreen,
                 ),
                 child: const Center(
                   child: Text(
@@ -108,14 +112,14 @@ class RoomPictureView extends HookConsumerWidget {
               Container(
                 height: 2,
                 width: 48,
-                color: const Color(0xffababab),
+                color: ThemeColors.lineGray1,
               ),
               Container(
                 height: 8,
                 width: 8,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xffababab),
+                  color: ThemeColors.lineGray1,
                 ),
               ),
               const Spacer(),
@@ -172,14 +176,14 @@ class RoomPictureView extends HookConsumerWidget {
                           color: Colors.transparent,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: const Color(0xffd9d9d9),
+                            color: ThemeColors.bgGray1,
                             width: 1,
                           ),
                         ),
                         child: const Icon(
                           Icons.image_outlined,
                           size: 28,
-                          color: Color(0xffd9d9d9),
+                          color: ThemeColors.bgGray1,
                         ),
                       ),
                     ),
@@ -204,19 +208,22 @@ class RoomPictureView extends HookConsumerWidget {
                           onPressed: () async {
                             searchPictureProcess.value = 2;
                             if (cameraController.value == null) {
-                              print('Error: camera Controller is null.');
+                              const message =
+                                  'Error: camera Controller is null.';
+                              showErrorDialog(context, message);
                               return;
                             }
                             try {
                               final image =
                                   await cameraController.value?.takePicture();
                               if (image == null) {
-                                print('Error: image is null.');
+                                const message = 'Error: image is null.';
+                                showErrorDialog(context, message);
                                 return;
                               }
                               recommendFurniture(ref, image.path);
                             } catch (e) {
-                              print(e);
+                              showErrorDialog(context, e.toString());
                             }
                           },
                           style: ElevatedButton.styleFrom(

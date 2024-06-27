@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../Domain/trade.dart';
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 import '../../../Usecases/furniture_api.dart';
+import '../../common/error_dialog.dart';
 import '../../common/trade_detail_view.dart';
 
 class TradeCell extends HookConsumerWidget {
@@ -26,7 +28,8 @@ class TradeCell extends HookConsumerWidget {
           child: InkWell(
             onTap: () {
               // 取引承認ページへ
-              final futureResult = getFurnitureDetails(userId, trade.furnitureId);
+              final futureResult =
+                  getFurnitureDetails(userId, trade.furnitureId);
               futureResult.then((result) {
                 Navigator.push(
                   context,
@@ -39,14 +42,7 @@ class TradeCell extends HookConsumerWidget {
                   ),
                 );
               }).catchError((error) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Center(
-                      child: Text('error: $error'),
-                    ),
-                  ),
-                );
+                showErrorDialog(context, error.toString());
               });
             },
             child: Ink(
@@ -58,7 +54,7 @@ class TradeCell extends HookConsumerWidget {
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
-                      color: const Color(0xffd9d9d9),
+                      color: ThemeColors.bgGray1,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: ClipRRect(
@@ -83,10 +79,14 @@ class TradeCell extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        isTrading ? '受け渡しは完了しましたか？' : '取引依頼を承認しますか？',
+                        isTrading
+                            ? '受け渡しは完了しましたか？'
+                            : trade.giverApproval
+                                ? '取引相手の完了待ちです。'
+                                : '取引依頼を承認しますか？',
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Color(0xff636363),
+                          color: ThemeColors.textGray1,
                         ),
                       ),
                     ],

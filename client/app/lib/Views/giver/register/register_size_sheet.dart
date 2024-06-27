@@ -4,6 +4,7 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 
 class RegisterSizeSheet extends HookConsumerWidget {
@@ -128,7 +129,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
           const SizedBox(height: 16),
           // 長さを測るためのカメラ
           SizedBox(
-            height: screenSize.width + 120,
+            height: screenSize.width + 118,
             child: ARKitSceneView(
               enableTapRecognizer: true,
               onARKitViewCreated: (controller) {
@@ -138,81 +139,114 @@ class RegisterSizeSheet extends HookConsumerWidget {
             ),
           ),
           const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    isMeasuringHeight.value = false;
-                    isMeasuringWidth.value = true;
-                    isMeasuringDepth.value = false;
-                  },
-                  child: Container(
-                    height: 32,
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    color: Colors.transparent,
-                    alignment: Alignment.center,
-                    child: Text(
-                      isMeasuringWidth.value
-                          ? '幅を計測中'
-                          : width == null
-                              ? '幅を計測'
-                              : '幅：$width cm',
+          Container(
+            height: 64,
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      isMeasuringHeight.value = false;
+                      isMeasuringWidth.value = true;
+                      isMeasuringDepth.value = false;
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 32,
+                          color: Colors.transparent,
+                          alignment: Alignment.center,
+                          child: Text(
+                            isMeasuringWidth.value
+                                ? '幅を計測中'
+                                : width == null
+                                    ? '幅を計測'
+                                    : '幅：$width cm',
+                          ),
+                        ),
+                        Container(
+                          height: 4,
+                          width: 72,
+                          color: isMeasuringWidth.value
+                              ? ThemeColors.keyGreen
+                              : Colors.transparent,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    isMeasuringHeight.value = false;
-                    isMeasuringWidth.value = false;
-                    isMeasuringDepth.value = true;
-                  },
-                  child: Container(
-                    height: 32,
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    color: Colors.transparent,
-                    alignment: Alignment.center,
-                    child: Text(
-                      isMeasuringDepth.value
-                          ? '奥行きを計測中'
-                          : depth == null
-                              ? '奥行きを計測'
-                              : '奥行き：$depth cm',
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      isMeasuringHeight.value = false;
+                      isMeasuringWidth.value = false;
+                      isMeasuringDepth.value = true;
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 32,
+                          color: Colors.transparent,
+                          alignment: Alignment.center,
+                          child: Text(
+                            isMeasuringDepth.value
+                                ? '奥行きを計測中'
+                                : depth == null
+                                    ? '奥行きを計測'
+                                    : '奥行き：$depth cm',
+                          ),
+                        ),
+                        Container(
+                          height: 4,
+                          width: 112,
+                          color: isMeasuringDepth.value
+                              ? ThemeColors.keyGreen
+                              : Colors.transparent,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    isMeasuringHeight.value = true;
-                    isMeasuringWidth.value = false;
-                    isMeasuringDepth.value = false;
-                  },
-                  child: Container(
-                    height: 32,
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    color: Colors.transparent,
-                    alignment: Alignment.center,
-                    child: Text(
-                      isMeasuringHeight.value
-                          ? '高さを計測中'
-                          : height == null
-                              ? '高さを計測'
-                              : '高さ：$height cm',
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      isMeasuringHeight.value = true;
+                      isMeasuringWidth.value = false;
+                      isMeasuringDepth.value = false;
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 32,
+                          color: Colors.transparent,
+                          alignment: Alignment.center,
+                          child: Text(
+                            isMeasuringHeight.value
+                                ? '高さを計測中'
+                                : height == null
+                                    ? '高さを計測'
+                                    : '高さ：$height cm',
+                          ),
+                        ),
+                        Container(
+                          height: 4,
+                          width: 88,
+                          color: isMeasuringHeight.value
+                              ? ThemeColors.keyGreen
+                              : Colors.transparent,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const Spacer(),
           Column(
             children: [
               // 長さ登録ボタン
@@ -226,7 +260,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff424242),
+                    backgroundColor: ThemeColors.keyGreen,
                     padding: EdgeInsets.zero,
                     minimumSize: Size.zero,
                     elevation: 0,
@@ -242,7 +276,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
                     child: const Text(
                       'サイズを登録',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         color: Color(0xffffffff),
                         fontWeight: FontWeight.bold,
                       ),

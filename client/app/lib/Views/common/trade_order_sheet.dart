@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
+import '../../Usecases/provider.dart';
+
 class TradeOrderSheet extends HookConsumerWidget {
   const TradeOrderSheet({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+
+    Future<void> reloadTradeList() {
+      // ignore: unused_result
+      ref.refresh(tradeListProvider);
+      return ref.read(tradeListProvider.future);
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -25,6 +34,8 @@ class TradeOrderSheet extends HookConsumerWidget {
             children: [
               IconButton(
                 onPressed: () {
+                  // 取引リストを更新
+                  reloadTradeList();
                   // もとの画面に戻る
                   Navigator.of(context).pop(0);
                   Navigator.of(context).pop(0);
@@ -85,42 +96,8 @@ class TradeOrderSheet extends HookConsumerWidget {
                     minimumSize: Size.zero,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  child: Container(
-                    height: 48,
-                    width: screenSize.width - 48,
-                    margin: const EdgeInsets.only(left: 8, right: 8),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '戻る',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              // チャットボタン
-              Container(
-                padding: const EdgeInsets.only(left: 16, top: 4, right: 16),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffffffff),
-                    padding: EdgeInsets.zero,
-                    minimumSize: Size.zero,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
                       side: const BorderSide(
-                        color: Color(0xff424242),
+                        color: ThemeColors.keyGreen,
                         width: 1.5,
                       ),
                       borderRadius: BorderRadius.circular(5),
@@ -132,16 +109,62 @@ class TradeOrderSheet extends HookConsumerWidget {
                     margin: const EdgeInsets.only(left: 8, right: 8),
                     alignment: Alignment.center,
                     child: const Text(
-                      'チャットする',
+                      '戻る',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Color(0xff424242),
+                        color: ThemeColors.keyGreen,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 8),
+              // チャットボタン
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xffffffff),
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size.zero,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(
+                      color: ThemeColors.lineGray1,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: Container(
+                  height: 48,
+                  width: (screenSize.width - 32),
+                  margin: const EdgeInsets.only(left: 8, right: 8),
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/chat_icon.png',
+                        width: 24,
+                        color: ThemeColors.lineGray2,
+                      ),
+                      const SizedBox(width: 16),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Text(
+                          'チャットする',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: ThemeColors.lineGray2,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
             ],
           ),
         ],

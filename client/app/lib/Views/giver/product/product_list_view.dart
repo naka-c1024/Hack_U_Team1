@@ -3,7 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../Domain/furniture.dart';
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
+import '../../common/error_dialog.dart';
 import 'product_cell.dart';
 
 class ProductListView extends HookConsumerWidget {
@@ -27,21 +29,24 @@ class ProductListView extends HookConsumerWidget {
       return ref.read(myProductListProvider.future);
     }
 
-    useEffect((){
-      reloadMyProductList();
+    useEffect(() {
+      Future.microtask(() => {reloadMyProductList()});
       return null;
-    },[]);
+    }, []);
 
-    return RefreshIndicator(
+    return Container(
+      color: const Color(0xffffffff),
+      child: RefreshIndicator(
+        color: ThemeColors.keyGreen,
         onRefresh: () => reloadMyProductList(),
         // 家具リストの取得
         child: myProductState.when(
           loading: () => const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: ThemeColors.keyGreen,
+            ),
           ),
-          error: (error, __) => Center(
-            child: Text('$error'),
-          ),
+          error: (error, __) => errorDialog(context,error.toString()),
           skipLoadingOnRefresh: false,
           data: (data) {
             // 取得したデータをWidgetに入れる
@@ -72,6 +77,8 @@ class ProductListView extends HookConsumerWidget {
               ),
             );
           },
-        ));
+        ),
+      ),
+    );
   }
 }

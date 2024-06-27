@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
+import '../../Domain/theme_color.dart';
 
 class AreaFilterMenu extends HookConsumerWidget {
   final ValueNotifier<List<int>> selectedArea;
@@ -59,7 +59,7 @@ class AreaFilterMenu extends HookConsumerWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: Color(0xff131313),
+              color: ThemeColors.black,
             ),
           ),
           const SizedBox(height: 16),
@@ -78,7 +78,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff636363),
+                      color: ThemeColors.textGray1,
                     ),
                   ),
                   Icon(
@@ -120,7 +120,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff636363),
+                      color: ThemeColors.textGray1,
                     ),
                   ),
                   Icon(
@@ -162,7 +162,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff636363),
+                      color: ThemeColors.textGray1,
                     ),
                   ),
                   Icon(
@@ -206,7 +206,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff636363),
+                      color: ThemeColors.textGray1,
                     ),
                   ),
                   Icon(
@@ -248,7 +248,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff636363),
+                      color: ThemeColors.textGray1,
                     ),
                   ),
                   Icon(
@@ -292,7 +292,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff636363),
+                      color: ThemeColors.textGray1,
                     ),
                   ),
                   Icon(
@@ -365,11 +365,11 @@ class AreaCell extends HookConsumerWidget {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected.value
-                ? Theme.of(context).primaryColor
-                : const Color(0xffd9d9d9),
+                ? ThemeColors.keyGreen
+                : ThemeColors.bgGray1,
           ),
           color: isSelected.value
-              ? Theme.of(context).primaryColor
+              ? ThemeColors.keyGreen
               : const Color(0xffffffff),
         ),
         child: Row(

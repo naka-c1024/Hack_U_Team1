@@ -57,7 +57,7 @@ class FurnitureApiImpl(BaseFurnitureApi):
         keyword: Optional[str],
         db: AsyncSession,
     ) -> FurnitureListResponse:
-        furniture_list = await furniture_crud.get_furniture_list(db, request_user_id, category, keyword)
+        furniture_list = await furniture_crud.get_furniture_list(db, request_user_id, category, None, keyword)
         if not furniture_list.furniture:
             raise HTTPException(status_code=404, detail="Furniture not found")
         await self._embed_image_data_list(furniture_list.furniture)
@@ -131,15 +131,15 @@ class FurnitureApiImpl(BaseFurnitureApi):
 
     async def _save_image(self, user_id: int, product_name: str, image: UploadFile) -> str:
         SAVE_DIR = "/app/src/openapi_server/file_storage"
+        EXTENSION = "jpeg"  # 圧縮するためにjpeg形式にする
+        QUALITY = 40  # 画像の圧縮率, 低いほど圧縮されるが画質が劣化する
+
         if not os.path.exists(SAVE_DIR):
             # ディレクトリが未作成の場合はInternalServerErrorにしてよし
             raise FileNotFoundError(f"Directory not found: {SAVE_DIR}")
-        extension = image.filename.split('.')[-1]
-        image_filename = f"userid{user_id}-{product_name}-{uuid.uuid4().hex}.{extension}"
-        image_path = os.path.join(SAVE_DIR, image_filename)
+        image_filename = f"userid{user_id}-{product_name}-{uuid.uuid4().hex}.{EXTENSION}"
         image_bytes = await image.read()
-        await write_image_file(image_path, image_bytes)
-        return image_path
+        return await write_image_file(SAVE_DIR, image_filename, image_bytes, QUALITY)
 
     async def _embed_image_data(self, furniture: FurnitureResponse, image_path: Optional[str] = None):
         try:

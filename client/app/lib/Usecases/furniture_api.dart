@@ -1,23 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:app/Usecases/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../Domain/furniture.dart';
+import '../Domain/constants.dart';
 
 // 家具リストを取得
-Future<List<Furniture>> getFurnitureList(
-    int userId, int? category, String? searchWord) async {
+Future<List<Furniture>> getFurnitureList(int userId) async {
   try {
-    final url = Uri.parse('http://192.168.2.142:8080/furniture');
+    final url = Uri.parse('http://$ipAddress:8080/furniture');
     final params = {
       'user_id': userId.toString(),
     };
-    if (category != null) {
-      params['category'] = category.toString();
-    }
-    if (searchWord != null && searchWord != '') {
-      params['keyword'] = searchWord;
-    }
     final uri = Uri.parse(url.toString()).replace(queryParameters: params);
     final response = await get(uri);
     final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
@@ -61,10 +57,67 @@ Future<List<Furniture>> getFurnitureList(
   }
 }
 
+// 家具をカテゴリやキーワードで検索
+Future<void> searchFurnitureList(
+    WidgetRef ref, int userId, int? category, String? searchWord) async {
+  try {
+    final url = Uri.parse('http://$ipAddress:8080/furniture');
+    final params = {
+      'user_id': userId.toString(),
+    };
+    if (category != null) {
+      params['category'] = category.toString();
+    }
+    if (searchWord != null && searchWord != '') {
+      params['keyword'] = searchWord;
+    }
+    final uri = Uri.parse(url.toString()).replace(queryParameters: params);
+    final response = await get(uri);
+    final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
+    if (response.statusCode == 200) {
+      final items = jsonResponse['furniture'];
+      List<Furniture> furnitureList = [];
+      for (Map<String, dynamic> item in items) {
+        var furniture = Furniture(
+            furnitureId: item['furniture_id'],
+            image: base64Decode(item['image']),
+            area: item['area'],
+            userName: item['username'],
+            productName: item['product_name'],
+            description: item['description'],
+            height: double.parse(item['size'].split(' ')[0]),
+            width: double.parse(item['size'].split(' ')[1]),
+            depth: double.parse(item['size'].split(' ')[2]),
+            category: item['category'],
+            color: item['color'],
+            condition: item['condition'],
+            isSold: item['is_sold'],
+            startDate: item['start_date'] == null
+                ? null
+                : DateTime.parse(item['start_date']),
+            endDate: item['end_date'] == null
+                ? null
+                : DateTime.parse(item['end_date']),
+            tradePlace: item['trade_place'],
+            isFavorite: item['is_favorite']);
+        furnitureList.add(furniture);
+      }
+      ref.read(searchResultProvider.notifier).state = furnitureList;
+    } else if (response.statusCode == 404) {
+      ref.read(searchResultProvider.notifier).state = [];
+    } else {
+      final msg = jsonResponse['detail'];
+      throw Exception('Failed to search furniture: $msg');
+    }
+  } catch (e) {
+    throw Exception('Undefined Error: $e');
+  }
+}
+
 // 家具IDを指定して詳細を取得
 Future<Furniture> getFurnitureDetails(int userId, int furnitureId) async {
   try {
-    final url = Uri.parse('http://192.168.2.142:8080/furniture/$furnitureId');
+    final url = Uri.parse('http://$ipAddress:8080/furniture/$furnitureId');
     final params = {
       'user_id': userId.toString(),
     };
@@ -108,7 +161,7 @@ Future<Furniture> getFurnitureDetails(int userId, int furnitureId) async {
 // 家具を登録
 Future<void> registerFurniture(int userId, Furniture furniture) async {
   try {
-    final uri = Uri.parse('http://192.168.2.142:8080/furniture');
+    final uri = Uri.parse('http://$ipAddress:8080/furniture');
     final request = MultipartRequest('POST', uri);
     // 画像を読み込む
     var file = await MultipartFile.fromPath('image', furniture.imagePath!);
@@ -147,7 +200,7 @@ Future<void> registerFurniture(int userId, Furniture furniture) async {
 // 家具を削除
 Future<void> deleteFurniture(int furnitureId) async {
   try {
-    final url = Uri.parse('http://192.168.2.142:8080/furniture/$furnitureId');
+    final url = Uri.parse('http://$ipAddress:8080/furniture/$furnitureId');
     final response = await delete(url);
     final jsonResponse = jsonDecode(response.body);
     if (response.statusCode != 200) {
@@ -162,8 +215,7 @@ Future<void> deleteFurniture(int furnitureId) async {
 // 自分が出品した家具を取得
 Future<List<Furniture>> getMyProductList(int userId) async {
   try {
-    final url =
-        Uri.parse('http://192.168.2.142:8080/furniture/personal_products');
+    final url = Uri.parse('http://$ipAddress:8080/furniture/personal_products');
     final params = {
       'user_id': userId.toString(),
     };

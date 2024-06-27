@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
@@ -7,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Domain/constants.dart';
+import '../common/error_dialog.dart';
 import 'login_view.dart';
 
 class SignUpView extends HookConsumerWidget {
@@ -20,7 +23,7 @@ class SignUpView extends HookConsumerWidget {
     final selectedPrefecture = useState<int>(12); // デフォルトは東京
 
     Future<void> isSignUpSuccessfully() async {
-      final url = Uri.parse('http://192.168.2.142:8080/sign_up');
+      final url = Uri.parse('http://$ipAddress:8080/sign_up');
       final headers = {'Content-Type': 'application/json'};
       final requestBody = jsonEncode({
         'username': userNameController.text,
@@ -44,45 +47,11 @@ class SignUpView extends HookConsumerWidget {
           await prefs.setInt('address', selectedPrefecture.value);
         } else {
           final jsonResponse = jsonDecode(response.body);
-          final msg = jsonResponse['detail'];
-          // エラーダイアログ
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Error'),
-                content: Text('Failed to Sign up: $msg'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
+          final message = jsonResponse['detail'];
+          showErrorDialog(context, message);
         }
       } catch (e) {
-        // エラーダイアログ
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Error'),
-              content: Text('Undefined Error: $e'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
+        showErrorDialog(context, e.toString());
       }
     }
 
@@ -128,6 +97,13 @@ class SignUpView extends HookConsumerWidget {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                ),
+                onPressed: () async {
+                  if (userNameController.text == '') return;
+                  isSignUpSuccessfully();
+                },
                 child: Container(
                   height: 40,
                   width: 80,
@@ -138,10 +114,6 @@ class SignUpView extends HookConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                onPressed: () async {
-                  if (userNameController.text == '') return;
-                  isSignUpSuccessfully();
-                },
               ),
             ],
           ),

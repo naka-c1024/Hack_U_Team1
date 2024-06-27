@@ -6,8 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Domain/trade.dart';
 import '../../Domain/furniture.dart';
+import '../../Domain/theme_color.dart';
 import '../../Usecases/trade_api.dart';
 import '../../Usecases/provider.dart';
+import 'error_dialog.dart';
 import 'trade_approve_sheet.dart';
 import 'furniture_detail_view.dart';
 
@@ -39,10 +41,16 @@ class TradeDetailView extends HookConsumerWidget {
       return ref.read(favoriteCountProvider(furniture.furnitureId).future);
     }
 
-    useEffect((){
-      reloadFavoriteCount();
+    Future<void> reloadTradeList() {
+      // ignore: unused_result
+      ref.refresh(tradeListProvider);
+      return ref.read(tradeListProvider.future);
+    }
+
+    useEffect(() {
+      Future.microtask(() => {reloadFavoriteCount()});
       return null;
-    },[]);
+    }, []);
 
     // 譲渡を承認した取引のtradeIdを保存
     void saveTradingIdList(int tradeId) {
@@ -83,7 +91,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff131313),
+                color: ThemeColors.black,
               ),
             ),
           ],
@@ -103,7 +111,7 @@ class TradeDetailView extends HookConsumerWidget {
                       : '受け渡しは完了しましたか？',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xff131313),
+                color: ThemeColors.black,
               ),
             ),
             const SizedBox(height: 24),
@@ -135,25 +143,20 @@ class TradeDetailView extends HookConsumerWidget {
                                   },
                                 );
                               }).catchError((error) {
-                                return Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Center(
-                                      child: Text('error: $error'),
-                                    ),
-                                  ),
-                                );
+                                return showErrorDialog(
+                                    context, error.toString());
                               });
+                              reloadTradeList();
                               saveTradingIdList(trade.tradeId);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff424242),
+                              backgroundColor: ThemeColors.keyGreen,
                               padding: EdgeInsets.zero,
                               minimumSize: Size.zero,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(
-                                  color: Color(0xff424242),
+                                  color: ThemeColors.keyGreen,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -166,7 +169,7 @@ class TradeDetailView extends HookConsumerWidget {
                               child: const Text(
                                 '譲る',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   color: Color(0xffffffff),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -182,7 +185,8 @@ class TradeDetailView extends HookConsumerWidget {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(
-                                  color: Color(0xff424242),
+                                  color: ThemeColors.keyRed,
+                                  width: 1.5,
                                 ),
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -193,10 +197,10 @@ class TradeDetailView extends HookConsumerWidget {
                               margin: const EdgeInsets.only(left: 8, right: 8),
                               alignment: Alignment.center,
                               child: const Text(
-                                'キャンセル',
+                                'キャンセルする',
                                 style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xff424242),
+                                  fontSize: 16,
+                                  color: ThemeColors.keyRed,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -227,21 +231,30 @@ class TradeDetailView extends HookConsumerWidget {
                                 },
                               );
                             }).catchError((error) {
-                              return Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Center(
-                                    child: Text('error: $error'),
-                                  ),
-                                ),
-                              );
+                              return showErrorDialog(context, error.toString());
                             });
                           } else {
                             deleteTradingIdList(trade.tradeId);
+                            reloadTradeList();
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  height: screenSize.height,
+                                  width: screenSize.width,
+                                  color: const Color(0x4b000000),
+                                  child: const TradeApproveSheet(
+                                    isCompleted: true,
+                                  ),
+                                );
+                              },
+                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundColor: ThemeColors.keyGreen,
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
@@ -269,7 +282,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff636363),
+                color: ThemeColors.textGray1,
               ),
             ),
             const Divider(),
@@ -281,7 +294,7 @@ class TradeDetailView extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff636363),
+                    color: ThemeColors.textGray1,
                   ),
                 ),
                 const SizedBox(width: 80),
@@ -289,7 +302,7 @@ class TradeDetailView extends HookConsumerWidget {
                   trade.tradePlace,
                   style: const TextStyle(
                     fontSize: 12,
-                    color: Color(0xff636363),
+                    color: ThemeColors.textGray1,
                   ),
                 ),
               ],
@@ -303,20 +316,19 @@ class TradeDetailView extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff636363),
+                    color: ThemeColors.textGray1,
                   ),
                 ),
                 const SizedBox(width: 80),
                 Text(
-                  DateFormat('yyyy年M月d日(E) HH:mm', 'ja')
-                      .format(trade.tradeDate),
+                  DateFormat('yyyy年M月d日(E) H:mm', 'ja').format(trade.tradeDate),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight:
                         tradeStatus == 2 ? FontWeight.normal : FontWeight.bold,
                     color: tradeStatus == 2
-                        ? const Color(0xff636363)
-                        : const Color(0xff131313),
+                        ? ThemeColors.textGray1
+                        : ThemeColors.black,
                   ),
                 ),
               ],
@@ -328,39 +340,80 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff636363),
+                color: ThemeColors.textGray1,
               ),
             ),
             const Divider(),
+            const SizedBox(height: 4),
             // 希望者情報
             Row(
               children: [
                 const SizedBox(width: 16),
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: const BoxDecoration(
-                    color: Color(0xffd9d9d9),
-                    shape: BoxShape.circle,
+                ClipOval(
+                  child: Image.asset(
+                    'assets/images/user_icon_2.png',
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(width: 24),
                 Text(
                   trade.receiverName,
                   style: const TextStyle(
-                    color: Color(0xff131313),
+                    color: ThemeColors.black,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  color: const Color(0xff3e3e3e),
-                ),
               ],
             ),
+            const SizedBox(height: 8),
+            // チャットボタン
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xffffffff),
+                padding: EdgeInsets.zero,
+                minimumSize: Size.zero,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: ThemeColors.lineGray1,
+                  ),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: Container(
+                height: 48,
+                width: (screenSize.width - 32),
+                margin: const EdgeInsets.only(left: 8, right: 8),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/chat_icon.png',
+                      width: 24,
+                      color: ThemeColors.lineGray2,
+                    ),
+                    const SizedBox(width: 16),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 4),
+                      child: Text(
+                        'チャットする',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: ThemeColors.lineGray2,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 4),
             const Divider(),
             const SizedBox(height: 24),
             const Text(
@@ -368,7 +421,7 @@ class TradeDetailView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff636363),
+                color: ThemeColors.textGray1,
               ),
             ),
             const Divider(),
@@ -398,7 +451,7 @@ class TradeDetailView extends HookConsumerWidget {
                         height: 88,
                         width: 88,
                         decoration: BoxDecoration(
-                          color: const Color(0xffd9d9d9),
+                          color: ThemeColors.bgGray1,
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ClipRRect(
@@ -419,7 +472,7 @@ class TradeDetailView extends HookConsumerWidget {
                             trade.productName,
                             style: const TextStyle(
                               fontSize: 14,
-                              color: Color(0xff131313),
+                              color: ThemeColors.black,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -429,7 +482,7 @@ class TradeDetailView extends HookConsumerWidget {
                                 padding: EdgeInsets.only(top: 4, right: 8),
                                 child: Icon(
                                   Icons.favorite_outline_outlined,
-                                  color: Color(0xff636363),
+                                  color: ThemeColors.textGray1,
                                 ),
                               ),
                               favoriteCountState.when(
@@ -440,7 +493,7 @@ class TradeDetailView extends HookConsumerWidget {
                                   'いいね 0件',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Color(0xff636363),
+                                    color: ThemeColors.textGray1,
                                   ),
                                 ),
                                 skipLoadingOnRefresh: false,
@@ -449,7 +502,7 @@ class TradeDetailView extends HookConsumerWidget {
                                     'いいね ${data.toString()}件',
                                     style: const TextStyle(
                                       fontSize: 12,
-                                      color: Color(0xff636363),
+                                      color: ThemeColors.textGray1,
                                     ),
                                   );
                                 },
@@ -462,7 +515,7 @@ class TradeDetailView extends HookConsumerWidget {
                       const Icon(
                         Icons.arrow_forward_ios,
                         size: 24,
-                        color: Color(0xff3e3e3e),
+                        color: ThemeColors.lineGray2,
                       ),
                       const SizedBox(width: 16),
                     ],

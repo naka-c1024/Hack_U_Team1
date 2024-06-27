@@ -1,10 +1,10 @@
 import 'package:app/Domain/constants.dart';
-import 'package:app/Domain/furniture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import '../../Usecases/furniture_api.dart';
 import '../common/cateogory_cell.dart';
@@ -118,7 +118,7 @@ class KeywordSearchView extends HookConsumerWidget {
                         ? screenSize.width - 80
                         : screenSize.width - 32,
                     alignment: Alignment.center,
-                    color: const Color(0xffd9d9d9),
+                    color: ThemeColors.bgGray1,
                     child: TextField(
                       focusNode: focus,
                       controller: searchWordController,
@@ -128,35 +128,26 @@ class KeywordSearchView extends HookConsumerWidget {
                             !searchLogTextList.value.contains(value)) {
                           saveSearchLog(value);
                         }
-                        // 検索結果の取得
-                        Future<List<Furniture>> futureResult;
                         if (categoryIndex == -1) {
-                          futureResult = getFurnitureList(userId, null, value);
+                          searchFurnitureList(ref, userId, null, value);
                         } else {
-                          futureResult =
-                              getFurnitureList(userId, categoryIndex, value);
+                          searchFurnitureList(
+                              ref, userId, categoryIndex, value);
                         }
-                        futureResult.then((result) {
-                          return Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SearchResultView(
-                                searchWord: searchWordController.text == '' &&
-                                        categoryIndex == -1
-                                    ? '検索結果'
-                                    : categoryIndex == -1
-                                        ? searchWordController.text
-                                        : categorys[categoryIndex],
-                                furnitureList: result,
-                                isSearchPicture: false,
-                              ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchResultView(
+                              searchWord: searchWordController.text == '' &&
+                                      categoryIndex == -1
+                                  ? '検索結果'
+                                  : categoryIndex == -1
+                                      ? searchWordController.text
+                                      : categorys[categoryIndex],
+                              isSearchPicture: false,
                             ),
-                          );
-                        }).catchError((error) {
-                          return Center(
-                            child: Text('error: $error'),
-                          );
-                        });
+                          ),
+                        );
                         ref.read(categoryProvider.notifier).state = -1;
                       },
                       textInputAction: TextInputAction.search,

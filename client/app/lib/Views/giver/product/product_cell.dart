@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../Domain/theme_color.dart';
 import '../../../Domain/furniture.dart';
 import '../../../Usecases/provider.dart';
 import '../../common/furniture_detail_view.dart';
@@ -28,7 +29,7 @@ class ProductCell extends HookConsumerWidget {
     }
 
     useEffect((){
-      reloadFavoriteCount();
+      Future.microtask(() => {reloadFavoriteCount()});
       return null;
     },[]);
 
@@ -59,7 +60,7 @@ class ProductCell extends HookConsumerWidget {
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
-                      color: const Color(0xffd9d9d9),
+                      color: ThemeColors.bgGray1,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: ClipRRect(
@@ -89,7 +90,7 @@ class ProductCell extends HookConsumerWidget {
                             padding: EdgeInsets.only(top: 4, right: 8),
                             child: Icon(
                               Icons.favorite_outline_outlined,
-                              color: Color(0xff636363),
+                              color: ThemeColors.textGray1,
                             ),
                           ),
                           favoriteCountState.when(
@@ -100,7 +101,7 @@ class ProductCell extends HookConsumerWidget {
                               'いいね 0件',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Color(0xff636363),
+                                color: ThemeColors.textGray1,
                               ),
                             ),
                             skipLoadingOnRefresh: false,
@@ -109,7 +110,7 @@ class ProductCell extends HookConsumerWidget {
                                 'いいね ${data.toString()}件',
                                 style: const TextStyle(
                                   fontSize: 12,
-                                  color: Color(0xff636363),
+                                  color: ThemeColors.textGray1,
                                 ),
                               );
                             },

@@ -3,17 +3,16 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
+import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
-import '../../Usecases/trade_api.dart';
+import '../common/error_dialog.dart';
 import '../common/furniture_cell.dart';
 import 'todo_list_view.dart';
 import 'favorite_list_view.dart';
 
 class FurnitureListView extends HookConsumerWidget {
-  final List<Furniture> furnitureList;
   final ValueNotifier<int> selectedView;
   const FurnitureListView({
-    required this.furnitureList,
     required this.selectedView,
     super.key,
   });
@@ -21,12 +20,28 @@ class FurnitureListView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    final userId = ref.read(userIdProvider);
+
+    final furnitureState = ref.watch(furnitureListProvider);
+
+    // 画面を更新
+    Future<void> reloadFurnitureList() {
+      // ignore: unused_result
+      ref.refresh(furnitureListProvider);
+      return ref.read(furnitureListProvider.future);
+    }
+
+    // 画面を移動した時に自動で更新
+    useEffect(() {
+      Future.microtask(() => {reloadFurnitureList()});
+      return null;
+    }, []);
 
     final ValueNotifier<List<Row>> favoriteList = useState([]);
     final ValueNotifier<List<Row>> favoriteAllList = useState([]);
     final ValueNotifier<List<Row>> latestList = useState([]);
-    useEffect(() {
+
+    // 取得したデータを元に表示する家具リストを作成
+    void createCellList(List<Furniture> furnitureList) {
       List<Widget> row = [];
       List<Widget> favoriteRow = [];
       for (Furniture furniture in furnitureList.reversed) {
@@ -79,8 +94,7 @@ class FurnitureListView extends HookConsumerWidget {
           ),
         );
       }
-      return null;
-    }, []);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -97,22 +111,17 @@ class FurnitureListView extends HookConsumerWidget {
                   selectedView.value = 1;
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffffffff),
-                  padding: const EdgeInsets.only(left: 16),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                  backgroundColor: ThemeColors.keyGreen,
+                  padding: const EdgeInsets.only(right: 8),
                 ),
                 child: SizedBox(
-                  width: screenSize.width - 104,
+                  width: screenSize.width - 96,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         'assets/images/icon.png',
-                        color: Theme.of(context).primaryColor,
+                        color: const Color(0xffffffff),
                         height: 30,
                         width: 30,
                       ),
@@ -120,9 +129,9 @@ class FurnitureListView extends HookConsumerWidget {
                       const Text(
                         '部屋にあった家具を探す',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff131313),
+                          color: Color(0xffffffff),
                         ),
                       ),
                     ],
@@ -132,31 +141,19 @@ class FurnitureListView extends HookConsumerWidget {
               const SizedBox(width: 8),
               IconButton(
                 onPressed: () {
-                  // 取引リストの取得
-                  final futureResult = getTradeList(userId);
-                  futureResult.then((result) {
-                    return Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TodoListView(tradeList: result),
-                      ),
-                    );
-                  }).catchError((error) {
-                    return Center(
-                      child: Text('error: $error'),
-                    );
-                  });
+                  // やることリストへ
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TodoListView(),
+                    ),
+                  );
                 },
                 icon: Image.asset(
                   'assets/images/todo_icon.png',
                   height: 24,
                   width: 24,
                 ),
-                // icon: const Icon(
-                //   size: 24,
-                //   Icons.done_outline,
-                //   color: Color(0xff4b4b4b),
-                // ),
               ),
             ],
           ),
@@ -164,121 +161,144 @@ class FurnitureListView extends HookConsumerWidget {
       ),
       body: Container(
         color: const Color(0xffeeeeee),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              favoriteList.value.isEmpty
-                  ? const SizedBox()
-                  : const SizedBox(height: 8),
-              // いいねした商品
-              favoriteList.value.isEmpty
-                  ? const SizedBox()
-                  : Container(
-                      height: 52 +
-                          ((screenSize.width - 40) / 3 + 8) *
-                              favoriteList.value.length,
+        // 下に引っ張った時に更新
+        child: RefreshIndicator(
+          color: ThemeColors.keyGreen,
+          onRefresh: () => reloadFurnitureList(),
+          // 家具リストの取得
+          child: furnitureState.when(
+            loading: () => const Center(
+              child: CircularProgressIndicator(
+                color: ThemeColors.keyGreen,
+              ),
+            ),
+            error: (error, __) => errorDialog(context,error.toString()),
+            skipLoadingOnRefresh: false,
+            data: (data) {
+              favoriteList.value = [];
+              favoriteAllList.value = [];
+              latestList.value = [];
+              createCellList(data);
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    favoriteList.value.isEmpty
+                        ? const SizedBox()
+                        : const SizedBox(height: 8),
+                    // いいねした商品
+                    favoriteList.value.isEmpty
+                        ? const SizedBox()
+                        : Container(
+                            height: 52 +
+                                ((screenSize.width - 40) / 3 + 8) *
+                                    favoriteList.value.length,
+                            width: screenSize.width,
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            color: const Color(0xffffffff),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                // ヘッダー
+                                SizedBox(
+                                  height: 48,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        ' いいねした商品',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: ThemeColors.black,
+                                        ),
+                                      ),
+                                      favoriteList.value.length <
+                                              favoriteAllList.value.length
+                                          ? TextButton(
+                                              onPressed: () {
+                                                // いいねした商品をすべて見るページへ
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FavoriteListView(
+                                                      favoriteAllList:
+                                                          favoriteAllList.value,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              child: const Row(
+                                                children: [
+                                                  Text(
+                                                    'すべて見る',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w100,
+                                                      color: Color(0xff575757),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 8),
+                                                  Icon(
+                                                    size: 16,
+                                                    Icons.arrow_forward_ios,
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : const SizedBox(height: 24),
+                                    ],
+                                  ),
+                                ),
+                                Column(children: favoriteList.value),
+                              ],
+                            ),
+                          ),
+                    const SizedBox(height: 8),
+                    // 最新の商品
+                    Container(
+                      height: latestList.value.length < 5
+                          ? favoriteList.value.isEmpty
+                              ? screenSize.height -
+                                  ((screenSize.width - 40) / 3 + 8) *
+                                      favoriteList.value.length -
+                                  192
+                              : screenSize.height -
+                                  ((screenSize.width - 40) / 3 + 8) *
+                                      favoriteList.value.length -
+                                  240
+                          : 52 +
+                              ((screenSize.width - 40) / 3 + 8) *
+                                  latestList.value.length,
                       width: screenSize.width,
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       color: const Color(0xffffffff),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // ヘッダー
-                          SizedBox(
-                            height: 48,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  ' いいねした商品',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff131313),
-                                  ),
-                                ),
-                                favoriteList.value.length <
-                                        favoriteAllList.value.length
-                                    ? TextButton(
-                                        onPressed: () {
-                                          // いいねした商品をすべて見るページへ
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  FavoriteListView(
-                                                favoriteAllList:
-                                                    favoriteAllList.value,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: const Row(
-                                          children: [
-                                            Text(
-                                              'すべて見る',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w100,
-                                                color: Color(0xff575757),
-                                              ),
-                                            ),
-                                            SizedBox(width: 8),
-                                            Icon(
-                                              size: 16,
-                                              Icons.arrow_forward_ios,
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : const SizedBox(height: 24),
-                              ],
+                          Container(
+                            padding: const EdgeInsets.only(top: 12, bottom: 12),
+                            child: const Text(
+                              ' 最新の商品',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: ThemeColors.black,
+                              ),
                             ),
                           ),
-                          Column(children: favoriteList.value),
+                          Column(children: latestList.value),
                         ],
                       ),
                     ),
-              const SizedBox(height: 8),
-              // 最新の商品
-              Container(
-                height: latestList.value.length < 5
-                    ? favoriteList.value.isEmpty
-                        ? screenSize.height -
-                            ((screenSize.width - 40) / 3 + 8) *
-                                favoriteList.value.length -
-                            192
-                        : screenSize.height -
-                            ((screenSize.width - 40) / 3 + 8) *
-                                favoriteList.value.length -
-                            240
-                    : 52 +
-                        ((screenSize.width - 40) / 3 + 8) *
-                            latestList.value.length,
-                width: screenSize.width,
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                color: const Color(0xffffffff),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ヘッダー
-                    Container(
-                      padding: const EdgeInsets.only(top: 12, bottom: 12),
-                      child: const Text(
-                        ' 最新の商品',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff131313),
-                        ),
-                      ),
-                    ),
-                    Column(children: latestList.value),
                   ],
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
