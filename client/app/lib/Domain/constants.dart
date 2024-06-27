@@ -3,7 +3,7 @@
 
 import 'dart:ui';
 
-const ipAddress = '192.168.2.142';
+const ipAddress = '192.168.2.157';
 
 // 都道府県コード
 final prefectures = [

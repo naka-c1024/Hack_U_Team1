@@ -115,9 +115,9 @@ class SearchResultView extends HookConsumerWidget {
               slivers: [
                 SliverAppBar(
                   collapsedHeight: isSearchPicture
-                      ? 144 + ((reason ?? '').length / 30 + 1) * 24
+                      ? 144 + ((reason ?? '').length / 25 + 1) * 28
                       : 128,
-                  expandedHeight: 56 + ((reason ?? '').length / 30 + 1) * 24,
+                  expandedHeight: 56 + ((reason ?? '').length / 25 + 1) * 28,
                   automaticallyImplyLeading: false,
                   backgroundColor: const Color(0xffffffff),
                   floating: true,
@@ -189,7 +189,7 @@ class SearchResultView extends HookConsumerWidget {
                             ),
                             Container(
                               height: isSearchPicture && reason != null
-                                  ? 80 + (reason.length / 30 + 1) * 28
+                                  ? 80 + (reason.length / 25 + 1) * 28
                                   : 80,
                               padding: const EdgeInsets.only(left: 8, right: 8),
                               color: const Color(0xffffffff),
