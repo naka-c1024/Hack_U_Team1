@@ -51,7 +51,7 @@ Future<void> recommendFurniture(WidgetRef ref, String imagePath) async {
     if (response.statusCode == 200) {
       ref.read(colorProvider.notifier).state = jsonResponse['color'];
       ref.read(reasonProvider.notifier).state = jsonResponse['reason'];
-      final items = jsonResponse['furniture_list'];
+      final items = jsonResponse['furniture_list']['furniture'];
       List<Furniture> furnitureList = [];
       for (Map<String, dynamic> item in items) {
         var furniture = Furniture(
@@ -78,9 +78,9 @@ Future<void> recommendFurniture(WidgetRef ref, String imagePath) async {
             isFavorite: item['is_favorite']);
         furnitureList.add(furniture);
       }
-      ref.read(recommendFurnitureListProvider.notifier).state = furnitureList;
+      ref.read(searchResultProvider.notifier).state = furnitureList;
     } else if (response.statusCode == 404) {
-      ref.read(recommendFurnitureListProvider.notifier).state = [];
+      ref.read(searchResultProvider.notifier).state = [];
     } else {
       final msg = jsonResponse['detail'];
       throw Exception('Failed to recommend furniture list: $msg');

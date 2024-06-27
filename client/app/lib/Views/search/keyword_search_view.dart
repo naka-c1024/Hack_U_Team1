@@ -148,7 +148,6 @@ class KeywordSearchView extends HookConsumerWidget {
                                     : categoryIndex == -1
                                         ? searchWordController.text
                                         : categorys[categoryIndex],
-                                furnitureList: result,
                                 isSearchPicture: false,
                               ),
                             ),

@@ -13,11 +13,9 @@ import 'size_filter_menu.dart';
 
 class SearchResultView extends HookConsumerWidget {
   final String searchWord;
-  final List<Furniture> furnitureList;
   final bool isSearchPicture;
   const SearchResultView({
     required this.searchWord,
-    required this.furnitureList,
     required this.isSearchPicture,
     super.key,
   });
@@ -25,6 +23,9 @@ class SearchResultView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+
+    final searchResultState = ref.watch(searchResultProvider.notifier).state;
+    final searchResult = ref.watch(searchResultProvider);
 
     final reason = ref.watch(reasonProvider);
 
@@ -49,7 +50,7 @@ class SearchResultView extends HookConsumerWidget {
     final ValueNotifier<List<Row>> resultList = useState([]);
     useEffect(() {
       List<Widget> row = [];
-      for (Furniture furniture in furnitureList) {
+      for (Furniture furniture in searchResult) {
         // 全ての商品をリストに入れる
         row.add(FurnitureCell(furniture: furniture));
         // 3個貯まったら追加
@@ -68,7 +69,7 @@ class SearchResultView extends HookConsumerWidget {
         );
       }
       return null;
-    }, []);
+    }, [searchResultState]);
 
     return Scaffold(
       appBar: AppBar(

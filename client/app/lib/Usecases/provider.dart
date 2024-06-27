@@ -64,5 +64,5 @@ final descriptionProvider = StateProvider.autoDispose<Description?>((ref) => nul
 // AIが返してくれたおすすめ家具の理由を保持
 final reasonProvider = StateProvider<String?>((ref) => null);
 
-// AIが返してくれたおすすめ家具のリストを保持
-final recommendFurnitureListProvider = StateProvider.autoDispose<List<Furniture>>((ref) => []);
+// AIが返してくれたおすすめ家具のリストを保持 (キーワード検索結果もこれで管理)
+final searchResultProvider = StateProvider.autoDispose<List<Furniture>>((ref) => []);

@@ -213,7 +213,7 @@ void main() {
         'room_photo',
         '/Users/ibuki/StudioProjects/Hack_U_Team1/client/app/assets/images/recommend_example.jpg',
       );
-      request.fields['category'] = '0';
+      request.fields['category'] = '1';
       request.files.add(file);
       final response = await request.send();
       expect(response.statusCode, 200);
@@ -221,6 +221,7 @@ void main() {
       final jsonResponse = jsonDecode(responseBody);
       expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
       expect(jsonResponse['reason'].length, isNonZero);
+      print(jsonResponse['furniture_list'].length);
     });
   });
 
