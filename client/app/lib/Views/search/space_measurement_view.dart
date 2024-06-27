@@ -54,7 +54,8 @@ class SpaceMeasurementView extends HookConsumerWidget {
           isMeasuringDepth.value) {
         if (positions.value.length < 2) {
           final material = ARKitMaterial(
-            diffuse: ARKitMaterialProperty.color(Theme.of(context).primaryColor),
+            diffuse:
+                ARKitMaterialProperty.color(Theme.of(context).primaryColor),
           );
           final sphere = ARKitSphere(materials: [material], radius: 0.01);
           final node = ARKitNode(geometry: sphere, position: position);

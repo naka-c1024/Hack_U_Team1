@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -47,6 +48,7 @@ class SearchResultView extends HookConsumerWidget {
     final minHeight = useTextEditingController(text: '');
     final isSoldOnly = useState(false);
 
+    final isNoResponse = useState(false);
     final ValueNotifier<List<Widget>> resultList = useState([
       // デフォルトでインジケータを表示
       Center(
@@ -55,6 +57,12 @@ class SearchResultView extends HookConsumerWidget {
     ]);
     useEffect(() {
       List<Widget> row = [];
+      if (searchResult == null ){
+        isNoResponse.value = true;
+        return null;
+      } else {
+        isNoResponse.value = false;
+      }
       for (Furniture furniture in searchResult) {
         // 全ての商品をリストに入れる
         row.add(FurnitureCell(furniture: furniture));
@@ -73,12 +81,26 @@ class SearchResultView extends HookConsumerWidget {
           ),
         );
       }
-      // 検索結果がゼロじゃなければインジケータを削除
-      if (resultList.value.length > 1) {
-        resultList.value.removeAt(0);
-      }
+      resultList.value.removeAt(0);
       return null;
     }, [searchResultState]);
+
+    useEffect(() {
+      Future.delayed(const Duration(seconds: 3), () {
+        if (isNoResponse.value) {
+          resultList.value = [
+            const Center(
+              child: Text(
+                '読み込みに失敗しました。\nもう一度条件を入力して検索してくだい。',
+                textAlign: TextAlign.center,
+                style:TextStyle(color:Color(0xff636363))
+              ),
+            ),
+          ];
+        }
+      });
+      return null;
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
