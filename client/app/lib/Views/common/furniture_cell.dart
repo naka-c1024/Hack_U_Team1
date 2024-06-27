@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/constants.dart';
 import '../../Domain/furniture.dart';
+import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import 'furniture_detail_view.dart';
 import 'sold_painter.dart';
@@ -57,7 +58,7 @@ class FurnitureCell extends HookConsumerWidget {
         width: (screenSize.width - 40) / 3,
         margin: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
         decoration: BoxDecoration(
-          color: const Color(0xffd9d9d9),
+          color: ThemeColors.bgGray1,
           borderRadius: BorderRadius.circular(5),
         ),
         child: Stack(

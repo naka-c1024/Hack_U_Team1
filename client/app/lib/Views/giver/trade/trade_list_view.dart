@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Domain/trade.dart';
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 import '../../common/error_dialog.dart';
 import 'trade_cell.dart';
@@ -67,16 +68,16 @@ class TradeListView extends HookConsumerWidget {
       color: const Color(0xffffffff),
       // 下に引っ張った時に更新
       child: RefreshIndicator(
-        color: Theme.of(context).primaryColor,
+        color: ThemeColors.keyGreen,
         onRefresh: () => reloadTradeList(),
         // 取引リストの取得
         child: tradeState.when(
-          loading: () => Center(
+          loading: () => const Center(
             child: CircularProgressIndicator(
-              color: Theme.of(context).primaryColor,
+              color: ThemeColors.keyGreen,
             ),
           ),
-          error: (error, __) => ErrorDialog(context,error.toString()),
+          error: (error, __) => errorDialog(context,error.toString()),
           skipLoadingOnRefresh: false,
           data: (data) {
             getTradingIdList();

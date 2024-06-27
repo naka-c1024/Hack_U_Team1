@@ -97,6 +97,13 @@ class SignUpView extends HookConsumerWidget {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                ),
+                onPressed: () async {
+                  if (userNameController.text == '') return;
+                  isSignUpSuccessfully();
+                },
                 child: Container(
                   height: 40,
                   width: 80,
@@ -107,10 +114,6 @@ class SignUpView extends HookConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                onPressed: () async {
-                  if (userNameController.text == '') return;
-                  isSignUpSuccessfully();
-                },
               ),
             ],
           ),

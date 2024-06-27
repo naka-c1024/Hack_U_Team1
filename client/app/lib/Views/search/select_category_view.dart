@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
 import './../common/cateogory_cell.dart';
 
 class SelectCategoryView extends HookConsumerWidget {
@@ -30,9 +31,9 @@ class SelectCategoryView extends HookConsumerWidget {
                 height: 28,
                 width: 28,
                 padding: const EdgeInsets.only(bottom: 4),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor,
+                  color: ThemeColors.keyGreen,
                 ),
                 child: const Center(
                   child: Text(
@@ -48,27 +49,27 @@ class SelectCategoryView extends HookConsumerWidget {
               Container(
                 height: 2,
                 width: 44,
-                color: const Color(0xffababab),
+                color: ThemeColors.lineGray1,
               ),
               Container(
                 height: 8,
                 width: 8,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xffababab),
+                  color: ThemeColors.lineGray1,
                 ),
               ),
               Container(
                 height: 2,
                 width: 60,
-                color: const Color(0xffababab),
+                color: ThemeColors.lineGray1,
               ),
               Container(
                 height: 8,
                 width: 8,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xffababab),
+                  color: ThemeColors.lineGray1,
                 ),
               ),
             ],

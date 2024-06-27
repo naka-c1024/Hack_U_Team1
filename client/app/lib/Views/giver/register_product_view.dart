@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import 'trade/trade_list_view.dart';
 import 'product/product_list_view.dart';
@@ -18,7 +19,7 @@ class RegisterProductView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
-    final controller = useTabController(initialLength:3);
+    final controller = useTabController(initialLength: 3);
 
     return DefaultTabController(
       length: 3,
@@ -57,7 +58,7 @@ class RegisterProductView extends HookConsumerWidget {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: ThemeColors.keyGreen,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
@@ -91,9 +92,19 @@ class RegisterProductView extends HookConsumerWidget {
           ),
           bottom: TabBar(
             controller: controller,
-            indicatorColor: Theme.of(context).primaryColor,
+            labelColor: ThemeColors.black,
+            unselectedLabelColor: ThemeColors.black,
+            indicatorColor: ThemeColors.black,
             indicatorSize: TabBarIndicatorSize.label,
-            indicatorWeight: 2.0,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(0),
+              border: const Border(
+                bottom: BorderSide(
+                  color: ThemeColors.black,
+                  width: 3.0,
+                ), 
+              ),
+            ),
             tabs: const [
               Tab(
                 child: Text(

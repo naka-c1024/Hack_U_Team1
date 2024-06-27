@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../Domain/trade.dart';
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 import '../../../Usecases/furniture_api.dart';
 import '../../common/error_dialog.dart';
@@ -53,7 +54,7 @@ class TradeCell extends HookConsumerWidget {
                     height: 88,
                     width: 88,
                     decoration: BoxDecoration(
-                      color: const Color(0xffd9d9d9),
+                      color: ThemeColors.bgGray1,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: ClipRRect(
@@ -85,7 +86,7 @@ class TradeCell extends HookConsumerWidget {
                                 : '取引依頼を承認しますか？',
                         style: const TextStyle(
                           fontSize: 12,
-                          color: Color(0xff636363),
+                          color: ThemeColors.textGray1,
                         ),
                       ),
                     ],

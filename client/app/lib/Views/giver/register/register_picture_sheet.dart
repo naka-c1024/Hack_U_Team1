@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/ai_api.dart';
 import '../../common/error_dialog.dart';
 import 'register_size_sheet.dart';
@@ -127,7 +128,7 @@ class RegisterPictureSheet extends HookConsumerWidget {
                             color: Colors.transparent,
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: Theme.of(context).primaryColor,
+                              color: ThemeColors.keyGreen,
                               width: 3,
                             ),
                           ),
@@ -162,8 +163,8 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           child: Container(
                             height: 52,
                             width: 52,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
+                            decoration: const BoxDecoration(
+                              color: ThemeColors.keyGreen,
                               shape: BoxShape.circle,
                             ),
                             child: Image.asset('assets/images/shutter_icon.png',
@@ -200,7 +201,7 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundColor: ThemeColors.keyGreen,
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,
                           elevation: 0,
@@ -240,7 +241,7 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             side: const BorderSide(
-                              color: Color(0xffe55b20),
+                              color: ThemeColors.keyRed,
                               width: 1.5,
                             ),
                             borderRadius: BorderRadius.circular(5),
@@ -255,7 +256,7 @@ class RegisterPictureSheet extends HookConsumerWidget {
                             '撮影する',
                             style: TextStyle(
                               fontSize: 16,
-                              color: Color(0xffe55b20),
+                              color: ThemeColors.keyRed,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

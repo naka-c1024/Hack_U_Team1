@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 import '../../../Domain/furniture.dart';
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 import '../../../Usecases/furniture_api.dart';
 import '../../common/error_dialog.dart';
@@ -77,22 +78,22 @@ class RegisterTradeSheet extends HookConsumerWidget {
                 Container(
                   height: 8,
                   width: 8,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
+                    color: ThemeColors.keyGreen,
                   ),
                 ),
                 Container(
                   height: 2,
                   width: 24,
-                  color: Theme.of(context).primaryColor,
+                  color: ThemeColors.keyGreen,
                 ),
                 Container(
                   height: 8,
                   width: 8,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
+                    color: ThemeColors.keyGreen,
                   ),
                 ),
               ],
@@ -122,7 +123,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
-                          color: const Color(0xffd9d9d9),
+                          color: ThemeColors.bgGray1,
                         ),
                       ),
                       child: TextField(
@@ -130,7 +131,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                         decoration: const InputDecoration(
                           hintStyle: TextStyle(
                             fontSize: 14,
-                            color: Color(0xffd9d9d9),
+                            color: ThemeColors.bgGray1,
                           ),
                           border: InputBorder.none,
                         ),
@@ -155,7 +156,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                         const Text(
                           '開始',
                           style: TextStyle(
-                            color: Color(0xff636363),
+                            color: ThemeColors.textGray1,
                             fontSize: 14,
                           ),
                         ),
@@ -166,7 +167,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                               : DateFormat('yyyy年M月d日（E）', 'ja')
                                   .format(tradeStartDate.value!),
                           style: const TextStyle(
-                            color: Color(0xff636363),
+                            color: ThemeColors.textGray1,
                             fontSize: 16,
                           ),
                         ),
@@ -180,7 +181,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                         const Text(
                           '終了',
                           style: TextStyle(
-                            color: Color(0xff636363),
+                            color: ThemeColors.textGray1,
                             fontSize: 14,
                           ),
                         ),
@@ -192,7 +193,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                               : DateFormat('yyyy年M月d日（E）', 'ja')
                                   .format(tradeEndDate.value!),
                           style: const TextStyle(
-                            color: Color(0xff636363),
+                            color: ThemeColors.textGray1,
                             fontSize: 16,
                           ),
                         ),
@@ -205,7 +206,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                       height: 296,
                       padding: const EdgeInsets.only(bottom: 8),
                       decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xffd9d9d9)),
+                        border: Border.all(color: ThemeColors.bgGray1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: CalendarDatePicker2(
@@ -213,16 +214,16 @@ class RegisterTradeSheet extends HookConsumerWidget {
                           firstDate: DateTime.now(),
                           calendarType: CalendarDatePicker2Type.range,
                           centerAlignModePicker: true,
-                          selectedDayHighlightColor: Theme.of(context).primaryColor,
+                          selectedDayHighlightColor: ThemeColors.keyGreen,
                           selectedRangeHighlightColor: const Color(0xffe6f5d0),
                           selectedDayTextStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xffffffff),
-                              ),
-                              todayTextStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xffffffff),
+                          ),
+                          todayTextStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: ThemeColors.keyGreen,
+                          ),
                           weekdayLabels: ['日', '月', '火', '水', '木', '金', '土'],
                           disableModePicker: true,
                         ),
@@ -268,7 +269,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: tradePlace.text == ''
                       ? const Color(0xfdc4c4c4)
-                      : Theme.of(context).primaryColor,
+                      : ThemeColors.keyGreen,
                   padding: EdgeInsets.zero,
                   minimumSize: Size.zero,
                   elevation: 0,

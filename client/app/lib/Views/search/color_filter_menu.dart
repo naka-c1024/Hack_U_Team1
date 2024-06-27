@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
 import '../Common/color_cell.dart';
 
 class ColorFilterMenu extends HookConsumerWidget {
@@ -17,7 +18,7 @@ class ColorFilterMenu extends HookConsumerWidget {
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: Color(0xff131313),
+            color: ThemeColors.black,
           ),
         ),
         SizedBox(height: 16),

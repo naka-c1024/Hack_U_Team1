@@ -4,6 +4,7 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 
 class RegisterSizeSheet extends HookConsumerWidget {
@@ -128,7 +129,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
           const SizedBox(height: 16),
           // 長さを測るためのカメラ
           SizedBox(
-            height: screenSize.width + 108,
+            height: screenSize.width + 116,
             child: ARKitSceneView(
               enableTapRecognizer: true,
               onARKitViewCreated: (controller) {
@@ -170,7 +171,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
                           height: 4,
                           width: 72,
                           color: isMeasuringWidth.value
-                              ? Theme.of(context).primaryColor
+                              ? ThemeColors.keyGreen
                               : Colors.transparent,
                         ),
                       ],
@@ -203,7 +204,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
                           height: 4,
                           width: 112,
                           color: isMeasuringDepth.value
-                              ? Theme.of(context).primaryColor
+                              ? ThemeColors.keyGreen
                               : Colors.transparent,
                         ),
                       ],
@@ -236,7 +237,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
                           height: 4,
                           width: 88,
                           color: isMeasuringHeight.value
-                              ? Theme.of(context).primaryColor
+                              ? ThemeColors.keyGreen
                               : Colors.transparent,
                         ),
                       ],
@@ -259,7 +260,7 @@ class RegisterSizeSheet extends HookConsumerWidget {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: ThemeColors.keyGreen,
                     padding: EdgeInsets.zero,
                     minimumSize: Size.zero,
                     elevation: 0,
