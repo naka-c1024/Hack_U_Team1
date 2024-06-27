@@ -187,17 +187,33 @@ class RegisterPictureSheet extends HookConsumerWidget {
                           if (imagePath.value != null) {
                             describeFurniture(ref, imagePath.value!);
                           }
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (BuildContext context) {
-                              return SizedBox(
-                                height: screenSize.height - 64,
-                                child: RegisterSizeSheet(
-                                  imagePath: imagePath,
-                                ),
-                              );
-                            },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Scaffold(
+                                  body: Stack(
+                                    children: [
+                                      Container(
+                                        height: screenSize.height,
+                                        width: screenSize.width,
+                                        color: ThemeColors.lineGray2,
+                                      ),
+                                      Positioned(
+                                        top: 64,
+                                        child: SizedBox(
+                                          height: screenSize.height - 64,
+                                          width: screenSize.width,
+                                          child: RegisterSizeSheet(
+                                            imagePath: imagePath,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
