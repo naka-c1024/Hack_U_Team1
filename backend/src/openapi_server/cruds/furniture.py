@@ -1,9 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.engine import Result
-from sqlalchemy.sql import or_
+from sqlalchemy.sql import or_, and_
 
-from typing import List, Tuple, Optional
+from typing import Tuple, Optional
 from datetime import datetime
 
 import openapi_server.db_model.tables as db_model
@@ -57,9 +57,12 @@ async def get_furniture_list(db: AsyncSession, request_user_id: int, category: O
     if keyword:
         keyword_conditions = []
         for word in keyword.split():
-            keyword_conditions.append(db_model.Furniture.product_name.like(f'%{word}%'))
-            keyword_conditions.append(db_model.Furniture.description.like(f'%{word}%'))
-        query = query.where(or_(*keyword_conditions))
+            word_conditions = or_(
+                db_model.Furniture.product_name.like(f'%{word}%'),
+                db_model.Furniture.description.like(f'%{word}%')
+            )
+            keyword_conditions.append(word_conditions)
+        query = query.where(and_(*keyword_conditions))
 
     result: Result = await db.execute(query)
     furniture_list = result.scalars().all()
