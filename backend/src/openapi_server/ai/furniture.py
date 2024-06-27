@@ -52,8 +52,14 @@ class FurnitureDescribe:
             max_tokens=300,
         )
         name, description, color, category = response.choices[0].message["content"].split(",")
-        color_idx = util.select_color_index(color)
-        category_idx = util.select_category_index(category)
+        try:
+            color_idx = util.select_color_index(color)
+        except:
+            color_idx = -1
+        try:
+            category_idx = util.select_category_index(category)
+        except:
+            category_idx = -1
         return {
             "product_name"  : name, 
             "description"   : description, 
@@ -103,7 +109,10 @@ class FurnitureRecommendation:
             max_tokens=300,
         )
         color, reason = response.choices[0].message["content"].split(",")
-        color_index = util.select_color_index(color)
+        try:
+            color_index = util.select_color_index(color)
+        except:
+            color_index = -1
         return {
             "color"     : color_index,
             "reason"    : reason

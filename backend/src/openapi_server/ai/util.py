@@ -28,7 +28,7 @@ def select_color_index(color: str):
     for i, c in enumerate(color_list):
         if color in c or c in color:
             return i
-    raise -1
+    raise Exception("Color not found")
 
 # 製品情報データからカテゴリのインデックスを取得
 def select_category_index(category: str):
@@ -36,7 +36,7 @@ def select_category_index(category: str):
     for i, c in enumerate(category_list):
         if category in c or c in category:
             return i
-    raise -1
+    raise Exception("Category not found")
 
 # few_shotプロンプティングためのデータを取得
 def get_few_shot_data():
