@@ -26,6 +26,10 @@ class FurnitureDescribe:
                 },
                 {
                     "role": "system",
+                    "content": "例:"+"\n".join(util.get_few_shot_data()["describe_example"])
+                },
+                {
+                    "role": "system",
                     "content": "色は以下から選んでください".join(self.product_data['colors'])
                 },
                 {
@@ -76,7 +80,7 @@ class FurnitureRecommendation:
                 },
                 {
                     "role": "system",
-                    "content": "例:\n ".join(util.get_few_shot_data()["recommend_example_short"])
+                    "content": "例："+"\n".join(util.get_few_shot_data()["recommend_example"])
                 },
                 {
                     "role": "system",
