@@ -7,15 +7,8 @@ from openapi_server.migrate.insert_dummy_data import insert_dummy_data
 import os
 import shutil
 
-MYSQL_USER = os.getenv("MYSQL_USER")
-MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
-MYSQL_HOST = os.getenv("MYSQL_HOST")
-MYSQL_PORT = os.getenv("MYSQL_PORT")
-MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
-if not all([MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT, MYSQL_DATABASE]):
-    raise ValueError("環境変数が設定されていません")
+DB_URL = "mysql+pymysql://root@db:3306/backend?charset=utf8mb4"
 
-DB_URL = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}?charset=utf8mb4"
 engine = create_engine(DB_URL, echo=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
