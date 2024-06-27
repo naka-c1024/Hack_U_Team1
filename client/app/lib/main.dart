@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,10 +14,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting('ja');
   // TODO: 実機用にカメラ機能をオンにする
-  // final cameras = await availableCameras();
-  final firstCamera = null;//cameras.first;
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final userName = prefs.getString('userName');
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
   runApp(
     ProviderScope(
       child: MyApp(userName: userName, camera: firstCamera),

@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:image/image.dart' as img;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -118,6 +120,18 @@ class RegisterProductSheet extends HookConsumerWidget {
       focus.addListener(onFocusChanged);
       return () => focus.removeListener(onFocusChanged);
     }, [focus]);
+
+    Future<String?> rotateAndSaveImage(String path) async {
+      File originalFile = File(path);
+      img.Image image = img.decodeImage(await originalFile.readAsBytes())!;
+      // img.Image rotated = img.copyRotate(image, angle: -90);
+
+      Directory dir = await getApplicationDocumentsDirectory();
+      String imagePath = '${dir.path}/rotated_image.jpg';
+      File(imagePath).writeAsBytesSync(img.encodeJpg(image));
+
+      return imagePath;
+    }
 
     return Container(
       decoration: const BoxDecoration(
@@ -613,7 +627,7 @@ class RegisterProductSheet extends HookConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final FocusScopeNode currentScope = FocusScope.of(context);
                     if (!currentScope.hasPrimaryFocus &&
                         currentScope.hasFocus) {
@@ -622,7 +636,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                     if (isInputCompleted.value) {
                       final furniture = Furniture(
                         productName: productName.text,
-                        imagePath: imagePath.value,
+                        imagePath: await rotateAndSaveImage(imagePath.value!),
                         description: productDescription.text,
                         height: (height ?? 0).toDouble(),
                         width: (width ?? 0).toDouble(),
@@ -637,6 +651,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                         isFavorite: false,
                       );
                       Navigator.push(
+                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (context) {
