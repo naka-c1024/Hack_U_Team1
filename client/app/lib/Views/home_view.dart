@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../Domain/theme_color.dart';
 import 'search/search_view.dart';
 import 'user/my_page_view.dart';
 import 'receiver/furniture_list_view.dart';
@@ -89,17 +90,17 @@ class HomeView extends HookConsumerWidget {
           ),
         ],
         elevation: 8,
-        selectedItemColor: const Color(0xff3e3e3e),
-        unselectedItemColor: const Color(0xff3e3e3e),
+        selectedItemColor: ThemeColors.lineGray2,
+        unselectedItemColor: ThemeColors.lineGray2,
         selectedLabelStyle: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.bold,
-          color: Color(0xff636363),
+          color: ThemeColors.textGray1,
         ),
         unselectedLabelStyle: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.normal,
-          color: Color(0xff636363),
+          color: ThemeColors.textGray1,
         ),
         backgroundColor: const Color(0xffffffff),
         currentIndex: selectedView.value,

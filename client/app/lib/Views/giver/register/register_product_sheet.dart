@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Domain/constants.dart';
 import '../../../Domain/furniture.dart';
+import '../../../Domain/theme_color.dart';
 import '../../../Usecases/provider.dart';
 import 'color_sheet.dart';
 import 'category_sheet.dart';
@@ -169,22 +170,22 @@ class RegisterProductSheet extends HookConsumerWidget {
                   Container(
                     height: 8,
                     width: 8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Theme.of(context).primaryColor,
+                      color: ThemeColors.keyGreen,
                     ),
                   ),
                   Container(
                     height: 2,
                     width: 24,
-                    color: const Color(0xffd9d9d9),
+                    color: ThemeColors.bgGray1,
                   ),
                   Container(
                     height: 8,
                     width: 8,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(0xffd9d9d9),
+                      color: ThemeColors.bgGray1,
                     ),
                   ),
                 ],
@@ -233,7 +234,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                             height: 120,
                             width: 120,
                             decoration: BoxDecoration(
-                              color: const Color(0xffd9d9d9),
+                              color: ThemeColors.bgGray1,
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: imagePath.value == null
@@ -259,7 +260,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
-                          color: const Color(0xffd9d9d9),
+                          color: ThemeColors.bgGray1,
                         ),
                       ),
                       child: TextField(
@@ -272,7 +273,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                           hintText: '必須 (40文字まで)',
                           hintStyle: TextStyle(
                             fontSize: 14,
-                            color: Color(0xffd9d9d9),
+                            color: ThemeColors.bgGray1,
                           ),
                           border: InputBorder.none,
                         ),
@@ -322,14 +323,14 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           '選択してください',
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xffd9d9d9),
+                                            color: ThemeColors.bgGray1,
                                           ),
                                         )
                                       : Text(
                                           categorys[categoryIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xff636363),
+                                            color: ThemeColors.textGray1,
                                           ),
                                         ),
                                   const SizedBox(width: 8),
@@ -387,14 +388,14 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           '選択してください',
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xffd9d9d9),
+                                            color: ThemeColors.bgGray1,
                                           ),
                                         )
                                       : Text(
                                           conditions[conditionIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xff636363),
+                                            color: ThemeColors.textGray1,
                                           ),
                                         ),
                                   const SizedBox(width: 8),
@@ -459,14 +460,14 @@ class RegisterProductSheet extends HookConsumerWidget {
                                           '選択してください',
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xffd9d9d9),
+                                            color: ThemeColors.bgGray1,
                                           ),
                                         )
                                       : Text(
                                           colors[colorIndex],
                                           style: const TextStyle(
                                             fontSize: 14,
-                                            color: Color(0xff636363),
+                                            color: ThemeColors.textGray1,
                                           ),
                                         ),
                                   const SizedBox(width: 8),
@@ -529,7 +530,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
-                          color: const Color(0xffd9d9d9),
+                          color: ThemeColors.bgGray1,
                         ),
                       ),
                       child: TextField(
@@ -538,7 +539,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                           hintText: '商品について詳しく説明しましょう',
                           hintStyle: TextStyle(
                             fontSize: 14,
-                            color: Color(0xffd9d9d9),
+                            color: ThemeColors.bgGray1,
                           ),
                           border: InputBorder.none,
                         ),
@@ -597,8 +598,8 @@ class RegisterProductSheet extends HookConsumerWidget {
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                         color: isInputCompleted.value
-                            ? Theme.of(context).primaryColor
-                            : const Color(0xffc4c4c4),
+                            ? ThemeColors.keyGreen
+                            : ThemeColors.bgGray2,
                       ),
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -613,8 +614,8 @@ class RegisterProductSheet extends HookConsumerWidget {
                       style: TextStyle(
                         fontSize: 16,
                         color: isInputCompleted.value
-                            ? Theme.of(context).primaryColor
-                            : const Color(0xffc4c4c4),
+                            ? ThemeColors.keyGreen
+                            : ThemeColors.bgGray2,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

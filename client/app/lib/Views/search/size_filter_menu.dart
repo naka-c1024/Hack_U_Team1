@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../Domain/theme_color.dart';
+
 class SizeFilterMenu extends HookConsumerWidget {
   final TextEditingController maxWidth;
   final TextEditingController maxDepth;
@@ -38,7 +40,7 @@ class SizeFilterMenu extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff131313),
+                color: ThemeColors.black,
               ),
             ),
             const SizedBox(height: 24),

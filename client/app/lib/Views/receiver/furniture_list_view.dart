@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/furniture.dart';
+import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import '../common/error_dialog.dart';
 import '../common/furniture_cell.dart';
@@ -110,22 +111,17 @@ class FurnitureListView extends HookConsumerWidget {
                   selectedView.value = 1;
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffffffff),
-                  padding: const EdgeInsets.only(left: 16),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                  backgroundColor: ThemeColors.keyGreen,
+                  padding: const EdgeInsets.only(right: 8),
                 ),
                 child: SizedBox(
-                  width: screenSize.width - 104,
+                  width: screenSize.width - 96,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         'assets/images/icon.png',
-                        color: Theme.of(context).primaryColor,
+                        color: const Color(0xffffffff),
                         height: 30,
                         width: 30,
                       ),
@@ -133,9 +129,9 @@ class FurnitureListView extends HookConsumerWidget {
                       const Text(
                         '部屋にあった家具を探す',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff131313),
+                          color: Color(0xffffffff),
                         ),
                       ),
                     ],
@@ -167,16 +163,16 @@ class FurnitureListView extends HookConsumerWidget {
         color: const Color(0xffeeeeee),
         // 下に引っ張った時に更新
         child: RefreshIndicator(
-          color: Theme.of(context).primaryColor,
+          color: ThemeColors.keyGreen,
           onRefresh: () => reloadFurnitureList(),
           // 家具リストの取得
           child: furnitureState.when(
-            loading: () => Center(
+            loading: () => const Center(
               child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
+                color: ThemeColors.keyGreen,
               ),
             ),
-            error: (error, __) => ErrorDialog(context,error.toString()),
+            error: (error, __) => errorDialog(context,error.toString()),
             skipLoadingOnRefresh: false,
             data: (data) {
               favoriteList.value = [];
@@ -214,7 +210,7 @@ class FurnitureListView extends HookConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xff131313),
+                                          color: ThemeColors.black,
                                         ),
                                       ),
                                       favoriteList.value.length <
@@ -291,7 +287,7 @@ class FurnitureListView extends HookConsumerWidget {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff131313),
+                                color: ThemeColors.black,
                               ),
                             ),
                           ),

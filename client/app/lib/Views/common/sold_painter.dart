@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../Domain/theme_color.dart';
+
 class SoldPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = const Color(0xffe55b20)// 三角形の色
+      ..color = ThemeColors.keyRed// 三角形の色
       ..style = PaintingStyle.fill; // 塗りつぶし
 
     var path = Path();

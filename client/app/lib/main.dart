@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'Domain/theme_color.dart';
 import 'Views/user/login_view.dart';
 import 'Views/user/sign_up_view.dart';
 
@@ -13,7 +14,7 @@ void main() async {
   initializeDateFormatting('ja');
   // TODO: 実機用にカメラ機能をオンにする
   // final cameras = await availableCameras();
-  final firstCamera = null; //cameras.first;
+  const firstCamera = null; //cameras.first;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final userName = prefs.getString('userName');
   runApp(
@@ -37,10 +38,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hack U team 1',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff74d800)),
-        primaryColor: const Color(0xff74d800),
+        colorScheme: ColorScheme.fromSeed(seedColor: ThemeColors.keyGreen),
+        primaryColor: ThemeColors.keyGreen,
+        splashColor: ThemeColors.bgGray1,
         useMaterial3: true,
         fontFamily: 'Noto Sans JP',
+        appBarTheme: const AppBarTheme(
+          surfaceTintColor: Colors.transparent,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            splashFactory: InkRipple.splashFactory,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+        ),
       ),
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: const [Locale("ja")],
