@@ -37,3 +37,10 @@ def select_category_index(category: str):
         if category in c or c in category:
             return i
     raise -1
+
+# few_shotプロンプティングためのデータを取得
+def get_few_shot_data():
+    file_path = Path(__file__).parent / 'few_shot_data.json'
+    with open(file_path, 'r') as file:
+        few_shot_data = json.load(file)
+    return few_shot_data

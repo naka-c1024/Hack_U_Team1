@@ -72,7 +72,11 @@ class FurnitureRecommendation:
             messages=[
                 {
                     "role": "system",
-                    "content": "あなたは部屋の雰囲気からおすすめの家具の色と理由をカンマ区切りで出力してください\n 例: 赤, この部屋は~"
+                    "content": "あなたは部屋の雰囲気からおすすめの家具の色と理由をカンマ区切りで出力してください"
+                },
+                {
+                    "role": "system",
+                    "content": "例:\n ".join(util.get_few_shot_data()["recommend_example_short"])
                 },
                 {
                     "role": "system",
