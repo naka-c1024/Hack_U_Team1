@@ -51,7 +51,7 @@ class FurnitureDescribe:
             ],
             max_tokens=300,
         )
-        name, description, color, category = response.choices[0].message["content"].split(",")
+        name, description, color, category = response.choices[0].message["content"].split("\n")[0].split(",")
         try:
             color_idx = util.select_color_index(color)
         except:
@@ -108,7 +108,8 @@ class FurnitureRecommendation:
             ],
             max_tokens=300,
         )
-        color, reason = response.choices[0].message["content"].split(",")
+        print(response.choices[0].message["content"])
+        color, reason = response.choices[0].message["content"].split("\n")[0].split(",")
         try:
             color_index = util.select_color_index(color)
         except:
