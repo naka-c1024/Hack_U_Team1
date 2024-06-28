@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 
-import '../Domain/chat.dart';
 import '../Domain/constants.dart';
+import '../Domain/chat.dart';
 
 Future<List<Message>> getChatLog(int senderId, int receiverId) async {
   try {

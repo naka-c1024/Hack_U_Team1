@@ -26,7 +26,6 @@ void main() {
         'send_date_time': DateTime.now().toIso8601String(),
       });
       channel.sink.add(jsonMessage);
-      channel.sink.close();
     });
   });
 

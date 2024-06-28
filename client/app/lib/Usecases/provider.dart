@@ -78,7 +78,7 @@ final chatProvider = StateProvider<Chat>((ref){
 // メッセージを管理
 final messagesProvider = StreamProvider.autoDispose<List<Message>>((ref) {
   final chat = ref.watch(chatProvider);
-  return chat.getMessages();
+  return chat.getMessages;
 },);
 
 // チャットのログを管理

@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/theme_color.dart';
-import '../../Domain/chat.dart';
 import '../../Usecases/provider.dart';
+import '../../Domain/chat.dart';
 import 'chat_cell.dart';
 import 'error_dialog.dart';
 
@@ -18,9 +18,13 @@ class ChatView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+
     final userId = 1; //ref.watch(userIdProvider);
+    final chat = ref.watch(chatProvider);
     final chatLog = ref.watch(chatLogProvider(2));
-    final controller = useTextEditingController(text:'');
+    final messages = ref.watch(messagesProvider);
+
+    final controller = useTextEditingController(text: '');
 
     final chatCellList = useState<List<Widget>>([]);
     void createChatCellList(List<Message> chatLog) {
@@ -32,10 +36,21 @@ class ChatView extends HookConsumerWidget {
         } else {
           chatCellList.value.add(YourMessageCell(message: message));
         }
-        if (i < chatLog.length - 1 &&
-            chatLog[i].senderId != chatLog[i].receiverId) {
-          chatCellList.value.add(const SizedBox(height: 24));
+        chatCellList.value.add(const SizedBox(height: 8));
+      }
+    }
+
+    final newChatCellList = useState<List<Widget>>([]);
+    void addNewMessage(List<Message> messageList) {
+      newChatCellList.value = [];
+      for (int i = 0; i < messageList.length; i++) {
+        final message = messageList[i];
+        if (message.senderId == userId) {
+          newChatCellList.value.add(MyMessageCell(message: message));
+        } else {
+          newChatCellList.value.add(YourMessageCell(message: message));
         }
+        newChatCellList.value.add(const SizedBox(height: 8));
       }
     }
 
@@ -77,12 +92,14 @@ class ChatView extends HookConsumerWidget {
               // ログ
               SingleChildScrollView(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    // チャットのログを表示
                     chatLog.when(
                       data: (chatLog) {
                         createChatCellList(chatLog);
                         return Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.fromLTRB(16,16,16,0),
                           child: Column(children: chatCellList.value),
                         );
                       },
@@ -94,6 +111,20 @@ class ChatView extends HookConsumerWidget {
                       error: (error, __) =>
                           errorDialog(context, error.toString()),
                     ),
+                    // 新しくやりとりしたメッセージを表示
+                    messages.when(
+                      data: (messages) {
+                        addNewMessage(messages);
+                        return Container(
+                          padding: const EdgeInsets.fromLTRB(16,0,16,0),
+                          child: Column(children: newChatCellList.value),
+                        );
+                      },
+                      loading: () => const SizedBox(),
+                      error: (error, __) =>
+                          errorDialog(context, error.toString()),
+                    ),
+                    const SizedBox(height:120),
                   ],
                 ),
               ),
@@ -125,6 +156,15 @@ class ChatView extends HookConsumerWidget {
                           padding: const EdgeInsets.only(left: 16),
                           color: ThemeColors.bgGray3,
                           child: TextField(
+                            onSubmitted: (value) {
+                              final newMessage = Message(
+                                senderId: 1,
+                                receiverId: 2,
+                                message: 'これは新しいメッセージです。',
+                                sendDateTime: DateTime.now(),
+                              );
+                              chat.sendMessage(newMessage);
+                            },
                             controller: controller,
                             decoration: const InputDecoration(
                               hintText: 'チャットを送る',
@@ -138,7 +178,7 @@ class ChatView extends HookConsumerWidget {
                               fontSize: 14,
                               color: ThemeColors.black,
                             ),
-                            
+                            textInputAction: TextInputAction.send,
                             keyboardType: TextInputType.multiline,
                             maxLines: 10,
                             minLines: 1,
