@@ -4,13 +4,13 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Message {
   final int senderId;
-  final int receiverId;
+  final int? receiverId;
   final String message;
   final DateTime sendDateTime;
 
   Message({
     required this.senderId,
-    required this.receiverId,
+    this.receiverId,
     required this.message,
     required this.sendDateTime,
   });
@@ -25,24 +25,24 @@ class Chat {
     channel = WebSocketChannel.connect(Uri.parse(url));
     channel.stream.listen((dataList) {
       print(dataList);
-      List<Message> messages = convertMessages(dataList);
+      var data = jsonDecode(dataList);
+      List<Message> messages = convertMessages(data);
       _controller.add(messages);
     }, onError: (error) {
       print(error);
     });
   }
 
-  List<Message> convertMessages(dynamic dataList) {
+  List<Message> convertMessages(dynamic data) {
     List<Message> messageList = [];
-    for (dynamic data in dataList) {
-      final message = Message(
-        senderId: data['sender_id'],
-        receiverId: data['receiver_id'],
-        message: data['message'],
-        sendDateTime: data['send_date_time'],
-      );
-      messageList.add(message);
-    }
+    final message = Message(
+      senderId: int.parse(data['sender_id']),
+      message: data['message'],
+      sendDateTime: data['send_date_time'] == null
+              ? DateTime.now()
+              : DateTime.parse(data['send_date_time']),
+    );
+    messageList.add(message);
     return messageList;
   }
 
@@ -55,8 +55,10 @@ class Chat {
       'message': message.message,
       'send_date_time': message.sendDateTime.toIso8601String(),
     });
+    // if (!_controller.isClosed) {
     _controller.add([message]);
     channel.sink.add(jsonMessage);
+    // }
   }
 
   void dispose() {

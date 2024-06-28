@@ -73,8 +73,8 @@ final searchResultProvider = StateProvider<List<Furniture>?>((ref) => null);
 // チャットを管理
 final chatProvider = StateProvider<Chat>((ref){
   final userId = ref.read(userIdProvider);
-  //return Chat('ws://$ipAddress:8080/chat/ws/$userId');
-  return Chat('ws://127.0.0.1:8080/chat/ws/$userId');
+  return Chat('ws://$ipAddress:8080/chat/ws/$userId');
+  // return Chat('ws://127.0.0.1:8080/chat/ws/$userId');
 });
 
 // メッセージを管理
