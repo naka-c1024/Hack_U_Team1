@@ -34,16 +34,16 @@ class YourMessageCell extends HookConsumerWidget {
         ClipOval(
           child: Image.asset(
             'assets/images/user_icon_2.png',
-            width: 40,
-            height: 40,
+            width: 32,
+            height: 32,
             fit: BoxFit.cover,
           ),
         ),
         const SizedBox(width: 12),
         Flexible(
           child: Container(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            width: screenSize.width - 160,
+            padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+            width: screenSize.width - 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               border: Border.all(color: ThemeColors.lineGray1),
@@ -60,7 +60,7 @@ class YourMessageCell extends HookConsumerWidget {
         const SizedBox(width: 8),
         Column(
           children: [
-            SizedBox(height: 16 + 24 * (message.message.length/20+1) - 24),
+            SizedBox(height: 24 + 24 * (message.message.length~/17).toDouble()),
             Text(
               formatSendDateTime(message.sendDateTime),
               style: const TextStyle(
@@ -91,7 +91,7 @@ class MyMessageCell extends HookConsumerWidget {
       children: [
         Column(
           children: [
-            SizedBox(height: 16 + 24 * (message.message.length/20+1) - 24),
+            SizedBox(height: 24 + 24 * (message.message.length~/17).toDouble()),
             Text(
               formatSendDateTime(message.sendDateTime),
               style: const TextStyle(
@@ -105,7 +105,7 @@ class MyMessageCell extends HookConsumerWidget {
         Flexible(
           child: Container(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            width: screenSize.width - 160,
+            width: screenSize.width - 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               border: Border.all(color: ThemeColors.keyGreen),
