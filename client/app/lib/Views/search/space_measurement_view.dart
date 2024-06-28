@@ -196,7 +196,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
           ),
           const SizedBox(height: 24),
           const Text(
-            '想定する家具の大きさを指定できます',
+            '想定する家具の大きさを\n指定してください。',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
@@ -207,9 +207,8 @@ class SpaceMeasurementView extends HookConsumerWidget {
           Stack(
             children: [
               // 長さを測るためのカメラ
-              Container(
-                height: screenSize.height - 324,
-                color: const Color(0xff000000),
+              SizedBox(
+                height: screenSize.height - 368,
                 child: ARKitSceneView(
                   enableTapRecognizer: true,
                   onARKitViewCreated: (controller) {
@@ -222,7 +221,7 @@ class SpaceMeasurementView extends HookConsumerWidget {
                 children: [
                   // 計測ボタン
                   Container(
-                    padding: const EdgeInsets.fromLTRB(16, 376, 16, 16),
+                    padding: const EdgeInsets.fromLTRB(16, 320, 16, 16),
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color(0xffffffff),
