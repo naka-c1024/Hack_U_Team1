@@ -136,7 +136,7 @@ class TradeDetailView extends HookConsumerWidget {
                                     return Container(
                                       height: screenSize.height,
                                       width: screenSize.width,
-                                      color: const Color(0x4b000000),
+                                      color: const Color(0xbb000000),
                                       child: const TradeApproveSheet(
                                         isCompleted: false,
                                       ),
