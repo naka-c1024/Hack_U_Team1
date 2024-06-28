@@ -26,7 +26,8 @@ class ConnectionManager:
         self.active_connections[client_id] = websocket
 
     def disconnect(self, client_id: int):
-        del self.active_connections[client_id]
+        if client_id in self.active_connections:
+            del self.active_connections[client_id]
 
     async def send_message(self, message: dict, client_id: int):
         if client_id in self.active_connections:
@@ -70,4 +71,7 @@ class ChatApiImpl(BaseChatApi):
 
                 await manager.send_message({"sender_id": sender_id, "message": message, "send_date_time": send_date_time_jst.isoformat()}, receiver_id)
         except WebSocketDisconnect:
+            manager.disconnect(client_id)
+        except Exception as e:
+            await websocket.close(reason=f"An error occurred: {e}")
             manager.disconnect(client_id)
