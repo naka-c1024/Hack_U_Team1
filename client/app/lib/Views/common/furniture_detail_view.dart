@@ -9,6 +9,7 @@ import '../../Domain/theme_color.dart';
 import '../../Usecases/provider.dart';
 import '../../Usecases/furniture_api.dart';
 import '../../Usecases/favorite_api.dart';
+import 'chat_view.dart';
 import 'error_dialog.dart';
 import 'trade_adjust_sheet.dart';
 
@@ -46,7 +47,7 @@ class FurnitureDetailView extends HookConsumerWidget {
       body: Column(
         children: [
           Container(
-            height: screenSize.height - 48,
+            height: screenSize.height - 60,
             color: const Color(0xffffffff),
             child: Stack(
               children: [
@@ -422,7 +423,16 @@ class FurnitureDetailView extends HookConsumerWidget {
                             const SizedBox(height: 8),
                             // チャットボタン
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // チャットページへ
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ChatView(userName: furniture.userName),
+                                  ),
+                                );
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xffffffff),
                                 padding: EdgeInsets.zero,

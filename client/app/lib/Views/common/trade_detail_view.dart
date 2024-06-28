@@ -9,6 +9,7 @@ import '../../Domain/furniture.dart';
 import '../../Domain/theme_color.dart';
 import '../../Usecases/trade_api.dart';
 import '../../Usecases/provider.dart';
+import 'chat_view.dart';
 import 'error_dialog.dart';
 import 'trade_approve_sheet.dart';
 import 'furniture_detail_view.dart';
@@ -371,7 +372,16 @@ class TradeDetailView extends HookConsumerWidget {
             const SizedBox(height: 8),
             // チャットボタン
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // チャットページへ
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ChatView(userName: furniture.userName),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xffffffff),
                 padding: EdgeInsets.zero,
