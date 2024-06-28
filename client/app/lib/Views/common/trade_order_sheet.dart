@@ -121,49 +121,49 @@ class TradeOrderSheet extends HookConsumerWidget {
               ),
               const SizedBox(height: 8),
               // チャットボタン
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffffffff),
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                      color: ThemeColors.lineGray1,
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                child: Container(
-                  height: 48,
-                  width: (screenSize.width - 32),
-                  margin: const EdgeInsets.only(left: 8, right: 8),
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/chat_icon.png',
-                        width: 24,
-                        color: ThemeColors.lineGray2,
-                      ),
-                      const SizedBox(width: 16),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 4),
-                        child: Text(
-                          'チャットする',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: ThemeColors.lineGray2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {},
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: const Color(0xffffffff),
+              //     padding: EdgeInsets.zero,
+              //     minimumSize: Size.zero,
+              //     elevation: 0,
+              //     shape: RoundedRectangleBorder(
+              //       side: const BorderSide(
+              //         color: ThemeColors.lineGray1,
+              //       ),
+              //       borderRadius: BorderRadius.circular(5),
+              //     ),
+              //   ),
+              //   child: Container(
+              //     height: 48,
+              //     width: (screenSize.width - 48),
+              //     margin: const EdgeInsets.only(left: 8, right: 8),
+              //     alignment: Alignment.center,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Image.asset(
+              //           'assets/images/chat_icon.png',
+              //           width: 24,
+              //           color: ThemeColors.lineGray2,
+              //         ),
+              //         const SizedBox(width: 16),
+              //         const Padding(
+              //           padding: EdgeInsets.only(bottom: 4),
+              //           child: Text(
+              //             'チャットする',
+              //             style: TextStyle(
+              //               fontSize: 12,
+              //               color: ThemeColors.lineGray2,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 4),
             ],
           ),

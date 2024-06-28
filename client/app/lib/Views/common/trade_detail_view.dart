@@ -374,13 +374,27 @@ class TradeDetailView extends HookConsumerWidget {
             ElevatedButton(
               onPressed: () {
                 // チャットページへ
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ChatView(userName: furniture.userName),
-                  ),
-                );
+                if (userId == trade.giverId) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatView(
+                        userName: '希望者',
+                        yourId: trade.receiverId,
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatView(
+                        userName: '出品者',
+                        yourId: trade.giverId,
+                      ),
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xffffffff),

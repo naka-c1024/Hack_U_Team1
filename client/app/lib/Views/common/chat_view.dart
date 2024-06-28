@@ -10,8 +10,10 @@ import 'error_dialog.dart';
 
 class ChatView extends HookConsumerWidget {
   final String userName;
+  final int yourId;
   const ChatView({
     required this.userName,
+    required this.yourId,
     super.key,
   });
 
@@ -19,9 +21,9 @@ class ChatView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
 
-    final userId = 1; //ref.watch(userIdProvider);
+    final userId = ref.watch(userIdProvider);
     final chat = ref.watch(chatProvider);
-    final chatLog = ref.watch(chatLogProvider(2));
+    final chatLog = ref.watch(chatLogProvider(yourId));
     final messages = ref.watch(messagesProvider);
 
     final controller = useTextEditingController(text: '');
@@ -58,12 +60,25 @@ class ChatView extends HookConsumerWidget {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: const Color(0xffffffff),
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
+        leading: Padding(
+          padding: const EdgeInsets.only(left:12),
+          child: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop(0);
+              chat.dispose();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: ThemeColors.black,
+            ),
+          ),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              '$userName さんとのチャット',
+              '$userNameとのチャット',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -99,7 +114,7 @@ class ChatView extends HookConsumerWidget {
                       data: (chatLog) {
                         createChatCellList(chatLog);
                         return Container(
-                          padding: const EdgeInsets.fromLTRB(16,16,16,0),
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                           child: Column(children: chatCellList.value),
                         );
                       },
@@ -116,7 +131,7 @@ class ChatView extends HookConsumerWidget {
                       data: (messages) {
                         addNewMessage(messages);
                         return Container(
-                          padding: const EdgeInsets.fromLTRB(16,0,16,0),
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                           child: Column(children: newChatCellList.value),
                         );
                       },
@@ -124,7 +139,7 @@ class ChatView extends HookConsumerWidget {
                       error: (error, __) =>
                           errorDialog(context, error.toString()),
                     ),
-                    const SizedBox(height:120),
+                    const SizedBox(height: 120),
                   ],
                 ),
               ),
@@ -158,9 +173,9 @@ class ChatView extends HookConsumerWidget {
                           child: TextField(
                             onSubmitted: (value) {
                               final newMessage = Message(
-                                senderId: 1,
-                                receiverId: 2,
-                                message: 'これは新しいメッセージです。',
+                                senderId: userId,
+                                receiverId: yourId,
+                                message: value,
                                 sendDateTime: DateTime.now(),
                               );
                               chat.sendMessage(newMessage);

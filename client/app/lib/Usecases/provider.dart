@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../Domain/constants.dart';
 import '../Domain/description.dart';
 import '../Domain/furniture.dart';
 import '../Domain/trade.dart';
@@ -72,11 +73,12 @@ final searchResultProvider = StateProvider<List<Furniture>?>((ref) => null);
 // チャットを管理
 final chatProvider = StateProvider<Chat>((ref){
   final userId = ref.read(userIdProvider);
-  return Chat('ws://127.0.0.1:8080/chat/ws/1');
+  //return Chat('ws://$ipAddress:8080/chat/ws/$userId');
+  return Chat('ws://127.0.0.1:8080/chat/ws/$userId');
 });
 
 // メッセージを管理
-final messagesProvider = StreamProvider.autoDispose<List<Message>>((ref) {
+final messagesProvider = StreamProvider<List<Message>>((ref) {
   final chat = ref.watch(chatProvider);
   return chat.getMessages;
 },);
@@ -84,5 +86,5 @@ final messagesProvider = StreamProvider.autoDispose<List<Message>>((ref) {
 // チャットのログを管理
 final chatLogProvider = FutureProvider.family<List<Message>,int>((ref,receiverId) {
   final userId = ref.read(userIdProvider);
-  return getChatLog(1,receiverId);
+  return getChatLog(userId,receiverId);
 });

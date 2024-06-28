@@ -24,8 +24,11 @@ class Chat {
   Chat(this.url) {
     channel = WebSocketChannel.connect(Uri.parse(url));
     channel.stream.listen((dataList) {
+      print(dataList);
       List<Message> messages = convertMessages(dataList);
       _controller.add(messages);
+    }, onError: (error) {
+      print(error);
     });
   }
 

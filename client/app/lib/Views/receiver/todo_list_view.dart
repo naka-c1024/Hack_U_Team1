@@ -137,7 +137,7 @@ class TodoListView extends HookConsumerWidget {
               getTradingIdList();
               createTradeCellList(data);
               return SingleChildScrollView(
-                padding: const EdgeInsets.only(left: 16, top: 40, right: 16),
+                padding: const EdgeInsets.only(left: 16, top: 0, right: 16),
                 child: Column(
                   children: tradeCellList.value,
                 ),

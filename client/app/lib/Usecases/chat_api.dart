@@ -13,7 +13,6 @@ Future<List<Message>> getChatLog(int senderId, int receiverId) async {
       final dataList = jsonResponse['chats'];
       final List<Message> messageList = [];
       for (dynamic data in dataList) {
-        print(data);
         final message = Message(
           senderId: data['sender_id'],
           receiverId: data['receiver_id'],
