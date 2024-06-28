@@ -1,12 +1,12 @@
 import os
 import requests
-from PIL import Image
-from io import BytesIO
-from urllib.parse import urlparse, unquote
 import yaml
-from urllib.parse import urlparse, unquote
 from sqlalchemy.orm import Session
+from urllib.parse import urlparse, unquote
+
 from openapi_server.db_model.tables import Users, Furniture, Trades, Favorites, Chats
+from openapi_server.impl.common import write_image_file
+
 
 def insert_dummy_data(session: Session):
     yaml_file_path = "/app/src/openapi_server/migrate/dummy_data.yaml"
@@ -20,12 +20,11 @@ def insert_dummy_data(session: Session):
     session.flush()  # メモリ消費を抑えるため
 
     # Insert furniture
-    SAVE_DIR = "/app/src/openapi_server/file_storage"
     QUALITY = 40 # 画像の圧縮率, 低いほど圧縮されるが画質が劣化する
     for item in data['furniture']:
         image_url = item.pop('image_url')
-        file_path = download_and_compress_image(image_url, SAVE_DIR, QUALITY)
-        item['image'] = os.path.join(SAVE_DIR, file_path)
+        filename = download_and_compress_image(image_url, QUALITY)
+        item['image'] = filename
         session.add(Furniture(**item))
     session.flush()  # メモリ消費を抑えるため
     session.flush()  # メモリ消費を抑えるため
@@ -44,10 +43,8 @@ def insert_dummy_data(session: Session):
 
     session.commit()
 
-def download_and_compress_image(url, save_dir, quality) -> str:
-    if not os.path.exists(save_dir):
-        raise FileNotFoundError(f"Directory not found: {save_dir}")
 
+def download_and_compress_image(url, quality) -> str:
     parsed_url = urlparse(url)
     filename = os.path.basename(parsed_url.path)
     filename = unquote(filename)  # クエリパラメータを削除
@@ -57,10 +54,7 @@ def download_and_compress_image(url, save_dir, quality) -> str:
     # リクエストが成功したか確認
     response.raise_for_status()
 
-    # 画像をJPEG形式で圧縮
-    image = Image.open(BytesIO(response.content))
-    filename = os.path.splitext(filename)[0] + '.jpeg'  # 拡張子を.jpegに変更
-    file_path = os.path.join(save_dir, filename)
-    image.save(file_path, 'JPEG', quality=quality)  # JPEG形式で保存、品質はパラメータで調整
+    # 画像をJPEG形式で圧縮するために拡張子を変更
+    filename = 'demo-' + os.path.splitext(filename)[0] + '.jpeg'
 
-    return file_path
+    return write_image_file(filename, response.content, quality)
