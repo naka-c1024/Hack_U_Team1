@@ -176,7 +176,7 @@ class SizeFilterMenu extends HookConsumerWidget {
                 ),
               ],
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             const SizedBox(height: 16),
             const Text(
               '下限',
@@ -310,7 +310,7 @@ class SizeFilterMenu extends HookConsumerWidget {
                 ),
               ],
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
           ],
         ),
       ),

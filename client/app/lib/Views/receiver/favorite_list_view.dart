@@ -1,3 +1,4 @@
+import 'package:app/Domain/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,6 +21,7 @@ class FavoriteListView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
+                color:ThemeColors.black,
               ),
             ),
           ],

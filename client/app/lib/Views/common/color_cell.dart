@@ -86,6 +86,7 @@ class ColorCell extends HookConsumerWidget {
                 colors[colorIndex],
                 style: const TextStyle(
                   fontSize: 12,
+                  color: Color(0xff4b4b4b),
                 ),
               ),
             ],

@@ -205,7 +205,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              const Divider(),
+              const Divider(color:ThemeColors.lineGray1),
               Padding(
                 padding: EdgeInsets.only(
                   left: 16,
@@ -311,7 +311,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Divider(),
+                    const Divider(color:ThemeColors.lineGray1),
                     // カテゴリー選択ボタン
                     Row(
                       children: [
@@ -383,7 +383,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   const SizedBox(width: 8),
                                   const Icon(
                                     Icons.arrow_forward_ios,
-                                    color: Color(0xff4b4b4b),
+                                    color: Color(0xff333333),
                                   ),
                                 ],
                               ),
@@ -392,7 +392,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    const Divider(),
+                    const Divider(color:ThemeColors.lineGray1),
                     // 商品の状態選択ボタン
                     Row(
                       children: [
@@ -464,7 +464,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   const SizedBox(width: 8),
                                   const Icon(
                                     Icons.arrow_forward_ios,
-                                    color: Color(0xff4b4b4b),
+                                    color: Color(0xff333333),
                                   ),
                                 ],
                               ),
@@ -473,7 +473,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    const Divider(),
+                    const Divider(color:ThemeColors.lineGray1),
                     // カラー選択ボタン
                     Row(
                       children: [
@@ -545,7 +545,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                                   const SizedBox(width: 8),
                                   const Icon(
                                     Icons.arrow_forward_ios,
-                                    color: Color(0xff4b4b4b),
+                                    color: Color(0xff333333),
                                   ),
                                 ],
                               ),
@@ -554,7 +554,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    const Divider(),
+                    const Divider(color:ThemeColors.lineGray1),
                     const SizedBox(height: 4),
                     Row(
                       children: [
@@ -586,7 +586,7 @@ class RegisterProductSheet extends HookConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 4),
-                    const Divider(),
+                    const Divider(color:ThemeColors.lineGray1),
                     const SizedBox(height: 16),
                     const Text(
                       '商品説明',

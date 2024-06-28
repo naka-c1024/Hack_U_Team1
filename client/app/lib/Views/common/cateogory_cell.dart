@@ -80,6 +80,7 @@ class CategoryCell extends HookConsumerWidget {
                 style: const TextStyle(
                   fontSize: 10.5,
                   fontWeight: FontWeight.bold,
+                  color: Color(0xff4b4b4b),
                 ),
               ),
             ],

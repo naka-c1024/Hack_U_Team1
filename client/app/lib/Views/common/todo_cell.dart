@@ -111,7 +111,7 @@ class TodoCell extends HookConsumerWidget {
             ),
           ),
         ),
-        const Divider(),
+        const Divider(color:ThemeColors.lineGray1),
       ],
     );
   }

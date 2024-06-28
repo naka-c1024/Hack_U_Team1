@@ -115,7 +115,10 @@ class RegisterSizeSheet extends HookConsumerWidget {
                 onPressed: () {
                   Navigator.of(context).pop(0);
                 },
-                icon: const Icon(Icons.arrow_back_ios),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xff333333),
+                ),
               ),
               const Text(
                 'サイズを計測',
@@ -165,6 +168,9 @@ class RegisterSizeSheet extends HookConsumerWidget {
                                 : width == null
                                     ? '幅を計測'
                                     : '幅：$width cm',
+                            style: const TextStyle(
+                              color: ThemeColors.black,
+                            ),
                           ),
                         ),
                         Container(
@@ -198,6 +204,9 @@ class RegisterSizeSheet extends HookConsumerWidget {
                                 : depth == null
                                     ? '奥行きを計測'
                                     : '奥行き：$depth cm',
+                            style: const TextStyle(
+                              color: ThemeColors.black,
+                            ),
                           ),
                         ),
                         Container(
@@ -231,6 +240,9 @@ class RegisterSizeSheet extends HookConsumerWidget {
                                 : height == null
                                     ? '高さを計測'
                                     : '高さ：$height cm',
+                            style: const TextStyle(
+                              color: ThemeColors.black,
+                            ),
                           ),
                         ),
                         Container(

@@ -182,7 +182,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               ),
                             ),
                             const SizedBox(height: 4),
-                            const Divider(),
+                            const Divider(color:Color(0xffababab)),
                             const SizedBox(height: 4),
                             // 引き渡し期間
                             Row(
@@ -253,7 +253,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               ],
                             ),
                             const SizedBox(height: 4),
-                            const Divider(),
+                            const Divider(color:Color(0xffababab)),
                             const SizedBox(height: 24),
                             const Text(
                               '商品の情報',
@@ -264,7 +264,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               ),
                             ),
                             const SizedBox(height: 4),
-                            const Divider(),
+                            const Divider(color:Color(0xffababab)),
                             const SizedBox(height: 4),
                             // サイズ
                             Row(
@@ -371,7 +371,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               ],
                             ),
                             const SizedBox(height: 4),
-                            const Divider(),
+                            const Divider(color:Color(0xffababab)),
                             const SizedBox(height: 24),
                             const Text(
                               '出品者',
@@ -382,7 +382,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                               ),
                             ),
                             const SizedBox(height: 4),
-                            const Divider(),
+                            const Divider(color:Color(0xffababab)),
                             const SizedBox(height: 4),
                             // 出品者情報
                             Row(
@@ -475,7 +475,7 @@ class FurnitureDetailView extends HookConsumerWidget {
                             //   ),
                             // ),
                             const SizedBox(height: 4),
-                            const Divider(),
+                            const Divider(color:Color(0xffababab)),
                             const SizedBox(height: 24),
                             (isMyProduct && !isHiddenButton)
                                 ? Column(

@@ -63,7 +63,10 @@ class RegisterPictureSheet extends HookConsumerWidget {
                 onPressed: () {
                   Navigator.of(context).pop(0);
                 },
-                icon: const Icon(Icons.arrow_back_ios),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xff333333),
+                ),
               ),
               const Text(
                 '写真',

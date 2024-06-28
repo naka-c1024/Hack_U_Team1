@@ -95,7 +95,7 @@ class TodoListView extends HookConsumerWidget {
         }
       }
       if (tradeCellList.value.isNotEmpty) {
-        tradeCellList.value.insert(0, const Divider());
+        tradeCellList.value.insert(0,  const Divider(color:ThemeColors.lineGray1),);
       }
     }
 
@@ -111,6 +111,7 @@ class TodoListView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
+                color:ThemeColors.black,
               ),
             ),
           ],

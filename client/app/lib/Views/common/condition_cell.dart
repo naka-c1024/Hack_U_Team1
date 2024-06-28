@@ -29,7 +29,10 @@ class ConditionCell extends HookConsumerWidget {
             children: [
               Text(
                 conditions[conditionIndex],
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xff4b4b4b),
+                ),
               ),
               selectedIndex == conditionIndex
                   ? const Icon(Icons.check)

@@ -287,7 +287,7 @@ class TradeDetailView extends HookConsumerWidget {
                 color: ThemeColors.textGray1,
               ),
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             // 場所
             Row(
               children: [
@@ -335,7 +335,7 @@ class TradeDetailView extends HookConsumerWidget {
                 ),
               ],
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             const SizedBox(height: 24),
             const Text(
               '希望者情報',
@@ -345,7 +345,7 @@ class TradeDetailView extends HookConsumerWidget {
                 color: ThemeColors.textGray1,
               ),
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             const SizedBox(height: 4),
             // 希望者情報
             Row(
@@ -451,7 +451,7 @@ class TradeDetailView extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 4),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             const SizedBox(height: 24),
             const Text(
               '商品情報',
@@ -461,7 +461,7 @@ class TradeDetailView extends HookConsumerWidget {
                 color: ThemeColors.textGray1,
               ),
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             // 商品情報
             Material(
               color: Colors.transparent,
@@ -560,7 +560,7 @@ class TradeDetailView extends HookConsumerWidget {
                 ),
               ),
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
           ],
         ),
       ),

@@ -56,7 +56,7 @@ class SearchResultView extends HookConsumerWidget {
     ]);
     useEffect(() {
       List<Widget> row = [];
-      if (searchResult == null ){
+      if (searchResult == null) {
         isNoResponse.value = true;
         return null;
       } else {
@@ -89,11 +89,9 @@ class SearchResultView extends HookConsumerWidget {
         if (isNoResponse.value) {
           resultList.value = [
             const Center(
-              child: Text(
-                '読み込みに失敗しました。\nもう一度条件を入力して検索してくだい。',
-                textAlign: TextAlign.center,
-                style:TextStyle(color:ThemeColors.textGray1)
-              ),
+              child: Text('読み込みに失敗しました。\nもう一度条件を入力して検索してくだい。',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: ThemeColors.textGray1)),
             ),
           ];
         }
@@ -166,12 +164,13 @@ class SearchResultView extends HookConsumerWidget {
                                         height: 32,
                                         width: screenSize.width - 80,
                                         padding: const EdgeInsets.only(left: 8),
-                                        color: ThemeColors.bgGray1,
+                                        color: ThemeColors.bgGray3,
                                         child: Row(
                                           children: [
                                             const Icon(
                                               Icons.search,
                                               size: 20,
+                                              color: Color(0xff4b4b4b),
                                             ),
                                             const SizedBox(width: 8),
                                             Text(
@@ -179,7 +178,7 @@ class SearchResultView extends HookConsumerWidget {
                                               style: const TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
-                                                color: Color(0xff4b4b4b),
+                                                color: ThemeColors.black,
                                               ),
                                             ),
                                           ],
@@ -439,6 +438,11 @@ class SearchResultView extends HookConsumerWidget {
                     height: 496,
                     width: screenSize.width,
                     color: const Color(0xffffffff),
+                    margin: EdgeInsets.only(
+                      top: isSearchPicture
+                          ? 144 + ((reason ?? '').length / 25 + 1) * 28
+                          : 128,
+                    ),
                     child: Column(
                       children: [
                         const Divider(),
@@ -530,6 +534,11 @@ class SearchResultView extends HookConsumerWidget {
                     height: 456,
                     width: screenSize.width,
                     color: const Color(0xffffffff),
+                    margin: EdgeInsets.only(
+                      top: isSearchPicture
+                          ? 144 + ((reason ?? '').length / 25 + 1) * 28
+                          : 128,
+                    ),
                     child: Column(
                       children: [
                         const Divider(),
@@ -622,6 +631,11 @@ class SearchResultView extends HookConsumerWidget {
                     height: 336,
                     width: screenSize.width,
                     color: const Color(0xffffffff),
+                    margin: EdgeInsets.only(
+                      top: isSearchPicture
+                          ? 144 + ((reason ?? '').length / 25 + 1) * 28
+                          : 128,
+                    ),
                     child: Column(
                       children: [
                         const Divider(),

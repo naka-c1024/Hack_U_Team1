@@ -31,10 +31,10 @@ class FurnitureListView extends HookConsumerWidget {
     }
 
     // 画面を移動した時に自動で更新
-    useEffect(() {
-      Future.microtask(() => {reloadFurnitureList()});
-      return null;
-    }, []);
+    // useEffect(() {
+    //   Future.microtask(() => {reloadFurnitureList()});
+    //   return null;
+    // }, []);
 
     final ValueNotifier<List<Row>> favoriteList = useState([]);
     final ValueNotifier<List<Row>> favoriteAllList = useState([]);
