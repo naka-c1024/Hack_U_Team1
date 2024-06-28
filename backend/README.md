@@ -31,7 +31,11 @@ docker-compose exec backend-app python -m openapi_server.migrate.db
 ## MySQL
 
 ```
-docker-compose exec db mysql backend -u root -p
+docker-compose exec db mysql backend
 ```
 
-その後パスワードを求められるので`.env`ファイルに記載されたROOT_PASSWORDを入力
+## MinIO(ローカルオブジェクトストレージ)
+
+下記にアクセスし、`.env`ファイルにある`MINIO_ROOT_USER`と`MINIO_ROOT_PASSWORD`でログインする
+
+http://127.0.0.1:9001

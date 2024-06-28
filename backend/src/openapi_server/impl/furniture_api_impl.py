@@ -1,6 +1,8 @@
-import os
 import base64
 import uuid
+from typing import Optional, List
+from fastapi import HTTPException, UploadFile
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from openapi_server.apis.furniture_api_base import BaseFurnitureApi
 from openapi_server.models.furniture_list_response import FurnitureListResponse
@@ -10,11 +12,9 @@ from openapi_server.models.furniture_describe_response import FurnitureDescribeR
 
 import openapi_server.cruds.furniture as furniture_crud
 from openapi_server.impl.common import read_image_file, write_image_file
+from openapi_server.object_storage.minio import minio_client
 from openapi_server.ai.furniture import FurnitureDescribe, FurnitureRecommendation
 
-from fastapi import HTTPException, UploadFile
-from sqlalchemy.ext.asyncio import AsyncSession
-from typing import Optional, List
 
 class FurnitureApiImpl(BaseFurnitureApi):
     async def furniture_describe_post(
@@ -29,14 +29,14 @@ class FurnitureApiImpl(BaseFurnitureApi):
         furniture_id: int,
         db: AsyncSession,
     ) -> None:
-        image_uri, err_msg = await furniture_crud.delete_furniture(db, furniture_id)
+        image_key, err_msg = await furniture_crud.delete_furniture(db, furniture_id)
         if err_msg:
             if err_msg == "Furniture not found":
                 raise HTTPException(status_code=404, detail=err_msg)
             else:
                 raise HTTPException(status_code=400, detail=err_msg)
-        elif image_uri and os.path.exists(image_uri):
-            os.remove(image_uri)
+
+        minio_client.delete_file(image_key)
 
     async def furniture_furniture_id_get(
         self,
@@ -130,23 +130,19 @@ class FurnitureApiImpl(BaseFurnitureApi):
         )
 
     async def _save_image(self, user_id: int, product_name: str, image: UploadFile) -> str:
-        SAVE_DIR = "/app/src/openapi_server/file_storage"
         EXTENSION = "jpeg"  # 圧縮するためにjpeg形式にする
         QUALITY = 40  # 画像の圧縮率, 低いほど圧縮されるが画質が劣化する
 
-        if not os.path.exists(SAVE_DIR):
-            # ディレクトリが未作成の場合はInternalServerErrorにしてよし
-            raise FileNotFoundError(f"Directory not found: {SAVE_DIR}")
         image_filename = f"userid{user_id}-{product_name}-{uuid.uuid4().hex}.{EXTENSION}"
         image_bytes = await image.read()
-        return await write_image_file(SAVE_DIR, image_filename, image_bytes, QUALITY)
+        return write_image_file(image_filename, image_bytes, QUALITY)
 
     async def _embed_image_data(self, furniture: FurnitureResponse, image_path: Optional[str] = None):
         try:
             if image_path:
-                image_bytes = await read_image_file(image_path)
+                image_bytes = read_image_file(image_path)
             else:
-                image_bytes = await read_image_file(furniture.image)
+                image_bytes = read_image_file(furniture.image)
             try:
                 furniture.image = base64.b64encode(image_bytes).decode('utf-8')
             except Exception as e:
