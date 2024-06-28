@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-import 'package:app/Usecases/provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../Domain/furniture.dart';
 import '../Domain/constants.dart';
+import 'provider.dart';
 
 // 家具リストを取得
 Future<List<Furniture>> getFurnitureList(int userId) async {
