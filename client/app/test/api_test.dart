@@ -288,7 +288,7 @@ void main() {
       expect(response.statusCode, 200);
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
       final productName = jsonResponse['product_name'];
-      expect(productName, '木の椅子');
+      expect(productName, '黒いテーブル');
     });
 
     test('Test: Get trade details failed', () async {

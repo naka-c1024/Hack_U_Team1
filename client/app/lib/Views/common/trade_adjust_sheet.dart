@@ -322,8 +322,8 @@ class TradeAdjustSheet extends HookConsumerWidget {
                                   isToday,
                                   textStyle}) {
                                 Widget? dayWidget;
-                                if (date.isAfter(startDate) &&
-                                    date.isBefore(endDate)) {
+                                if ((date.isAfter(startDate) || date.isAtSameMomentAs(startDate)) &&
+                                    (date.isBefore(endDate) || date.isAtSameMomentAs(endDate))) {
                                   dayWidget = Container(
                                     decoration: decoration,
                                     child: Center(

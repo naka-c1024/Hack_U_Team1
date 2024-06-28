@@ -1,11 +1,14 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../Domain/constants.dart';
 import '../Domain/description.dart';
 import '../Domain/furniture.dart';
 import '../Domain/trade.dart';
+import '../Domain/chat.dart';
 import 'furniture_api.dart';
 import 'favorite_api.dart';
 import 'trade_api.dart';
+import 'chat_api.dart';
 
 // ユーザーIDを保持
 final userIdProvider = StateProvider((ref) => -1);
@@ -66,3 +69,22 @@ final reasonProvider = StateProvider<String?>((ref) => null);
 
 // AIが返してくれたおすすめ家具のリストを保持 (キーワード検索結果もこれで管理)
 final searchResultProvider = StateProvider<List<Furniture>?>((ref) => null);
+
+// チャットを管理
+final chatProvider = StateProvider<Chat>((ref){
+  final userId = ref.read(userIdProvider);
+  return Chat('ws://$ipAddress:8080/chat/ws/$userId');
+  // return Chat('ws://127.0.0.1:8080/chat/ws/$userId');
+});
+
+// メッセージを管理
+final messagesProvider = StreamProvider<List<Message>>((ref) {
+  final chat = ref.watch(chatProvider);
+  return chat.getMessages;
+},);
+
+// チャットのログを管理
+final chatLogProvider = FutureProvider.family<List<Message>,int>((ref,receiverId) {
+  final userId = ref.read(userIdProvider);
+  return getChatLog(userId,receiverId);
+});

@@ -30,8 +30,8 @@ class ConnectionManager:
             del self.active_connections[client_id]
 
     async def send_message(self, message: dict, client_id: int):
-        if client_id in self.active_connections:
-            await self.active_connections[client_id].send_json(message)
+        if int(client_id) in self.active_connections:
+            await self.active_connections[int(client_id)].send_json(message)
 
 manager = ConnectionManager()
 
