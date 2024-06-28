@@ -1,3 +1,4 @@
+import 'package:app/Usecases/chat_api.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -375,25 +376,37 @@ class TradeDetailView extends HookConsumerWidget {
               onPressed: () {
                 // チャットページへ
                 if (userId == trade.giverId) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatView(
-                        userName: '希望者',
-                        yourId: trade.receiverId,
+                  final futureResult = getChatLog(userId, trade.receiverId);
+                  futureResult.then((result) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatView(
+                          userName: trade.receiverName,
+                          yourId: trade.receiverId,
+                          chatLog: result,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }).catchError((error) {
+                    showErrorDialog(context, error.toString());
+                  });
                 } else {
+                  final futureResult = getChatLog(userId, trade.giverId);
+                  futureResult.then((result) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatView(
-                        userName: '出品者',
+                        userName: furniture.userName,
                         yourId: trade.giverId,
+                        chatLog:result,
                       ),
                     ),
                   );
+                  }).catchError((error) {
+                    showErrorDialog(context, error.toString());
+                  });
                 }
               },
               style: ElevatedButton.styleFrom(

@@ -7,7 +7,7 @@ import '../../Domain/chat.dart';
 
 String formatSendDateTime(DateTime sendDateTime){
   DateTime now = DateTime.now();
-  DateTime yesterday = now.subtract(Duration(days: 1));
+  DateTime yesterday = now.subtract(const Duration(days: 1));
   if (sendDateTime.year == yesterday.year && sendDateTime.month == yesterday.month && sendDateTime.day == yesterday.day) {
     return '昨日';
   } else {

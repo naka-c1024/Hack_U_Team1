@@ -11,9 +11,11 @@ import 'error_dialog.dart';
 class ChatView extends HookConsumerWidget {
   final String userName;
   final int yourId;
+  final List<Message> chatLog;
   const ChatView({
     required this.userName,
     required this.yourId,
+    required this.chatLog,
     super.key,
   });
 
@@ -23,7 +25,6 @@ class ChatView extends HookConsumerWidget {
 
     final userId = ref.watch(userIdProvider);
     final chat = ref.watch(chatProvider);
-    final chatLog = ref.watch(chatLogProvider(yourId));
     final messages = ref.watch(messagesProvider);
 
     final controller = useTextEditingController(text: '');
@@ -31,7 +32,11 @@ class ChatView extends HookConsumerWidget {
     final chatCellList = useState<List<Widget>>([]);
     void createChatCellList(List<Message> chatLog) {
       chatCellList.value = [];
-      for (int i = 0; i < chatLog.length; i++) {
+      var num = chatLog.length;
+      if (chatLog.length > 1){
+        num = num-1;
+      }
+      for (int i = 0; i < num; i++) {
         final message = chatLog[i];
         if (message.senderId == userId) {
           chatCellList.value.add(MyMessageCell(message: message));
@@ -41,6 +46,11 @@ class ChatView extends HookConsumerWidget {
         chatCellList.value.add(const SizedBox(height: 8));
       }
     }
+
+    useEffect(() {
+      createChatCellList(chatLog);
+      return null;
+    }, []);
 
     final newChatCellList = useState<List<Widget>>([]);
     void addNewMessage(List<Message> messageList) {
@@ -65,7 +75,6 @@ class ChatView extends HookConsumerWidget {
           child: IconButton(
             onPressed: () {
               Navigator.of(context).pop(0);
-              // chat.dispose();
             },
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -106,20 +115,9 @@ class ChatView extends HookConsumerWidget {
             child: Column(
               children: [
                 // チャットのログを表示
-                chatLog.when(
-                  data: (chatLog) {
-                    createChatCellList(chatLog);
-                    return Container(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                      child: Column(children: chatCellList.value),
-                    );
-                  },
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(
-                      color: ThemeColors.keyGreen,
-                    ),
-                  ),
-                  error: (error, __) => errorDialog(context, error.toString()),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Column(children: chatCellList.value),
                 ),
                 // 新しくやりとりしたメッセージを表示
                 messages.when(
@@ -133,7 +131,7 @@ class ChatView extends HookConsumerWidget {
                   loading: () => const SizedBox(),
                   error: (error, __) => errorDialog(context, error.toString()),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 Container(
                   width: screenSize.width,
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
