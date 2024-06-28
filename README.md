@@ -21,16 +21,19 @@
 
 #### 環境変数の設定
 
-`backend/.env`ファイルを作成し以下を記述
+`backend/.env`ファイルを作成し以下を記述(例)
 
 ```
-MYSQL_USER=backend_user
-MYSQL_PASSWORD=backend_password
-MYSQL_HOST=db
-MYSQL_PORT=3306
-MYSQL_ROOT_PASSWORD=root_password
+MYSQL_ALLOW_EMPTY_PASSWORD=yes
 MYSQL_DATABASE=backend
 TZ=Asia/Tokyo
+
+MINIO_ENDPOINT=http://minio:9000
+MINIO_ROOT_USER=minio
+MINIO_ROOT_PASSWORD=minio-password
+MINIO_ACCESS_KEY=minio
+MINIO_SECRET_KEY=minio-password
+BUCKET_NAME=pasha-niture-bucket
 ```
 
 #### APIキーの設定

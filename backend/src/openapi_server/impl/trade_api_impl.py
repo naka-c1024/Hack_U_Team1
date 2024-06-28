@@ -1,8 +1,9 @@
 import base64
+from fastapi import HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from openapi_server.models.update_is_checked_request import UpdateIsCheckedRequest
 from openapi_server.apis.trade_api_base import BaseTradeApi
-
+from openapi_server.models.update_is_checked_request import UpdateIsCheckedRequest
 from openapi_server.models.update_trade_request import UpdateTradeRequest
 from openapi_server.models.request_trade_request import RequestTradeRequest
 from openapi_server.models.trade_list_response import TradeListResponse
@@ -11,9 +12,6 @@ from openapi_server.models.trade_response import TradeResponse
 import openapi_server.cruds.trade as trade_crud
 from openapi_server.impl.common import read_image_file
 
-from fastapi import HTTPException
-
-from sqlalchemy.ext.asyncio import AsyncSession
 
 class TradeApiImpl(BaseTradeApi):
     async def trades_post(self, request_trade_request: RequestTradeRequest, db: AsyncSession) -> None:
@@ -77,7 +75,7 @@ class TradeApiImpl(BaseTradeApi):
     
     async def _convert_img_data(self, image_file_path: str) -> str:
         try:
-            image_bytes = await read_image_file(image_file_path)
+            image_bytes = read_image_file(image_file_path)
         except FileNotFoundError:
             raise HTTPException(status_code=404, detail="Image file not found")
         try:

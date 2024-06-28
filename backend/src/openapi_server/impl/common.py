@@ -1,27 +1,22 @@
 import os
-import aiofiles
 from PIL import Image
 from io import BytesIO
+from openapi_server.object_storage.minio import minio_client
 
 
-async def read_image_file(file_path: str) -> bytes:
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"File not found: {file_path}")
-    async with aiofiles.open(file_path, 'rb') as file:
-        return await file.read()
+def read_image_file(file_path: str) -> bytes:
+    return minio_client.download_file(file_path)
 
-async def write_image_file(save_dir: str, filename: str, image_bytes: bytes, quality: int) -> str:
-    '''
-    filename: 保存するファイル名, 拡張子は必ずjpeg
-    '''
-    file_path = os.path.join(save_dir, filename)
+def write_image_file(filename: str, image_bytes: bytes, quality: int) -> str:
+    # 画像圧縮のためにJPEG形式に変換
+    if not filename.endswith('.jpeg'):
+        filename = os.path.splitext(filename)[0] + '.jpeg'
 
     image = Image.open(BytesIO(image_bytes))
     image_rgb = image.convert('RGB') # JPEG形式に変換するためにRGB形式に変換
+    image_buffer = BytesIO() # 圧縮した画像を保存するためのバッファ
+    image_rgb.save(image_buffer, format='JPEG', quality=quality) # 画像をJPEG形式で圧縮
+    image_buffer.seek(0) # BytesIOオブジェクトの読み書き位置を先頭に戻す
+    minio_client.upload_file(image_buffer, filename)
 
-    async with aiofiles.open(file_path, 'wb') as file:
-        img_byte_arr = BytesIO()
-        image_rgb.save(img_byte_arr, format='JPEG', quality=quality)
-        await file.write(img_byte_arr.getvalue())
-
-    return file_path
+    return filename
