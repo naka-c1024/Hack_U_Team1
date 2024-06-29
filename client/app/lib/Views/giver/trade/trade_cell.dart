@@ -103,7 +103,7 @@ class TradeCell extends HookConsumerWidget {
             ),
           ),
         ),
-        const Divider(),
+         const Divider(color:ThemeColors.lineGray1),
       ],
     );
   }

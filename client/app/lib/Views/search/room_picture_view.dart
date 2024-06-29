@@ -134,7 +134,7 @@ class RoomPictureView extends HookConsumerWidget {
               Column(
                 children: [
                   const Text(
-                    '部屋の全体を撮影して\n部屋にあった家具をおすすめします',
+                    '部屋の全体像を撮影して\n雰囲気を取得します。',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,

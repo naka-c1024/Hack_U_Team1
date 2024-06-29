@@ -15,7 +15,7 @@ void main() async {
   initializeDateFormatting('ja');
   // TODO: 実機用にカメラ機能をオンにする
   // final cameras = await availableCameras();
-  final firstCamera = null;//cameras.first;
+  final firstCamera = null; //cameras.first;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final userName = prefs.getString('userName');
   await SystemChrome.setPreferredOrientations(
@@ -58,6 +58,11 @@ class MyApp extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
           ),
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: ThemeColors.black),
+          bodyMedium: TextStyle(color: ThemeColors.black),
+          bodySmall: TextStyle(color: ThemeColors.black),
         ),
       ),
       localizationsDelegates: GlobalMaterialLocalizations.delegates,

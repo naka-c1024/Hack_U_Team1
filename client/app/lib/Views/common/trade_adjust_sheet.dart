@@ -72,7 +72,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
               const SizedBox(width: 64),
             ],
           ),
-          const Divider(),
+          const Divider(color:Color(0xffababab)),
           Container(
             height: 560,
             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -111,7 +111,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Divider(),
+                  const Divider(color:Color(0xffababab)),
                   const SizedBox(height: 4),
                   // 受け渡し場所
                   Row(
@@ -160,7 +160,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Divider(),
+                  const Divider(color:Color(0xffababab)),
                   const SizedBox(height: 4),
                   // 受け渡し期間の説明
                   Text(
@@ -458,7 +458,7 @@ class TradeAdjustSheet extends HookConsumerWidget {
               ),
             ),
           ),
-          const Divider(),
+          const Divider(color:Color(0xffababab)),
           // 取引依頼ボタン
           Container(
             padding: const EdgeInsets.all(16),

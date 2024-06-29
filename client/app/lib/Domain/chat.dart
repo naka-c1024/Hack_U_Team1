@@ -24,7 +24,6 @@ class Chat {
   Chat(this.url) {
     channel = WebSocketChannel.connect(Uri.parse(url));
     channel.stream.listen((dataList) {
-      print(dataList);
       var data = jsonDecode(dataList);
       List<Message> messages = convertMessages(data);
       _controller.add(messages);
@@ -39,8 +38,8 @@ class Chat {
       senderId: int.parse(data['sender_id']),
       message: data['message'],
       sendDateTime: data['send_date_time'] == null
-              ? DateTime.now()
-              : DateTime.parse(data['send_date_time']),
+          ? DateTime.now()
+          : DateTime.parse(data['send_date_time']),
     );
     messageList.add(message);
     return messageList;
@@ -55,10 +54,10 @@ class Chat {
       'message': message.message,
       'send_date_time': message.sendDateTime.toIso8601String(),
     });
-    // if (!_controller.isClosed) {
-    _controller.add([message]);
-    channel.sink.add(jsonMessage);
-    // }
+    if (!_controller.isClosed) {
+      _controller.add([message]);
+      channel.sink.add(jsonMessage);
+    }
   }
 
   void dispose() {

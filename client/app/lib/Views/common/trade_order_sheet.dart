@@ -56,14 +56,12 @@ class TradeOrderSheet extends HookConsumerWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 96),
-              // なんかイラスト
-              Container(
-                height: 200,
-                width: 200,
-                color: const Color(0xffe1e1e1),
+              const SizedBox(height: 80),
+              // イラスト
+              SizedBox(
+                width: 280,
+                child:Image.asset('assets/images/trade_order.png')
               ),
-              const SizedBox(height: 24),
               const Text(
                 '取引をお願いしました！',
                 style: TextStyle(

@@ -28,7 +28,10 @@ class ConditionSheet extends HookConsumerWidget {
                 onPressed: () {
                   Navigator.of(context).pop(0);
                 },
-                icon: const Icon(Icons.arrow_back_ios),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xff333333),
+                ),
               ),
               const Text(
                 '商品の状態',
@@ -40,23 +43,23 @@ class ConditionSheet extends HookConsumerWidget {
             ],
           ),
           const SizedBox(height: 8),
-          const Divider(),
+          const Divider(color:Color(0xffa8a8a8)),
           const Padding(
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Column(
               children: [
                 ConditionCell(conditionIndex: 0),
-                Divider(),
+                Divider(color:Color(0xffa8a8a8)),
                 ConditionCell(conditionIndex: 1),
-                Divider(),
+                Divider(color:Color(0xffa8a8a8)),
                 ConditionCell(conditionIndex: 2),
-                Divider(),
+                Divider(color:Color(0xffa8a8a8)),
                 ConditionCell(conditionIndex: 3),
-                Divider(),
+                Divider(color:Color(0xffa8a8a8)),
                 ConditionCell(conditionIndex: 4),
-                Divider(),
+                Divider(color:Color(0xffa8a8a8)),
                 ConditionCell(conditionIndex: 5),
-                Divider(),
+                Divider(color:Color(0xffa8a8a8)),
               ],
             ),
           ),

@@ -57,14 +57,15 @@ class KeywordSearchView extends HookConsumerWidget {
                 padding: const EdgeInsets.only(top: 4, left: 4, bottom: 4),
                 child: Text(
                   searchLogTextList.value[i],
-                  style: const TextStyle(fontSize: 14),
+                  style: const TextStyle(
+                      fontSize: 14, color: ThemeColors.textGray1),
                 ),
               ),
             ),
           ),
         );
         searchLogList.value.add(
-          const Divider(),
+          const Divider(color: ThemeColors.lineGray1),
         );
       }
       searchLogList.value.add(
@@ -118,7 +119,7 @@ class KeywordSearchView extends HookConsumerWidget {
                         ? screenSize.width - 80
                         : screenSize.width - 32,
                     alignment: Alignment.center,
-                    color: ThemeColors.bgGray1,
+                    color: ThemeColors.bgGray3,
                     child: TextField(
                       focusNode: focus,
                       controller: searchWordController,
@@ -152,10 +153,17 @@ class KeywordSearchView extends HookConsumerWidget {
                       },
                       textInputAction: TextInputAction.search,
                       decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.search),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xff4b4b4b),
+                        ),
                         hintText: 'キーワードで探す',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.only(top: 4, bottom: 4),
+                      ),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: ThemeColors.black,
                       ),
                     ),
                   ),
@@ -176,6 +184,7 @@ class KeywordSearchView extends HookConsumerWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
+                              color:ThemeColors.black,
                             ),
                           ),
                         ],
@@ -218,10 +227,11 @@ class KeywordSearchView extends HookConsumerWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
+                color:ThemeColors.black,
               ),
             ),
             const SizedBox(height: 8),
-            const Divider(),
+            const Divider(color: ThemeColors.lineGray1),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: searchLogList.value,

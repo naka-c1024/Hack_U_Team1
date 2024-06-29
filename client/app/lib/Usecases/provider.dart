@@ -8,7 +8,6 @@ import '../Domain/chat.dart';
 import 'furniture_api.dart';
 import 'favorite_api.dart';
 import 'trade_api.dart';
-import 'chat_api.dart';
 
 // ユーザーIDを保持
 final userIdProvider = StateProvider((ref) => -1);
@@ -82,9 +81,3 @@ final messagesProvider = StreamProvider<List<Message>>((ref) {
   final chat = ref.watch(chatProvider);
   return chat.getMessages;
 },);
-
-// チャットのログを管理
-final chatLogProvider = FutureProvider.family<List<Message>,int>((ref,receiverId) {
-  final userId = ref.read(userIdProvider);
-  return getChatLog(userId,receiverId);
-});

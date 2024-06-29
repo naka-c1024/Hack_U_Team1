@@ -99,7 +99,7 @@ class RegisterTradeSheet extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 8),
-            const Divider(),
+            const Divider(color:ThemeColors.lineGray1),
             Container(
               height: 560,
               padding: const EdgeInsets.only(left: 16, right: 16),

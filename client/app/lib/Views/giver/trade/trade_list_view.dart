@@ -60,7 +60,7 @@ class TradeListView extends HookConsumerWidget {
         }
       }
       if (tradeCellList.value.isNotEmpty) {
-        tradeCellList.value.insert(0, const Divider());
+        tradeCellList.value.insert(0,  const Divider(color:ThemeColors.lineGray1),);
       }
     }
 

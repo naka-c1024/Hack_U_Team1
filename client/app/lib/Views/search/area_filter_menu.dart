@@ -21,34 +21,34 @@ class AreaFilterMenu extends HookConsumerWidget {
     final isSelectingArea4 = useState(false);
     final isSelectingArea5 = useState(false);
 
-    const area0 = [0,1,2,3,4,5,6];
-    const area1 = [7,8,9,10,11,12,13];
-    const area2 = [14,15,16,17,18,19,20,21,22];
-    const area3 = [23,24,25,26,27,28,29];
-    const area4 = [30,31,32,33,34,35,36,37,38];
-    const area5 = [39,40,41,42,43,44,45,46,47];
+    const area0 = [0, 1, 2, 3, 4, 5, 6];
+    const area1 = [7, 8, 9, 10, 11, 12, 13];
+    const area2 = [14, 15, 16, 17, 18, 19, 20, 21, 22];
+    const area3 = [23, 24, 25, 26, 27, 28, 29];
+    const area4 = [30, 31, 32, 33, 34, 35, 36, 37, 38];
+    const area5 = [39, 40, 41, 42, 43, 44, 45, 46, 47];
 
-    useEffect((){
-      if (area0.any((items) => selectedArea.value.contains(items))){
+    useEffect(() {
+      if (area0.any((items) => selectedArea.value.contains(items))) {
         isSelectingArea0.value = true;
       }
-      if (area1.any((items) => selectedArea.value.contains(items))){
+      if (area1.any((items) => selectedArea.value.contains(items))) {
         isSelectingArea1.value = true;
       }
-      if (area2.any((items) => selectedArea.value.contains(items))){
+      if (area2.any((items) => selectedArea.value.contains(items))) {
         isSelectingArea2.value = true;
       }
-      if (area3.any((items) => selectedArea.value.contains(items))){
+      if (area3.any((items) => selectedArea.value.contains(items))) {
         isSelectingArea3.value = true;
       }
-      if (area4.any((items) => selectedArea.value.contains(items))){
+      if (area4.any((items) => selectedArea.value.contains(items))) {
         isSelectingArea4.value = true;
       }
-      if (area5.any((items) => selectedArea.value.contains(items))){
+      if (area5.any((items) => selectedArea.value.contains(items))) {
         isSelectingArea5.value = true;
       }
       return null;
-    },[]);
+    }, []);
 
     return SingleChildScrollView(
       child: Column(
@@ -104,7 +104,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                   ],
                 )
               : const SizedBox(),
-          const Divider(),
+          const Divider(color:Color(0xffababab)),
           GestureDetector(
             onTap: () {
               isSelectingArea1.value = !isSelectingArea1.value;
@@ -146,7 +146,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                   ],
                 )
               : const SizedBox(),
-          const Divider(),
+          const Divider(color:Color(0xffababab)),
           GestureDetector(
             onTap: () {
               isSelectingArea2.value = !isSelectingArea2.value;
@@ -190,7 +190,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                   ],
                 )
               : const SizedBox(),
-          const Divider(),
+          const Divider(color:Color(0xffababab)),
           GestureDetector(
             onTap: () {
               isSelectingArea3.value = !isSelectingArea3.value;
@@ -232,7 +232,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                   ],
                 )
               : const SizedBox(),
-          const Divider(),
+          const Divider(color:Color(0xffababab)),
           GestureDetector(
             onTap: () {
               isSelectingArea4.value = !isSelectingArea4.value;
@@ -276,7 +276,7 @@ class AreaFilterMenu extends HookConsumerWidget {
                   ],
                 )
               : const SizedBox(),
-          const Divider(),
+          const Divider(color:Color(0xffababab)),
           GestureDetector(
             onTap: () {
               isSelectingArea5.value = !isSelectingArea5.value;
@@ -358,19 +358,16 @@ class AreaCell extends HookConsumerWidget {
       child: Container(
         height: 40,
         width: prefectures[prefectureIndex].length * 20 +
-            (isSelected.value ? 24 : 0),
+            (isSelected.value ? 24 : 0)+2,
         margin: const EdgeInsets.all(2),
         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected.value
-                ? ThemeColors.keyGreen
-                : ThemeColors.bgGray1,
+            color:
+                isSelected.value ? ThemeColors.keyGreen : ThemeColors.bgGray1,
+            width: isSelected.value ? 2 : 1,
           ),
-          color: isSelected.value
-              ? ThemeColors.keyGreen
-              : const Color(0xffffffff),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

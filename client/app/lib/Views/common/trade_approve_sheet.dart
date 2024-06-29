@@ -22,12 +22,13 @@ class TradeApproveSheet extends HookConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(height: 64),
+        const SizedBox(height: 24),
         // なんかイラスト
-        Container(
-          height: 200,
-          width: 200,
-          color: const Color(0xffe1e1e1),
+        SizedBox(
+          width: 240,
+          child: isCompleted
+              ? Image.asset('assets/images/trade_complete.png')
+              : Image.asset('assets/images/trade_success.png'),
         ),
         const SizedBox(height: 24),
         Text(

@@ -3,10 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/theme_color.dart';
 
-class UserMenuCell extends HookConsumerWidget {
+class MyPageCell extends HookConsumerWidget {
   final IconData menuIcon;
   final String menuText;
-  const UserMenuCell({
+  const MyPageCell({
     required this.menuIcon,
     required this.menuText,
     super.key,

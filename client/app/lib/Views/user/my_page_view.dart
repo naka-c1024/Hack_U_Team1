@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Domain/theme_color.dart';
+import '../../Usecases/provider.dart';
 import 'login_view.dart';
-import 'user_menu_cell.dart';
+import 'my_page_cell.dart';
 
 class MyPageView extends HookConsumerWidget {
   final CameraDescription? camera;
@@ -13,6 +14,7 @@ class MyPageView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
+    final userName = ref.watch(userNameProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,9 +39,9 @@ class MyPageView extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 20),
-                const Text(
-                  'ibuibukiki',
-                  style: TextStyle(
+                Text(
+                  userName,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Color(0xff636363),
@@ -51,15 +53,15 @@ class MyPageView extends HookConsumerWidget {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                UserMenuCell(
+                MyPageCell(
                   menuIcon: Icons.favorite_outline,
                   menuText: 'いいね！一覧',
                 ),
-                UserMenuCell(
+                MyPageCell(
                   menuIcon: Icons.history,
                   menuText: '閲覧履歴',
                 ),
-                UserMenuCell(
+                MyPageCell(
                   menuIcon: Icons.search,
                   menuText: '保存した検索条件',
                 ),
@@ -69,11 +71,11 @@ class MyPageView extends HookConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const UserMenuCell(
+                const MyPageCell(
                   menuIcon: Icons.shopping_bag_outlined,
                   menuText: '購入した商品',
                 ),
-                const UserMenuCell(
+                const MyPageCell(
                   menuIcon: Icons.location_on_outlined,
                   menuText: '住まいエリア',
                 ),

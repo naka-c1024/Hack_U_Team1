@@ -221,7 +221,6 @@ void main() {
       final jsonResponse = jsonDecode(responseBody);
       expect(jsonResponse['color'], isA<int>()); // int型が返ってくることを確認
       expect(jsonResponse['reason'].length, isNonZero);
-      print(jsonResponse['furniture_list'].length);
     });
   });
 

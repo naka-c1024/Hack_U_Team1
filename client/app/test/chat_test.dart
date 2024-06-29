@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../lib/Domain/constants.dart';
+import 'package:app/Domain/constants.dart';
 
 void main() {
   group('WebSocket Server Communication Tests', () {

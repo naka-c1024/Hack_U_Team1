@@ -1,3 +1,4 @@
+import 'package:app/Usecases/chat_api.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -136,7 +137,7 @@ class TradeDetailView extends HookConsumerWidget {
                                     return Container(
                                       height: screenSize.height,
                                       width: screenSize.width,
-                                      color: const Color(0x4b000000),
+                                      color: const Color(0xbb000000),
                                       child: const TradeApproveSheet(
                                         isCompleted: false,
                                       ),
@@ -286,7 +287,7 @@ class TradeDetailView extends HookConsumerWidget {
                 color: ThemeColors.textGray1,
               ),
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             // 場所
             Row(
               children: [
@@ -334,7 +335,7 @@ class TradeDetailView extends HookConsumerWidget {
                 ),
               ],
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             const SizedBox(height: 24),
             const Text(
               '希望者情報',
@@ -344,7 +345,7 @@ class TradeDetailView extends HookConsumerWidget {
                 color: ThemeColors.textGray1,
               ),
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             const SizedBox(height: 4),
             // 希望者情報
             Row(
@@ -375,25 +376,37 @@ class TradeDetailView extends HookConsumerWidget {
               onPressed: () {
                 // チャットページへ
                 if (userId == trade.giverId) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatView(
-                        userName: '希望者',
-                        yourId: trade.receiverId,
+                  final futureResult = getChatLog(userId, trade.receiverId);
+                  futureResult.then((result) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatView(
+                          userName: trade.receiverName,
+                          yourId: trade.receiverId,
+                          chatLog: result,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }).catchError((error) {
+                    showErrorDialog(context, error.toString());
+                  });
                 } else {
+                  final futureResult = getChatLog(userId, trade.giverId);
+                  futureResult.then((result) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatView(
-                        userName: '出品者',
+                        userName: furniture.userName,
                         yourId: trade.giverId,
+                        chatLog:result,
                       ),
                     ),
                   );
+                  }).catchError((error) {
+                    showErrorDialog(context, error.toString());
+                  });
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -438,7 +451,7 @@ class TradeDetailView extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 4),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             const SizedBox(height: 24),
             const Text(
               '商品情報',
@@ -448,7 +461,7 @@ class TradeDetailView extends HookConsumerWidget {
                 color: ThemeColors.textGray1,
               ),
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
             // 商品情報
             Material(
               color: Colors.transparent,
@@ -547,7 +560,7 @@ class TradeDetailView extends HookConsumerWidget {
                 ),
               ),
             ),
-            const Divider(),
+            const Divider(color:Color(0xffababab)),
           ],
         ),
       ),
