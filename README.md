@@ -13,7 +13,7 @@
 
 ## DEMO
 
-<適当な動画>
+https://github.com/naka-c1024/Pasha-niture/assets/78196739/1616f95c-00be-48ae-acb2-e0f60a4ade23
 
 ## 環境構築
 
