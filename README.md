@@ -13,7 +13,7 @@
 
 ## DEMO
 
-https://github.com/naka-c1024/Pasha-niture/assets/78196739/1616f95c-00be-48ae-acb2-e0f60a4ade23
+https://github.com/naka-c1024/Pasha-niture/assets/78196739/cc298d4b-07a4-4a02-8de1-548e976fae41
 
 ## 環境構築
 
