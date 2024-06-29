@@ -84,4 +84,8 @@ Pasha-niture/client/app/ios/Runner.xcworkspace をビルド
 
 ## 技術構成
 
-<使用技術のスライドとかER図などなど>
+<img width="1029" alt="image" src="https://github.com/naka-c1024/Pasha-niture/assets/78196739/a04c72bb-cadf-4b52-91a2-92f977e0734b">
+
+<img width="1013" alt="image" src="https://github.com/naka-c1024/Pasha-niture/assets/78196739/3d3e539b-4ec9-40e4-a511-ec397cf4057c">
+
+<img width="1002" alt="image" src="https://github.com/naka-c1024/Pasha-niture/assets/78196739/404559f0-7679-48b4-b4b8-0c0f9b53cce1">
